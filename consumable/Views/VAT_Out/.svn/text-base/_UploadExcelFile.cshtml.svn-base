@@ -1,0 +1,62 @@
+﻿@*@using (Html.BeginForm("SaveTempData", "VAT_OUT",
+            FormMethod.Post, new
+            {
+                id = "frmUploadTaxInv",
+                role = "form",
+                @class = "form-horizontal",
+                enctype = "multipart/form-data"
+            }))
+    {
+        <div class="alert alert-danger alert-PAMSCalResult" style="display: none">
+            <button class="close" onclick="$(this).parents('.alert').fadeOut()">
+                x
+            </button>
+        </div>
+        <br />
+        <br />
+        <div style="display: none" class="copy-input-hidden">
+        </div>
+        <div class="form-group-sm">
+            <div class="col-md-12">
+                <label class="control-label small">Upload Tax Invoice From SAP :</label>
+            </div>
+        </div>
+        <div class="form-group-sm">
+            <div class="col-md-3">
+                <div class="fileupload fileupload-new" data-provides="fileupload">
+                    <span class="btn btn-danger btn-file">
+                        <input type="file" id="fileUpload" name="fileUpload" />
+                    </span>
+                    <span class="fileupload-preview toyota-color"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" id="btnUpload" name="inputbtn" class="btn btn-danger">
+                    Upload
+                </button>
+            </div>
+        </div>
+        <br />
+        <br />
+    }*@
+
+<form method="post" id="frmUploadTaxInv" action="@Url.Content("~/VAT_Out/SaveTempData")" enctype="multipart/form-data" onsubmit="return Validate(this);" role="form">
+    <div class="form-group-sm">
+        <div class="col-md-4">
+            <div class="input-group">
+                @*<span class="input-group-addon btn btn-danger btn-sm" id="basic-addon2" onclick="$('#file').click();">Browse</span>*@
+                <span class="input-group-btn">
+                    <input type="button" class="btn btn-danger btn-sm" onclick="$('#fileUpload').click();" value="Browse" />
+                </span>
+
+                <input id="filename" type="text" class="form-control input-sm" placeholder="Upload Excel File" aria-describedby="basic-addon2">
+            </div>
+            <input type="file" name="fileUpload" style="visibility:hidden;" id="fileUpload" />@*<br />*@
+        </div>
+        <div class="col-md-1"><input type="submit" value="Upload" class="btn btn-danger btn-block btn-sm" onclick="$('#LoadingModal').modal('show')" id="UploadBtn" disabled /></div>
+        <div class="col-md-1">
+            <input type="button" class="btn btn-danger btn-sm" onclick="onDownloadTemplate()" value="Download Template" />
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+</form>

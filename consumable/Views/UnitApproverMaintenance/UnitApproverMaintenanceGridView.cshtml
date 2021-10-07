@@ -1,0 +1,92 @@
+﻿@using consumable.Models.UnitApproverMaintenance
+@{
+    List<UnitApproverMaintenance> UnitApproverMaintenanceList = (List<UnitApproverMaintenance>)ViewData["UnitApproverMaintenanceList"];
+}
+
+<div class="row" style="margin-top: 5px;">
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+        <div style="border: 1pt solid #ccc;">
+            <div id="tScrollHead" style="width: 98.5%; overflow: hidden;">
+                <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed" style="width: 800px; max-width: 800px !important;">
+                    <thead>
+                        <tr>
+                            <th width="30px">
+                                <input class="grid-checkbox" type="checkbox" style="height: 12px;" id="checkall" />
+                            </th>
+                            <th width="200px">Plant Code</th>
+                            <th width="200px">Sloc</th>
+                            <th width="200px">PIC</th>
+                            <th>Deletion Flag</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tScrollBody" style="overflow: scroll; height: 280px;">
+                <table id="tblScroll" class="table table-striped table-bordered table-condensed table-fixed" style="width: 800px; max-width: 800px !important;">
+                    <tbody>
+                        @{
+                            if (UnitApproverMaintenanceList != null && UnitApproverMaintenanceList.Count > 0)
+                            {
+                                int i = 0;
+                                foreach (UnitApproverMaintenance item in UnitApproverMaintenanceList)
+                                {
+                                    <tr id="row-@i" >
+                                        <td class="text-center" width="30px">
+                                            <input type="checkbox" class="grid-checkbox grid-checkbox-body" id="@i" name="selectedItem" data-value="@item.PLANT_CD|@item.SLOC_CD|@item.PIC|@item.CHANGED_BY|@item.CHANGED_DT" />
+                                        </td>                          
+                                        <td class="text-center ellipsis" width="200px">
+                                            @item.PLANT_CD
+                                        </td>                               
+                                        <td class="text-left ellipsis" width="200px" style="max-width: 200px;">
+                                            @item.SLOC_CD
+                                        </td>                               
+                                        <td class="text-left ellipsis" width="200px" style="max-width: 200px;">
+                                            @item.PIC
+                                        </td>                       
+                                        <td class="text-left">
+                                            @item.DELETION_FLAG
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    No data retrieved.
+                                </td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                @Html.Partial("_UIPaging")
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#checkall").click(function () {
+        if ($("#checkall").is(":checked")) {
+            $(".grid-checkbox-body").prop('checked', true);
+        } else {
+            $(".grid-checkbox-body").prop('checked', false);
+        }
+    });
+
+    $("#tScrollBody").scroll(function () {
+        $("#tScrollHead").scrollLeft($("#tScrollBody").scrollLeft());
+    });
+</script>

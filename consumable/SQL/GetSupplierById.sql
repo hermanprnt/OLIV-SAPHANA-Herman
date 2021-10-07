@@ -1,0 +1,26 @@
+SELECT r.SUPPLIER_ID
+      ,r.SUPPLIER_CD
+	  ,r.SUPPLIER_NAME
+	  ,r.PKP_FLAG
+	  ,r.EDIT_AMOUNT_FLAG
+      ,r.PPN_RATE
+	  ,CONVERT(varchar, CAST(PPN_RATE AS numeric), 1) as S_PPN_RATE
+	  ,EDIT_AMOUNT_FLAG
+      ,PAY_METHOD
+      ,TERM_PAY
+	  ,PAY_METHOD_NAME
+      ,TERM_PAY_NAME
+	  ,EMAIL
+	  ,rtrim(ltrim(AUTO_POSTING_FLAG))AUTO_POSTING_FLAG
+	  ,rtrim(ltrim(WITHOLDING_CODE))WITHOLDING_CODE
+      ,r.CREATED_DT
+      ,r.CREATED_BY
+      ,r.UPDATED_DT
+      ,r.UPDATED_BY
+	  ,r.SKB_FLAG
+	  ,r.PLAT_KUNING_FLAG
+	  ,convert(varchar, r.SKB_VALID_FROM, 104) [SKB_VALID_FROM_STR]
+	  ,convert(varchar, r.SKB_VALID_TO, 104) [SKB_VALID_TO_STR]
+FROM TB_M_SUPPLIER r
+WHERE 1 = 1
+	and r.SUPPLIER_ID = @SupplierId	

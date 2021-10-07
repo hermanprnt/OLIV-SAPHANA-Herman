@@ -1,0 +1,36 @@
+﻿<form role="form" class="form-horizontal" id="searchFormMobile" action="@Html.Toyota().Page.GetControllerUrl("DatagridMobile")">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 control-label text-muted">Field 1</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control mandatory" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 control-label text-muted">Field 2</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 control-label text-muted">Field 3</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 control-label text-muted">Field 4</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <div class="col-xs-12 text-right">
+                    <button type="submit" class="btn btn-sm btn-primary">Cari</button>
+                    <button type="reset" class="btn btn-sm btn-default">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

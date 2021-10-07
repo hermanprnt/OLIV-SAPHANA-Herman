@@ -1,0 +1,9 @@
+SELECT 
+	count(*)      
+FROM 
+	TB_R_VAT_IN_H
+WHERE 
+	SUPPLIER_CODE = right(@SUPPLIER_CD, len(@SUPPLIER_CD)- 4)
+	AND TAX_INVOICE_NO like '%' + ISNULL(@Parameter,'') + '%'
+	AND ISNULL(USED, 'N') != 'Y'
+

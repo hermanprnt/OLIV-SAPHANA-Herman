@@ -1,0 +1,61 @@
+
+INSERT INTO [TB_R_PO_HEADER]
+           ([PO_NUMBER]
+           ,[VEND_CODE]
+           ,[VEND_NAME]
+           ,[ADDRESS]
+           ,[POST_CODE]
+           ,[CITY]
+           ,[ATTENTION]
+           ,[TEL_NUMBER]
+           ,[FAX_NUMBER]
+           ,[DELIV_NAME]
+           ,[DELIV_ADDR]
+           ,[DELIV_POST]
+           ,[DELIV_CITY]
+           ,[CONTACT_PER]
+           ,[PO_DATE]
+           ,[PO_PAYTERM]
+           ,[PO_TYPE]
+           ,[PO_CAT]
+           ,[PO_PURCH_GRP]
+           ,[PO_CURRENCY]
+           ,[PO_AMOUNT]
+           ,[PO_XCHG_RATE]
+           ,[PO_DELETE_FLG]
+           ,[PO_INCOTERM1]
+           ,[PO_INCOTERM2]
+           ,[CREATED_DT]
+           ,[CREATED_BY]
+           )
+     VALUES
+           (@PO_NUMBER
+           ,@VEND_CODE
+           ,@VEND_NAME
+           ,@ADDRESS
+           ,@POST_CODE
+           ,@CITY
+           ,@ATTENTION
+           ,@TEL_NUMBER
+           ,@FAX_NUMBER
+           ,@DELIV_NAME
+           ,@DELIV_ADDR
+           ,@DELIV_POST
+           ,@DELIV_CITY
+           ,@CONTACT_PER
+           ,CAST(@PO_DATE AS DATE)
+           ,@PO_PAYTERM
+           ,@PO_TYPE
+           ,@PO_CAT
+           ,@PO_PURCH_GRP
+           ,@PO_CURRENCY
+           ,@PO_AMOUNT
+           ,@PO_XCHG_RATE
+           ,@PO_DELETE_FLG
+           ,@PO_INCOTERM1
+           ,@PO_INCOTERM2
+           ,getdate()
+           ,@CREATED_BY
+          );
+
+

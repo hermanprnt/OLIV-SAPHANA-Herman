@@ -1,0 +1,27 @@
+DECLARE @@sqlstate varchar(max);
+DECLARE @@INVOICE_ID varchar(100);
+
+SET @@sqlstate = '';
+SET @@INVOICE_ID = @INVOICE_ID;
+
+SET @@sqlstate = @@sqlstate + '
+	SELECT 
+      gr.[INVOICE_ID]
+      ,I.[INVOICE_NO]
+      ,gr.[MESSAGE]      
+FROM [TB_R_INVOICE_SAP_OUTPUT] gr JOIN TB_R_INVOICE I
+ON 	gr.INVOICE_ID = I.INVOICE_ID
+	where 1=1
+		';
+
+IF(@@INVOICE_ID <> '' AND @@INVOICE_ID is not null)
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and gr.INVOICE_ID = '''+ @@INVOICE_ID + ''' ';
+END
+
+
+SET @@sqlstate = @@sqlstate + '
+	order by [INVOICE_ID] ';
+
+execute(@@sqlstate);

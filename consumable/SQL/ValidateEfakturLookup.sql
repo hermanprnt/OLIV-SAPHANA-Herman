@@ -1,0 +1,38 @@
+-- Author     : Seh
+-- Create date: 23-06-2021
+-- Description:	validate efaktur lookup
+DECLARE @@IS_USED varchar(1)
+DECLARE @@MSG varchar(MAX)=''
+DECLARE @@EX_DATE DATETIME
+DECLARE @@SYS_VAL_NUM INT = 0
+
+SET @@SYS_VAL_NUM = @EFAKTUR_EXPIRED
+
+BEGIN TRY
+	IF EXISTS (SELECT 1 FROM TB_R_VAT_IN_H where TAX_INVOICE_NO = @TAX_NO)
+		BEGIN
+				select @@IS_USED = USED from TB_R_VAT_IN_H where TAX_INVOICE_NO = @TAX_NO
+				select @@EX_DATE = TAX_INVOICE_DT from TB_R_VAT_IN_H where TAX_INVOICE_NO = @TAX_NO
+				SET @@IS_USED = ISNULL(@@IS_USED,'N')
+		END
+	ELSE
+		BEGIN
+			set @@MSG ='INVCRE000105'
+		END
+
+	SET @@EX_DATE = DATEADD(month, @@SYS_VAL_NUM, @@EX_DATE)
+	IF @@IS_USED = 'Y'
+	BEGIN
+		set @@MSG ='INVCRE000104'
+	END
+
+	IF @@EX_DATE < GETDATE()
+	BEGIN
+		SET @@MSG ='INVCRE000103'
+	END
+END TRY
+BEGIN CATCH
+	SET @@MSG ='INVCRE000106'
+END CATCH
+
+	select @@MSG 

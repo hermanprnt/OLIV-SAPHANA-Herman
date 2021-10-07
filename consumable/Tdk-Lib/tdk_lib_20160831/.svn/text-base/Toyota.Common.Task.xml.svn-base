@@ -1,0 +1,942 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Toyota.Common.Task</name>
+    </assembly>
+    <members>
+        <member name="T:Toyota.Common.Task.BackgroundTaskRuntimeEventArgs">
+            <summary>
+            Provides data for runtime's ChangeEvent.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntimeEventArgs.#ctor(Toyota.Common.Task.BackgroundTaskRuntime)">
+            <summary>
+            The constructor
+            </summary>
+            <param name="runtime">The runtime in which the event occurred.</param>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntimeEventArgs.Runtime">
+            <summary>
+            The runtime in which the event occurred.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskRuntime">
+            <summary>
+            Represents an executing task.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.SetTask(Toyota.Common.Task.BackgroundQueuedTask)">
+            <summary>
+            Sets the task to be executed.
+            </summary>
+            <param name="task">Task to be executed.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.SetStatus(Toyota.Common.Task.BackgroundTaskStatus)">
+            <summary>
+            Sets status of the task.
+            </summary>
+            <param name="status">Status of the task.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.HasParameter(System.String)">
+            <summary>
+            Checks if the task has a parameter identified by given key.
+            </summary>
+            <param name="key">Parameter's key.</param>
+            <returns>True if the parameter exists, otherwise false.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.GetParameter``1(System.String)">
+            <summary>
+            Gets the value of a parameter identified by given key.  
+            </summary>
+            <typeparam name="T">The type of parameter's value.</typeparam>
+            <param name="key">Parameter's key.</param>
+            <returns>Value of the parameter.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.SetDatabase(Toyota.Common.Database.IDBContextManager,System.String)">
+            <summary>
+            Sets the database access.
+            </summary>
+            <param name="dbManager">Database manager.</param>
+            <param name="contextName">Database context name</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.SetDatabase(Toyota.Common.Database.IDBContextManager)">
+            <summary>
+            Sets the database access.
+            </summary>
+            <param name="dbManager">Database manager.</param>
+            <param name="contextName">Database context name</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.GetDbContext">
+            <summary>
+            Gets a database context.
+            </summary>
+            <returns>Database context.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.GetDbContext(System.String)">
+            <summary>
+            Gets a database context identified by specific name.
+            </summary>
+            <param name="contextName">Database context name.</param>
+            <returns>Database context.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.SetProgress(System.Byte)">
+            <summary>
+            Set progress of the task. The progress value is in percentage.
+            </summary>
+            <param name="progress">Progress in percentage.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.IncrementProgress(System.Byte)">
+            <summary>
+            Increment task progress by a value.
+            </summary>
+            <param name="step">Value to be added to the progress.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.IncrementProgress">
+            <summary>
+            Increment task progress by one.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.DecrementProgress(System.Byte)">
+            <summary>
+            Decrement task progress by a value.
+            </summary>
+            <param name="step">Value to be added to the progress.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.DecrementProgress">
+            <summary>
+            Decrement task progress by one.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.Log(System.String,Toyota.Common.Logging.LoggerLevel)">
+            <summary>
+            Logs a message with given level.
+            </summary>
+            <param name="message">Log message.</param>
+            <param name="level">Log level.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.LogInfo(System.String)">
+            <summary>
+            Logs an information message.
+            </summary>
+            <param name="message">Log message.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.LogWarning(System.String)">
+            <summary>
+            Logs a warning message.
+            </summary>
+            <param name="message">Log message.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.LogError(System.String)">
+            <summary>
+            Logs an error message.
+            </summary>
+            <param name="message">Log message.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.PullLogs">
+            <summary>
+            Retrieves log messages.
+            </summary>
+            <returns>Log messages.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.Cancel">
+            <summary>
+            Stops the runtime.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.SetPauseBreakpoint">
+            <summary>
+            Sets a breakpoint to enable the runtime to pause its process.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.Pause">
+            <summary>
+            Pause the runtime.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.Resume">
+            <summary>
+            Resume the runtime after being paused.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.ExecuteRuntime">
+            <summary>
+            Executes the runtime process.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.GetSummary">
+            <summary>
+            Gets the runtime summary.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskRuntime.PerformProcessing">
+            <summary>
+            Perform internal processing of the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntime.Group">
+            <summary>
+            Gets the group name of the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntime.Id">
+            <summary>
+            Gets the id of the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntime.QueueId">
+            <summary>
+            Gets or sets the queue id.
+            </summary>
+        </member>
+        <member name="E:Toyota.Common.Task.BackgroundTaskRuntime.ChangeEvent">
+            <summary>
+            Occurs when the runtime state is changed.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntime.IsRequestedToBeCancelled">
+            <summary>
+            Gets the state whether the runtime needs to be cancelled.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntime.CanBeCancelled">
+            <summary>
+            Gets or sets the state whether the runtime can be cancelled.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntime.IsRequestedToBePaused">
+            <summary>
+            Gets the state whether the runtime needs to be paused.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntime.CanBePaused">
+            <summary>
+            Gets or sets the state whether the runtime can be paused.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntime.Name">
+            <summary>
+            Gets the name of the runtime.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskHistory">
+            <summary>
+            Represents an archived task.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundQueuedTask">
+            <summary>
+            Represents a queued task.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTask">
+            <summary>
+            Represents a background task.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTask.#ctor">
+            <summary>
+            The constructor
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTask.AddParameter(System.String,System.String)">
+            <summary>
+            Adds an execution parameter.
+            </summary>
+            <param name="key">Parameter key.</param>
+            <param name="value">Parameter value.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTask.AddParameter``1(System.String,``0)">
+            <summary>
+            Adds an execution parameter with specific type.
+            </summary>
+            <typeparam name="T">Type of value.</typeparam>
+            <param name="key">Parameter key</param>
+            <param name="value">Parameter value</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTask.GetParameter(System.String)">
+            <summary>
+            Gets a parameter value.
+            </summary>
+            <param name="key">Parameter key.</param>
+            <returns>Parameter value</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTask.GetParameter``1(System.String)">
+            <summary>
+            Gets a parameter value with specific type.
+            </summary>
+            <typeparam name="T">Type of value.</typeparam>
+            <param name="key">Parameter key.</param>
+            <returns>Parameter value.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTask.GetParameterKeys">
+            <summary>
+            Gets all parameter keys.
+            </summary>
+            <returns>List of parameter keys.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTask.HasParameter(System.String)">
+            <summary>
+            Checks whether this task has parameter with given key.
+            </summary>
+            <param name="key">Parameter key.</param>
+            <returns>True if parameter exists, otherwise false.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTask.SetParameters(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Set execution parameters.
+            </summary>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Group">
+            <summary>
+            Group name. This can be anything that basically categorizes the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Id">
+            <summary>
+            Unique identification code of the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Name">
+            <summary>
+            Unique name of the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Description">
+            <summary>
+            A description of the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Submitter">
+            <summary>
+            Submitter of the task. Usually, this is the username of a user.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Runtime">
+            <summary>
+            Name of the runtime used by the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Type">
+            <summary>
+            Type of the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.PeriodicType">
+            <summary>
+            Periodic type of the task, if the type is Periodic.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Status">
+            <summary>
+            Status of the task.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.IsTerminated">
+            <summary>
+            Gets the state whether the task was terminated.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.HasParameters">
+            <summary>
+            Checks whether this task has one or more parameters.
+            </summary>
+            <returns>True if one or more parameter exists, otherwise false.</returns>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.StartDate">
+            <summary>
+            The date and time where the task will start to be available for execution.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.ExpireDate">
+            <summary>
+            The date and time where the task will no longer available for execution.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.IsAboutToExpire">
+            <summary>
+            Gets the state whether the task is about to expire. This state is calculated as 5 days before expiration date.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.IsExpired">
+            <summary>
+            Gets the state whether the task is considered to be expired.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Day">
+            <summary>
+            Day of week.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.DayOfMonth">
+            <summary>
+            Day of month.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Interval">
+            <summary>
+            Execution interval.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Time">
+            <summary>
+            Time where execution will take place.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Month">
+            <summary>
+            Month where execution will take place.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTask.Date">
+            <summary>
+            Date and time where execution will take place.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundQueuedTask.Create(Toyota.Common.Task.BackgroundTask)">
+            <summary>
+            Creates a queued task from a scheduled task.
+            </summary>
+            <param name="task">Scheduled task.</param>
+            <returns>Queue task</returns>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundQueuedTask.Progress">
+            <summary>
+            Progress of the task process.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundQueuedTask.ExecutionStartDate">
+            <summary>
+            The date and time where the process starts. 
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundQueuedTask.ExecutionFinishDate">
+            <summary>
+            The date and time where the process finishes.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskHistory.Create(Toyota.Common.Task.BackgroundQueuedTask)">
+            <summary>
+            Creates an archive task from a queued task.
+            </summary>
+            <param name="task">Queued task</param>
+            <returns>Archive task</returns>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskHistory.HistoryId">
+            <summary>
+            Archive id.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskManagerEventArgs">
+            <summary>
+            Provides data for task manager's event.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManagerEventArgs.Type">
+            <summary>
+            Type of the event.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManagerEventArgs.Message">
+            <summary>
+            Message published by the event.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManagerEventArgs.Data">
+            <summary>
+            Event data.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.IBackgroundTaskQueueRepository">
+            <summary>
+            Task repository that handles task queuing.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskQueueRepository.Register(Toyota.Common.Task.BackgroundQueuedTask)">
+            <summary>
+            Registers a task to queue.
+            </summary>
+            <param name="task">Task to be queued.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskQueueRepository.Update(Toyota.Common.Task.BackgroundQueuedTask)">
+            <summary>
+            Updates a queued task.
+            </summary>
+            <param name="task">Task to be updated.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskQueueRepository.GetAll">
+            <summary>
+            Retrieves all queued task.
+            </summary>
+            <returns>All queued task.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskQueueRepository.Get(System.String,System.String)">
+            <summary>
+            Retrieves a queued task.
+            </summary>
+            <param name="group">Task group</param>
+            <param name="id">Task id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskQueueRepository.Delete(System.String,System.String)">
+            <summary>
+            Deletes a queued task.
+            </summary>
+            <param name="group">Task group.</param>
+            <param name="id">Task id.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskQueueRepository.Purge">
+            <summary>
+            Deletes all queued task. 
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.IBackgroundTaskHistoryRepository">
+            <summary>
+            Task repository that handles task archiving.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskHistoryRepository.Archive(Toyota.Common.Task.BackgroundQueuedTask)">
+            <summary>
+            Archives a task.
+            </summary>
+            <param name="task">Task to be archived.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskHistoryRepository.Get(System.DateTime,System.String)">
+            <summary>
+            Retrieves an archived task.
+            </summary>
+            <param name="executionDate">Execution date.</param>
+            <param name="historyId">History id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskHistoryRepository.GetAll">
+            <summary>
+            Retrieves all archived task.
+            </summary>
+            <returns>All archived tasks.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskHistoryRepository.GetLatest(System.Int32,System.String,System.String)">
+            <summary>
+            Retrieves latest number of archived tasks.
+            </summary>
+            <param name="count">Number of task to be retrieved.</param>
+            <param name="group">Task group.</param>
+            <param name="id">Task id.</param>
+            <returns>Latest number of archived tasks.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskHistoryRepository.GetAll(System.Int64,System.Int64)">
+            <summary>
+            Retrieves all archived tasks by using pagination.
+            </summary>
+            <param name="pageNumber">Page number.</param>
+            <param name="pageSize">Page size.</param>
+            <returns>All archived tasks in pages.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskHistoryRepository.GetAll(System.Int64,System.Int64,System.String,System.String,System.String,System.String,System.String,System.Nullable{Toyota.Common.Task.BackgroundTaskType},System.Nullable{Toyota.Common.Task.BackgroundTaskPeriodicType},System.Nullable{System.DateTime})">
+            <summary>
+            Retrieves filtered archived tasks by using pagination.
+            </summary>
+            <param name="pageNumber">Page number.</param>
+            <param name="pageSize">Page size.</param>
+            <param name="group">Task group.</param>
+            <param name="id">Task id.</param>
+            <param name="name">Task name.</param>
+            <param name="runtime">Task runtime.</param>
+            <param name="submitter">Task submitter.</param>
+            <param name="type">Task type.</param>
+            <param name="periodicType">Task periodic type.</param>
+            <param name="executionDate">Task execution date.</param>
+            <returns>All filtered tasks in pages.</returns>
+        </member>
+        <member name="T:Toyota.Common.Task.IBackgroundTaskRepository">
+            <summary>
+            Provides functions to access and manipulate background task data.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.IBackgroundTaskRepository.Registry">
+            <summary>
+            Task repository that handles task registration.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.IBackgroundTaskRepository.Queue">
+            <summary>
+            Task repository that handles task queueing. 
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.IBackgroundTaskRepository.History">
+            <summary>
+            Task repository that handles task archiving.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.IBackgroundTaskRuntimeFactory">
+            <summary>
+            Factory for task runtime. The factory is responsible for the creation of runtime instance.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskRuntimeFactory.CreateRuntime">
+            <summary>
+            Creates the runtime instance.
+            </summary>
+            <returns>Instance of runtime.</returns>
+        </member>
+        <member name="P:Toyota.Common.Task.IBackgroundTaskRuntimeFactory.Name">
+            <summary>
+            Name of the runtime.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.IBackgroundTaskRuntimeFactory.Description">
+            <summary>
+            Description of the runtime.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskLogMessage">
+            <summary>
+            Represents a task log message.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskLogMessage.TaskGroup">
+            <summary>
+            Task group.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskLogMessage.TaskId">
+            <summary>
+            Task id.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskType">
+            <summary>
+            Types of task.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskType.Undefined">
+            <summary>
+            Undefined type.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskType.Immediate">
+            <summary>
+            A task that immediately executed.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskType.Periodic">
+            <summary>
+            A task that executed in periodic time.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskType.Delayed">
+            <summary>
+            A task that executed after some elapsed time but within the same day.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskType.Specific">
+            <summary>
+            A task that executed at specific date and time.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskStatus">
+            <summary>
+            Statuses of a task.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskStatus.Scheduled">
+            <summary>
+            Denotes that a task is being scheduled.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskStatus.Released">
+            <summary>
+            Denotes that a task is being released.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskStatus.Active">
+            <summary>
+            Denotes that a task is being activated and doing its process.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskStatus.Finished">
+            <summary>
+            Denotes that a task was finished doing its process.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskStatus.Error">
+            <summary>
+            Denotes that a task was aborted because an error occurred while doing its process.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskStatus.Aborted">
+            <summary>
+            Denotes that a task was aborted by user or task manager.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskStatus.Waiting">
+            <summary>
+            Denotes that a task is waiting for an update or some process to be done.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskStatus.Paused">
+            <summary>
+            Denotes that a task is being paused.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskPeriodicType">
+            <summary>
+            Types of periodic task.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Undefined">
+            <summary>
+            Undefined type.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Daily">
+            <summary>
+            A task that executed every day.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Weekly">
+            <summary>
+            A task that executed every week.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Monthly">
+            <summary>
+            A task that executed every month.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Annually">
+            <summary>
+            A task that executed every year.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Intervalic_Day">
+            <summary>
+            A task that executed every n day.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Intervalic_Week">
+            <summary>
+            A task that executed every n week.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Intervalic_Month">
+            <summary>
+            A task that executed every n month.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskPeriodicType.Intervalic_Year">
+            <summary>
+            A task that executed every n year.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskRuntimeSummary">
+            <summary>
+            Summary of a task runtime.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntimeSummary.Task">
+            <summary>
+            Task of the runtime.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntimeSummary.CanBeCancelled">
+            <summary>
+            Defines whether the runtime can be cancelled. 
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntimeSummary.IsRequestedToBeCancelled">
+            <summary>
+            Defines whether the runtime needs to be cancelled.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntimeSummary.CanBePaused">
+            <summary>
+            Defines whether the runtime can be paused.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskRuntimeSummary.IsRequestedToBePaused">
+            <summary>
+            Defines whether the runtime needs to be paused.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskManager">
+            <summary>
+            Manages task registration, queuing, and archiving. Including runtime loading and execution management.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskManager.#ctor(Toyota.Common.Task.IBackgroundTaskRepository,Toyota.Common.Database.IDBContextManager,System.String)">
+            <summary>
+            The constructor
+            </summary>
+            <param name="repo">Task repository.</param>
+            <param name="dbManager">Database manager.</param>
+            <param name="dbContextName">Database context name.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskManager.GetRuntimeNames">
+            <summary>
+            Retrieves runtime names.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskManager.GetExecutingRuntime(System.String,System.String)">
+            <summary>
+            Retrieves a task runtime that currently being executed.
+            </summary>
+            <param name="group">Task group</param>
+            <param name="id">Task id</param>
+            <returns>Task runtime</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskManager.GetExecutingRuntimes">
+            <summary>
+            Retrieves all task runtime that currently being executed.
+            </summary>
+            <returns>Task runtimes</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskManager.GetExecutingTask(System.String,System.String)">
+            <summary>
+            Retrieves a task that currently being executed by runtime management.
+            </summary>
+            <param name="group">Task group</param>
+            <param name="id">Task id</param>
+            <returns>Instance of task</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskManager.Start">
+            <summary>
+            Start the manager.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskManager.Stop">
+            <summary>
+            Stop the manager.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.BackgroundTaskManager.ScanRuntimes">
+            <summary>
+            Rescan all runtimes.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManager.EventPublisher">
+            <summary>
+            Event publisher used by the manager to publish its events.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManager.Repository">
+            <summary>
+            Repository associated by the manager.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManager.DatabaseManager">
+            <summary>
+            Database manager associated by the manager.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManager.DatabaseContextName">
+            <summary>
+            Database context name used to request database context.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManager.Log">
+            <summary>
+            Message logger associated by the manager.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManager.RuntimePaths">
+            <summary>
+            Paths where the runtime files being kept.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManager.MaximumRuntimeExecution">
+            <summary>
+            Maximum number of runtime that allowed to be executed.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Task.BackgroundTaskManager.IsServiceAlive">
+            <summary>
+            Checks if the manager's internal service alive.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Task.IBackgroundTaskRegistryRepository">
+            <summary>
+            Task repository that handles task registration.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskRegistryRepository.Register(Toyota.Common.Task.BackgroundTask)">
+            <summary>
+            Registers a new task.
+            </summary>
+            <param name="task">New task to be registered</param>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskRegistryRepository.Update(Toyota.Common.Task.BackgroundTask)">
+            <summary>
+            Updates existing task.
+            </summary>
+            <param name="task">Task to be updated.</param>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskRegistryRepository.GetAll">
+            <summary>
+            Retrieves all registered task.
+            </summary>
+            <returns>All registered task.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskRegistryRepository.GetAll(System.Int64,System.Int64)">
+            <summary>
+            Retrieves all registered task by using pagination.
+            </summary>
+            <param name="pageNumber">Page number</param>
+            <param name="pageSize">Page size</param>
+            <returns>Paginated tasks if any, otherwise null</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskRegistryRepository.GetAll(System.Int64,System.Int64,System.String,System.String,System.String,System.String,System.String,System.Nullable{Toyota.Common.Task.BackgroundTaskType},System.Nullable{Toyota.Common.Task.BackgroundTaskPeriodicType})">
+            <summary>
+            Retrieves registered tasks using some filters and pagination.
+            </summary>
+            <param name="pageNumber">Page number</param>
+            <param name="pageSize">Page size</param>
+            <param name="group">Task group</param>
+            <param name="id">Task id</param>
+            <param name="name">Task name</param>
+            <param name="runtime">Task runtime</param>
+            <param name="submitter">Task submitter</param>
+            <param name="type">Task type</param>
+            <param name="periodicType">Task periodic type</param>
+            <returns>Filtered and paginated tasks.</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskRegistryRepository.Get(System.String,System.String)">
+            <summary>
+            Retrieves a registered task.
+            </summary>
+            <param name="group">Task group</param>
+            <param name="id">Task id</param>
+            <returns>Registered task if any, otherwise null</returns>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskRegistryRepository.Delete(System.String,System.String)">
+            <summary>
+            Deletes a registered task.
+            </summary>
+            <param name="group">Task group</param>
+            <param name="id">Task id</param>
+        </member>
+        <member name="T:Toyota.Common.Task.IBackgroundTaskManagerEventPublisher">
+            <summary>
+            An event publisher for task manager.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Task.IBackgroundTaskManagerEventPublisher.Publish(Toyota.Common.Task.BackgroundTaskManagerEventArgs)">
+            <summary>
+            Publishes a task manager event.
+            </summary>
+            <param name="evt"></param>
+        </member>
+        <member name="T:Toyota.Common.Task.BackgroundTaskManagerEventType">
+            <summary>
+            Types of task manager event.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Task.BackgroundTaskManagerEventType.Runtime_Changed">
+            <summary>
+            Denotes that the runtime state changed.
+            </summary>
+        </member>
+    </members>
+</doc>

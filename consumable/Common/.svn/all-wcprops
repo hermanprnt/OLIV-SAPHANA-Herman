@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common
+END
+StrTo.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/StrTo.cs
+END
+Exceptional.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Exceptional.cs
+END
+Util.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Util.cs
+END
+QStore.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/QStore.cs
+END
+AppSetting.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/AppSetting.cs
+END
+Ini.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Ini.cs
+END
+Logger.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Logger.cs
+END
+IPut.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/IPut.cs
+END
+StringManipulator.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/StringManipulator.cs
+END
+TextLogger.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/TextLogger.cs
+END
+IniSections.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/IniSections.cs
+END
+Formator.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Formator.cs
+END
+ConsoleWriter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/ConsoleWriter.cs
+END
+SimpleNode.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/SimpleNode.cs
+END
+IConfigReader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/IConfigReader.cs
+END
+SqlMapper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/SqlMapper.cs
+END
+Packer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Packer.cs
+END
+ObjectLogExtension.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/ObjectLogExtension.cs
+END
+ISay.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/ISay.cs
+END
+SimpleTree.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/SimpleTree.cs
+END
+SimpleTreeHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/SimpleTreeHelper.cs
+END
+XmlConfigReader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/XmlConfigReader.cs
+END

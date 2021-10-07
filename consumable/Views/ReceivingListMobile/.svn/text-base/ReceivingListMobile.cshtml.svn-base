@@ -1,0 +1,62 @@
+﻿
+@using consumable.Models.ReceivingList
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ List<ReceivingList> receivingList = (List<ReceivingList>)ViewData["ReceivingListInquiry"];}
+
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <div class="form-group form-group-xs">
+            <a href="@Html.Toyota().Page.GetControllerUrl("ReceivingList")" class="btn btn-sm btn-default">
+                <i class="fa fa-angle-left"></i>Back</a>
+        </div>
+    </div>
+</div>
+<div class="_line-br">
+</div>
+<div class="_tbflow_mobile">
+    <table class="table table-striped table-hover table-bordered table-condensed">
+        <tbody>
+            @{if (receivingList.Count > 0)
+              {
+                  foreach (ReceivingList item in receivingList)
+                  {
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <strong>Purchase Order No</strong></div>
+                            <div class="col-xs-7">
+                                @item.PURCHASE_ORDER_NO</div>
+                            <div class="col-xs-5">
+                                <strong>Order Qty</strong></div>
+                            <div class="col-xs-7">
+                                @item.ORDER_QTY</div>
+                            @if (item.DELIVERY_STATUS.Equals("Complete"))
+                            { 
+                                <div class="col-xs-5">
+                                    <strong>Delivery Status</strong></div>
+                                <div class="col-xs-7">
+                                    <div style="background-color: #66FF66; padding-right:10px;">@item.DELIVERY_STATUS</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-xs-5">
+                                    <strong>Delivery Status</strong></div>
+                                <div class="col-xs-7">
+                                    <div style="background-color: #FF4D4D; padding-right:10px;">@item.DELIVERY_STATUS</div></div>
+                            }
+                        </div>
+                    </td>
+                </tr>
+                  }
+              }
+            }
+        </tbody>
+    </table>
+</div>
+

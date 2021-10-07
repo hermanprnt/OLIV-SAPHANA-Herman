@@ -1,0 +1,76 @@
+﻿<div id="inputreversepopup" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Reverse Invoice
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal _criteria" id="inputInvoiceForm">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-9">
+                        @* Notice Date *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Reverse Post Date</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%; cursor: pointer;">
+                                    @*<span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                                        </i></span>
+                                        <input class="form-control" type="text" name="date-range-picker" id="id-date-range-picker-1"
+                                            data-date-format="dd.mm.yyyy" />*@
+                                    <input class="form-control date-picker" id="reversePostDate" type="text" data-date-format="dd.mm.yyyy"  />
+                                </div>
+                            </div>
+                        </div>
+                        @* Reversal Reason *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Reversal Reason
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="reverseReason" class="cursor-1 mandatory">
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                    </select>
+                                </div>
+                                @*<div class="input-group" style="width: 100%;">
+                                     <input type="text" id="reverseReason" class="form-control mandatory"  />
+                                </div>*@
+                            </div>
+                        </div>
+
+                         @* Remarks *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Reversal Remarks
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                     <input type="text" id="reverseRemarks" class="form-control mandatory" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px;">
+                    <button type="button" class="btn btn-primary btn-xs" style="width: 60px;"
+                        onclick="javascript:submitReverse('REVERSE_INVOICE')">
+                        Submit</button>                  
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        @*<div class="modal-footer">
+            <button type="button" id="btncloselookup" class="btn btn-default btn-xs" data-dismiss="modal">
+                close</button>
+        </div>*@
+    </div>
+</div>

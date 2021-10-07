@@ -1,0 +1,494 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+    <style type="text/css">
+        .datepicker.dropdown-menu
+        {
+            z-index: 2000 !important;
+        }
+        .modal-icon
+        {
+            height: 35px;
+        }
+        
+        .twitter-typeahead
+        {
+            width: 100%;
+        }
+        
+        #warning-confirm
+        {
+            z-index: 2000 !important;
+        }
+    </style>
+}
+<div id="selected-0-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                Warning</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    Please select data.
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="delete-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                    Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to delete(s)?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+                            onclick="javascript:confirmDeleteData()">
+                            Yes</button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="selected-info" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                Information</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgInfoId">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="warning-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Warning</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgWarningId">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="hidden-xs">
+    @Html.Partial("_SearchCriteria")
+    <div class="text-center" style="margin-bottom: 5px;">
+        <hr id="hrsrc" style="margin: 0; padding: 0;" />
+    </div>
+    <div id="tablegrid">
+        @Html.Partial("_GridView")
+    </div>
+</div>
+
+<div id="maintenanceApprovaladdpopup">
+    @Html.Partial("_MaintenanceApprovalAddPopUp")
+</div>
+
+@Html.Partial("_LookupSupplierInput")
+@Html.Partial("_LookupApproverInput")
+
+@section BodyScript{
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <script type="text/javascript">
+        var pagepos;
+        var gScreenMode = null;
+        var dtlScreenMode = null;
+        var dataDelRf = new Object();
+
+        // Datepicker plugin [start]
+		//link
+		$('.date-picker').datepicker({
+			autoclose: true,
+			todayHighlight: true
+		})
+		//show datepicker when clicking on the icon
+		.next().on(ace.click_event, function () {
+			$(this).prev().focus();
+		});
+
+        //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+		$('input[name=rfDateSearch]').daterangepicker({
+			format: 'DD.MM.YYYY',
+			'applyClass': 'btn-sm btn-success',
+			'cancelClass': 'btn-sm btn-default',
+			locale: {
+				applyLabel: 'Apply',
+				cancelLabel: 'Cancel',
+			}
+		})
+		.prev().on(ace.click_event, function () {
+			$(this).next().focus();
+		});
+        // Datepicker plugin [end]
+
+		function toggleSearch() {
+			$("._criteria").toggle(200, "linear");
+
+			if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+				$("#toogle-search").removeClass("fa-angle-double-up");
+				$("#toogle-search").addClass("fa-angle-double-down");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'none';
+				$("#tScrollBody").height(450);
+				$("#toogle-search").prop('title', 'Show filter');
+			}
+			else {
+				$("#toogle-search").removeClass("fa-angle-double-down");
+				$("#toogle-search").addClass("fa-angle-double-up");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'block';
+				$("#tScrollBody").height(325);
+				$("#toogle-search").prop('title', 'Hide filter');
+			}
+
+			$("#toogle-search").blur();
+		}
+
+        // Function Search [start]
+        function searchData(page) {
+            if(page==null)page=1;
+            pagepos=page;
+                         
+			$.ajax({
+				type: "POST",
+				url: "@Html.Toyota().Page.GetActionUrl("search")",
+				data: {
+					supplierCode: $('#supplierCodeSearch').val(),
+					supplierName: $('#supplierNameSearch').val(),
+                    approverUnitCode: $('#approverUnitCodeSearch').val(),
+                    page: page,
+                    size: $("#pageSize").val()			
+				},
+				beforeSend:function () {
+                    $('#btnSearch').button('loading');
+                },
+				success: function (data) {
+					$("#tablegrid").html(data);	
+				},
+				complete:function () {
+                    $('#btnSearch').button('reset');
+                }
+			});
+			
+		}
+
+        function onEnterSearchData(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                searchData(1);
+            }
+        }
+        // Function Search [end]
+
+        // Open Popup Add [start]
+		function input() {
+            gScreenMode = 'ADD';
+            
+            $.ajax({
+			    type : "POST",
+			    url : "@Html.Toyota().Page.GetActionUrl("InitAddMaintenanceApproval")",
+			    data: { },
+			    beforeSend:function () {$('#btnSearch').button('loading');},
+				success: function (data) {
+					$("#maintenanceApprovaladdpopup").html(data);
+                    clearFormAdd();
+
+			        $("#addpopup").modal();
+				},
+				complete:function () {$('#btnSearch').button('reset');}
+		    });
+		}
+
+        function clearFormAdd() {
+            $("#maintenanceApprovalIdAddPopup").val('');
+            $("#supplierCdAddPopup").val('');
+            $("#approverUnitCodeAddPopup").val('');
+        }
+        // Open Popup Add [end]
+
+        // Save Input Add & Edit [start]
+		function saveInput() {
+			
+            valid = validateInputForm();
+            //alert('valid = ' + valid);
+            
+            if(valid) {
+                var paramsObj = new Object();
+                paramsObj.screenMode = gScreenMode;
+                paramsObj.maintenanceApproval = getFormData();
+			    $.ajax({
+				    type : "POST",
+				    url : "@Html.Toyota().Page.GetActionUrl("SaveInput")",
+				    contentType: 'application/json',
+				    dataType: 'json',
+                    traditional: true,
+				    data: JSON.stringify(paramsObj),
+				    success : function(returnResult) {
+                        if (returnResult.Result == returnResult.ValueSuccess) {
+                            $("#msgInfoId").text("Save Data Success");
+                            $("#selected-info").modal();
+                            $("#addpopup").modal('hide');
+                            searchData(pagepos);
+					    } else {
+                            $("#msgWarningId").text("Duplicate Data");
+                            $("#warning-confirm").modal();
+                             $("#addpopup").modal('hide');
+					    }		
+                     
+                       
+				    },
+				    error : function(returnResult) {
+                        $("#msgWarningId").text("Error Save");
+                        $("#warning-confirm").modal();
+				    }
+			    });
+            }
+            else
+            {
+                  $("#msgWarningId").text("Data can't be empty");
+                  $("#warning-confirm").modal();
+            }
+		}
+
+        function validateInputForm() {
+            var valid = true;
+
+            if ($("#supplierCdAddPopup").val() == '') {
+                $("#supplierCdAddPopup").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#supplierCdAddPopup").css("background-color", "#FFFFFF");
+            }
+
+            if ($("#approverUnitCodeAddPopup").val() == '') {
+                $("#approverUnitCodeAddPopup").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#approverUnitCodeAddPopup").css("background-color", "#FFFFFF");
+            }
+
+            return valid;
+        }
+
+        function getFormData() {
+            var data = new Object();
+            
+            if($("#maintenanceApprovalIdAddPopup").val()!='') {
+                data.MAINTENANCE_APPROVAL_ID = $("#maintenanceApprovalIdAddPopup").val().trim();
+            }
+            data.SUPPLIER_CD = $("#supplierCdAddPopup").val().trim();
+            data.APPROVER_UNIT_CD = $("#approverUnitCodeAddPopup").val().trim();
+
+            return data;
+        }
+        // Save Input Add & Edit [start]
+
+        // Open Popup Edit [start]
+        function openEditPopup(maintenanceApprovalId) {
+		    $.ajax({
+			    type : "POST",
+			    url : "@Html.Toyota().Page.GetActionUrl("GetByKey")",
+			    data: { 
+                    maintenanceApprovalId: maintenanceApprovalId
+                },
+			    beforeSend:function () {
+                    $('#btnSearch').button('loading');
+                },
+				success: function (data) {
+					$("#maintenanceApprovaladdpopup").html(data);
+                    
+                    setScreenToEditMode();
+				},
+				complete:function () {$('#btnSearch').button('reset');}
+		    });
+	    }
+
+        function setScreenToEditMode() {
+            gScreenMode = 'EDIT';
+
+            $("#addpopup").modal();
+
+            //$("#usernameAddPopup").prop('disabled', true);
+        }
+        // Open Popup Edit [end]
+
+        // Delete Data [start]
+        function deleteData(systemId) {	
+			var row = 0;
+			MaintenanceApprovalArrays = new Array();
+			$('[name=selectedItem]:checked').each(function () {
+                //alert($(this).val());
+				MaintenanceApprovalArrays.push({					
+					MAINTENANCE_APPROVAL_ID: $(this).attr("data-value") 		
+				});
+				row++;
+			});
+			
+			if(row < 1)
+			{			
+				$("#selected-0-confirm").modal();
+			}		
+
+			if(!jQuery.isEmptyObject(MaintenanceApprovalArrays))
+			{
+				$("#delete-confirm").modal();				
+			}
+		}
+
+        function confirmDeleteData() {
+			$.ajax({
+				type : "POST",
+				url : "@Html.Toyota().Page.GetActionUrl("DeleteMaintenanceApproval")",
+				contentType: 'application/json',
+				dataType: 'json',
+				data: JSON.stringify(MaintenanceApprovalArrays),
+				success : function(returnResult){
+					if (returnResult.Result == returnResult.ValueSuccess) {
+                        $("#msgInfoId").text("Delete Data Success");
+                        $("#selected-info").modal();
+					} else {
+                        $("#msgInfoId").text(returnResult.ErrMesgs);
+                        $("#selected-info").modal();
+					}
+					searchData(1);							
+				},
+				error : function(returnResult) {
+					$("#msgInfoId").text("Error Delete Data");
+					$("#selected-info").modal();
+				}
+			});
+			$("#delete-confirm").hide();
+	    }
+        // Delete Data [end]
+
+        // Function Lookup Search [start]
+		function openPoppUpSupplier() {
+            $("#gridlookupsupplierinput").modal()
+        }
+
+        function onLookupSupplierInput(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupSupplierSearchAndInput")",
+                data: {
+                    Parameter:$("#txtinputlookupsupplier").val(),
+                    Page:page,
+                    PartialViewSearchAndInput:'_LookupTableSupplierInput'
+                },
+                beforeSend:function () {$('#btnSearchLookupSupplierInput').button('loading');},
+                success: function (result) { 
+                    $("#tblSupplierPopupInput").html(result);
+                },
+                complete:function () {$('#btnSearchLookupSupplierInput').button('reset');}
+            });
+        }
+
+        function onLookupSelectedInput(supplierCd, supplierName) {
+		    $("#supplierCdAddPopup").val(supplierCd);
+		    $("#supplierNameAddPopup").val(supplierName);
+		    $("#gridlookupsupplierinput").modal("hide");
+        }
+        // Function Lookup Input [end]
+
+
+
+        function openPoppUpApprover() {
+            $("#gridlookupapproverinput").modal()
+        }
+
+        function onLookupApproverInput(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupApproverSearchAndInput")",
+                data: {
+                    Parameter:$("#txtinputlookupapprover").val(),
+                    Page:page,
+                    PartialViewSearchAndInput:'_LookupTableApproverInput'
+                },
+                beforeSend:function () {$('#btnSearchLookupApproverInput').button('loading');},
+                success: function (result) { 
+                    $("#tblApproverPopupInput").html(result);
+                },
+                complete:function () {$('#btnSearchLookupApproverInput').button('reset');}
+            });
+        }
+
+        function onLookupSelectedApproverInput(unitCode, approverName) {
+		    $("#approverUnitCodeAddPopup").val(unitCode);
+		    $("#approverNameAddPopup").val(approverName);
+		    $("#gridlookupapproverinput").modal("hide");
+        }
+
+
+    </script>
+}

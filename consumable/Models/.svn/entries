@@ -1,0 +1,281 @@
+10
+
+dir
+18015
+https://fid-sp.fid.sea.css.fujitsu.com:8443/svn/ID.TMMIN/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Models
+https://fid-sp.fid.sea.css.fujitsu.com:8443/svn/ID.TMMIN
+
+
+
+2018-10-18T10:36:29.714985Z
+17919
+prasetyo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1d6a9dc6-631a-3d4f-93e6-6ae357324394
+
+Helper
+dir
+
+UserSAP
+dir
+
+VAT_IN_D
+dir
+
+FUNCTION
+dir
+
+ProcurementTracking
+dir
+
+MaintenanceApproval
+dir
+
+VAT_IN_H
+dir
+
+InvoiceReceiving
+dir
+
+LOG_H
+dir
+
+SystemProperty
+dir
+
+VAT_OUT_CVS
+dir
+
+VAT_IN_EXCEL
+dir
+
+eFaktur
+dir
+
+Organization
+dir
+
+VAT_IN_ScanBarcode
+dir
+
+ReceivingList
+dir
+
+BaseResult.cs
+file
+
+
+
+
+2018-10-01T09:34:54.214290Z
+7e80c2521ccb2c1f8fcf12e6e6be39b9
+2018-10-01T03:35:49.434325Z
+17491
+ijul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+650
+
+GLAccount
+dir
+
+PO_SAP
+dir
+
+InvoiceCreation
+dir
+
+VAT_OUT
+dir
+
+System
+dir
+
+VAT_OUT_D
+dir
+
+VAT_OUT_SAP
+dir
+
+VAT_IN_EDIT
+dir
+
+AjaxResult.cs
+file
+
+
+
+
+2018-10-01T09:34:54.229880Z
+13b148a98880d05280f142e0dc45d03d
+2018-10-01T03:35:49.434325Z
+17491
+ijul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+183
+
+RequistionForm
+dir
+
+VAT_OUT_H
+dir
+
+BarcodeData
+dir
+
+Formating.cs
+file
+
+
+
+
+2018-10-01T09:34:54.245469Z
+febedc081304dcf17ecddf042a59db61
+2018-10-01T03:35:49.434325Z
+17491
+ijul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5662
+
+WithholdingTax
+dir
+
+EmployeeProfile
+dir
+
+VAT_OUT_EXCEL
+dir
+
+CUSTOMER
+dir
+
+PRInquiry
+dir
+
+GR_IR
+dir
+
+CommonFunction.cs
+file
+
+
+
+
+2018-10-01T09:34:54.261058Z
+4e980713c54947ae7dadd35af23ab101
+2018-10-01T03:35:49.434325Z
+17491
+ijul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1888
+
+SUPPLIER
+dir
+
+Paging
+dir
+
+ReportView
+dir
+
+PoDownload
+dir
+
+INV_POSTED_SAP
+dir
+
+InvoiceInquiry
+dir
+

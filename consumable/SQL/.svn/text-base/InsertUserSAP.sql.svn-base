@@ -1,0 +1,19 @@
+INSERT INTO TB_M_USER_SAP
+(          
+    USERNAME
+	,COMPLETE_NAME 
+	,[GROUP]
+	,NOREG
+    ,CREATED_BY
+	,CREATED_DT 
+) 
+VALUES 
+(
+    @USERNAME,  
+    @COMPLETE_NAME,  
+    @GROUP, 
+	@NOREG,
+	@CREATED_BY,    
+    GETDATE()
+);
+

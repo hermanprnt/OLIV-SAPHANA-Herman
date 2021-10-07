@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<configuration-item>
+		<key>PROCUREMENT</key>
+		<value>
+			<ConnectionString>server=DBSQL-DVQA-2012.toyota.co.id\DBSQLDEVQA2012;Database=PROCUREMENT;User ID=asdd_user;Password=toyota123!!;Trusted_Connection=false;MultipleActiveResultSets=true;Max Pool Size=1000;Timeout=50000</ConnectionString>
+			<IsDefault>true</IsDefault>
+			<Provider>System.Data.SqlClient</Provider>
+		</value>
+		<description>PROCUREMENT Database</description>
+	</configuration-item>
+	<configuration-item>
+		<key>EFAKTUR</key>
+		<value>
+			<ConnectionString>server=10.16.25.2;Database=TMMIN_E_FAKTUR_UAT;User ID=sa;Password=S4dm!n1PPC5;Trusted_Connection=false;MultipleActiveResultSets=true;Max Pool Size=1000;Timeout=50000</ConnectionString>
+			<IsDefault>false</IsDefault>
+			<Provider>System.Data.SqlClient</Provider>
+		</value>
+		<description>E-faktur Database</description>
+	</configuration-item>
+	<configuration-item>
+		<key>SecurityCenter</key>
+		<value>
+			<ConnectionString>Server=DBSQL-DVQA-2012.toyota.co.id\DBSQLDEVQA2012;Database=SC_DB_DEV;User ID=SC_D8_DEV;Password=SC_D3V_db;Trusted_Connection=false;</ConnectionString>
+			<IsDefault>false</IsDefault>
+			<Provider>System.Data.SqlClient</Provider>
+		</value>
+		<description>Security Center database</description>
+	</configuration-item>
+	<configuration-item>
+		<key>SSO</key>
+		<value>
+			<ConnectionString>Server=DBSQL-DVQA-2012.toyota.co.id\DBSQLDEVQA2012;Database=SC_SSO_DB_DEV;User ID=SC_SS0_D8_DEV;Password=SC_S5O_d8_dev;Trusted_Connection=false;</ConnectionString>
+			<IsDefault>false</IsDefault>
+			<Provider>System.Data.SqlClient</Provider>
+		</value>
+		<description>Security Center database</description>
+	</configuration-item>
+</configuration>

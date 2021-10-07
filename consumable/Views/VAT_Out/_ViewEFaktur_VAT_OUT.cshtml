@@ -1,0 +1,185 @@
+﻿
+@using E_FAKTUR_BRIDGE.Models
+@{
+    VAT_OUT_H VAT_OUT_H_Detail = (VAT_OUT_H)ViewData["VAT_OUT_H_Detail"];
+    List<VAT_OUT_D> VAT_OUT_D_List = (List<VAT_OUT_D>)ViewData["VAT_OUT_D_Detail"];
+    List<SYSTEM> TMMIN_Data = (List<SYSTEM>)ViewData["TMMIN_Data"];
+    CUSTOMER Customer_Data = (CUSTOMER)ViewData["Customer_Data"];
+    string NoFaktur = "";
+    string npwp = "";
+    if (VAT_OUT_H_Detail.TAX_INVOICE_NO.Length == 13)
+    {
+        NoFaktur = VAT_OUT_H_Detail.TRANS_TYPE_CODE + VAT_OUT_H_Detail.REPLACEMENT_FG + "." + HelperRepository.Instance.GenTaxInvoiceFormat(VAT_OUT_H_Detail.TAX_INVOICE_NO);
+    }
+    else
+    {
+        NoFaktur = VAT_OUT_H_Detail.TAX_INVOICE_NO;
+    }
+    if (Customer_Data.NPWP.Length == 15)
+    {
+        npwp = HelperRepository.Instance.GenNPWPFormat(Customer_Data.NPWP);
+    }
+    else
+    {
+        npwp = Customer_Data.NPWP;
+    }
+}
+
+<table class="table table-report">
+    <tr>
+        <td colspan="3" rowspan="2" style="border-top:1px solid black">
+            Kode dan Nomor Seri Faktur Pajak : @NoFaktur
+        </td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td colspan="3">
+            Pengusaha Kena Pajak
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" rowspan="3">
+            <div class="row">
+                <div class="col-xs-1">Nama</div>
+                <div class="col-xs-11">: @TMMIN_Data[1].SYSTEM_VALUE_TEXT</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-1">Alamat</div>
+                <div class="col-xs-11">: @TMMIN_Data[2].SYSTEM_VALUE_TEXT</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-1">NPWP</div>
+                <div class="col-xs-11">: @TMMIN_Data[0].SYSTEM_VALUE_TEXT</div>
+            </div>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+    <tr>
+        <td colspan="3">
+            Pembeli Barang Kena Pajak / Penerima Jasa Kena Pajak
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" rowspan="3">
+            <div class="row">
+                <div class="col-xs-1">Nama</div>
+                <div class="col-xs-11">: @Customer_Data.NAME</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-1">Alamat</div>
+                <div class="col-xs-11">: @Customer_Data.ADDRESS</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-1">NPWP</div>
+                <div class="col-xs-11">: @npwp</div>
+            </div>
+        </td>
+    </tr>
+
+    <tr></tr>
+    <tr></tr>
+    <tr>
+        <td rowspan="2" class="text-center col-xs-1"><b>NO</b></td>
+        <td rowspan="2" class="text-center col-xs-6"><b>Nama Barang Kena Pajak / Jasa Kena Pajak</b></td>
+        <td rowspan="2" class="text-center col-xs-5"><b>Harga Jual / Penggantian /<br />Uang Muka / Termin</b></td>
+    </tr>
+    <tr></tr>
+    @{
+                int index = 1;
+                decimal grand_total = 0;
+                decimal disc_total = 0;
+    }
+    @foreach (var item in VAT_OUT_D_List)
+            {
+                decimal total = 0;
+                decimal unit_price = item.UNIT_PRICE;
+                string PPnBM = "PPnBM (" + @item.LUXURY_TAX_PERC + "%) : " + @item.LUXURY_TAX_PRICE.ToString("#,0", new System.Globalization.CultureInfo("id-ID")) + ",00"; 
+                disc_total = disc_total + item.DISC_PRICE;
+            <tr>
+                <td rowspan="2">@index</td>
+                <td rowspan="2">
+                    @item.PRODUCT_NM @item.PRODUCT_CODE<br />
+                    @unit_price.ToString("#,0", new System.Globalization.CultureInfo("id-ID")) x @item.PRODUCT_QTY.ToString("#,0", new System.Globalization.CultureInfo("id-ID")) <br />
+                    @if (@item.LUXURY_TAX_PRICE != 0)
+                    {
+                        @PPnBM
+                    }
+                </td>
+                <td rowspan="2" class="text-right">@{total = item.UNIT_PRICE * item.PRODUCT_QTY;}@total.ToString("#,0", new System.Globalization.CultureInfo("id-ID")),00</td>
+            </tr>
+                    index++;
+                    grand_total = grand_total + total;
+            <tr></tr>
+            }
+    <tr>
+        <td colspan="2">Harga Jual / Penggantian</td>
+        <td class="text-right">@grand_total.ToString("#,0", new System.Globalization.CultureInfo("id-ID")),00</td>
+    </tr>
+    <tr>
+        <td colspan="2">Dikurangi Potongan Harga</td>
+        <td class="text-right">
+            @*@{decimal price_after_discount = grand_total - disc_total;}@price_after_discount*@
+            @disc_total.ToString("#,0", new System.Globalization.CultureInfo("id-ID")),00
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">Dikurangi Uang Muka</td>
+        <td class="text-right"></td>
+    </tr>
+    <tr>
+        <td colspan="2">Dasar Pengenaan Pajak</td>
+        <td class="text-right">@VAT_OUT_H_Detail.DPP_PRICE.ToString("#,0", new System.Globalization.CultureInfo("id-ID")),00</td>
+    </tr>
+    <tr>
+        <td colspan="2">PPN = 10% x Dasar Pengenaan Pajak</td>
+        <td class="text-right">@VAT_OUT_H_Detail.VAT_PRICE.ToString("#,0", new System.Globalization.CultureInfo("id-ID")),00</td>
+    </tr>
+    <tr>
+        <td colspan="2">Total PPnBM (Pajak Penjualan Barang Mewah)</td>
+        <td class="text-right">@VAT_OUT_H_Detail.LUXURY_TAX_PRICE.ToString("#,0", new System.Globalization.CultureInfo("id-ID")),00</td>
+    </tr>
+</table>
+
+@{
+    string taxNo = "Invoice Number : " + @NoFaktur;
+    string ReferenceVal = "PPnBM yang dipungut sebelumya : ";
+}
+
+<div class="row">
+    <div class="col-xs-9">
+        @VAT_OUT_H_Detail.REFERENCE
+        @*@{
+            if (VAT_OUT_H_Detail.REFERENCE == null)
+            {
+                VAT_OUT_H_Detail.REFERENCE = "";
+            }
+        }
+        @if (@VAT_OUT_H_Detail.REFERENCE.Trim() == "" || @VAT_OUT_H_Detail.REFERENCE.Trim() == "0.00")
+        {
+            
+        }
+        else
+        {
+            @VAT_OUT_H_Detail.REFERENCE
+        }*@
+
+        
+        @*@if (@VAT_OUT_H_Detail.TAX_INVOICE_NO == "0031524058008")
+        {
+            @taxNo <br>
+            @(ReferenceVal + @VAT_OUT_H_Detail.REFERENCE);
+            @(ReferenceVal + "1.000.000");
+        }*@
+    </div>
+    <div class="col-xs-3">
+        <table class="table-report">
+            <tr>
+                <td class="col-xs-12">
+                    @{DateTime TaxInDt = (DateTime)VAT_OUT_H_Detail.TAX_INVOICE_DATE;}@TaxInDt.ToString("dd MMMM yyyy",new System.Globalization.CultureInfo("id-ID"))
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+

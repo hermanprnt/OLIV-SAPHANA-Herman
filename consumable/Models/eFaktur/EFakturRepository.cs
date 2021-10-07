@@ -1,0 +1,606 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Web;
+using System.Web.Hosting;
+using System.Xml;
+using consumable.Models.SystemProperty;
+using consumable.Models.VAT_IN_H;
+using Ghostscript.NET;
+using Ghostscript.NET.Rasterizer;
+using Toyota.Common.Database;
+using Toyota.Common.Web.Platform;
+
+namespace consumable.Models.EFaktur
+{
+    public class EFakturRepository
+    {
+        private EFakturRepository() { }
+
+        #region Singleton
+        private static EFakturRepository instance = null;
+        public static EFakturRepository Instance
+        {
+            get 
+            {
+                if (instance == null)
+                {
+                    instance = new EFakturRepository();
+                }
+                return instance;
+            }
+        }
+        #endregion
+
+        public int countEfaktur(string parameter, string vendCodeLogin)
+        {
+            IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
+            dynamic args = new
+            {
+                Parameter = parameter,
+                SUPPLIER_CD = vendCodeLogin
+            };
+            return db.SingleOrDefault<int>("CountEfaktur", args);
+        }
+
+        public List<EFaktur> GetData(string parameter, string vendCodeLogin, int fromnumber, int tonumber)
+        {
+            IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
+            dynamic args = new
+            {
+                Parameter = parameter,
+                SUPPLIER_CD = vendCodeLogin,
+                NumberFrom = fromnumber,
+                NumberTo = tonumber
+            };
+
+            List<EFaktur> result = db.Fetch<EFaktur>("GetEFaktur", args);
+            db.Close();
+            return result;
+        }
+        public int countEfakturWithValidate(string parameter, string vendCode)
+        {
+            IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
+            dynamic args = new
+            {
+                Supplier_cd = vendCode,
+                Parameter = parameter
+            };
+            return db.SingleOrDefault<int>("CountEFakturWithValidate", args);
+        }
+        public List<EFaktur> GetDataEfakturWithValidate(string parameter, string vendCode, int fromnumber, int tonumber)
+        {
+            IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
+            dynamic args = new
+            {
+                Supplier_cd = vendCode,
+                Parameter = parameter,
+                NumberFrom = fromnumber,
+                NumberTo = tonumber
+            };
+
+            List<EFaktur> result = db.Fetch<EFaktur>("GetEFakturWithValidate", args);
+            db.Close();
+            return result;
+        }
+
+        public int countEFaktorList(string taxInvoiceNoSearch, string taxInvoiceDtSearch, string vendCodeSearch)
+        {
+
+            string taxInvoiceDtSearchFrom = "";
+            string taxInvoiceDtSearchTo = "";
+            if (taxInvoiceDtSearch != null && !"".Equals(taxInvoiceDtSearch))
+            {
+                string[] taxInvoiceDtSearchArray = taxInvoiceDtSearch.Split('-');
+                taxInvoiceDtSearchFrom = taxInvoiceDtSearchArray[0].Trim();
+                taxInvoiceDtSearchTo = taxInvoiceDtSearchArray[1].Trim();
+            }
+
+            IDBContext db = DatabaseManager.Instance.GetContext();
+            dynamic args = new
+            {
+                TAX_INVOICE_NO = taxInvoiceNoSearch,
+                TAX_INVOICE_DT_FROM = taxInvoiceDtSearchFrom,
+                TAX_INVOICE_DT_TO = taxInvoiceDtSearchTo,
+                VEND_CODE = vendCodeSearch
+            };
+            return db.SingleOrDefault<int>("CountEFakturList", args);
+        }
+
+        public List<EFaktur> GetEFakturList(string taxInvoiceNoSearch, string taxInvoiceDtSearch, string vendCodeSearch, 
+            int fromnumber, int tonumber)
+        {
+            string taxInvoiceDtSearchFrom = "";
+            string taxInvoiceDtSearchTo = "";
+            if (taxInvoiceDtSearch != null && !"".Equals(taxInvoiceDtSearch))
+            {
+                string[] taxInvoiceDtSearchArray = taxInvoiceDtSearch.Split('-');
+                taxInvoiceDtSearchFrom = taxInvoiceDtSearchArray[0].Trim();
+                taxInvoiceDtSearchTo = taxInvoiceDtSearchArray[1].Trim();
+            }    
+
+            IDBContext db = DatabaseManager.Instance.GetContext();
+            dynamic args = new
+            {
+                TAX_INVOICE_NO = taxInvoiceNoSearch,
+                TAX_INVOICE_DT_FROM = taxInvoiceDtSearchFrom,
+                TAX_INVOICE_DT_TO = taxInvoiceDtSearchTo,
+                VEND_CODE = vendCodeSearch,
+                NumberFrom = fromnumber,
+                NumberTo = tonumber
+            };
+
+            List<EFaktur> result = db.Fetch<EFaktur>("GetEFakturList", args);
+            db.Close();
+            return result;
+        }
+
+
+        private static string ErrorMessage = "";
+
+        public void PdfToPng(string Pdffile, string PngFile)
+        {
+            int desired_x_dpi = 500;
+            int desired_y_dpi = 500;
+
+            string inputPdfPath = Pdffile;
+            string outputPath = Path.GetFullPath(PngFile);
+
+            GhostscriptVersionInfo _lastInstalledVersion = null;
+            GhostscriptRasterizer _rasterizer = null;
+
+            _lastInstalledVersion =
+                GhostscriptVersionInfo.GetLastInstalledVersion(
+                        GhostscriptLicense.GPL | GhostscriptLicense.AFPL,
+                        GhostscriptLicense.GPL);
+
+            _rasterizer = new GhostscriptRasterizer();
+
+            _rasterizer.Open(inputPdfPath, _lastInstalledVersion, false);
+            // revised
+            //_rasterizer.Open(inputPdfPath, _lastInstalledVersion, true);
+
+            Image img = _rasterizer.GetPage(desired_x_dpi, desired_y_dpi, _rasterizer.PageCount);
+            
+
+            img.Save(PngFile, ImageFormat.Png);
+            _rasterizer.Close();
+        }
+
+        public string ViewBarcodeFaktur(string link, string supplierInput, string uploadBy)
+        {
+            AjaxResult ajaxResult = new AjaxResult();
+
+            VAT_IN_ScanBarcode VatInScanBarcode = ReceiveEFaktur(link);
+            VatInScanBarcode.Url = link;
+            VatInScanBarcode.IsOriginalTaxExist = 1;
+            int duplicateTax = 0;
+            //int originalTax = 0;
+            string result = null;
+            duplicateTax = VAT_IN_HRepository.Instance.checkDuplicate(VatInScanBarcode.noFaktur, VatInScanBarcode.fgPengganti);
+            if (duplicateTax > 0)
+            {
+                //result = "Tax Invoice already exist";
+                //return Json(result, JsonRequestBehavior.AllowGet);
+                return result = "Tax Invoice already exist";
+            }
+            // TODO dibuka
+            //else if (VatInScanBarcode.fgPengganti == "1")
+            //{
+            //    bool isAllowReplacementTax = true;
+            //    //bool isAllowReplacementTax = SystemRepository.Instance.isAllowReplacement();
+            //    if (!isAllowReplacementTax)
+            //    {
+            //        //result = "Cannot scan replacement tax invoice, please scan Original tax invoice first";
+            //        //return Json(result, JsonRequestBehavior.AllowGet);
+            //        return result = "Cannot scan replacement tax invoice, please scan Original tax invoice first";
+            //    }
+            //    //else
+            //    //{
+
+            //    //    originalTax = VAT_IN_HRepository.Instance.checkOriginal(VatInScanBarcode.noFaktur, "0");
+
+            //    //    if (originalTax == 0)
+            //    //    {
+            //    //        VatInScanBarcode.IsOriginalTaxExist = 0;
+            //    //    }
+
+            //    //    return PartialView("_BarcodeE_Faktur", VatInScanBarcode);
+            //    //}
+            //}
+            // TODO dibuka
+            else
+            {
+                if (VatInScanBarcode.ErrorMessage != null || VatInScanBarcode.noFaktur == null || VatInScanBarcode.noFaktur == "")
+                {
+                    //return PartialView("_eFakturNotFound", VatInScanBarcode);
+                    result = VatInScanBarcode.ErrorMessage;
+                }
+                else
+                {
+                    VAT_IN_ScanBarcodeRepository.Instance.SaveData(VatInScanBarcode, supplierInput, uploadBy);
+                }
+                //return PartialView("_BarcodeE_Faktur", VatInScanBarcode);
+            }
+
+            return null;
+        }
+
+        public static VAT_IN_ScanBarcode ReceiveEFaktur(String InUrl)
+        {
+            ErrorMessage = "";
+            string[] HeaderTemp = new string[15];
+            string[] DetailTemp = new string[9];
+
+            VAT_IN_ScanBarcode result = new VAT_IN_ScanBarcode();
+            detailTransaksi resultdetail = new detailTransaksi();
+            result.DetailTransaksi = new List<detailTransaksi>();
+            EFakturConfigDTO EFakturConfig = GetEFakturConfig();
+            //if (ErrorMessage != "")
+            //{
+            //    result.ErrorMessage = ErrorMessage;
+            //    return result;
+            //}
+            StringBuilder EFakturData = GetEFaktur(InUrl);
+            //if (ErrorMessage != "")
+            //{
+            //    result.ErrorMessage = ErrorMessage;
+            //    return result;
+            //}
+            //bool ProcessStatus = false;
+
+            try
+            {
+                ErrorMessage = EFakturValidate(EFakturConfig, EFakturData).ToString();
+                if ("".Equals(ErrorMessage))
+                {
+                    Dictionary<String, object> EFakturResult = GetEFakturResult(EFakturConfig, EFakturData);
+                    //Console.WriteLine("Hasil E-Faktur");
+
+                    //Console.WriteLine("Header Table > " + EFakturConfig.TargetHeaderTable);
+                    //Console.WriteLine("Header > " + EFakturConfig.HeaderName);
+                    Dictionary<String, object> EFakturHeader = (Dictionary<String, object>)EFakturResult[EFakturConfig.HeaderName];
+                    int index = 0;
+                    foreach (FieldMapDTO FieldMap in EFakturConfig.HeaderFields)
+                    {
+                        //Console.WriteLine("     > Name : " + FieldMap.fieldName);
+                        //Console.WriteLine("     > Map : " + FieldMap.fieldMap);
+                        //Console.WriteLine("     > Value : " + EFakturHeader[FieldMap.fieldName]);
+                        HeaderTemp[index] = EFakturHeader[FieldMap.fieldName].ToString();
+                        index++;
+                    }
+                    result.kdJenisTransaksi = HeaderTemp[0];
+                    result.fgPengganti = HeaderTemp[1];
+                    result.noFaktur = HeaderTemp[2];
+                    result.TanggalFaktur = DateTime.ParseExact(HeaderTemp[3], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                    result.NPWPPenjual = HeaderTemp[4];
+                    result.NamaPenjual = HeaderTemp[5];
+                    result.AlamatPenjual = HeaderTemp[6];
+                    result.NPWPLawanTrans = HeaderTemp[7];
+                    result.NamaLawanTrans = HeaderTemp[8];
+                    result.AlamatLawanTrans = HeaderTemp[9];
+                    result.JmlDPP = HeaderTemp[10];
+                    result.JmlPPN = HeaderTemp[11];
+                    result.JmlPPnBM = HeaderTemp[12];
+                    result.StatusApproval = HeaderTemp[13];
+                    result.StatusFaktur = HeaderTemp[14];
+
+                    List<object> EFakturDetailsList = (List<object>)EFakturResult[EFakturConfig.DetailName];
+                    foreach (List<Dictionary<String, object>> EFakturDetails in EFakturDetailsList)
+                    {
+                        foreach (Dictionary<String, object> EFakturDetail in EFakturDetails)
+                        {
+                            //Console.WriteLine("Detail Table > " + EFakturConfig.TargetDetailTable);
+                            //Console.WriteLine("Detail > " + EFakturConfig.DetailName + " " + ++i);
+                            index = 0;
+                            foreach (FieldMapDTO FieldMap in EFakturConfig.DetailFields)
+                            {
+                                //Console.WriteLine("     > Name : " + FieldMap.fieldName);
+                                //Console.WriteLine("     > Map : " + FieldMap.fieldMap);
+                                //Console.WriteLine("     > Value : " + EFakturDetail[FieldMap.fieldName]);
+                                DetailTemp[index] = EFakturDetail[FieldMap.fieldName].ToString();
+                                index++;
+                            }
+                            result.DetailTransaksi.Add(new detailTransaksi()
+                            {
+                                Nama = DetailTemp[0],
+                                HargaSatuan = DetailTemp[1],
+                                JmlBarang = DetailTemp[2],
+                                HargaTotal = DetailTemp[3],
+                                Diskon = DetailTemp[4],
+                                DPP = DetailTemp[5],
+                                PPN = DetailTemp[6],
+                                TarifPPnBM = DetailTemp[7],
+                                PPnBM = DetailTemp[8]
+                            });
+                            Array.Clear(DetailTemp, 0, DetailTemp.Length);
+                        }
+                    }
+                    //Console.ReadLine();
+                    //ProcessStatus = true;
+                }
+                else { result.ErrorMessage = ErrorMessage; }
+            }
+            catch (Exception exception)
+            {
+                //Console.WriteLine(exception.Message);
+                ErrorMessage = exception.Message;
+            }
+            // nanti dibuka
+            //var tmmin = SystemRepository.Instance.GetTMMIN();
+            //string NPWPTMMIN = HelperRepository.Instance.GenNPWPFormat(result.NPWPLawanTrans);
+            //if (NPWPTMMIN == "invalid")
+            //{
+            //    return result;
+            //}
+            //if (NPWPTMMIN.Equals(tmmin[0].SYSTEM_VALUE_TEXT) == false)
+            //{
+            //    result.ErrorMessage = "TMMIN NPWP is incorrect.";
+            //}
+            // nanti dibuka
+            return result;
+        }
+
+        public static EFakturConfigDTO GetEFakturConfig()
+        {
+            EFakturConfigDTO EFakturConfigDTO = new EFakturConfigDTO();
+
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load(HostingEnvironment.MapPath("~/Views/EFakturScan/MapField.xml"));
+
+                EFakturConfigDTO.TargetHeaderTable = ((XmlNode)xmlDoc.GetElementsByTagName("tableHeaderMap")[0]).InnerText;
+                EFakturConfigDTO.TargetDetailTable = ((XmlNode)xmlDoc.GetElementsByTagName("tableDetailMap")[0]).InnerText;
+                EFakturConfigDTO.HeaderName = ((XmlNode)xmlDoc.GetElementsByTagName("headerName")[0]).InnerText;
+                EFakturConfigDTO.DetailName = ((XmlNode)xmlDoc.GetElementsByTagName("detailName")[0]).InnerText;
+                List<FieldMapDTO> HeaderFields = new List<FieldMapDTO>();
+                foreach (XmlNode HeaderFieldNodes in xmlDoc.GetElementsByTagName("headerField"))
+                {
+                    FieldMapDTO FieldMap = new FieldMapDTO();
+                    FieldMap.fieldName = ((XmlNode)(((XmlElement)HeaderFieldNodes).GetElementsByTagName("name")[0])).InnerText;
+                    FieldMap.fieldMap = ((XmlNode)(((XmlElement)HeaderFieldNodes).GetElementsByTagName("map")[0])).InnerText;
+                    HeaderFields.Add(FieldMap);
+                }
+                EFakturConfigDTO.HeaderFields = HeaderFields;
+                List<FieldMapDTO> DetailFields = new List<FieldMapDTO>();
+                foreach (XmlNode DetailFieldNodes in xmlDoc.GetElementsByTagName("detailField"))
+                {
+                    FieldMapDTO FieldMap = new FieldMapDTO();
+                    FieldMap.fieldName = ((XmlNode)(((XmlElement)DetailFieldNodes).GetElementsByTagName("name")[0])).InnerText;
+                    FieldMap.fieldMap = ((XmlNode)(((XmlElement)DetailFieldNodes).GetElementsByTagName("map")[0])).InnerText;
+                    DetailFields.Add(FieldMap);
+                }
+                EFakturConfigDTO.DetailFields = DetailFields;
+            }
+            catch (XmlException xmlException)
+            {
+                //Console.WriteLine(xmlException.Message);
+                ErrorMessage = xmlException.Message;
+            }
+            catch (Exception exception)
+            {
+                //Console.WriteLine(exception.Message);
+                ErrorMessage = exception.Message;
+            }
+            return EFakturConfigDTO;
+        }
+
+        public static StringBuilder GetEFaktur(String InUrl)
+        {
+            // used to build entire input
+            StringBuilder EFakturData = new StringBuilder();
+
+            try
+            {
+                String Url = InUrl;
+                // dibuka untuk default
+                //bool NeedProxy = true;
+                //string MyProxyHostString = "proxy.toyota.co.id";
+                //string MyProxyUser = "istd.temp";
+                //string MyProxyPassword = "toyota123";
+                //string MyProxyDomain = "toyota";
+                //int MyProxyPort = 3128;
+
+                // dibuka untuk repository
+                List<consumable.Models.SystemProperty.SystemProperty> proxyResult = SystemPropertyRepository.Instance.GetProxy();
+                bool NeedProxy = false;
+                if (proxyResult[0].SYSTEM_VALUE_TEXT.ToUpper() == "True".ToUpper())
+                {
+                    NeedProxy = true;
+                }
+                string MyProxyHostString = proxyResult[1].SYSTEM_VALUE_TEXT;
+                string MyProxyUser = proxyResult[2].SYSTEM_VALUE_TEXT;
+                string MyProxyPassword = proxyResult[3].SYSTEM_VALUE_TEXT;
+                string MyProxyDomain = proxyResult[4].SYSTEM_VALUE_TEXT;
+                int MyProxyPort = Convert.ToInt32(proxyResult[5].SYSTEM_VALUE_TEXT);
+
+                // used on each read operation
+                byte[] buf = new byte[8192];
+
+                // prepare the web page we will be asking for
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+
+                // execute the request
+                if (NeedProxy)
+                {
+                    IWebProxy proxy = new WebProxy(MyProxyHostString, MyProxyPort);
+                    proxy.Credentials = new NetworkCredential(MyProxyUser, MyProxyPassword, MyProxyDomain);
+                    request.Proxy = proxy;
+                }
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                // we will read data via the response stream
+                Stream resStream = response.GetResponseStream();
+
+                string tempString = null;
+                int count = 0;
+
+                do
+                {
+                    // fill the buffer with data
+                    count = resStream.Read(buf, 0, buf.Length);
+
+                    // make sure we read some data
+                    if (count != 0)
+                    {
+                        // translate from bytes to ASCII text
+                        tempString = Encoding.ASCII.GetString(buf, 0, count);
+                        if (tempString.IndexOf("Faktur tidak Valid") != -1)
+                        {
+                            ErrorMessage = "Invalid QR Code.";
+                        }
+
+                        // continue building the string
+                        EFakturData.Append(tempString);
+                    }
+                }
+                while (count > 0); // any more data to read?
+
+                //print out page source
+                //Console.WriteLine(EFakturData.ToString());
+                //Console.ReadLine();
+            }
+            catch (WebException webException)
+            {
+                //Console.WriteLine(webException.Message);
+                ErrorMessage = webException.Message;
+                throw webException;
+            }
+            catch (Exception exception)
+            {
+                //Console.WriteLine(exception.Message);
+                ErrorMessage = exception.Message;
+
+                throw exception;
+            }
+
+            return EFakturData;
+        }
+
+        public static StringBuilder EFakturValidate(EFakturConfigDTO EFakturConfig, StringBuilder EFakturData)
+        {
+            //VAT_IN_ScanBarcodeRepository message = new VAT_IN_ScanBarcodeRepository();
+            StringBuilder ValidMessage = new StringBuilder();
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.LoadXml(EFakturData.ToString());
+                XmlNodeList HeaderNode = xmlDoc.GetElementsByTagName(EFakturConfig.HeaderName);
+                if (HeaderNode.Count == 0)
+                {
+                    ValidMessage.Append("Node " + EFakturConfig.HeaderName + " doesn't exists.\n");
+                }
+                else
+                {
+                    foreach (FieldMapDTO HeaderMapDTO in EFakturConfig.HeaderFields)
+                    {
+                        XmlNodeList HeaderField = ((XmlElement)HeaderNode[0]).GetElementsByTagName(HeaderMapDTO.fieldName);
+                        if (HeaderField.Count == 0)
+                        {
+                            ValidMessage.Append("Node " + HeaderMapDTO.fieldName + " doesn't exists in " + EFakturConfig.HeaderName + ".\n");
+                        }
+                    }
+                    XmlNodeList DetailNode = ((XmlElement)HeaderNode[0]).GetElementsByTagName(EFakturConfig.DetailName);
+                    if (DetailNode.Count == 0)
+                    {
+                        ValidMessage.Append("Node " + EFakturConfig.DetailName + " doesn't exists in " + EFakturConfig.HeaderName + ".\n");
+                    }
+
+                    foreach (FieldMapDTO DetailMapDTO in EFakturConfig.DetailFields)
+                    {
+                        XmlNodeList DetailField = ((XmlElement)DetailNode[0]).GetElementsByTagName(DetailMapDTO.fieldName);
+                        if (DetailField.Count == 0)
+                        {
+                            ValidMessage.Append("Node " + DetailMapDTO.fieldName + " doesn't exists in " + EFakturConfig.DetailName + ".\n");
+                        }
+                    }
+                }
+            }
+            catch (XmlException xmlException)
+            {
+                //Console.WriteLine(xmlException.Message);
+                ErrorMessage = xmlException.Message;
+            }
+            catch (Exception exception)
+            {
+                //Console.WriteLine(exception.Message);
+                ErrorMessage = exception.Message;
+            }
+            return ValidMessage;
+        }
+
+        public static Dictionary<String, object> GetEFakturResult(EFakturConfigDTO EFakturConfig, StringBuilder EFakturData)
+        {
+            //VAT_IN_ScanBarcodeRepository message = new VAT_IN_ScanBarcodeRepository();
+            Dictionary<String, object> EFakturResultObject = new Dictionary<string, object>();
+
+            StringBuilder ValidMessage = new StringBuilder();
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                //FileStream fs = new FileStream("D:\\e-faktur.xml", FileMode.Open, FileAccess.Read);
+                xmlDoc.LoadXml(EFakturData.ToString());
+                //xmlDoc.Load(fs);
+                XmlNode HeaderNode = xmlDoc.GetElementsByTagName(EFakturConfig.HeaderName)[0];
+                Dictionary<String, object> EFakturHeader = new Dictionary<string, object>();
+                foreach (FieldMapDTO HeaderMapDTO in EFakturConfig.HeaderFields)
+                {
+                    EFakturHeader.Add(HeaderMapDTO.fieldName, ((XmlNode)(((XmlElement)HeaderNode).GetElementsByTagName(HeaderMapDTO.fieldName))[0]).InnerText);
+                }
+                EFakturResultObject.Add(EFakturConfig.HeaderName, EFakturHeader);
+
+                XmlNodeList DetailNodeList = ((XmlElement)HeaderNode).GetElementsByTagName(EFakturConfig.DetailName);
+
+                if (DetailNodeList.Count == 0)
+                {
+                    ValidMessage.Append("Node " + EFakturConfig.DetailName + " does't exists in " + EFakturConfig.HeaderName + ".\n");
+                }
+                else
+                {
+                    List<object> EFakturDetailsList = new List<object>();
+                    foreach (XmlNode DetailNode in DetailNodeList)
+                    {
+
+                        List<Dictionary<String, object>> EFakturDetails = new List<Dictionary<string, object>>();
+                        Dictionary<String, object> EFakturDetail = new Dictionary<string, object>();
+                        foreach (FieldMapDTO DetailMapDTO in EFakturConfig.DetailFields)
+                        {
+                            EFakturDetail.Add(DetailMapDTO.fieldName, ((XmlNode)(((XmlElement)DetailNode).GetElementsByTagName(DetailMapDTO.fieldName))[0]).InnerText);
+                        }
+                        EFakturDetails.Add(EFakturDetail);
+                        EFakturDetailsList.Add(EFakturDetails);
+                    }
+                    EFakturResultObject.Add(EFakturConfig.DetailName, EFakturDetailsList);
+                }
+            }
+            catch (XmlException xmlException)
+            {
+                //Console.WriteLine(xmlException.Message);
+                ErrorMessage = xmlException.Message;
+            }
+            catch (Exception exception)
+            {
+                //Console.WriteLine(exception.Message);
+                ErrorMessage = exception.Message;
+            }
+            return EFakturResultObject;
+        }
+
+        //
+        public string ValidateEfakturLookup(string TAX_NO, int EFAKTUR_EXPIRED)
+        {
+            IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
+            dynamic args = new { TAX_NO = TAX_NO, EFAKTUR_EXPIRED = EFAKTUR_EXPIRED };
+            return db.SingleOrDefault<string>("ValidateEfakturLookup", args);
+        }
+
+
+
+    }
+}

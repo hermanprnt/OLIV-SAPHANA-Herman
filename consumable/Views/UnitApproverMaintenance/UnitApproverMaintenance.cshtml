@@ -1,0 +1,719 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadScript{
+
+}
+
+<div id="selected-0-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Warning</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    Please select data.
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to change deletion status?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;" onclick="javascript:confirmDeleteData()">Yes</button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="selected-info" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Information</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgInfoId">&nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="warning-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">Warning</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgWarningId">&nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hidden-xs">
+    @Html.Partial("UnitApproverMaintenanceSearchCriteria")
+    
+    <div id="tablegrid">
+        @Html.Partial("UnitApproverMaintenanceGridView")
+    </div>
+</div>
+
+<div id="unitapprovermaintenanceaddeditpopup">
+    @Html.Partial("UnitApproverMaintenanceAddEditPopUp")
+</div>
+
+@section BodyScript{
+    <script type="text/javascript">
+        var ScreenMode = null;
+        var KEY_UPDATE_DATA = "";
+
+        function searchData(page) {
+            if (page == null) page = 1;
+            pagepos = page;
+
+            $.ajax({
+                type: "POST",
+                url: "@Html.Toyota().Page.GetActionUrl("Search")",
+				data: {
+				    PlantCD: $('#plantCDSearch').val(),
+				    SlocCD: $('#slocCDSearch').val(),
+				    PIC: $('#PICSearch').val(),
+				    Page: page,
+				    Size: $("#pageSize").val()
+				},
+				beforeSend: function () {
+				    $('#btnSearch').button('loading');
+				},
+				success: function (data) {
+				    $("#tablegrid").html(data);
+				},
+				complete: function () {
+				    $('#btnSearch').button('reset');
+				}
+			});
+
+        }
+
+        function clearData() {
+            $('#plantCDSearch').val("");
+            $('#slocCDSearch').val("");
+            $('#PICSearch').val("");
+
+            searchData(1);
+        }
+
+        function addData() {
+            ScreenMode = "add";
+            clearFormAdd();
+            $("#addeditpopup").modal();
+        }
+
+        function clearFormAdd() {
+            $('#plantCDInput').val("");
+            $('#slocCDInput').val("");
+            $('#PICInput').val("");
+        }
+
+        function saveData() {
+            $("#addeditpopup").modal('hide');
+            valid = validateInputForm();
+
+            if (!valid) {
+                $("#msgWarningId").text("Data can't be empty");
+                $("#warning-confirm").modal('show');
+            }
+            else {
+                var paramsObj = new Object();
+                paramsObj.screenMode = ScreenMode;
+                paramsObj.unitApproverMaintenance = getFormData();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Html.Toyota().Page.GetActionUrl("SaveData")",
+				    contentType: 'application/json',
+				    dataType: 'json',
+				    traditional: true,
+				    data: JSON.stringify(paramsObj),
+				    success: function (returnResult) {
+				        if (returnResult.Result == returnResult.ValueSuccess) {
+				            $("#msgInfoId").text(returnResult.ErrMesgs);
+				            $("#selected-info").modal();
+				            searchData(pagepos);
+				        } else {
+				            $("#msgWarningId").text(returnResult.ErrMesgs);
+				            $("#warning-confirm").modal();
+				        }
+				    },
+				    error: function (returnResult) {
+				        $("#msgWarningId").text("Error Save");
+				        $("#warning-confirm").modal('show');
+				    }
+                });
+            }
+        }
+
+        function getFormData() {
+            var data = new Object();
+            data.PLANT_CD = $("#plantCDInput").val().trim();
+            data.SLOC_CD = $("#slocCDInput").val().trim();
+            data.PIC = $("#PICInput").val().trim();
+            data.DELETION_FLAG = $("#deletionFlagInput").val().trim();
+
+            return data;
+        }
+
+        function validateInputForm() {
+            var valid = true;
+
+            if ($("#plantCDInput").val() == '') {
+                $("#plantCDInput").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#plantCDInput").css("background-color", "#FFFFFF");
+            }
+
+            if ($("#slocCDInput").val() == '') {
+                $("#slocCDInput").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#slocCDInput").css("background-color", "#FFFFFF");
+            }
+
+            if ($("#PICInput").val() == '') {
+                $("#PICInput").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#PICInput").css("background-color", "#FFFFFF");
+            }
+
+            return valid;
+        }
+
+        function deleteData() {
+            ScreenMode = "delete";
+
+            var row = 0;
+            KEY_UPDATE_DATA = "";
+            $('[name=selectedItem]:checked').each(function () {
+                if (row == 0) {
+                    KEY_UPDATE_DATA = $(this).attr("data-value");
+                }
+                else {
+                    KEY_UPDATE_DATA += ";" + $(this).attr("data-value");
+                }
+                
+                row++;
+            });
+
+            if (row < 1) {
+                $("#selected-0-confirm").modal();
+            }
+            else {
+                $("#delete-confirm").modal();
+            }
+        }
+
+        function confirmDeleteData() {
+            var dataUpdate = new Object();
+            dataUpdate.KEY_UPDATE_DATA = KEY_UPDATE_DATA;
+
+            var paramsObjUpdate = new Object();
+            paramsObjUpdate.screenMode = ScreenMode;
+            paramsObjUpdate.unitApproverMaintenance = dataUpdate;
+
+            $.ajax({
+                type: "POST",
+                url: "@Html.Toyota().Page.GetActionUrl("SaveData")",
+				contentType: 'application/json',
+				dataType: 'json',
+				data: JSON.stringify(paramsObjUpdate),
+				success: function (returnResult) {
+				    if (returnResult.Result == returnResult.ValueSuccess) {
+				        $("#msgInfoId").text(returnResult.ErrMesgs);
+				        $("#selected-info").modal();
+				    } else {
+				        $("#msgInfoId").text(returnResult.ErrMesgs);
+				        $("#selected-info").modal();
+				    }
+				    searchData(1);
+				},
+				error: function (returnResult) {
+				    $("#msgInfoId").text("Error Delete Data");
+				    $("#selected-info").modal();
+				}
+			});
+            $("#delete-confirm").hide();
+        }
+
+        /*Start Lookup Plant*/
+        function onLookupPlantSearch(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupPlantSearchAndInput")",
+                data: {
+                    Parameter: $('#txtSearchLookupPlant').val(),
+                    PartialViewSearchAndInput: 'UnitApproverMaintenanceLookupTablePlant',
+                    Page: page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupPlantSearch').button('loading');
+                },
+                success: function (result) {
+                    $("#tblPopupPlantSearch").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupPlantSearch').button('reset');
+                },
+                error: function (result) {
+                    $('#btnSearchLookupPlantSearch').button('reset');
+                }
+            });
+        }
+
+        $("#btnSearchLookupPlantSearch").click(function () {
+            onLookupPlantSearch(1);
+        });
+
+        function onEnterLookupPlantSearch(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupPlantSearch(1);
+            }
+        }
+
+        function openPopupPlantSearch() {
+            $("#txtSearchLookupPlant").val('');
+            if ($("#btn-group-plant").hasClass('open'))
+                $("#btn-group-plant").removeClass('open')
+            else
+                $("#btn-group-plant").addClass('open')
+
+            onLookupPlantSearch(1);
+        }
+
+        function closePopupPlantSearch() {
+            $("#txtSearchLookupPlant").val('');
+            $("#btn-group-plant").removeClass('open')
+        }
+
+        function clearPopupPlantSearchFilter() {
+            $("#txtSearchLookupPlant").val('');
+
+            onLookupPlantSearch(1);
+        }
+
+        function gridLookupPlantSearchSelected(setValue) {
+            /*var result = '';
+            if (($(".gridLookup-checkbox-body:checked").length > 0) && (setValue == 'OK')) {
+                for (i = 0; i < $(".gridLookup-checkbox-body").length; i++) {
+                    if ($(".gridLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '') ? ';' : '') + $(".gridLookup-checkbox-body")[i].dataset.value;
+                }
+                $("#plantCDSearch").val(result);
+            }
+
+            if (setValue == 'CS') {
+                $(".gridLookup-checkbox-body").prop('checked', false);
+                $("#plantCDSearch").val('');
+            }*/
+            $("#plantCDSearch").val(setValue);
+            EnableDisableSlocSearch()
+
+            closePopupPlantSearch();
+        }
+
+        function EnableDisableSlocSearch() {
+            if ($("#plantCDSearch").val() == '') {
+                $("#slocCDSearch").attr('disabled', 'disabled');
+                $("#btnPopupLookupSlocSearch").attr('disabled', 'disabled');
+                $("#slocCDSearch").val('');
+            } else {
+                $("#slocCDSearch").removeAttr('disabled');
+                $("#btnPopupLookupSlocSearch").removeAttr('disabled');
+                onLookupSlocSearch(1);
+            }
+        }
+
+        function onLookupPlantInput(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupPlantSearchAndInput")",
+                data: {
+                    Parameter: $('#txtInputLookupPlant').val(),
+                    PartialViewSearchAndInput: 'UnitApproverMaintenanceLookupTablePlantInput',
+                    Page: page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupPlantInput').button('loading');
+                },
+                success: function (result) {
+                    $("#tblPopupPlantInput").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupPlantInput').button('reset');
+                },
+                error: function (result) {
+                    $('#btnSearchLookupPlantInput').button('reset');
+                }
+            });
+        }
+
+        $("#btnSearchLookupPlantInput").click(function () {
+            onLookupPlantInput(1);
+        });
+
+        function onEnterLookupPlantInput(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupPlantInput(1);
+            }
+        }
+
+        function openPopupPlantInput() {
+            $("#txtInputLookupPlant").val('');
+            if ($("#btn-group-plant-input").hasClass('open'))
+                $("#btn-group-plant-input").removeClass('open')
+            else
+                $("#btn-group-plant-input").addClass('open')
+
+            onLookupPlantInput(1);
+        }
+
+        function closePopupPlantInput() {
+            $("#txtInputLookupPlant").val('');
+            $("#btn-group-plant-input").removeClass('open')
+        }
+
+        function clearPopupPlantInputFilter() {
+            $("#txtInputLookupPlant").val('');
+
+            onLookupPlantInput(1);
+        }
+
+        function gridLookupPlantInputSelected(setValue) {
+            $("#plantCDInput").val(setValue);
+            EnableDisableSlocInput()
+
+            closePopupPlantInput();
+        }
+
+        function EnableDisableSlocInput() {
+            if ($("#plantCDInput").val() == '') {
+                $("#slocCDInput").attr('disabled', 'disabled');
+                $("#btnPopupLookupSlocInput").attr('disabled', 'disabled');
+                $("#slocCDInput").val('');
+            } else {
+                $("#slocCDInput").removeAttr('disabled');
+                $("#btnPopupLookupSlocInput").removeAttr('disabled');
+                onLookupSlocInput(1);
+            }
+        }
+        /*End Lookup Plant*/
+
+        /*Start Lookup Sloc*/
+        function onLookupSlocSearch(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupSlocByPlantSearchAndInput")",
+                data: {
+                    PlantCD: $("#plantCDSearch").val(),
+                    Parameter: $('#txtSearchLookupSloc').val(),
+                    PartialViewSearchAndInput: 'UnitApproverMaintenanceLookupTableSloc',
+                    Page: page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupSlocSearch').button('loading');
+                },
+                success: function (result) {
+                    $("#tblPopupSlocSearch").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupSlocSearch').button('reset');
+                },
+                error: function (result) {
+                    $('#btnSearchLookupSlocSearch').button('reset');
+                }
+            });
+        }
+
+        $("#btnSearchLookupSlocSearch").click(function () {
+            onLookupSlocSearch(1);
+        });
+
+        function onEnterLookupSlocSearch(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupSlocSearch(1);
+            }
+        }
+
+        function openPopupSlocSearch() {
+            $("#txtSearchLookupSloc").val('');
+            if ($("#btn-group-sloc").hasClass('open'))
+                $("#btn-group-sloc").removeClass('open')
+            else
+                $("#btn-group-sloc").addClass('open')
+
+            onLookupSlocSearch(1);
+        }
+
+        function closePopupSlocSearch() {
+            $("#txtSearchLookupSloc").val('');
+            $("#btn-group-sloc").removeClass('open')
+        }
+
+        function clearPopupSlocSearchFilter() {
+            $("#txtSearchLookupPlant").val('');
+
+            onLookupSlocSearch(1);
+        }
+
+        function gridLookupSlocSearchSelected(setValue) {
+            $("#slocCDSearch").val(setValue);
+
+            closePopupSlocSearch();
+        }
+
+        function onLookupSlocInput(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupSlocByPlantSearchAndInput")",
+                data: {
+                    PlantCD: $("#plantCDInput").val(),
+                    Parameter: $('#txtInputLookupSloc').val(),
+                    PartialViewSearchAndInput: 'UnitApproverMaintenanceLookupTableSlocInput',
+                    Page: page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupSlocInput').button('loading');
+                },
+                success: function (result) {
+                    $("#tblPopupSlocInput").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupSlocInput').button('reset');
+                },
+                error: function (result) {
+                    $('#btnSearchLookupSlocInput').button('reset');
+                }
+            });
+        }
+
+        $("#btnSearchLookupSlocInput").click(function () {
+            onLookupSlocInput(1);
+        });
+
+        function onEnterLookupSlocInput(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupSlocInput(1);
+            }
+        }
+
+        function openPopupSlocInput() {
+            $("#txtInputLookupSloc").val('');
+            if ($("#btn-group-sloc-input").hasClass('open'))
+                $("#btn-group-sloc-input").removeClass('open')
+            else
+                $("#btn-group-sloc-input").addClass('open')
+
+            onLookupSlocInput(1);
+        }
+
+        function closePopupSlocInput() {
+            $("#txtInputLookupSloc").val('');
+            $("#btn-group-sloc-input").removeClass('open')
+        }
+
+        function clearPopupSlocInputFilter() {
+            $("#txtInputLookupPlant").val('');
+
+            onLookupSlocInput(1);
+        }
+
+        function gridLookupSlocInputSelected(setValue) {
+            $("#slocCDInput").val(setValue);
+
+            closePopupSlocInput();
+        }
+        /*End Lookup Sloc*/
+
+        /*Start Lookup Employee Profile*/
+        function onLookupEmployeeProfileSearch(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupEmployeeProfileSearchAndInput")",
+                data: {
+                    Parameter: $('#txtSearchLookupEmployeeProfile').val(),
+                    PartialViewSearchAndInput: 'UnitApproverMaintenanceLookupTableEmployeeProfile',
+                    Page: page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupEmployeeProfileSearch').button('loading');
+                },
+                success: function (result) {
+                    $("#tblPopupEmployeeProfileSearch").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupEmployeeProfileSearch').button('reset');
+                },
+                error: function (result) {
+                    $('#btnSearchLookupEmployeeProfileSearch').button('reset');
+                }
+            });
+        }
+
+        $("#btnSearchLookupEmployeeProfileSearch").click(function () {
+            onLookupEmployeeProfileSearch(1);
+        });
+
+        function onEnterLookupEmployeeProfileSearch(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupEmployeeProfileSearch(1);
+            }
+        }
+
+        function openPopupEmployeeProfileSearch() {
+            $("#txtSearchLookupEmployeeProfile").val('');
+            if ($("#btn-group-employeeprofile").hasClass('open'))
+                $("#btn-group-employeeprofile").removeClass('open')
+            else
+                $("#btn-group-employeeprofile").addClass('open')
+
+            onLookupEmployeeProfileSearch(1);
+        }
+
+        function closePopupEmployeeProfileSearch() {
+            $("#txtSearchLookupEmployeeProfile").val('');
+            $("#btn-group-employeeprofile").removeClass('open')
+        }
+
+        function clearPopupEmployeeProfileSearchFilter() {
+            $("#txtSearchLookupEmployeeProfile").val('');
+
+            onLookupEmployeeProfileSearch(1);
+        }
+
+        function gridLookupEmployeeProfileSearchSelected(setValue) {
+            $("#PICSearch").val(setValue);
+
+            closePopupEmployeeProfileSearch();
+        }
+
+        function onLookupEmployeeProfileInput(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupEmployeeProfileSearchAndInput")",
+                data: {
+                    Parameter: $('#txtInputLookupEmployeeProfile').val(),
+                    PartialViewSearchAndInput: 'UnitApproverMaintenanceLookupTableEmployeeProfileInput',
+                    Page: page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupEmployeeProfileInput').button('loading');
+                },
+                success: function (result) {
+                    $("#tblPopupEmployeeProfileInput").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupEmployeeProfileInput').button('reset');
+                },
+                error: function (result) {
+                    $('#btnSearchLookupEmployeeProfileInput').button('reset');
+                }
+            });
+        }
+
+        $("#btnSearchLookupEmployeeProfileInput").click(function () {
+            onLookupEmployeeProfileInput(1);
+        });
+
+        function onEnterLookupEmployeeProfileInput(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupEmployeeProfileInput(1);
+            }
+        }
+
+        function openPopupEmployeeProfileInput() {
+            $("#txtInputLookupEmployeeProfile").val('');
+            if ($("#btn-group-employeeprofile-input").hasClass('open'))
+                $("#btn-group-employeeprofile-input").removeClass('open')
+            else
+                $("#btn-group-employeeprofile-input").addClass('open')
+
+            onLookupPlantInput(1);
+        }
+
+        function closePopupEmployeeProfileInput() {
+            $("#txtInputLookupEmployeeProfile").val('');
+            $("#btn-group-employeeprofile-input").removeClass('open')
+        }
+
+        function clearPopupEmployeeProfileInputFilter() {
+            $("#txtInputLookupEmployeeProfile").val('');
+
+            onLookupEmployeeProfileInput(1);
+        }
+
+        function gridLookupEmployeeProfileInputSelected(setValue) {
+            $("#PICInput").val(setValue);
+
+            closePopupEmployeeProfileInput();
+        }
+        /*End Lookup Employee Profile*/
+    </script>
+}

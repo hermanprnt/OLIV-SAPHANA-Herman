@@ -1,0 +1,322 @@
+﻿@using consumable.Models.SUPPLIER
+@{
+    Supplier supplier = (Supplier)ViewData["supplier"];
+}
+<!-- Bootstrap Datepicker js -->
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+<script type="text/javascript">
+    //datepicker plugin
+    //link
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    })
+    //show datepicker when clicking on the icon
+	.next().on(ace.click_event, function () {
+	    $(this).prev().focus();
+	});
+</script>
+
+<div id="addpopup" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Add/Edit Supplier Form
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal _criteria" id="inputRfForm">
+                <div class="row">
+                    @*<div class="col-xs-12 col-sm-6 col-md-12">*@
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                        @* SUPPLIER CODE *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Supplier Code</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="supplierIdAddPopup" type="hidden" 
+                                        value="@(supplier != null && !string.IsNullOrEmpty(supplier.SUPPLIER_ID) ? supplier.SUPPLIER_ID : null)" />
+                                    <input id="supplierCodeAddPopup" class="form-control" type="text" maxlength="10"
+                                        value="@(supplier != null && !string.IsNullOrEmpty(supplier.SUPPLIER_CD) ? supplier.SUPPLIER_CD : null)" />
+                                </div>
+                            </div>
+                        </div>
+                        @* SUPPLIER NAME *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Supplier Name</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="supplierNameAddPopup" class="form-control    " type="text" maxlength="50" readonly
+                                        value="@(supplier != null && !string.IsNullOrEmpty(supplier.SUPPLIER_NAME) ? supplier.SUPPLIER_NAME : null)" />
+                                </div>
+                            </div>
+                        </div>
+                        @* PKP FLAG *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                PKP Flag</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    @*<input id="pkpFlagAddPopup" class="form-control mandatory" type="text" maxlength="1"
+                                        value="@(supplier != null && !string.IsNullOrEmpty(supplier.PKP_FLAG) ? supplier.PKP_FLAG : null)" />*@
+                                    <select id="pkpFlagAddPopup" class="cursor-1 mandatory" style="width: 100%;">
+                                        <option class="cursor-1"></option>
+                                        <option class="cursor-1" 
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.PKP_FLAG) && supplier.PKP_FLAG.Equals("Y") ? "selected" : null)>Y</option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.PKP_FLAG) && supplier.PKP_FLAG.Equals("N") ? "selected" : null)>N</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* TAX BASE FLAG *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Tax Base Flag</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    @*<input id="taxBaseFlagAddPopup" class="form-control mandatory" type="text" maxlength="1"
+                                        value="@(supplier != null && !string.IsNullOrEmpty(supplier.EDIT_AMOUNT_FLAG) ? supplier.EDIT_AMOUNT_FLAG : null)" />*@
+                                    <select id="taxBaseFlagAddPopup" class="cursor-1 mandatory" style="width: 100%;">
+                                        <option class="cursor-1"></option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.EDIT_AMOUNT_FLAG) && supplier.EDIT_AMOUNT_FLAG.Equals("Y") ? "selected" : null)>Y</option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.EDIT_AMOUNT_FLAG) && supplier.EDIT_AMOUNT_FLAG.Equals("N") ? "selected" : null)>N</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* PPN RATE *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                PPN Rate</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="ppnRateAddPopup" class="form-control mandatory" type="text" maxlength="13"
+                                        value="@(supplier != null && !string.IsNullOrEmpty(supplier.S_PPN_RATE) ? supplier.S_PPN_RATE : null)" />
+                                </div>
+                            </div>
+                        </div>
+                         @* Term Of Payment *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Term Of Payment</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="termPaymAddPopup" class="form-control" type="text" maxlength="13"
+                                        value="@((supplier != null && !string.IsNullOrEmpty(supplier.TERM_PAY) ? 
+                                        (supplier.TERM_PAY + " - " + supplier.TERM_PAY_NAME) : ""))" readonly />
+                                    @*<select id="termPaymAddPopup" class="cursor-1" disabled>
+                                        @foreach (var item in (List<consumable.Models.SystemProperty.SystemProperty>)ViewData["TermPaymList"])
+                                        {                                           
+                                            <option value="@item.SYSTEM_CD"
+                                                @if (supplier != null && supplier.TERM_PAY != null &&  string.Equals(item.SYSTEM_CD, supplier.TERM_PAY))
+                                                {<text>selected</text>} >
+                                                @item.SYSTEM_CD - @item.SYSTEM_VALUE_TEXT
+                                            </option>                                            
+                                        }
+                                    </select>*@
+                                </div>
+                            </div>
+                        </div>
+                         @* Payment Method *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Payment Method</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="paymMethodAddPopup" class="form-control" type="text" maxlength="13"
+                                        value="@((supplier != null && !string.IsNullOrEmpty(supplier.PAY_METHOD) ? 
+                                        (supplier.PAY_METHOD + " - " + supplier.PAY_METHOD_NAME) : ""))" readonly/>
+                                    @*<select id="paymMethodAddPopup" class="cursor-1" disabled>
+                                        @foreach (var item in (List<consumable.Models.SystemProperty.SystemProperty>)ViewData["PaymMethodList"])
+                                        {
+                                            <option value="@item.SYSTEM_CD"
+                                                @if (supplier != null && supplier.PAY_METHOD != null && string.Equals(item.SYSTEM_CD, supplier.PAY_METHOD))
+                                                {<text>selected</text>} >
+                                                @item.SYSTEM_CD- @item.SYSTEM_VALUE_TEXT
+                                            </option>    
+                                        }
+                                    </select>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                         @* Email *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Email</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="emailAddPopup" class="form-control mandatory" type="text"
+                                        value="@(supplier != null && !string.IsNullOrEmpty(supplier.EMAIL) ? supplier.EMAIL : null)" />
+                                </div>
+                            </div>
+                        </div>
+                         @* Partner Bank *@
+                        @*<div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Partner Bank</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="partnerBankAddPopup" class="form-control" type="text" maxlength="13" readonly
+                                        value="@(supplier != null && !string.IsNullOrEmpty(supplier.PARTNER_BANK) ? supplier.PARTNER_BANK : null)" />
+                                </div>
+                            </div>
+                        </div>*@
+                        @* AUTO POSTING *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Auto Posting</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="autoPostingFlagAddPopup" class="cursor-1 mandatory" style="width: 100%;" onchange="javascript: changeAutoPos();">
+                                        <option class="cursor-1"></option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.AUTO_POSTING_FLAG) && supplier.AUTO_POSTING_FLAG.Equals("Y") ? "selected" : null)>Y</option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.AUTO_POSTING_FLAG) && supplier.AUTO_POSTING_FLAG.Equals("N") ? "selected" : null)>N</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* WITH HOLDING TAX *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Witholding Tax</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="withHoldingTaxAddPopup" style="width: 100%;">
+                                        <option class="cursor-1"></option>
+                                            @foreach (Supplier withHoldingTax in ((List<Supplier>)ViewData["WithHoldingTaxList"]))
+                                            {
+                                                <option class="cursor-1" value="@withHoldingTax.CODE" 
+                                                    @(supplier != null && String.Equals(supplier.WITHOLDING_CODE,withHoldingTax.CODE) ? "selected" : "" )
+                                                >@withHoldingTax.CODE - @withHoldingTax.NAME</option>    
+                                            }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* PKP FLAG *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Plat Kuning Flag</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="platKuningFlagAddPopup" class="cursor-1 mandatory" style="width: 100%;">
+                                        <option class="cursor-1"></option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.PLAT_KUNING_FLAG) && supplier.PLAT_KUNING_FLAG.Equals("Y") ? "selected" : null)>Y</option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.PLAT_KUNING_FLAG) && supplier.PLAT_KUNING_FLAG.Equals("N") ? "selected" : null)>N</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* SKB FLAG *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                SKB Flag</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="skbFlagAddPopup" class="cursor-1 mandatory" style="width: 100%;">
+                                        <option class="cursor-1"></option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.SKB_FLAG) && supplier.SKB_FLAG.Equals("Y") ? "selected" : null)>Y</option>
+                                        <option class="cursor-1"
+                                            @(supplier != null && !string.IsNullOrEmpty(supplier.SKB_FLAG) && supplier.SKB_FLAG.Equals("N") ? "selected" : null)>N</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* SKB VALID FROM *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                SKB Valid From</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group customDatePicker" style="width: 100%;">
+                                    <input class="form-control date-picker" id="skbValidFrom" type="text" data-date-format="dd.mm.yyyy" value="@(supplier != null && !string.IsNullOrEmpty(supplier.SKB_VALID_FROM_STR) ? supplier.SKB_VALID_FROM_STR : null)"/>
+                                    <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        @* SKB VALID TO *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                SKB Valid To</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group customDatePicker" style="width: 100%;">
+                                    <input class="form-control date-picker" id="skbValidTo" type="text" data-date-format="dd.mm.yyyy" value="@(supplier != null && !string.IsNullOrEmpty(supplier.SKB_VALID_TO_STR) ? supplier.SKB_VALID_TO_STR : null)"/>
+                                    <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px;">
+                    <button id="btnSavePopup" type="button" class="btn btn-primary btn-xs" style="width: 60px;"
+                        >
+                        Save</button>
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="selected-infox" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-titlex">
+                Warning</h4></div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgInfoIdx">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($("#skbFlagAddPopup").val() == "N") {
+            $("#skbValidFrom").attr("disabled", true);
+            $("#skbValidTo").attr("disabled", true);
+        }
+
+        if ($("#skbFlagAddPopup").val() == "Y") {
+            $("#skbValidFrom").attr("disabled", false);
+            $("#skbValidTo").attr("disabled", false);
+            $("#skbValidFrom").addClass("mandatory");
+            $("#skbValidTo").addClass("mandatory");
+        }
+    });
+
+    $(document).on('change', '#skbFlagAddPopup', function () {
+        if ($("#skbFlagAddPopup").val() == "N") {
+            $("#skbValidFrom").val('');
+            $("#skbValidTo").val('');
+        }
+    });
+</script>

@@ -1,0 +1,26 @@
+﻿@using consumable.Models.SystemProperty
+<div id="tblPopupStatusInput" class="table-responsive multiselect-item filter" style="overflow: hidden;">
+    <div style="border: 1pt solid #ccc;">
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 235px;">
+                        Status
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div style="overflow: scroll; height: 153px;">
+        <table class="table table-striped table-bordered table-condensed table-fixed">
+            @foreach (SystemProperty item in (List<SystemProperty>)ViewData["StatusList"])
+            {
+                <tr>
+                    <td class="text-center cursor-link" style="width: 235px;" onclick="javascript: gridStatusInputSelected('@item.SYSTEM_CD')">
+                        @item.SYSTEM_VALUE_TEXT
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

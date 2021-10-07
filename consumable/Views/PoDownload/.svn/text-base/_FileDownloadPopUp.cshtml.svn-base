@@ -1,0 +1,117 @@
+﻿@using consumable.Models.PoDownload
+@using consumable.Models
+@{
+    List<PoAttachment> listFileDownload = (List<PoAttachment>)ViewData["ListFileDownload"];
+}
+<div id="modal-file-download" class="modal fade">
+    <div class="modal-dialog modal-lg" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title-file-download">
+                    PO File Download
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div style="margin-left: -13px;">
+                            <label class="col-xs-12 col-sm-12 col-md-12 control-label text-muted">
+                                <strong>PO Number : <span id="poNumberModalFileDownload"></span></strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+                        <div style="border: 1pt solid #ccc;">
+                            <div id="tScrollHeadFileDownload" style="width: 100%; overflow: hidden;">
+                                <table id="dynamic-table-file-download" class="table table-striped table-bordered table-condensed table-fixed"
+                                    style="width: 345px; max-width: 345px !important;">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                File Name
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div id="tScrollBodyFileDownload" style="overflow: scroll; height: 225px;">
+                                <table id="tblScrollFileDownload" class="table table-striped table-bordered table-condensed table-fixed"
+                                    style="width: 345px; max-width: 345px !important;">
+                                    <tbody>
+                                        @{
+                                            if (listFileDownload != null && listFileDownload.Count > 0)
+                                            {
+                                                foreach (PoAttachment item in listFileDownload)
+                                                {
+                                            <tr>
+                                                <td class="text-left">
+                                                    <a href="#" id="@item.FILE_NAME" class="control-label text-muted"
+                                                        onclick="downloadFilePo('@(item.FILE_NAME)', '@(item.FILE_NAME_SERVER)');">@(item != null ? item.FILE_NAME : string.Empty)
+                                                    </a>
+                                                </td>
+                                            </tr>                                                    
+                                                }
+                                            }
+                                            else
+                                            {
+                                            <tr>
+                                                <td colspan="13" class="text-center">
+                                                    No data retrieved.
+                                                </td>
+                                            </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            @*<div>
+                                <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="13">
+                                                @Html.Partial("_UIPaging")
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btncloselookupfiledownload" class="btn btn-default btn-sm" data-dismiss="modal">
+                    close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tScrollBodyFileDownload").scroll(function () {
+        $("#tScrollHeadFileDownload").scrollLeft($("#tScrollBodyFileDownload").scrollLeft());
+    });
+
+    var table = document.getElementById("dynamic-table-file-download");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                table.rows[i].cells[j].onclick = function () {
+                    tableText(this);
+                    sorting_execute = '1';
+                };
+            }
+        }
+    }
+
+    function downloadFilePo(tagUploadFileNameStr, tagUploadFileNameServerStr) {
+        downloadFile(tagUploadFileNameStr, tagUploadFileNameServerStr);
+    }
+
+    function downloadFile(fileName, fileNameServer) {
+        window.open("@Url.Action("DownloadFilePo")"+"?fileName="+fileName+"&fileNameServer="+fileNameServer);
+    }
+</script>

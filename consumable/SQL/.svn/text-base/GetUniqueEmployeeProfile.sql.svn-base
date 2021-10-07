@@ -1,0 +1,19 @@
+
+	SELECT top 1
+		NOREG
+		,NAME
+		,DIRECTORATE
+		,DIVISION
+		,DEPARTMENT
+		,SECTION
+		,LINE
+		,[GROUP]
+		,UNIT_CODE
+		,MAIN_LOCATION
+		,SUB_LOCATION
+		,EMAIL
+		,PHONE_EXT
+	FROM 
+		vw_employee_profile
+		where 1=1
+and NOREG = @NOREG

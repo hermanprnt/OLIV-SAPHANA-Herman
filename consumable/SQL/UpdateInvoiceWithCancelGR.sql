@@ -1,0 +1,9 @@
+update 
+	TB_R_INVOICE
+set 
+	[STATUS] = [STATUS] + NEW_STATUS,
+	UPDATED_BY = @UPDATED_BY,
+	UPDATED_DT = getdate()
+where 
+	1=1
+and INVOICE_ID = @INVOICE_ID

@@ -1,0 +1,146 @@
+﻿@using consumable.Models.SystemProperty
+<form role="form" class="form-horizontal _criteria" id="searchForm">
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                Created Date</label>
+            <div class="col-xs-8 col-sm-9 col-md-8">
+                <div class="input-group">
+                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                    </i></span>
+                    <input class="form-control" type="text" name="date-range-picker" id="createdDateSearch"
+                        data-date-format="dd.mm.yyyy" onkeypress="onEnterSearchData(event);" />
+                </div>
+            </div>
+        </div>
+        @* Supplier *@
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-4 col-md-4 control-label text-muted">
+                Supplier</label>
+            <div class="input-group input-group-xs col-xs-8 col-sm-8 col-md-8" style="padding-left: 11px;
+                padding-right: 10px; height: 26px;">
+                <input id="supplierSearch" class="form-control" type="text" style="font-size: 9pt;"
+                    value="@ViewData["vendCodeLogin"]" placeholder="Select supplier" onkeypress="onEnterSearchData(event);"
+                    @ViewData["readonly"]>
+                <span class="input-group-btn">
+                    <div class="btn-group" id="btn-group">
+                        <button id="btnlookup" class="multiselect dropdown-toggle btn btn-default btn-sm"
+                            type="button" style="height: 30px; line-height: 0;" aria-expanded="false" onclick="javascript:openPopup()"
+                            @ViewData["disabled"]>
+                            <i class="fa fa-caret-down" style="margin-right:-4px"></i>&nbsp</button>
+                        <div class="form-horizontal multiselect-container dropdown-menu" style="left: -217px; width: 600px;">
+                            <div class="form-group form-group-xs">
+                                <div>
+                                    <div class="input-group">
+                                        <input id="txtSearchLookupSupplier" class="form-control" type="text" placeholder="input supplier...."
+                                            style="margin-left: 5px;" onkeypress="onEnterSearchDataLookupSupplier(event);" />
+                                        <span class="input-group-btn">
+                                            <button type="button" id="btnSearchLookupSupplier" data-loading-text="<i class='glyphicon-refresh-animate glyphicon glyphicon-refresh'></i>"
+                                                class=" btn btn-default btn-sm " style="margin-left: 5px; margin-right: 5px;
+                                                height: 30px;">
+                                                &nbsp<i class="fa fa-search"></i>
+                                            </button>
+                                            <button id="btnclearlookup" class=" btn btn-default btn-sm " title="Clear" type="button"
+                                                style="margin-right: 5px; height: 30px;" onclick="javascript:clearPopupFilter()">
+                                                &nbsp<i class="fa  fa-eraser"></i>&nbsp</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.Partial("_LookupTableSupplier")
+                            <div class="text-center" style="margin-bottom: 3px;">
+                                <hr id="hrsrc" style="margin: 0; padding: 0;" />
+                            </div>
+                            <div class="form-group-xs">
+                                <div class="text-right" style="margin-right: 7px;">
+                                    <button type="button" class="btn btn-primary btn-xs" style="width: 70px;" onclick="javascript:gridlookupSelected('OK')">
+                                        Ok</button>
+                                    <button type="button" class="btn btn-danger btn-xs" style="width: 70px;" onclick="javascript:gridlookupSelected('CS')">
+                                        Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                Invoice Date</label>
+            <div class="col-xs-8 col-sm-9 col-md-8">
+                <div class="input-group">
+                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                    </i></span>
+                    <input class="form-control" type="text" name="date-range-picker" id="invoiceDateSearch"
+                        data-date-format="dd.mm.yyyy" onkeypress="onEnterSearchData(event);" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                Status</label>
+            <!-- 
+				<div class="input-group input-group-xs col-xs-8 col-sm-9 col-md-8" style="padding-left:11px;padding-right:11px; height: 26px;">
+					<input id="txtStatus" class="form-control" type="text" style="font-size: 9pt;" required />
+					<span class="input-group-btn">
+						<button id="btnlookupstatus" class=" btn btn-default btn-sm" type="button" style="height: 30px; line-height: 0;">&nbsp<i class="fa fa-search"></i>&nbsp</button>
+					</span>
+				</div>
+        -->
+            <div class="col-xs-8 col-sm-9 col-md-8">
+                <select id="statusSearch" class="cursor-1" style="width: 100%;" onkeypress="onEnterSearchData(event);">
+                    <option class="cursor-1"></option>
+                    @foreach (SystemProperty item in (List<SystemProperty>)ViewData["StatusInvoiceList"])
+                    {
+                        <option class="cursor-1" value="@item.SYSTEM_CD">@item.SYSTEM_VALUE_TEXT</option>
+                    }    
+                    @*<option class="cursor-1" value="CREATED">Created</option>               
+                    <option class="cursor-1" value="REJECTED">Rejected</option>
+                    <option class="cursor-1" value="SUBMITTED">Submitted</option>
+                    <option class="cursor-1" value="POSTED">Posted</option>
+                    <option class="cursor-1" value="PAID">Paid</option>
+                    <option class="cursor-1" value="ERROR_POSTING">Error Posting</option>*@
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                Plan Payment</label>
+            <div class="col-xs-8 col-sm-9 col-md-8">
+                <div class="input-group">
+                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                    </i></span>
+                    <input class="form-control" type="text" name="date-range-picker" id="planPaymentDateSearch"
+                        data-date-format="dd.mm.yyyy" onkeypress="onEnterSearchData(event);" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                Invoice No</label>
+            <div class="col-xs-8 col-sm-9 col-md-8">               
+                <div class="input-group pos-rel" style="width: 100%;">
+                    <input id="invoiceNoSearch" class="form-control" type="text" value="" onkeypress="onEnterSearchData(event);" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-bottom: 10px;">
+    <div class="col-xs-6" style="margin-top: 5px;">
+    </div>
+    <div class="col-xs-6 text-right">
+        <div class="form-group-xs _criteria">
+            <button id="btnSearch" type="button" class="btn btn-primary btn-xs" onclick="javascript:searchData(1)">
+                Search</button>
+            <button type="reset" class="btn btn-default btn-xs" onclick="javascript:clearData()">
+                Clear</button>
+        </div>
+    </div>
+</div>
+</form>

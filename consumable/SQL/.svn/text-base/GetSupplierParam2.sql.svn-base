@@ -1,0 +1,28 @@
+SELECT * FROM 
+(
+	SELECT 
+		ROW_NUMBER () OVER (ORDER BY SUPPLIER_ID) AS Number
+	  ,SUPPLIER_ID
+      ,SUPPLIER_CD
+      ,SUPPLIER_NAME
+      ,PKP_FLAG
+      ,PPN_RATE
+      ,s.CREATED_DT
+      ,s.CREATED_BY
+      ,s.UPDATED_DT
+      ,s.UPDATED_BY
+      ,EDIT_AMOUNT_FLAG
+      ,PAY_METHOD
+      ,TERM_PAY
+	  ,EMAIL
+	  ,syst1.SYSTEM_VALUE_TEXT as PAY_METHOD_NAME
+      ,syst2.SYSTEM_VALUE_TEXT as TERM_PAY_NAME
+	FROM 
+		TB_M_SUPPLIER s
+	LEFT JOIN TB_M_SYSTEM syst1 on syst1.SYSTEM_CD = s.PAY_METHOD
+	LEFT JOIN TB_M_SYSTEM syst2 on syst2.SYSTEM_CD = s.TERM_PAY
+	WHERE
+		SUPPLIER_CD like '%' + ISNULL(@Parameter1,'') + '%'
+		AND SUPPLIER_NAME like '%' + ISNULL(@Parameter2,'') + '%'
+) TB WHERE Number BETWEEN @NumberFrom AND @NumberTo
+	

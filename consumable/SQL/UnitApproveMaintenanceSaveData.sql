@@ -1,0 +1,106 @@
+﻿DECLARE @@ScreenMode VARCHAR(MAX)
+	,@@PLANT_CD VARCHAR(MAX)
+	,@@SLOC_CD VARCHAR(MAX)
+	,@@PIC VARCHAR(MAX)
+	,@@DELETION_FLAG VARCHAR(MAX)
+	,@@CHANGED_BY VARCHAR(MAX)
+	,@@CHANGED_DT VARCHAR(MAX)
+	,@@USER_ID VARCHAR(MAX)
+	,@@MSG_TYPE VARCHAR(MAX)
+	,@@MSG_TEXT VARCHAR(MAX)
+
+SET @@ScreenMode = @ScreenMode
+SET @@PLANT_CD = @PLANT_CD
+SET @@SLOC_CD = @SLOC_CD
+SET @@PIC = @PIC
+SET @@DELETION_FLAG = @DELETION_FLAG
+SET @@CHANGED_BY = @CHANGED_BY
+SET @@CHANGED_DT = @CHANGED_DT
+SET @@USER_ID = @USER_ID
+
+BEGIN TRY
+	IF (@@ScreenMode = 'add')
+	BEGIN
+		IF EXISTS (
+				SELECT 1
+				FROM TB_M_UNIT_APPROVER
+				WHERE 1 = 1
+					AND PLANT_CD = @@PLANT_CD
+					AND SLOC_CD = @@SLOC_CD
+					AND PIC = @@PIC
+				)
+		BEGIN
+			SET @@MSG_TYPE = 'E'
+			SET @@MSG_TEXT = 'Duplication found for ' + @@PLANT_CD + ', ' + @@SLOC_CD + ', ' + @@PIC
+		END
+		ELSE
+		BEGIN
+			INSERT INTO TB_M_UNIT_APPROVER (
+				PLANT_CD
+				,SLOC_CD
+				,PIC
+				,DELETION_FLAG
+				,CREATED_BY
+				,CREATED_DT
+				,CHANGED_BY
+				,CHANGED_DT
+				)
+			VALUES (
+				@@PLANT_CD
+				,@@SLOC_CD
+				,@@PIC
+				,@@DELETION_FLAG
+				,@@USER_ID
+				,GETDATE()
+				,@@USER_ID
+				,GETDATE()
+				)
+
+			SET @@MSG_TYPE = 'I'
+			SET @@MSG_TEXT = 'Saving data is completed successfully'
+		END
+	END
+
+	IF (@@ScreenMode = 'delete')
+	BEGIN
+		IF NOT EXISTS (
+				SELECT 1
+				FROM TB_M_UNIT_APPROVER
+				WHERE 1 = 1
+					AND PLANT_CD = @@PLANT_CD
+					AND SLOC_CD = @@SLOC_CD
+					AND PIC = @@PIC
+					AND CHANGED_BY = @@CHANGED_BY
+					AND CHANGED_DT = @@CHANGED_DT
+				)
+		BEGIN
+			SET @@MSG_TYPE = 'E'
+			SET @@MSG_TEXT = 'Data has been edited by another user'
+		END
+		ELSE
+		BEGIN
+			UPDATE TB_M_UNIT_APPROVER
+			SET DELETION_FLAG = CASE WHEN DELETION_FLAG = 'N' THEN 'Y' ELSE 'N' END 
+				,CHANGED_BY = @@USER_ID
+				,CHANGED_DT = GETDATE()
+			WHERE 1 = 1
+				AND PLANT_CD = @@PLANT_CD
+				AND SLOC_CD = @@SLOC_CD
+				AND PIC = @@PIC
+				AND CHANGED_BY = @@CHANGED_BY
+				AND CHANGED_DT = @@CHANGED_DT
+
+			SET @@MSG_TYPE = 'I'
+			SET @@MSG_TEXT = 'Data is updated successfully'
+		END
+	END
+END TRY
+
+BEGIN CATCH
+	SET @@MSG_TYPE = 'E'
+	SET @@MSG_TEXT = (
+			SELECT ERROR_MESSAGE()
+			)
+END CATCH
+
+SELECT @@MSG_TYPE + '|' + @@MSG_TEXT

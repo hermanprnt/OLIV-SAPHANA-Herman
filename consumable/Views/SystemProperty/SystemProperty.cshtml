@@ -1,0 +1,411 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+    <style type="text/css">
+        .datepicker.dropdown-menu
+        {
+            z-index: 2000 !important;
+        }
+        .modal-icon
+        {
+            height: 35px;
+        }
+        
+        .twitter-typeahead
+        {
+            width: 100%;
+        }
+    </style>
+}
+<div id="selected-0-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                Warning</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    Please select data.
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="delete-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                    Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to delete(s)?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+                            onclick="javascript:confirmDeleteData()">
+                            Yes</button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="selected-info" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                Information</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgInfoId">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hidden-xs">
+    @Html.Partial("_SearchCriteria")
+    <div class="text-center" style="margin-bottom: 5px;">
+        <hr id="hrsrc" style="margin: 0; padding: 0;" />
+    </div>
+    <div id="tablegrid">
+        @Html.Partial("_GridView")
+    </div>
+</div>
+
+<div id="systempropertyaddpopup">
+    @Html.Partial("_SystemPropertyAddPopUp")
+</div>
+
+@section BodyScript{
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <script type="text/javascript">
+        var pagepos;
+        var gScreenMode = null;
+        var dtlScreenMode = null;
+        var dataDelRf = new Object();
+
+        // Datepicker plugin [start]
+		//link
+		$('.date-picker').datepicker({
+			autoclose: true,
+			todayHighlight: true
+		})
+		//show datepicker when clicking on the icon
+		.next().on(ace.click_event, function () {
+			$(this).prev().focus();
+		});
+
+        //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+		$('input[name=rfDateSearch]').daterangepicker({
+			format: 'DD.MM.YYYY',
+			'applyClass': 'btn-sm btn-success',
+			'cancelClass': 'btn-sm btn-default',
+			locale: {
+				applyLabel: 'Apply',
+				cancelLabel: 'Cancel',
+			}
+		})
+		.prev().on(ace.click_event, function () {
+			$(this).next().focus();
+		});
+        // Datepicker plugin [end]
+
+		function toggleSearch() {
+			$("._criteria").toggle(200, "linear");
+
+			if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+				$("#toogle-search").removeClass("fa-angle-double-up");
+				$("#toogle-search").addClass("fa-angle-double-down");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'none';
+				$("#tScrollBody").height(450);
+				$("#toogle-search").prop('title', 'Show filter');
+			}
+			else {
+				$("#toogle-search").removeClass("fa-angle-double-down");
+				$("#toogle-search").addClass("fa-angle-double-up");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'block';
+				$("#tScrollBody").height(325);
+				$("#toogle-search").prop('title', 'Hide filter');
+			}
+
+			$("#toogle-search").blur();
+		}
+
+        // Function Search [start]
+        function searchData(page) {
+            if(page==null)page=1;
+            pagepos=page;
+                         
+			$.ajax({
+				type: "POST",
+				url: "@Html.Toyota().Page.GetActionUrl("search")",
+				data: {
+					systemPropertyCode: $('#systemPropertyCodeSearch').val(),
+					systemPropertyType: $('#systemPropertyTypeSearch').val(),
+                    systemPropertyValueText: $('#systemPropertyValueTextSearch').val(),
+                    page: page,
+                    size: $("#pageSize").val()			
+				},
+				beforeSend:function () {
+                    $('#btnSearch').button('loading');
+                },
+				success: function (data) {
+					$("#tablegrid").html(data);	
+				},
+				complete:function () {
+                    $('#btnSearch').button('reset');
+                }
+			});
+			
+		}
+
+        function onEnterSearchData(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                searchData(1);
+            }
+        }
+        // Function Search [end]
+
+        // Open Popup Add [start]
+		function input() {
+            gScreenMode = 'ADD';
+            
+            $.ajax({
+			    type : "POST",
+			    url : "@Html.Toyota().Page.GetActionUrl("InitAddSystemProperty")",
+			    data: { },
+			    beforeSend:function () {$('#btnSearch').button('loading');},
+				success: function (data) {
+					$("#systempropertyaddpopup").html(data);
+                    clearFormAdd();
+
+			        $("#addpopup").modal();
+				},
+				complete:function () {$('#btnSearch').button('reset');}
+		    });
+		}
+
+        function clearFormAdd() {
+            $("#systemPropertyCodeAddPopup").val('');
+            $("#systemPropertyTypeAddPopup").val('');
+            $("#systemPropertyValueTextAddPopup").val('');
+            $("#systemPropertyDtAddPopup").val('');
+            $("#systemPropertyValueNumAddPopup").val('');
+            $("#systemPropertyDescAddPopup").val('');
+        }
+        // Open Popup Add [end]
+
+        // Save Input Add & Edit [start]
+		function saveInput() {
+			
+            valid = validateInputForm();
+            //alert('valid = ' + valid);
+            
+            if(valid) {
+                var paramsObj = new Object();
+                paramsObj.screenMode = gScreenMode;
+                paramsObj.systemProperty = getFormData();
+			    $.ajax({
+				    type : "POST",
+				    url : "@Html.Toyota().Page.GetActionUrl("SaveInput")",
+				    contentType: 'application/json',
+				    dataType: 'json',
+                    traditional: true,
+				    data: JSON.stringify(paramsObj),
+				    success : function(returnResult) {
+                        $("#addpopup").modal('hide');
+                        $("#msgInfoId").text("Save Data Success");
+                        $("#selected-info").modal();
+                        searchData(pagepos);
+				    },
+				    error : function(returnResult) {
+                        $("#msgInfoId").text("Error Save");
+                        $("#selected-info").modal();
+				    }
+			    });
+            }
+		}
+
+        function validateInputForm() {
+            var valid = true;
+
+            if ($("#systemPropertyCodeAddPopup").val() == '') {
+                $("#systemPropertyCodeAddPopup").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#systemPropertyCodeAddPopup").css("background-color", "#FFFFFF");
+            }
+
+            if ($("#systemPropertyTypeAddPopup").val() == '') {
+                $("#systemPropertyTypeAddPopup").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#systemPropertyTypeAddPopup").css("background-color", "#FFFFFF");
+            }
+
+//            if ($("#systemPropertyValueTextAddPopup").val() == '') {
+//                $("#systemPropertyValueTextAddPopup").css("background-color", "#F2BCD5");
+//                valid = false;
+//            }
+//            else {
+//                $("#systemPropertyValueTextAddPopup").css("background-color", "#FFFFFF");
+//            }
+
+//            if ($("#systemPropertyDtAddPopup").val() == '') {
+//                $("#systemPropertyDtAddPopup").css("background-color", "#F2BCD5");
+//                valid = false;
+//            }
+//            else {
+//                $("#systemPropertyDtAddPopup").css("background-color", "#FFFFFF");
+//            }
+
+            return valid;
+        }
+
+        function getFormData() {
+            var data = new Object();
+
+            if($("#systemPropertyIdAddPopup").val()!='') {
+                data.SYSTEM_ID = $("#systemPropertyIdAddPopup").val().trim();
+            }
+            data.SYSTEM_CD = $("#systemPropertyCodeAddPopup").val().trim();
+            data.SYSTEM_TYPE = $("#systemPropertyTypeAddPopup").val().trim();
+			data.SYSTEM_VALUE_TEXT = $("#systemPropertyValueTextAddPopup").val().trim();
+            data.SYSTEM_VALUE_DT = $("#systemPropertyDtAddPopup").val().trim();
+            data.SYSTEM_VALUE_NUM = $("#systemPropertyValueNumAddPopup").val();
+            data.S_SYSTEM_VALUE_DT = $("#systemPropertyDtAddPopup").val().trim();
+            data.SYSTEM_DESC = $("#systemPropertyDescAddPopup").val().trim();
+
+            return data;
+        }
+        // Save Input Add & Edit [start]
+
+        // Open Popup Edit [start]
+        function openEditPopup(systemPropertyId) {
+		    $.ajax({
+			    type : "POST",
+			    url : "@Html.Toyota().Page.GetActionUrl("GetByKey")",
+			    data: { 
+                    systemPropertyId: systemPropertyId
+                },
+			    beforeSend:function () {
+                    $('#btnSearch').button('loading');
+                },
+				success: function (data) {
+					$("#systempropertyaddpopup").html(data);
+                    
+                    setScreenToEditMode();
+				},
+				complete:function () {$('#btnSearch').button('reset');}
+		    });
+	    }
+
+        function setScreenToEditMode() {
+            gScreenMode = 'EDIT';
+
+            $("#addpopup").modal();
+
+            $("#systemPropertyCodeAddPopup").prop('disabled', true);
+            $("#systemPropertyTypeAddPopup").prop('disabled', true);
+        }
+        // Open Popup Edit [end]
+
+        // Delete Data [start]
+        function deleteData(systemId) {	
+			var row = 0;
+			SystemPropertyArrays = new Array();
+			$('[name=selectedSystemProperty]:checked').each(function () {
+                //alert($(this).val());
+				SystemPropertyArrays.push({					
+					SYSTEM_ID: $(this).attr("data-value") 		
+				});
+				row++;
+			});
+			
+			if(row < 1)
+			{			
+				$("#selected-0-confirm").modal();
+			}		
+
+			if(!jQuery.isEmptyObject(SystemPropertyArrays))
+			{
+				$("#delete-confirm").modal();				
+			}
+		}
+
+        function confirmDeleteData() {
+			$.ajax({
+				type : "POST",
+				url : "@Html.Toyota().Page.GetActionUrl("DeleteSystemProperty")",
+				contentType: 'application/json',
+				dataType: 'json',
+				data: JSON.stringify(SystemPropertyArrays),
+				success : function(returnResult){
+					if (returnResult.Result == returnResult.ValueSuccess) {
+                        $("#msgInfoId").text("Delete Data Success");
+                        $("#selected-info").modal();
+					} else {
+                        $("#msgInfoId").text(returnResult.ErrMesgs);
+                        $("#selected-info").modal();
+					}
+					searchData(1);							
+				},
+				error : function(returnResult) {
+					$("#msgInfoId").text("Error Delete Data");
+					$("#selected-info").modal();
+				}
+			});
+			$("#delete-confirm").hide();
+	    }
+        // Delete Data [end]
+    </script>
+}

@@ -1,0 +1,126 @@
+﻿@using consumable.Models.Announcement
+@using consumable.Models
+
+@{
+    List<Announcement> announcementList = (List<Announcement>)ViewData["AnnouncementList"];
+}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-5 text-left" style="margin-top: 3px;">
+        <div class="btn-group">
+            <button id="btnAdd" type="button" class="btn btn-primary btn-xs" style="padding: 6px; width:70px;"
+                    onclick="javascript:input()">
+                Add
+            </button>
+            <button id="btnEdit" type="button" class="btn btn-primary btn-xs" style="padding: 6px; width:70px;"
+                    onclick="javascript:openEditPopup()">
+                Edit
+            </button>
+            <button id="btnDelete" type="button" class="btn btn-danger btn-xs" style="padding: 6px; width:70px;"
+                    onclick="javascript:deleteData()">
+                Delete
+            </button>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-1 text-center" style="margin-top: 3px;">
+        <button data-rel="tooltip" title="Hide filter" onclick="javascript:toggleSearch()"
+                type="button" class="ace-icon fa fa-angle-double-up btn btn-default btn-xs btn-tiny-down"
+                id="toogle-search" style="top: 6px;">
+        </button>
+        <input type="text" id="btnLostFocus" style="display: block; height: 1px; width: 1px;
+            border: none;" />
+    </div>
+</div>
+<div class="row">
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden; margin-top: 3px;">
+        <div style="border: 1pt solid #ccc;">
+            <div id="tScrollHead" style="width: 98.4%; overflow: hidden;">
+                <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="5px"><input type="checkbox" id="checkall" /></th>
+                            <th rowspan="2" width="150px">Document Title</th>
+                            <th rowspan="2" width="75px">Link File</th>
+                            <th rowspan="2" width="100px">Release Date</th>
+                            <th rowspan="2" width="100px">Status</th>
+                            <th colspan="2" width="100px">Created</th>
+                            <th colspan="2" width="100px">Changed</th>
+                        </tr>
+                        <tr>
+                            <th width="75px">By</th>
+                            <th width="75px">Date</th>
+                            <th width="75px">By</th>
+                            <th width="75px">Date</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tScrollBody" style="overflow: scroll; height: 295px;">
+                <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed">
+                    <tbody>
+                        @{
+                            if (announcementList != null && announcementList.Count > 0)
+                            {
+                                int i = 0;
+                                foreach (Announcement item in announcementList)
+                                {
+                                <tr id="row-@i">
+                                    <td class="text-center" width="7px">
+                                        <input type="checkbox" class="grid-checkbox grid-checkbox-body"
+                                                id="@i" name="selectedDoc" data-value="@item.DOCUMENT_ID" />
+                                    </td>
+                                    <td class="text-left" width="150px">@item.ANNOUNCEMENT_TITLE</td>
+                                    <td class="text-center cursor-link" width="75px"><a onclick="downloadAnnouncement('@item.FILE_LOCATION');">Download</a></td>
+                                    <td class="text-center" width="100px">@item.DATE_RELEASE_STR</td>
+                                    <td class="text-center" width="100px">@item.STATUS</td>
+                                    <td class="text-center" width="75px">@item.CREATED_BY</td>
+                                    <td class="text-center" width="75px">@item.CREATED_DT_STR</td>
+                                    <td class="text-center" width="75px">@item.CHANGED_BY</td>
+                                    <td class="text-center" width="75px">@item.CHANGED_DT_STR</td>
+                                </tr>
+                                i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center">No data retrieved.</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+                    <tfoot>
+                        <tr>
+                            <td colspan="13">
+                                @Html.Partial("_UIPaging")
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#checkall").click(function () {
+            $(".grid-checkbox").prop("checked", $("#checkall").is(":checked"));
+            $(this).is(":checked") ? $(".grid-checkbox").parent().parent().addClass('highlight') : $(".grid-checkbox").parent().parent().removeClass('highlight');
+        });
+
+        $("#btnEdit").prop("disabled", true);
+        $("#btnDelete").prop("disabled", true);
+
+        $(".grid-checkbox, #checkall").click(function () {
+            $(this).is(":checked") ? $(this).parent().parent().addClass('highlight') : $(this).parent().parent().removeClass('highlight');
+            $("#btnEdit").prop("disabled", ($("[name='selectedDoc']:checked").length == 1) ? false : true);
+            $("#btnDelete").prop("disabled", ($("[name='selectedDoc']:checked").length == 1) ? false : true);
+            $("#checkall").prop("checked", $('.grid-checkbox:not(#checkall)').not(':checked').length == 0);
+        });
+    });
+</script>

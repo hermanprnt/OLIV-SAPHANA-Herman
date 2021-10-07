@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu>
+  <menu-item Id="menu-1" Enabled="True" Visible="True" Url="Home" Text="Dashboard" Description="Back to Home page" Glyph="tachometer" />
+    
+  
+  <!--<menu-item Id="menu-2" Enabled="True" Visible="True" Url="#" Text="Starter Page" Description="Starter Page Menu" Glyph="desktop">
+    <menu-item Id="submenu-21" Enabled="True" Visible="True" Url="Blank" Text="Blank Page" Description="Blank page" Glyph="caret-right" />
+    <menu-item Id="submenu-22" Enabled="True" Visible="True" Url="DatagridFixed" Text="Fixed Datagrid" Description="Fixed Datagrid sample page" Glyph="caret-right" />
+    <menu-item Id="submenu-23" Enabled="True" Visible="True" Url="DatagridLazy" Text="Lazy Datagrid" Description="Lazy Datagrid sample page" Glyph="caret-right" />
+    <menu-item Id="submenu-24" Enabled="True" Visible="True" Url="Login" Text="Login" Description="Login page" Glyph="user" />
+    <menu-item Id="submenu-25" Enabled="True" Visible="True" Url="ChangePassword" Text="Change Password" Description="Change passsword page" Glyph="eraser" />
+    <menu-item Id="submenu-26" Enabled="True" Visible="True" Url="Visualization" Text="Visualization" Description="Visualization page" Glyph="caret-right" />
+  </menu-item>-->
+  
+  
+  <menu-item Id="menu-2a" Enabled="True" Visible="True" Url="#" Text="Master" Description="Master Menu" Glyph="desktop">
+    <menu-item Id="submenu-2a1" Enabled="True" Visible="True" Url="SystemProperty" Text="System Property" Description="System Property" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-2a2" Enabled="True" Visible="True" Url="Vendor" Text="Vendor" Description="Vendor page" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-2a3" Enabled="True" Visible="True" Url="GLAccount" Text="GL Account" Description="GL Account page" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <!--<menu-item Id="submenu-2a4" Enabled="True" Visible="True" Url="UserSAP" Text="User SAP" Description="User SAP page" Glyph="caret-right" >
+      <authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+      </authorization>
+    </menu-item>-->
+    <menu-item Id="submenu-2a5" Enabled="True" Visible="True" Url="MaintenanceApproval" Text="Maintenance Approval" Description="Maintenance Approval page" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-2a6" Enabled="True" Visible="True" Url="UnitApproverMaintenance" Text="Unit Approver Maintenance" Description="Unit Approver Maintenance page" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-2a7" Enabled="True" Visible="True" Url="BaselineDate" Text="Baseline Date" Description="Baseline Date page" Glyph="caret-right" >
+      <authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>
+    </menu-item>
+    <menu-item Id="submenu-2a8" Enabled="True" Visible="True" Url="Announcement" Text="Announcement" Description="Announcement Master page" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+  </menu-item>
+  
+  <menu-item Id="menu-3" Enabled="True" Visible="True" Url="#" Text="Requistion Form" Description="Requistion Form" Glyph="desktop">
+    <menu-item Id="submenu-31" Enabled="True" Visible="True" Url="RequistionForm" Text="Requistion Form" Description="Requistion Form" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+  </menu-item>
+  
+  
+  <menu-item Id="menu-4" Enabled="True" Visible="True" Url="#" Text="Invoice and Payment" Description="Invoice and Payment" Glyph="desktop">
+    <!--<menu-item Id="submenu-41" Enabled="True" Visible="True" Url="ReceivingList" Text="Receiving List" Description="Receiving List page" Glyph="caret-right" >
+      <authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_DPH" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_Finance_Staff" />
+        <role Id="Liv_GAD_SH" />
+        <role Id="Liv_GAD_Staff" />
+        <role Id="Liv_Vendor" />
+      </authorization>     
+    </menu-item>-->
+    <menu-item Id="submenu-41a" Enabled="True" Visible="True" Url="ReceivingListRev" Text="Receiving List View" Description="Receiving List View" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_DPH" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_Finance_Staff" />
+        <role Id="Liv_GAD_SH" />
+        <role Id="Liv_GAD_Staff" />
+        <role Id="Liv_Vendor" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-41b" Enabled="True" Visible="True" Url="ReceivingListApproval" Text="Receiving List Approval" Description="Receiving List Approval" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />       
+        <role Id="Liv_GAD_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <!--<menu-item Id="submenu-42" Enabled="True" Visible="True" Url="InvoiceCreation" Text="Invoice Creation" Description="Invoice Creation" Glyph="caret-right" >
+      <authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_DPH" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_Finance_Staff" />
+        <role Id="Liv_Vendor" />
+      </authorization>
+    </menu-item>-->
+    <menu-item Id="submenu-42a" Enabled="True" Visible="True" Url="InvoiceCreationRev" Text="Invoice Creation" Description="Invoice Creation" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_DPH" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_Finance_Staff" />
+        <role Id="Liv_Vendor" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-43" Enabled="True" Visible="True" Url="InvoiceReceiving" Text="Invoice Receiving" Description="Invoice Receiving" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_Loket" />
+        <role Id="Liv_Finance_SH" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-44" Enabled="True" Visible="True" Url="InvoiceInquiry" Text="Invoice Inquiry" Description="Invoice Inquiry" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_DPH" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_Finance_Staff" />
+        <role Id="Liv_Vendor" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>   
+    <menu-item Id="submenu-45" Enabled="True" Visible="True" Url="PoDownload" Text="Purchase Order" Description="Purchase Order page" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />      
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-46" Enabled="True" Visible="True" Url="ProcurementTracking" Text="Procurement Tracking" Description="Procurement Tracking page" Glyph="caret-right" >
+     <!--<authorization>
+        <role Id="Liv_Admin" />       
+        <role Id="Liv_Finance_SH" />
+       <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+    <menu-item Id="submenu-47" Enabled="True" Visible="True" Url="POTemporary" Text="PO Interface Control" Description="PO Interface Control" Glyph="caret-right" >
+      <!--<authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_DPH" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_Finance_Staff" />
+        <role Id="Liv_Vendor" />
+        <role Id="Liv_ISTD_Helpdesk" />
+      </authorization>-->
+    </menu-item>
+  </menu-item>
+
+
+  <!--  <menu-item Id="menu-5" Enabled="True" Visible="True" Url="#" Text="E-Faktur" Description="E-Faktur" Glyph="desktop">
+    <menu-item Id="submenu-51" Enabled="True" Visible="True" Url="EFakturScan" Text="E-Faktur Scan" Description="Efaktur Scan Page" Glyph="caret-right" >
+      <authorization>
+        <role Id="Liv_Admin" />
+        <role Id="Liv_Finance_SH" />
+        <role Id="Liv_Vendor" />
+      </authorization>
+    </menu-item>
+    <menu-item Id="submenu-52" Enabled="True" Visible="True" Url="VAT_IN" Text="VAT IN" Description="VAT IN" Glyph="caret-right" />
+    <menu-item Id="submenu-53" Enabled="True" Visible="True" Url="VAT_OUT" Text="VAT OUT" Description="VAT OUT" Glyph="caret-right" />
+  </menu-item>-->
+
+  <!--<menu-item Id="menu-6" Enabled="True" Visible="True" Url="GpsUrl" Text="GpsUrl" Description="GpsUrl" Glyph="desktop">
+   
+    --><!--<menu-item Id="submenu-52" Enabled="True" Visible="True" Url="VAT_IN" Text="VAT IN" Description="VAT IN" Glyph="caret-right" />
+    <menu-item Id="submenu-53" Enabled="True" Visible="True" Url="VAT_OUT" Text="VAT OUT" Description="VAT OUT" Glyph="caret-right" />--><!--
+  </menu-item>-->
+  
+  
+  <!--<menu-item Id="menu-6" Enabled="True" Visible="True" Url="#" Text="Saping" Description="Saping" Glyph="desktop">
+    <menu-item Id="submenu-51" Enabled="True" Visible="True" Url="Saping" Text="Saping" Description="Saping" Glyph="caret-right" >
+      <authorization>
+        <role Id="Liv_Admin" />
+      </authorization>
+    </menu-item>
+  </menu-item>-->
+</menu>

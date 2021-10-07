@@ -1,0 +1,157 @@
+﻿@using consumable.Models.Announcement
+@using consumable.Models.SystemProperty
+
+<form role="form" class="form-horizontal _criteria" id="searchForm">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="form-group form-group-xs _criteria">
+                <label class="col-xs-4 col-sm-4 col-md-4 control-label text-muted">Document Title</label>
+                <div class="input-group input-group-xs col-xs-8 col-sm-8 col-md-8" style="padding-left: 11px; padding-right: 10px; height: 26px;">
+                    <input id="txtDocTitle" class="form-control" type="text" style="font-size: 9pt;"
+                           value="" placeholder="Select Document Title" onkeypress="onEnterSearchData(event);">
+                    <span class="input-group-btn">
+                        <div class="btn-group" id="DocTitle-popup">
+                            <button id="btnPopupLookupDocTitleSearch" class="multiselect dropdown-toggle btn btn-default btn-sm"
+                                    type="button" style="height: 30px; line-height: 0;" aria-expanded="false" onclick="javascript:openPopupDocTItle()">
+                                <i class="fa fa-caret-down" style="margin-right: -4px"></i>&nbsp
+                            </button>
+                            <div class="form-horizontal multiselect-container dropdown-menu" style="left: -210px; width:240px ">
+                                <div class="form-group form-group-xs">
+                                    <div class="table-responsive multiselect-item filter" style="overflow: hidden;">
+                                        <div>
+                                            <table class="table table-striped table-bordered table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center" style="width: 50px;">
+                                                            <input class="gridLookup-checkbox cursor-link" type="checkbox" style="height: 13px;
+                                                            margin-top: 3px;" id="gridLookupDocTitle-checkAll" />
+                                                        </th>
+                                                        <th class="text-center" style="width: 200px;">Document Title</th>
+                                                        <th class="text-center">&nbsp  &nbsp</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div style="overflow: scroll; height: 153px;">
+                                            <table class="table table-striped table-bordered table-condensed">
+                                                @foreach (Announcement item in (List<Announcement>)ViewData["DocumentTitle"])
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" style="width: 50px;">
+                                                            <input type="checkbox" class="gridLookup-checkbox gridLookupDocTitle-checkbox-body cursor-link"
+                                                                   style="height: 13px; margin-top: 3px;" data-value="@item.ANNOUNCEMENT_TITLE" />
+                                                        </td>
+                                                        <td class="text-center" style="width: 200px;">@item.ANNOUNCEMENT_TITLE</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-xs">
+                                    <div class="text-right" style="margin-right: 7px;">
+                                        <button type="button" class="btn btn-primary btn-xs" style="width: 70px;" onclick="javascript:gridlookupDocTitleSelected('OK_STATUS')">
+                                            Ok
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" style="width: 70px;" onclick="javascript:gridlookupDocTitleSelected('CS')">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group form-group-xs _criteria">
+                <label class="col-xs-4 col-sm-4 col-md-4 control-label text-muted">
+                    Release Date
+                </label>
+                <div class="col-xs-8 col-sm-8 col-md-8">
+                    <div class="input-group" style="cursor: pointer;">
+                        <span class="input-group-addon" style="cursor: pointer;">
+                            <i class="fa fa-calendar bigger-110">
+                            </i>
+                        </span>
+                        <input class="form-control" type="text" name="date-range-picker" id="releaseDateSearch"
+                               data-date-format="dd.mm.yyyy" style="width: 99%;" autocomplete="off"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="form-group form-group-xs _criteria">
+                <label class="col-xs-4 col-sm-4 col-md-4 control-label text-muted">Status</label>
+                <div class="input-group input-group-xs col-xs-8 col-sm-8 col-md-8" style="padding-left: 11px;
+                padding-right: 10px; height: 26px;">
+                    <input id="txtstatus" class="form-control" type="text" style="font-size: 9pt;" value=""
+                           placeholder="Select Status" onkeypress="onEnterSearchData(event);">
+                    <span class="input-group-btn">
+                        <div class="btn-group" id="status-popup">
+                            <button id="btnlookupstatus" class="multiselect dropdown-toggle btn btn-default btn-sm"
+                                    type="button" style="height: 30px; line-height: 0;" aria-expanded="false" onclick="javascript:openPopupStatus()">
+                                <i class="fa fa-caret-down" style="margin-right: -4px"></i>&nbsp
+                            </button>
+                            <div class="form-horizontal multiselect-container dropdown-menu" style="left: -210px; width:240px">
+                                <div class="form-group form-group-xs">
+                                    <div class="table-responsive multiselect-item filter" style="overflow: hidden;">
+                                        <div>
+                                            <table class="table table-striped table-bordered table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center" style="width: 50px;">
+                                                            <input class="gridLookup-checkbox cursor-link" type="checkbox" style="height: 13px;
+                                                            margin-top: 3px;" id="gridLookupStatus-checkAll" />
+                                                        </th>
+                                                        <th class="text-center" style="width: 200px;">
+                                                            Status
+                                                        </th>
+                                                        <th class="text-center">
+                                                            &nbsp  &nbsp
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div style="overflow: scroll; height: 153px;">
+                                            <table class="table table-striped table-bordered table-condensed">
+                                                @foreach (SystemProperty item in (List<SystemProperty>)ViewData["StatusList"])
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" style="width: 50px;">
+                                                            <input type="checkbox" class="gridLookup-checkbox gridLookupStatus-checkbox-body cursor-link"
+                                                                   style="height: 13px; margin-top: 3px;" data-value="@item.SYSTEM_CD" />
+                                                        </td>
+                                                        <td class="text-center" style="width: 200px;">@item.SYSTEM_VALUE_TEXT</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-xs">
+                                    <div class="text-right" style="margin-right: 7px;">
+                                        <button type="button" class="btn btn-primary btn-xs" style="width: 70px;" onclick="javascript:gridlookupStatusSelected('OK_STATUS')">Ok</button>
+                                        <button type="button" class="btn btn-danger btn-xs" style="width: 70px;" onclick="javascript:gridlookupStatusSelected('CS')">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12" style="margin-top: 5px;">
+            <div class="col-md-12 text-right">
+                <div class="form-group-xs _criteria">
+                    <button id="btnSearch" type="button" class="btn btn-primary btn-xs" onclick="javascript:searchData(1)">Search</button>
+                    <button type="reset" class="btn btn-default btn-xs" onclick="javascript:clearData()">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

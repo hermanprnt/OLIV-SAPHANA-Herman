@@ -1,0 +1,118 @@
+﻿@using consumable.Models.SystemProperty
+@{
+    SystemProperty systemProperty = (SystemProperty)ViewData["systemProperty"];
+}
+<!-- Bootstrap Datepicker js -->
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+<script type="text/javascript">
+    //datepicker plugin
+    //link
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    })
+    //show datepicker when clicking on the icon
+	.next().on(ace.click_event, function () {
+	    $(this).prev().focus();
+	});
+</script>
+<div id="addpopup" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Add/Edit System Property
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal _criteria" id="inputRfForm">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-12">
+                        @* System Property Code *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                System Code</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="systemPropertyIdAddPopup" type="hidden" 
+                                        value="@(systemProperty != null && !string.IsNullOrEmpty(systemProperty.SYSTEM_ID) ? systemProperty.SYSTEM_ID : null)" />
+                                    <input id="systemPropertyCodeAddPopup" class="form-control mandatory" type="text" maxlength="50"
+                                        value="@(systemProperty != null && !string.IsNullOrEmpty(systemProperty.SYSTEM_CD) ? systemProperty.SYSTEM_CD : null)" />
+                                </div>
+                            </div>
+                        </div>
+                        @* System Property Type *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                System Type</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="systemPropertyTypeAddPopup" class="form-control mandatory" type="text" maxlength="50"
+                                        value="@(systemProperty != null && !string.IsNullOrEmpty(systemProperty.SYSTEM_TYPE) ? systemProperty.SYSTEM_TYPE : null)" />
+                                </div>
+                            </div>
+                        </div>
+                        @* System Value Text *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                System Value Text</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="systemPropertyValueTextAddPopup" class="form-control" type="text" 
+                                        value="@(systemProperty != null && !string.IsNullOrEmpty(systemProperty.SYSTEM_VALUE_TEXT) ? systemProperty.SYSTEM_VALUE_TEXT : null)" />
+                                </div>
+                            </div>
+                        </div>
+                        @* System Value Date *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                System Value Date</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input class="form-control date-picker" id="systemPropertyDtAddPopup" type="text" data-date-format="dd.mm.yyyy" 
+                                        value="@(systemProperty != null ? systemProperty.S_SYSTEM_VALUE_DT : null)" />
+                                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                                    </i></span>
+                                </div>
+                            </div>
+                        </div>
+                        @* System Value Num *@ 
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                System Value Num</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="systemPropertyValueNumAddPopup" class="form-control text-right" type="text" 
+                                        value="@(systemProperty != null ? systemProperty.S_SYSTEM_VALUE_NUM : null)"
+                                        maxlength="2" onkeyup="numberFormat(this);" />
+                                </div>
+                            </div>
+                        </div>
+                        @* System Description *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                System Description</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <textarea class="form-control limited" id="systemPropertyDescAddPopup" maxlength="100">@(systemProperty != null && !string.IsNullOrEmpty(systemProperty.SYSTEM_DESC) ? systemProperty.SYSTEM_DESC : null)
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px;">
+                    <button id="btnSavePopup" type="button" class="btn btn-primary btn-xs" style="width: 60px;"
+                        onclick="javascript:saveInput()">
+                        Save</button>
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

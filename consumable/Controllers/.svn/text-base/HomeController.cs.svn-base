@@ -1,0 +1,87 @@
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Web.Mvc;
+using Toyota.Common.Web.Platform;
+using consumable.Commons.Constants;
+
+namespace consumable.Controllers
+{
+    public class HomeController : PageController
+    {
+     
+        protected override void Startup()
+        {
+            Settings.Title = "Dashboard";
+            
+            try
+            {
+                GetTableauGraphUrl();                      
+            }
+            catch (Exception ex)
+            {                
+                Console.WriteLine(ex);  
+            }  
+        }
+
+        public ActionResult WidgetSettings()
+        {
+            return PartialView("_WidgetSettings");
+        }
+
+
+        private string GetTableauAuthenticationTicket()
+        {
+            var user = "tableau.viewer"; //UserInformation.GetAuthenticatedUsername();
+            var request = (HttpWebRequest)WebRequest.Create("http://"+ CommonConstant.TABLEAU_IP+"/trusted");
+
+            string ticket = null;
+
+            var encoding = new UTF8Encoding();
+            var postData = "username=" + user;
+            byte[] data = encoding.GetBytes(postData);
+
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+
+            try
+            {
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+
+                var response = (HttpWebResponse)request.GetResponse();
+                ticket = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            }
+            catch (WebException ex)
+            {
+                 Console.WriteLine(ex.Status);
+                 return null ;
+            }            
+            return ticket;
+        }
+
+
+        private void GetTableauGraphUrl()
+        {
+            string ticket = GetTableauAuthenticationTicket();
+            string tableauUrl = "";
+            
+            if (ticket == null)
+            {
+                tableauUrl = "";
+            }
+            else
+            {
+                tableauUrl = "http://"+ CommonConstant.TABLEAU_IP +"/trusted/"+ ticket
+                + "/views/06-DJCD/ATSGWEBVIEW?:embed=y";
+            }
+           
+            ViewData["tableauUrl"] = tableauUrl;
+        }
+
+    }
+}

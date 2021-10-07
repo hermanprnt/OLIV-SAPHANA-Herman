@@ -1,0 +1,79 @@
+﻿@using consumable.Models.Announcement
+@{
+    List<Announcement> announcementList = (List<Announcement>)ViewData["AnnouncementList"];
+}
+<div class="row">
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+        <h5><b>Announcement</b></h5>
+    </div>
+</div>
+<div class="row" style="margin-bottom:25px;">
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden; width:600px; display:inline-table">
+        <div style="border: 1pt solid #ccc;">
+            <div id="tScrollHead" style="overflow: hidden;">
+                <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed"
+                       style="width:600px;">
+                    <thead>
+                        <tr>
+                            <th width="50px">No</th>
+                            <th width="300px">Document Title</th>
+                            <th width="125px">Link File</th>
+                            <th width="125px">Date Release</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tScrollBody" style="overflow-y: scroll; height: 150px;">
+                <table id="tblScroll" class="table table-striped table-bordered table-condensed table-fixed"
+                       style="width:600px;">
+                    <tbody>
+                        @{
+                            if (announcementList != null && announcementList.Count > 0)
+                            {
+                                foreach (Announcement item in announcementList)
+                                {
+                                    <tr>
+                                        <td width="50px" class="text-center">@item.NUMBER</td>
+                                        <td width="300px" style="padding-left:10px;">@item.ANNOUNCEMENT_TITLE</td>
+                                        <td width="125px" class="text-center cursor-link">
+                                            <a onclick="downloadAnnouncement('@item.FILE_LOCATION');">Download</a>
+                                        </td>
+                                        <td width="125px" class="text-center">
+                                            @(item.DATE_RELEASE.HasValue ? item.DATE_RELEASE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        No data retrieved.
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                @Html.Partial("_UIPagingSmall")
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="line-br"></div>
+<script type="text/javascript">
+
+    function downloadAnnouncement(url) {
+        window.open("@Url.Action("DownloadAnnouncement")"+"?url="+url);
+    }
+</script>

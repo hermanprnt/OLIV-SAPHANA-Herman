@@ -1,0 +1,14 @@
+SELECT * FROM 
+(
+	SELECT 
+		ROW_NUMBER () OVER (ORDER BY h.TAX_INVOICE_NO) AS Number, * 
+	FROM 
+		TB_R_VAT_IN_H h
+	WHERE
+		h.SUPPLIER_CODE = right(@SUPPLIER_CD, len(@SUPPLIER_CD)- 4)
+		AND 
+		h.TAX_INVOICE_NO like '%' + ISNULL(@Parameter,'') + '%'
+		
+		AND ISNULL(USED, 'N') != 'Y'
+) TB WHERE Number BETWEEN @NumberFrom AND @NumberTo
+	

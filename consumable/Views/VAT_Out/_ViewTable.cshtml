@@ -1,0 +1,399 @@
+﻿@using E_FAKTUR_BRIDGE.Models
+
+@{
+    List<VAT_OUT_H> List = (List<VAT_OUT_H>)ViewData["VAT_OUT_List"];
+    PagingModel pgmd = (PagingModel)ViewData["VAT_OUTCount"];
+    int MaxPage = pgmd.IndexList.LastOrDefault();
+    int CurrentPage = (int)ViewData["CurrentPage"];
+    string server = SYSTEMRepository.Instance.GetServer();
+    string URLDownloadCSV = "";
+    if (server == "FID")
+    {
+        URLDownloadCSV = "/VAT_Out/DownloadCSV";
+    }
+    else
+    {
+
+        URLDownloadCSV = "/" + server + "/VAT_Out/DownloadCSV";
+    }
+}
+
+<style>
+    tr {
+        white-space: nowrap;
+    }
+</style>
+
+<style type="text/css" media="print">
+    #EFakturPartial {
+        display: none;
+    }
+</style>
+
+<script>
+    $(document).on('click', '#checkAll', function () {
+        SelectAll();
+    });
+    $(document).on('click', '#unCheckAll', function () {
+        unSelectAll();
+    });
+    function SelectAll() {
+        $('input.checkbox').each(function () {
+            $(this).addClass('c');
+            $('.c').prop('checked', true);
+            checkCount();
+            $(this).removeClass('c');
+        })
+        $('input.checkAll').removeAttr('id', 'checkAll');
+        $('input.checkAll').attr('id', 'unCheckAll');
+    }
+
+    function unSelectAll() {
+        $('input.checkbox').each(function () {
+            $(this).addClass('c');
+            $('.c').prop('checked', false);
+            checkCount();
+            $(this).removeClass('c');
+        })
+        $('input.checkAll').removeAttr('id', 'unCheckAll');
+        $('input.checkAll').attr('id', 'checkAll');
+    }
+
+    function checkCount () {
+        var n = $("input.checkbox:checked").length;
+        $("#totalData").text("Total data selected : " + n);
+        if (n > 1) {
+            $('#DetailBtn').prop('disabled', true);
+            $('#DownloadPDF').prop('disabled', true);
+        }
+        else if (n > 0) {
+            $("#DownloadCSV").removeAttr("disabled");
+            $("#DownloadPDF").removeAttr("disabled");
+            $('#DetailBtn').prop('disabled', false);
+        }
+        else {
+            $("#DownloadCSV").attr("disabled", 'disabled');
+            $("#DownloadPDF").attr("disabled", 'disabled');
+            $('#DetailBtn').prop('disabled', true);
+        }
+
+    };
+
+    var countChecked = function () {
+        var n = $("input.checkbox:checked").length;
+        $("#totalData").text("Total data selected : " + n);
+        if (n > 1) {
+            $('#DetailBtn').prop('disabled', true);
+            $('#DownloadPDF').prop('disabled', true);
+        }
+        else if (n > 0) {
+            $("#DownloadCSV").removeAttr("disabled");
+            $("#DownloadPDF").removeAttr("disabled");
+            $('#DetailBtn').prop('disabled', false);
+        }
+        else {
+            $("#DownloadCSV").attr("disabled", 'disabled');
+            $("#DownloadPDF").attr("disabled", 'disabled');
+            $('#DetailBtn').prop('disabled', true);
+        }
+
+    };
+
+    $("#tableList tbody tr input").on('click', countChecked);
+
+    function onDownloadCSV() {
+
+        var TaxInvoiceNo = [];
+        var ReplacementFG = [];
+        var DebitAdvNo = [];
+        var StatusList = [];
+        var Status = "";
+        $("input.checkbox:checked").each(function () {
+            $(this).closest("tr").addClass("a");
+            Status = $("tr.a td#Status").text();
+            //if (Status.indexOf("Registered") == -1) {
+            $(this).closest("tr").addClass("downloaded");
+            TaxInvoiceNo.push($("tr.a td#TaxInvNo").html());
+            ReplacementFG.push($("tr.a td#ReplacementFG").html());
+            DebitAdvNo.push($("tr.a td#DebitAdvNo").html());
+            StatusList.push(Status);
+            //}
+            $(this).closest("tr").removeClass("a");
+        });
+
+        @*$.ajax({
+            type: "POST",
+            url: '@Html.Toyota().Page.GetActionUrl("VAT_Out", "DownloadCSV")',
+            dataType: "html",
+            traditional: true,
+            data: { TaxInvoiceNo: TaxInvoiceNo, ReplacementFG: ReplacementFG, DebitAdvNo: DebitAdvNo },
+            succes: function (data) {
+                window.location = data;
+            }
+        });*@
+        //if (TaxInvoiceNo.length == 0) {
+        //    alert("Registered status cannot generate to csv file");
+        //}
+        //else {
+        $.fileDownload('@URLDownloadCSV', {
+            data: {
+                TaxInvoiceNo: JSON.stringify(TaxInvoiceNo),
+                ReplacementFG: JSON.stringify(ReplacementFG),
+                DebitAdvNo: JSON.stringify(DebitAdvNo),
+                Status: JSON.stringify(StatusList)
+            }
+        });
+        var date = "@DateTime.Now.ToString("dd/MM/yyyy")";
+        var status = $("tr.downloaded td#Status").text();
+        if (status.indexOf("Registered") != -1) {
+            $("tr.downloaded td#DownloadDt").text(date);
+        }
+        $("tr.downloaded td#Status").text("Downloaded");
+        $("tr.downloaded").removeClass("downloaded");
+        //}
+
+
+    }
+
+</script>
+
+<div class="panel panel-dark">
+    <div class="panel-body" id="panelbody">
+        @{
+            if (pgmd.CountData == 0)
+            {
+                <div class="well" style="text-align:center">
+                    No data Found
+                </div>
+                <br /><br /><br /><br /><br /><br /><br />
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2"><b>Total data selected : 0</b></div>
+                </div>
+            }
+            else
+            {
+                <div style="overflow-x:scroll">
+                    <table class="table table-bordered" id="tableList">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="checkAll" class="checkAll"/></th>
+                                <th>Tax Invoice No</th>
+                                <th>Debit / Advice No</th>
+                                <th>Customer NPWP</th>
+                                <th>Customer Name</th>
+                                <th>Tax Based</th>
+                                <th>VAT</th>
+                                <th>Luxury Tax</th>
+                                <th>Business Unit</th>
+                                <th>SAP Doc No</th>
+                                <th>Tax Invoice Date</th>
+                                <th>Status</th>
+                                <th>Interface Date</th>
+                                <th>Download Date</th>
+                                <th>Complete Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in List)
+                            {
+                                string DPP_PRICE = item.DPP_PRICE.ToString("#,0");
+                                string VAT_PRICE = item.VAT_PRICE.ToString("#,0");
+                                string LUXURY_TAX_PRICE = item.LUXURY_TAX_PRICE.ToString("#,0");
+                                string TaxInvoiceNo = "";
+                                string NPWP = "";
+                                if (item.TAX_INVOICE_NO.Length == 13)
+                                {
+                                    TaxInvoiceNo = item.TRANS_TYPE_CODE + item.REPLACEMENT_FG + "." + HelperRepository.Instance.GenTaxInvoiceFormat(item.TAX_INVOICE_NO);
+                                }
+                                else
+                                {
+                                    TaxInvoiceNo = item.TAX_INVOICE_NO;
+                                }
+
+                                if (item.CUSTOMER.NPWP.Length == 15)
+                                {
+                                    NPWP = HelperRepository.Instance.GenNPWPFormat(item.CUSTOMER.NPWP);
+                                }
+                                else
+                                {
+                                    NPWP = item.CUSTOMER.NPWP;
+                                }
+                                <tr id="TableValue">
+                                    <td align="center"><input type="checkbox" class="checkbox" name="SelectID" value="@item.TAX_INVOICE_NO" /></td>
+                                    <td>@TaxInvoiceNo</td>
+                                    <td class="hide" id="TaxInvNo">@item.TAX_INVOICE_NO</td>
+                                    <td id="DebitAdvNo">@item.DEBIT_ADVICE_NO</td>
+                                    <td>@NPWP</td>
+                                    <td class="hide" id="CustomerNPWP">@item.CUSTOMER.NPWP</td>
+                                    <td class="hide" id="ReplacementFG">@item.REPLACEMENT_FG</td>
+                                    <td id="CustomerName">@item.CUSTOMER.NAME</td>
+                                    <td class="text-right">@DPP_PRICE.00</td>
+                                    <td class="text-right">@VAT_PRICE.00</td>
+                                    <td class="text-right">@LUXURY_TAX_PRICE.00</td>
+                                    <td>@item.BUSINESS_UNIT</td>
+                                    <td>@item.SAP_DOC_NO</td>
+                                    <td id="TaxInvDate">@Convert.ToDateTime(item.TAX_INVOICE_DATE).ToString("dd/MM/yyyy")</td>
+                                    <td id="Status">@item.STATUS_NAME.SYSTEM_VALUE_TEXT</td>
+                                    <td>@Convert.ToDateTime(item.INTERFACE_DT).ToString("dd/MM/yyyy")</td>
+                                    <td id="DownloadDt">@if (item.DOWNLOAD_DT != null)
+                                    {@Convert.ToDateTime(item.DOWNLOAD_DT).ToString("dd/MM/yyyy")}</td>
+                                    <td>@if (item.COMPLETE_DT != null)
+                                    {@Convert.ToDateTime(item.COMPLETE_DT).ToString("dd/MM/yyyy")}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2" id=""><b id="totalData">Total data selected : 0</b></div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@{
+    if (pgmd.CountData == 0)
+    {
+        <div class="row">
+            <div class="col-md-2">
+                Page 0 of 0<br />
+                Total data retrieved : 0
+            </div>
+            <div class="col-md-5 paging">
+                <div class="form-group-sm">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" id="PageInput" name="PageInput" class="form-control input-sm" disabled />
+                            <span class="input-group-btn">
+                                <input type="button" value="Go" onclick="javascript:onGoClick()" class="btn btn-danger btn-sm" disabled id="GoBtn" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        First | Prev | Next | Last
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-1">
+                <input type="button" value="Close" class="btn btn-danger" onclick="location.href='/Home'" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-2">
+                Page <span id="CurrentPage">@CurrentPage</span> of <span id="MaxPage">@MaxPage</span> <br />
+                Total data retrieved : <span id="TotalData">@pgmd.CountData</span>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group-sm">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" id="PageInput" name="PageInput" class="form-control input-sm" />
+                            <span class="input-group-btn">
+                                <input type="button" value="Go" onclick="javascript:onGoClick()" class="btn btn-danger btn-sm" id="GoBtn" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-8" id="paging">
+                        @if (CurrentPage == 1)
+                        {
+                            <span>First |</span>
+                        }
+                        else
+                        {
+                            <a href="javascript:onSearchVATOut(@pgmd.IndexList[0])">First</a><span> |</span>
+                        }
+                        @if (CurrentPage - 2 < 0)
+                        {
+                            <span>Prev |</span>
+                        }
+                        else
+                        {
+                            <a href="javascript:onSearchVATOut(@pgmd.IndexList[CurrentPage-2])">Prev</a><span> |</span>
+                        }
+                        @if (CurrentPage == MaxPage)
+                        {
+                            <span>Next |</span>
+                        }
+                        else
+                        {
+                            <a href="javascript:onSearchVATOut(@pgmd.IndexList[CurrentPage])">Next</a><span> |</span>
+                        }
+                        @if (CurrentPage == MaxPage)
+                        {
+                            <span>Last</span>
+                        }
+                        else
+                        {
+                            <a href="javascript:onSearchVATOut(@pgmd.IndexList[MaxPage-1])">Last</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-inline">
+                    <button class="btn btn-danger btn-2row" id="DownloadExcel" onclick="javascript: onDownloadExcel()">Export<br /> to Excel</button>
+                    <button class="btn btn-danger btn-2row" id="DownloadCSV" onclick="javascript: onDownloadCSV()" disabled>Download<br /> (to CSV)</button>
+                    <button class="btn btn-danger btn-2row" id="DownloadPDF" onclick="javascript: onDownloadPDF()" disabled>Download<br /> eFaktur PDF</button>
+                    <button class="btn btn-danger btn-2row" id="DetailBtn" onclick="javascript: onViewEFakturClick();" disabled>View eFaktur</button>
+                    <button class="btn btn-danger btn-2row" onclick="window.location.href='\Home'">Close</button><br /><br />
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<!-- Paging Sebelumnya -->
+@*<div class="row">
+    <div class="col-md-4">
+        Page
+        @foreach (var id in pgmd.IndexList)
+        {
+            <a href="javascript: onSearchVATOut(@id)">@id | </a>
+        } of @pgmd.CountData Data*@
+@*<div class="row" style="font-size:11px">
+        <div class="col-md-3">Page 1 of @MaxPage</div>
+        <div class="col-md-7">
+            <input type="text" style="font-size:11px; width:40px" />
+            <input type="button" value="Go" class="btn btn-xs btn-danger" style="font-size:11px" />
+            First | Prev |
+            <a href="javascript: onSearchPage(count)" id="nextLink">Next</a>
+            | Last
+        </div>
+        <div class="col-md-4"></div>
+    </div>*@
+@*</div>
+        <div class="col-md-3"></div>
+    </div>*@
+
+@*<div class="row" style="font-size:11px">
+    <div class="col-md-2">Total Data Received : @pgmd.CountData</div>
+    <div class="col-md-6"></div>*@
+@*<div class="col-md-2" style="text-align: right"><button class="btn btn-danger btn-block btn-2row" onclick="javascript: GetPopUp();">View eFaktur</button></div>
+    <div class="col-md-2" style="text-align: right"><button class="btn btn-danger btn-block btn-2row" onclick="javascript: onConvertCsv();">Download Converted <br />(to .CSV) File</button></div>*@
+@*</div>*@
+
+<!--Added By Yayan-->
+<div class="modal fade" id="ViewEFakturModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" id="EFakturPartial">
+                <img src="~/Content/img/loading48.gif" />
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="javascript:modalToPdf()">Print</button>
+                </div>*@
+            <div class="modal-footer">
+                <button id="printBtn" class="btn btn-danger" onclick="$('#EFakturPartial').printThis()">Print</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Added By Yayan-->

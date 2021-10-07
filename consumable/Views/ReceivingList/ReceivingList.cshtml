@@ -1,0 +1,520 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+}
+<div class="hidden-xs">
+    @Html.Partial("_SearchCriteria")
+    <div class="text-center">
+        <hr id="hrsrc" style="margin: 0; padding: 0;" />
+    </div>
+    @* Button Process *@
+    <div class="col-xs-12 col-sm-12 col-md-12 text-center" style="margin-top: 5px; margin-bottom: 5px;">
+        <div class="col-xs-4 col-sm-4 col-md-4 text-left">
+            <div class="btn-group">
+                @{   if (ViewData["visibilityVndr"].Equals("false"))
+                     {
+                         if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("ReceivingList", "approveGR"))
+                         {                             
+                            <button type="button" id="approveGR" class="btn btn-primary btn-xs" style="padding: 6px;
+                                margin-left: -25px;" onclick="javascript:approveGR()">
+                                Approve GR
+                            </button>
+
+                            <button type="button" class="btn btn-decision btn-xs" style="margin-right: 0px; 
+                                background-color: #fff !important;
+                                border-color: #fff !important;" disabled>
+                                &nbsp;
+                            </button>
+                         }
+
+@*
+                         if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("ReceivingList", "refreshGRSAPBtn"))
+                         {                             
+                            <button type="button" id="refreshGRSAPBtn" class="btn btn-danger btn-xs" style="padding: 6px;
+                                margin-left: -25px;" onclick="javascript:SAP_GR()">
+                                Refresh from SAP
+                            </button>
+                         }*@
+
+                     }
+                }
+                @*
+                <button type="button" class="btn btn-danger btn-xs" style="padding: 6px;
+                    margin-left: -25px;" onclick="javascript:cancelGR()">
+                    Cancel GR</button>*@
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 text-center">
+            <button data-rel="tooltip" title="Hide filter" onclick="javascript:toggleSearch()"
+                type="button" class="ace-icon fa fa-angle-double-up btn btn-default btn-xs btn-tiny-down"
+                id="toogle-search" style="top: 6px;">
+            </button>
+            <input type="text" id="btnLostFocus" style="display: block; height: 1px; width: 1px;
+                border: none;" />
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 text-right">
+            <button data-rel="tooltip" title="Download files" id="btn-download" class="fa fa-download btn btn-success btn-xs"
+                style="padding: 6px; margin-right: -25px;" onclick="javascript:Download()">
+                <span style="font-family: Open Sans; font-size: 12px">Download Data</span>
+            </button>
+        </div>
+    </div>
+    <div id="tablegrid">
+        @Html.Partial("_GridView")
+    </div>
+</div>
+@*<div class="visible-xs">
+    @Html.Partial("_SearchMobile")
+</div>*@
+<div id="matDocDetailPopUp">
+    @Html.Partial("_MatDocDetailPopUp")
+</div>
+@Html.Partial("_CancelPopUp")
+<div id="selected-0-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                Warning</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgWarningId">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="cancel-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                    Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to cancel(s)?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+                            onclick="javascript:confirmCancelGR()">
+                            Yes</button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="approve-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                    Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to approve(s)?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+                            onclick="javascript:confirmApproveGR()">
+                            Yes</button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section BodyScript{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.filedownload.js")"></script>
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <script type="text/javascript">
+        var pagepos = null;
+
+		//datepicker plugin [start]
+		//link
+		$('.date-picker').datepicker({
+			autoclose: true,
+			todayHighlight: true
+		})
+
+		//show datepicker when clicking on the icon
+		.next().on(ace.click_event, function () {
+			$(this).prev().focus();
+		});
+
+        //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+		$('input[name=date-range-picker]').daterangepicker({
+            format: 'DD.MM.YYYY',
+		    'applyClass': 'btn-sm btn-success',
+		    'cancelClass': 'btn-sm btn-default',
+		    locale: {
+		        applyLabel: 'Apply',
+		        cancelLabel: 'Cancel',
+		    }
+		})
+		.prev().on(ace.click_event, function () {
+			$(this).next().focus();
+		});
+        //datepicker plugin [end]
+
+		// Checkbox all [start]
+		$("#checkall").click(function () {
+			if ($("#checkall").is(":checked")) {
+				$( ".grid-checkbox-body").prop('checked', true);
+			} else {
+				$( ".grid-checkbox-body").prop('checked', false);
+			}
+		});
+        // Checkbox all [end]
+
+		function toggleSearch() {
+			$("._criteria").toggle(200, "linear");
+			if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+				$("#toogle-search").removeClass("fa-angle-double-up");
+				$("#toogle-search").addClass("fa-angle-double-down");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'none';
+				$("#tScrollBody").height(450);
+				$("#toogle-search").prop('title', 'Show filter');
+			}
+			else {
+				$("#toogle-search").removeClass("fa-angle-double-down");
+				$("#toogle-search").addClass("fa-angle-double-up");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'block';
+				$("#tScrollBody").height(325);
+				$("#toogle-search").prop('title', 'Hide filter');
+			}
+			$("#toogle-search").blur();
+		}
+
+        // Lookup function search supplier [start]
+        // Grid lookup selected 'Ok' or 'CS'
+        function gridlookupSelected(setValue) {
+            var result = '';
+            if (($(".gridLookup-checkbox-body:checked").length > 0)&&(setValue == 'OK')) {
+                for(i=0; i<$(".gridLookup-checkbox-body").length; i++) {
+                    if ($(".gridLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '')?';':'') + $(".gridLookup-checkbox-body")[i].dataset.value;
+                }
+                $("#supplierSearch").val(result);
+            }
+
+            if (setValue == 'CS'){
+                $(".gridLookup-checkbox-body").prop('checked', false);
+                $("#supplierSearch").val('');
+            }
+
+            closePopup();
+        }
+
+        $("#gridLookup-checkAll").click(function () {
+            if ($("#gridLookup-checkAll").is(":checked")) {
+                $(".gridLookup-checkbox-body").prop('checked', true);
+            } else {
+                $(".gridLookup-checkbox-body").prop('checked', false);
+            }
+        });
+
+        // Open popup search Supplier
+        function openPopup() {
+            $("#txtSearchLookupSupplier").val('');
+            if ($("#btn-group").hasClass('open'))
+                $("#btn-group").removeClass('open')
+            else
+                $("#btn-group").addClass('open')
+        }
+
+        function closePopup() {
+            $("#txtSearchLookupSupplier").val('');
+            $("#btn-group").removeClass('open')
+        }
+
+        function clearPopupFilter() {
+            $("#txtSearchLookupSupplier").val('');
+        }
+
+        $("#btnSearchLookupSupplier").click(function(){
+            onLookupSupplier(1);
+        });
+
+        function onEnterSearchDataLookupSupplier(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupSupplier(1);
+            }
+        }
+
+        function onLookupSupplier(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupSupplier")",
+                data: {
+                    Parameter:$('#txtSearchLookupSupplier').val(),
+                    PartialViewSearchAndInput:'_LookupTableSupplier',
+                    Page:page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupSupplier').button('loading');
+                },
+                success: function (result) { 
+                    $("#tblSupplierPopupSearch").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupSupplier').button('reset');
+                },
+                error: function(result) {
+                   $('#btnSearchLookupSupplier').button('reset');
+                }
+            });
+        }
+        // Lookup function search supplier [end]   
+        
+        // Function Search [start]
+        function onEnterSearchData(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                searchData(1);
+            }
+        }
+
+
+        function searchData(page) {
+            if(page==null)page=1;
+            pagepos=page;
+            
+            var pageSize = $("#pageSize").val();
+            
+			$.ajax({
+				type: "POST",
+				url: "@Html.Toyota().Page.GetActionUrl("search")",
+				data: {
+					poNoSearch: $('#poNoSearch').val(),
+                    receivingDateSearch: $('#receivingDateSearch').val(),
+                    supplierSearch: $('#supplierSearch').val(),
+                    poDateSearch: $('#poDateSearch').val(),
+                    matDocNoSearch: $('#matDocNoSearch').val(),
+                    statusSearch: $('#txtstatus').val(),
+                    page: page,
+                    size: $("#pageSize").val()
+				},
+				beforeSend: function () {
+                    $('#btnSearch').button('loading');
+                },
+				success: function (data) {
+					$("#tablegrid").html(data);	
+                    $("#pageSize").val(pageSize);
+				},
+				complete: function () {
+                    $('#btnSearch').button('reset');
+                }, 
+                error: function(data) {
+                   $('#btnSearch').button('reset');
+                }
+			});			
+		}  
+        
+        // Approve GR [start]
+        function approveGR() {	
+			var row = 0;
+            var flag = false;
+			GR_IR_DATA_Arrays = new Array();
+			$('[name=selectedGR]:checked').each(function () {  
+                GR_IR_DATA_Arrays.push({	
+                    PO_NUMBER:$(this).parent().siblings('td').eq(0).text().trim(),
+                    PO_ITEM:$(this).parent().siblings('td').eq(1).text().trim(),
+                    PO_DATE_STRING:$(this).parent().siblings('td').eq(3).text().trim(),
+                    VEND_CODE:$(this).parent().siblings('td').eq(4).text().trim(),  
+                    GR_STATUS:$(this).parent().siblings('td').eq(10).text().trim(), 
+                    INVOICE_ID:$(this).parent().siblings('td').eq(11).text().trim()                		
+				});                
+				row++;
+			});
+			
+			if(row < 1)
+			{	
+                $("#msgWarningId").text("Please select data");		
+				$("#selected-0-confirm").modal();
+			}
+            else 
+            {
+			    if(!jQuery.isEmptyObject(GR_IR_DATA_Arrays))
+			    {
+				    $("#approve-confirm").modal();				
+			    }
+                else 
+                {
+                    $("#msgWarningId").text("Error data model");		
+				    $("#selected-0-confirm").modal();
+                }
+            }
+		}
+
+        function confirmApproveGR() {
+			$.ajax({
+				type : "POST",
+				url : "@Html.Toyota().Page.GetActionUrl("ApproveGR")",
+				contentType: 'application/json',
+				dataType: 'json',
+				data: JSON.stringify(GR_IR_DATA_Arrays),
+                beforeSend : function () {
+                    $('#approveGR').button('loading');
+                },
+				success : function(returnResult){
+					if (returnResult.Result == returnResult.ValueSuccess) {
+                        $("#msgInfoId").text("Approve GR Success");
+                        $("#selected-info").modal();
+					} else {
+                        $("#msgWarningId").text(returnResult.ErrMesgs);
+                        $("#selected-0-confirm").modal();
+					}
+					searchData(1);							
+				},
+                complete: function () {
+                    $('#approveGR').button('reset');
+                },
+				error : function(returnResult) {
+                    $('#approveGR').button('reset');
+					$("#msgWarningId").text("Error Delete Data");		
+				    $("#selected-0-confirm").modal();
+				}
+			});
+			$("#approve-confirm").hide();
+	    }
+        // Appove GR [end]
+
+//        // Cancel GR [start]
+//        function cancelGR() {	
+//			var row = 0;
+//            var flag = false;
+//			GR_IR_DATA_Arrays = new Array();
+//			$('[name=selectedGR]:checked').each(function () {        
+//                GR_IR_DATA_Arrays.push({					
+//					MATDOC_NUMBER:$(this).parent().siblings('td').eq(6).text().trim(),
+//                    MATDOC_YEAR:$(this).parent().siblings('td').eq(5).text().trim()		
+//				});    
+//                $('#matDocNumber').val($(this).parent().siblings('td').eq(5).text().trim());
+//                $('#entrySheetNum').val("");
+//                $('#matDocYear').val($(this).parent().siblings('td').eq(12).text().trim());
+//                $('#matDocDocdate').val($(this).parent().siblings('td').eq(3).text().trim());                            
+//				row++;
+//			});
+//			
+//			if(row != 1)
+//			{	
+//                $("#msgWarningId").text("Please select only 1 data");		
+//				$("#selected-0-confirm").modal();
+//			}
+//            else 
+//            {
+//			    if(!jQuery.isEmptyObject(GR_IR_DATA_Arrays))
+//			    {
+//				    $("#cancelpopup").modal();				
+//			    }
+//                else 
+//                {
+//                    $("#msgWarningId").text("Error data model");		
+//				    $("#selected-0-confirm").modal();
+//                }
+//            }
+//		}
+
+//        function confirmCancelGR() {
+//			//alert($('#matDocNumber').val());
+//            //alert($('#matDocYear').val());
+//            //alert($('#matDocDocdate').val());
+
+//            $.ajax({
+//				type : "POST",
+//				url : "@Html.Toyota().Page.GetActionUrl("CancelGR")",
+//				data: {
+//					matDocNumber: $('#matDocNumber').val(),
+//                    entrySheetNum: $('#entrySheetNum').val(),
+//                    matDocYear: $('#matDocYear').val(),
+//                    matDocDocdate: $('#matDocDocdate').val(),
+//                    matDocPostDate: $('#matDocPostDate').val(),
+//                    matDocText: $('#matDocText').val()
+//                },
+//				success : function(returnResult){
+//					if (returnResult.Result == returnResult.ValueSuccess) {
+//                        $("#msgInfoId").text("Cancel GR Success");
+//                        $("#selected-info").modal();
+//					} else {
+//                        $("#msgWarningId").text(returnResult.ErrMesgs);
+//                        $("#selected-0-confirm").modal();
+//					}
+//					searchData(1);							
+//				},
+//				error : function(returnResult) {
+//					$("#msgWarningId").text("Error Cancel GR Data");		
+//				    $("#selected-0-confirm").modal();
+//				}
+//			});
+//			$("#cancel-confirm").hide();
+//	    }
+//        // Cancel GR [end]
+
+        // Download data [start]
+        function Download(){       
+            $.fileDownload("ReceivingList/DownloadReceivingList", {
+                data: {
+			        poNoSearch: $('#poNoSearch').val(),
+                    receivingDateSearch: $('#receivingDateSearch').val(),
+                    supplierSearch: $('#supplierSearch').val(),
+                    poDateSearch: $('#poDateSearch').val(),
+                    matDocNoSearch: $('#matDocNoSearch').val(),
+                    statusSearch: $('#txtstatus').val()
+			    },
+                prepareCallback: function (url) { 
+                    $('#btn-download').button('loading');
+                },
+			    successCallback: function (url) {
+                    $('#btn-download').button('reset');
+			    },
+			    failCallback: function (responseHtml, url) {
+				    $('#btn-download').button('reset');
+				}
+			});
+        }
+        // Download data [end]
+    </script>
+}

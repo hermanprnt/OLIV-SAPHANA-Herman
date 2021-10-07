@@ -1,0 +1,22 @@
+INSERT INTO TB_R_INVOICE_SAP_GR_DATA
+    (INVOICE_ID
+    ,PO_NUMBER
+    ,PO_ITEM
+    ,GR_NUMBER
+	,GR_YEAR
+	,GR_ITEM
+	,ON_PROCESS
+    ,CREATED_DT
+    ,CREATED_BY
+    )
+VALUES
+    (@INVOICE_ID
+    ,@PO_NUMBER
+    ,@PO_ITEM
+    ,@GR_NUMBER
+	,@GR_YEAR
+    ,@GR_ITEM
+	,'Y'
+    ,getdate()
+    ,@CREATED_BY
+    )

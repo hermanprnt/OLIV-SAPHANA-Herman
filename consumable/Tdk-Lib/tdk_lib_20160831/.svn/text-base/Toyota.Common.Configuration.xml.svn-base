@@ -1,0 +1,821 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Toyota.Common.Configuration</name>
+    </assembly>
+    <members>
+        <member name="T:Toyota.Common.Configuration.DifferentialAssemblyTextFileConfigurationBinder">
+            <summary>
+            An implementation of configuration binder that
+            persists configurations into an embedded text file.
+            The binder will have a unique identifier to differentiate
+            different context on the same schema.
+            
+            <example>
+            Imagine if we have three different development stages i.e. Development (DEV), Testing (TS),
+            and Production (PROD), and we have a database configuration that may use different address
+            between development states buat with the same configuration schema. 
+            
+            Using this class, we can have three file named (for example) DB-DEV.config, DB-TS.config, and
+            DB-PROD.config with the same configuration schema inside but with different database address
+            configured. Then, we can use appropriate file by defining the marker of this binder passed 
+            into the constructor.
+            </example>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.BaseTextFileConfigurationBinder">
+            <summary>
+            A partial implementation of configuration binder that
+            persists configurations into text file.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.ConfigurationBinder">
+            <summary>
+            Default implementation of a configuration binder.
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            
+            Configuration Cabinet stores one or more Configuration Binder.
+            Think it like an office drawer cabinet which stores paper binders.
+            Configuration Binder is like a paper binder which group one or more
+            Configuration Item (which, in this analogy, is a paper).
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.IConfigurationBinder">
+            <summary>
+            Specification for a configuration binder.
+            
+            Configuration Cabinet stores one or more Configuration Binder.
+            Think it like an office drawer cabinet which stores paper binders.
+            Configuration Binder is like a paper binder which group one or more
+            Configuration Item (which, in this analogy, is a paper).
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.GetLabel">
+            <summary>
+            Gets the label of this configuration binder
+            </summary>
+            <returns>Configuration binder's label</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.AddConfiguration(Toyota.Common.Configuration.ConfigurationItem)">
+            <summary>
+            Adds a configuration
+            </summary>
+            <param name="configuration">Configuration to be added</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.RemoveConfiguration(System.String)">
+            <summary>
+            Removes a configuration
+            </summary>
+            <param name="key">Configuration key</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.MarkAsTransient(System.String)">
+            <summary>
+            Marks a configuration as transient
+            </summary>
+            <param name="key">Configuration key</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.UnmarkAsTransient(System.String)">
+            <summary>
+            Marks a configuration as persisted
+            </summary>
+            <param name="key">Configuration key</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.MarkAllAsTransient">
+            <summary>
+            Marks all available configuration as transient
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.MarkAllAsPersisted">
+            <summary>
+            Marks all available configuration as persisted
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.RemoveNonPersistedConfigurations">
+            <summary>
+            Removes all configuration marked as persisted
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.GetConfiguration(System.String)">
+            <summary>
+            Gets a configuration
+            </summary>
+            <param name="key">Configuration key</param>
+            <returns>Matched configuration</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.GetConfigurations">
+            <summary>
+            Gets available configurations
+            </summary>
+            <returns>Configuration instances</returns>        
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.GetKeys">
+            <summary>
+            Get available configuration keys
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.Save">
+            <summary>
+            Saves configurations to persistence media.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationBinder.Load">
+            <summary>
+            Loads configurations from persistence media.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.#ctor(System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Configuration label</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.AddConfiguration(Toyota.Common.Configuration.ConfigurationItem)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.RemoveConfiguration(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.GetConfiguration(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.GetConfigurations">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.GetLabel">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.GetKeys">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.MarkAsTransient(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.UnmarkAsTransient(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.MarkAllAsTransient">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.MarkAllAsPersisted">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationBinder.RemoveNonPersistedConfigurations">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseTextFileConfigurationBinder.#ctor(System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Label of the binder</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseTextFileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseTextFileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseTextFileConfigurationBinder.Save(System.IO.Stream)">
+            <summary>
+            Saves all configuration into a stream of persistence media.
+            </summary>
+            <param name="stream">Stream of persistence media to be used</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseTextFileConfigurationBinder.Load(System.IO.Stream)">
+            <summary>
+            Loads all configuration from a stream of persistence media.
+            </summary>
+            <param name="stream">Stream of persistence media to be used</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.DifferentialAssemblyTextFileConfigurationBinder.#ctor(System.String,System.String,System.String,System.Reflection.Assembly)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Label of the binder</param>
+            <param name="marker">Marker of the binder that resembles a unique differentiation id</param>
+            <param name="rootNamespace">Root namespace where the text file placed</param>
+            <param name="assembly">Assembly context where the text file embedded into</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.DifferentialAssemblyTextFileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.DifferentialAssemblyTextFileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder">
+            <summary>
+            An implementation of configuration binder specification that bridge
+            two configurations with Master-Slave style organization. 
+            The Master Binder acts as the primary binder and backed-up 
+            by the Slave Binder. If one or more configuration requested
+            don't exist in the Master Binder, then the Slave Binder will be consulted.
+            
+            NOTE: THIS CLASS IS STILL IN ALPHA STAGE
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.#ctor(System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label"></param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.AddConfiguration(Toyota.Common.Configuration.ConfigurationItem)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            If the mode is Master then the passed configuration will be added to master configuration, vice versa.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.GetConfiguration(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            Master binder will be consulted first, if nothing found then
+            the Slave will be consulted.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.GetConfigurations">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            The returned results will be the combination from the Master and the Slave.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.GetKeys">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.RemoveConfiguration(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.MarkAsTransient(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.UnmarkAsTransient(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.MarkAllAsTransient">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.MarkAllAsPersisted">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.RemoveNonPersistedConfigurations">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>.
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.Master">
+            <summary>
+            Master Configuration Binder
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.Slave">
+            <summary>
+            Slave Configuration Binder
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.Mode">
+            <summary>
+            Binder's mode. This determines what binder to be prioritized,
+            the master or the slave. Particularly used by <c>AddConfiguration</c>, <see cref="M:Toyota.Common.Configuration.ConfigurationMasterSlaveBinder.AddConfiguration(Toyota.Common.Configuration.ConfigurationItem)"/>.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.XmlFileConfigurationBinder">
+            <summary>
+            An implementation of configuration binder that
+            persists configurations into an xml file.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.BaseXmlFileConfigurationBinder">
+            <summary>
+            A partial implementation of configuration binder that
+            persists configurations into xml file.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseXmlFileConfigurationBinder.#ctor(System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Label of the binder</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseXmlFileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseXmlFileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseXmlFileConfigurationBinder.Load(System.IO.Stream)">
+            <summary>
+            Saves all configuration into a stream of persistence media.
+            </summary>
+            <param name="stream">Stream of persistence media to be used</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.BaseXmlFileConfigurationBinder.Save(System.IO.Stream)">
+            <summary>
+            Loads all configuration from a stream of persistence media.
+            </summary>
+            <param name="stream">Stream of persistence media to be used</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.XmlFileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.XmlFileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.ConfigurationExtensions">
+            <summary>
+            Configuration-related extension methods.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationExtensions.LoadConfigurationOrSaveDefault(Toyota.Common.Configuration.IConfigurationBinder,System.String,System.Action{Toyota.Common.Configuration.ConfigurationItem})">
+            <summary>
+            Loads configuration or save it if does not exists in the binder.
+            </summary>
+            <param name="binder">Configuration binder.</param>
+            <param name="key">Configuration key.</param>
+            <param name="defaultAction">Action that will be executed if no matched configuration exists.</param>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationExtensions.LoadConfigurationValueOrSaveDefault(Toyota.Common.Configuration.IConfigurationBinder,System.String,System.Action{Toyota.Common.Configuration.ConfigurationItem})">
+            <summary>
+            Loads configuration value or save it if not exists in the binder.
+            </summary>
+            <param name="binder">Configuration binder.</param>
+            <param name="key">Configuration key.</param>
+            <param name="defaultAction">Action that will be executed if no matched configuration exists.</param>
+            <returns>Configuration value</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationExtensions.AddBinderAndLoad(Toyota.Common.Configuration.ConfigurationCabinet,Toyota.Common.Configuration.IConfigurationBinder)">
+            <summary>
+            Adds a configuration binder to cabinet and loads it.
+            </summary>
+            <param name="cabinet">Configuration cabinet.</param>
+            <param name="binder">Configuration binder.</param>
+            <returns>Loaded configuration binder.</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationExtensions.AddBinderAndSave(Toyota.Common.Configuration.ConfigurationCabinet,Toyota.Common.Configuration.IConfigurationBinder)">
+            <summary>
+            Adds a configuration binder to cabinet and saves it.
+            </summary>
+            <param name="cabinet">Configuration cabinet.</param>
+            <param name="binder">Configuration binder.</param>
+            <returns>Saved configuration binder.</returns>
+        </member>
+        <member name="T:Toyota.Common.Configuration.ConfigurationCabinet">
+            <summary>
+            Default implementation of a configuration cabinet.
+            <see cref="T:Toyota.Common.Configuration.IConfigurationCabinet"/>
+            
+            Configuration Cabinet stores one or more Configuration Binder.
+            Think it like an office drawer cabinet which stores paper binders.
+            Configuration Binder is like a paper binder which group one or more
+            Configuration Item (which, in this analogy, is a paper).
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.IConfigurationCabinet">
+            <summary>
+            Specification for a configuration cabinet.
+            
+            Configuration Cabinet stores one or more Configuration Binder.
+            Think it like an office drawer cabinet which stores paper binders.
+            Configuration Binder is like a paper binder which group one or more
+            Configuration Item (which, in this analogy, is a paper).
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationCabinet.GetLabel">
+            <summary>
+            Gets the label of this configuration cabinet
+            </summary>
+            <returns>Configuration binder's label</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationCabinet.AddBinder(Toyota.Common.Configuration.IConfigurationBinder)">
+            <summary>
+            Adds a configuration binder
+            </summary>
+            <param name="binder">Configuration binder to be added</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationCabinet.GetBinder(System.String)">
+            <summary>
+            Gets a configuration binder
+            </summary>
+            <param name="label">Configuration label</param>
+            <returns>Matched configuration binder</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationCabinet.GetBinderByConfigurationKey(System.String)">
+            <summary>
+            Gets configuration binders that have a configuration named by given key.
+            </summary>
+            <param name="key">Configuration binder</param>
+            <returns>Matched configuration binders</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.IConfigurationCabinet.GetBinders">
+            <summary>
+            Gets available configuration binders
+            </summary>
+            <returns>Available binders</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationCabinet.#ctor(System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Configuration label</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationCabinet.AddBinder(Toyota.Common.Configuration.IConfigurationBinder)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationCabinet"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationCabinet.GetBinder(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationCabinet"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationCabinet.GetBinderByConfigurationKey(System.String)">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationCabinet"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationCabinet.GetBinders">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationCabinet"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationCabinet.GetLabel">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationCabinet"/>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.AssemblyTextFileConfigurationBinder">
+            <summary>
+            An implementation of configuration binder that
+            persists configurations into an embedded text file.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.AssemblyTextFileConfigurationBinder.#ctor(System.String,System.String,System.Reflection.Assembly)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Label of the configuration binder</param>
+            <param name="rootNamespace">Root namespace where the text file placed</param>
+            <param name="assembly">Assembly context where the text file embedded into</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.AssemblyTextFileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.AssemblyTextFileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.DifferentialXmlConfigurationBinder">
+            <summary>
+            An implementation of configuration binder that
+            persists configurations into an xml file.
+            The binder will have a unique identifier to differentiate
+            different context on the same schema.
+            
+            <example>
+            Imagine if we have three different development stages i.e. Development (DEV), Testing (TS),
+            and Production (PROD), and we have a database configuration that may use different address
+            between development states buat with the same configuration schema. 
+            
+            Using this class, we can have three file named (for example) DB-DEV.config, DB-TS.config, and
+            DB-PROD.config with the same configuration schema inside but with different database address
+            configured. Then, we can use appropriate file by defining the marker of this binder passed 
+            into the constructor.
+            </example>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.DifferentialXmlConfigurationBinder.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Label of the binder</param>
+            <param name="marker">Marker of the binder that resembles a unique differentiation id</param>
+            <param name="path">The path where the file stored</param>
+        </member>
+        <member name="T:Toyota.Common.Configuration.DifferentialTextFileConfigurationBinder">
+            <summary>
+            An implementation of configuration binder that
+            persists configurations into a text file.
+            The binder will have a unique identifier to differentiate
+            different context on the same schema.
+            
+            <example>
+            Imagine if we have three different development stages i.e. Development (DEV), Testing (TS),
+            and Production (PROD), and we have a database configuration that may use different address
+            between development states buat with the same configuration schema. 
+            
+            Using this class, we can have three file named (for example) DB-DEV.config, DB-TS.config, and
+            DB-PROD.config with the same configuration schema inside but with different database address
+            configured. Then, we can use appropriate file by defining the marker of this binder passed 
+            into the constructor.
+            </example>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.DifferentialTextFileConfigurationBinder.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Label of the binder</param>
+            <param name="marker">Marker of the binder that resembles a unique differentiation id</param>
+            <param name="path">The path where the file stored</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.DifferentialTextFileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.DifferentialTextFileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.TextFileConfigurationBinder">
+            <summary>
+            An implementation of configuration binder that
+            persists configurations into a text file.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.TextFileConfigurationBinder.#ctor(System.String,System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Label of the binder</param>
+            <param name="path">The path where the file stored</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.TextFileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.TextFileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.VolatileConfigurationBinder">
+            <summary>
+             An implementation of configuration binder specification
+             that does not persists any of its configuration into persistence media.
+             In formal understanding, it means the data will be kept in the memory
+             as long as the application need it.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.VolatileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.VolatileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.AssemblyXmlFileConfigurationBinder">
+            <summary>
+            An implementation of configuration binder that
+            persists configurations into an embedded xml file.
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.AssemblyXmlFileConfigurationBinder.#ctor(System.String,System.String,System.Reflection.Assembly)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="label">Label of the configuration binder</param>
+            <param name="rootNamespace">Root namespace where the file placed</param>
+            <param name="assembly">Assembly context where the file embedded into</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.AssemblyXmlFileConfigurationBinder.Load">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.AssemblyXmlFileConfigurationBinder.Save">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.IConfigurationBinder"/>
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.ConfigurationMasterSlaveBinderMode">
+            <summary>
+            Master-Slave Configuration Binder operation mode
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Configuration.ConfigurationMasterSlaveBinderMode.Master">
+            <summary>
+            States that the operation will be performed by using Master binder as priority.
+            </summary>
+        </member>
+        <member name="F:Toyota.Common.Configuration.ConfigurationMasterSlaveBinderMode.Slave">
+            <summary>
+            States that the operation will be performed by using Slave binder as priority.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.ConfigurationItem">
+            <summary>
+            Resembles a configuration.
+            
+            Configuration Cabinet stores one or more Configuration Binder.
+            Think it like an office drawer cabinet which stores paper binders.
+            Configuration Binder is like a paper binder which group one or more
+            Configuration Item (which, in this analogy, is a paper).
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationItem.#ctor">
+            <summary>
+            Constructs instance of this class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Toyota.Common.Configuration.ConfigurationItem.#ctor(System.String,System.String)" -->
+        <member name="M:Toyota.Common.Configuration.ConfigurationItem.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="description">Configuration description</param>
+            <param name="key">Configuration key</param>
+            <param name="value">Configuration value</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.ConfigurationItem.ToString">
+            <summary>
+            A string representation of this configuration
+            </summary>
+            <returns>String formatted information</returns>
+        </member>
+        <member name="P:Toyota.Common.Configuration.ConfigurationItem.Key">
+            <summary>
+            Key of the configuration
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Configuration.ConfigurationItem.Value">
+            <summary>
+            Value of the configuration
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Configuration.ConfigurationItem.Description">
+            <summary>
+            Description of the configuration
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Configuration.ConfigurationItem.Transient">
+            <summary>
+            States whether the configuration will be persisted
+            into the persistence media or not.
+            True value means the configuration will not be persisted.
+            </summary>
+        </member>
+        <member name="T:Toyota.Common.Configuration.CompositeConfigurationItem">
+            <summary>
+            Resembles a composite configuration that consists of one or more configuration.
+            <see cref="T:Toyota.Common.Configuration.ConfigurationItem"/>
+            
+            Configuration Cabinet stores one or more Configuration Binder.
+            Think it like an office drawer cabinet which stores paper binders.
+            Configuration Binder is like a paper binder which group one or more
+            Configuration Item (which, in this analogy, is a paper).
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.#ctor">
+            <summary>
+            Constructs instance of this class
+            </summary>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.#ctor(System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="key">Configuration key</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.#ctor(System.String,System.String)">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="key">Configuration key</param>
+            <param name="description">Configuration description</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.#ctor(System.String,System.String,Toyota.Common.Configuration.ConfigurationItem[])">
+            <summary>
+            Constructs instance of this class
+            </summary>
+            <param name="key">Configuration key</param>
+            <param name="description">Configuration description</param>
+            <param name="configItems">Configurations to be kept</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.AddItem(Toyota.Common.Configuration.ConfigurationItem)">
+            <summary>
+            Adds a configuration
+            </summary>
+            <param name="config">Configuration to be added</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.RemoveItem(System.String)">
+            <summary>
+            Removes a configuration
+            </summary>
+            <param name="key">Configuration key</param>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.GetItem(System.String)">
+            <summary>
+            Gets a configuration
+            </summary>
+            <param name="key">Configuration key</param>
+            <returns>Configuration instance of found</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.GetItems">
+            <summary>
+            Gets all stored configuration
+            </summary>
+            <returns>Configuration instances</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.HasItem(System.String)">
+            <summary>
+            Checks if a configuration with given key exists
+            </summary>
+            <param name="key">Configuration key</param>
+            <returns>true if configuration found</returns>
+        </member>
+        <member name="M:Toyota.Common.Configuration.CompositeConfigurationItem.ToString">
+            <summary>
+            A string representation of this configuration
+            </summary>
+            <returns>String formatted information</returns>
+        </member>
+        <member name="P:Toyota.Common.Configuration.CompositeConfigurationItem.HasItems">
+            <summary>
+            Checks whether any configuration exists
+            </summary>
+        </member>
+        <member name="P:Toyota.Common.Configuration.CompositeConfigurationItem.Value">
+            <summary>
+            <see cref="T:Toyota.Common.Configuration.ConfigurationItem"/>
+            </summary>
+        </member>
+    </members>
+</doc>

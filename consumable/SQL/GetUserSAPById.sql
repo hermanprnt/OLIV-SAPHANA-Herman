@@ -1,0 +1,4 @@
+SELECT *
+FROM TB_M_USER_SAP
+WHERE 1 = 1
+	and [USER_ID] = @USER_ID	

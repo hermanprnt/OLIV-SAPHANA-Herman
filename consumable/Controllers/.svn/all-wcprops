@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers
+END
+GpsUrlController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/GpsUrlController.cs
+END
+InvoiceInquiryController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/InvoiceInquiryController.cs
+END
+DatagridLazyController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/DatagridLazyController.cs
+END
+SapingController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/SapingController.cs
+END
+ReceivingListRevController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/ReceivingListRevController.cs
+END
+RequistionFormController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/RequistionFormController.cs
+END
+MaintenanceApprovalController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/MaintenanceApprovalController.cs
+END
+HomeController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/HomeController.cs
+END
+SystemPropertyController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/SystemPropertyController.cs
+END
+VendorController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/VendorController.cs
+END
+InvoiceCreationRevController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/ID.TMMIN/!svn/ver/17513/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/InvoiceCreationRevController.cs
+END
+ReceivingListMobileController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/ReceivingListMobileController.cs
+END
+DatagridFixedController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/DatagridFixedController.cs
+END
+VisualizationController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/VisualizationController.cs
+END
+EFakturScanController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/EFakturScanController.cs
+END
+PoDownloadController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/PoDownloadController.cs
+END
+ReceivingListController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/ReceivingListController.cs
+END
+DatagridMobileController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/DatagridMobileController.cs
+END
+ChangePasswordController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/ChangePasswordController.cs
+END
+LoginController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/LoginController.cs
+END
+InvoiceCreationMobileController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/InvoiceCreationMobileController.cs
+END
+ReceivingListApprovalController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/ReceivingListApprovalController.cs
+END
+ProcurementTrackingMobileController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/ProcurementTrackingMobileController.cs
+END
+GLAccountController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/GLAccountController.cs
+END
+VAT_INController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/VAT_INController.cs
+END
+VAT_OutController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/VAT_OutController.cs
+END
+InvoiceCreationController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/InvoiceCreationController.cs
+END
+UserSAPController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/UserSAPController.cs
+END
+ProcurementTrackingController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/ProcurementTrackingController.cs
+END
+BlankController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/BlankController.cs
+END
+InvoiceReceivingController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/InvoiceReceivingController.cs
+END
+InvoiceInquiryMobileController.cs
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Controllers/InvoiceInquiryMobileController.cs
+END

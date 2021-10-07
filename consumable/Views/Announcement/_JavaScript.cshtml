@@ -1,0 +1,393 @@
+﻿<script type="text/javascript" src="@Url.Content("~/Content/js/jquery.filedownload.js")"></script>
+<!-- Bootstrap Datepicker js -->
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+<!-- Daterange picker js -->
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+<!-- Dropzone file js -->
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/dropzone.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/typeahead.jquery.js")"></script>
+
+<script type="text/javascript">
+    var pagepos;
+    var gScreenMode = null;
+    var dtlScreenMode = null;
+    var dataDelRf = new Object();
+
+
+    //datepicker plugin [start]
+    //link
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    })
+
+    //show datepicker when clicking on the icon
+    .next().on(ace.click_event, function () {
+        $(this).prev().focus();
+    });
+
+    //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+    $('input[name=date-range-picker]').daterangepicker({
+        format: 'DD.MM.YYYY',
+        'applyClass': 'btn-sm btn-success',
+        'cancelClass': 'btn-sm btn-default',
+        locale: {
+            applyLabel: 'Apply',
+            cancelLabel: 'Cancel',
+        }
+    })
+
+    .prev().on(ace.click_event, function () {
+        $(this).next().focus();
+    });
+    //datepicker plugin [end]
+
+    function toggleSearch() {
+        $("._criteria").toggle(200, "linear");
+        if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+            $("#toogle-search").removeClass("fa-angle-double-up");
+            $("#toogle-search").addClass("fa-angle-double-down");
+            $("#toogle-search").removeClass("btn-tiny-down");
+            $("#toogle-search").addClass("btn-tiny-down");
+            document.getElementById('hrsrc').style.display = 'none';
+            $("#tScrollBody").height(450);
+            $("#toogle-search").prop('title', 'Show filter');
+        }
+        else {
+            $("#toogle-search").removeClass("fa-angle-double-down");
+            $("#toogle-search").addClass("fa-angle-double-up");
+            $("#toogle-search").removeClass("btn-tiny-down");
+            $("#toogle-search").addClass("btn-tiny-down");
+            document.getElementById('hrsrc').style.display = 'block';
+            $("#tScrollBody").height(325);
+            $("#toogle-search").prop('title', 'Hide filter');
+        }
+        $("#toogle-search").blur();
+    }
+
+    function openPopupStatus() {
+        $("#txtsearchstatus").val('');
+        if ($("#status-popup").hasClass('open'))
+            $("#status-popup").removeClass('open')
+        else
+            $("#status-popup").addClass('open')
+    }
+
+    function openPopupDocTItle() {
+        if ($("#DocTitle-popup").hasClass('open'))
+            $("#DocTitle-popup").removeClass('open')
+        else
+            $("#DocTitle-popup").addClass('open')
+    }
+
+    function onLookupSelectedStatus(value) {
+        $("#txtstatus").val(value);
+        closePopupStatus();;
+    }
+
+    function onLookupSelectedDocTitle(value) {
+        $("#txtDocTitle").val(value);
+        closePopupDocTitle();;
+    }
+
+    $("#gridLookupStatus-checkAll").click(function () {
+        if ($("#gridLookupStatus-checkAll").is(":checked")) {
+            $(".gridLookupStatus-checkbox-body").prop('checked', true);
+        } else {
+            $(".gridLookupStatus-checkbox-body").prop('checked', false);
+        }
+    });
+
+    $("#gridLookupDocTitle-checkAll").click(function () {
+        if ($("#gridLookupDocTitle-checkAll").is(":checked")) {
+            $(".gridLookupDocTitle-checkbox-body").prop('checked', true);
+        } else {
+            $(".gridLookupDocTitle-checkbox-body").prop('checked', false);
+        }
+    });
+
+    function closePopupStatus() {
+        $("#txtsearchstatus").val('');
+        $("#status-popup").removeClass('open')
+    }
+
+    function closePopupDocTitle() {
+        $("#txtsearchDocTitle").val('');
+        $("#DocTitle-popup").removeClass('open')
+    }
+
+    function gridlookupStatusSelected(setValue) {
+        var result = '';
+        if (($(".gridLookupStatus-checkbox-body:checked").length > 0) && (setValue == 'OK_STATUS')) {
+            for (i = 0; i < $(".gridLookupStatus-checkbox-body").length; i++) {
+                if ($(".gridLookupStatus-checkbox-body")[i].checked)
+                    result = result + ((result != '') ? ';' : '') + $(".gridLookupStatus-checkbox-body")[i].dataset.value;
+            }
+            $("#txtstatus").val(result);
+        }
+
+        if (setValue == 'CS') {
+            $(".gridLookupStatus-checkbox-body").prop('checked', false);
+            $("#txtstatus").val('');
+        }
+
+        closePopupStatus();
+    }
+
+    function gridlookupDocTitleSelected(setValue) {
+        var result = '';
+        if (($(".gridLookupDocTitle-checkbox-body:checked").length > 0) && (setValue == 'OK_STATUS')) {
+            for (i = 0; i < $(".gridLookupDocTitle-checkbox-body").length; i++) {
+                if ($(".gridLookupDocTitle-checkbox-body")[i].checked)
+                    result = result + ((result != '') ? ';' : '') + $(".gridLookupDocTitle-checkbox-body")[i].dataset.value;
+            }
+            $("#txtDocTitle").val(result);
+        }
+
+        if (setValue == 'CS') {
+            $(".gridLookupDocTitle-checkbox-body").prop('checked', false);
+            $("#txtDocTitle").val('');
+        }
+
+        closePopupDocTitle();
+    }
+
+    function downloadAnnouncement(url) {
+        window.open("@Url.Action("DownloadAnnouncement")"+"?url="+url);
+    }
+
+// Function Search [start]
+    function searchData(page) {
+        if(page==null)page=1;
+        pagepos=page;
+
+		$.ajax({
+			type: "POST",
+			url: "@Html.Toyota().Page.GetActionUrl("search")",
+			data: {
+                docTitle: $('#txtDocTitle').val(),
+                releaseDate: $('#releaseDateSearch').val(),
+                status: $('#txtstatus').val(),
+                page: page,
+                size: $("#pageSize").val()
+			},
+			beforeSend:function () {
+                $('#btnSearch').button('loading');
+            },
+			success: function (data) {
+				$("#tablegrid").html(data);
+			},
+			complete:function () {
+                $('#btnSearch').button('reset');
+                //popUpProgressHide();
+            }
+		});
+    }
+
+    // Function Search [end]
+
+
+    // Open Popup Add [start]
+    function input() {
+        gScreenMode = 'ADD';
+        $("#addpopup").modal();
+
+        $("#documentIdAddPopup").val('');
+        $("#documentTitleAddPopup").val('');
+        $("#attachmentFileText").val('');
+        $("#releaseDateAddPopup").val('');
+        $("#statusAddPopup").val('');
+
+        $("#documentTitleAddPopup").css("background-color", "#FFFFFF");
+        $("#attachmentFileText").css("background-color", "#FFFFFF");
+        $("#releaseDateAddPopup").css("background-color", "#FFFFFF");
+        $("#statusAddPopup").css("background-color", "#FFFFFF");
+    }
+
+    // Save Input Add & Edit [start]
+    $("#inputForm").submit(function (e) {
+        e.preventDefault();
+        var screenMode = gScreenMode;
+        valid = validateInputForm();
+
+        if (valid) {
+
+            var doc_id = $("#documentIdAddPopup").val().trim();
+            var doc_title = $("#documentTitleAddPopup").val().trim();
+            var filename = $("#attachmentFileText").val().trim();
+            var date_release_str = $("#releaseDateAddPopup").val().trim();
+            var status = $("#statusAddPopup").val().trim();
+
+            $(this).ajaxSubmit({
+		        type : "POST",
+		        url : "@Html.Toyota().Page.GetActionUrl("SaveInput")",
+                data: {
+                    SCREENMODE: screenMode,
+                    DOCUMENT_ID: doc_id,
+                    ANNOUNCEMENT_TITLE: doc_title,
+                    FILE_NAME: filename,
+                    DATE_RELEASE_STR: date_release_str,
+                    STATUS: status
+                },
+                success: function (returnResult) {
+                    returnResult = JSON.parse(returnResult);
+
+                    if (returnResult.Result == returnResult.ValueSuccess) {
+
+                        $("#addpopup").modal('hide');
+                        $("#msgInfoId").text("Save Data Success");
+                        $("#selected-info").modal();
+                        searchData(pagepos);
+
+                    } else {
+                        $("#msgErrorId").text(returnResult.ErrMesgs);
+                        $("#error-confirm").modal();
+                    }
+		        }
+		    });
+        }
+    });
+
+    function validateInputForm() {
+        var valid = true;
+
+        if ($("#documentTitleAddPopup").val() == '') {
+            $("#documentTitleAddPopup").css("background-color", "#F2BCD5");
+            valid = false;
+
+            $("#msgErrorId").text("Document Title is mandatory");
+            $("#error-confirm").modal();
+        }
+        else if ($("#attachmentFileText").val() == '') {
+            $("#attachmentFileText").css("background-color", "#F2BCD5");
+            valid = false;
+
+            $("#msgErrorId").text("File is mandatory");
+            $("#error-confirm").modal();
+        }
+        else if ($("#releaseDateAddPopup").val() == '') {
+            $("#releaseDateAddPopup").css("background-color", "#F2BCD5");
+            valid = false;
+
+            $("#msgErrorId").text("Release Date is mandatory");
+            $("#error-confirm").modal();
+        }
+        else if ($("#statusAddPopup").val() == '') {
+            $("#statusAddPopup").css("background-color", "#F2BCD5");
+            valid = false;
+
+            $("#msgErrorId").text("Status is mandatory");
+            $("#error-confirm").modal();
+        }
+        else {
+            $("#documentTitleAddPopup").css("background-color", "#FFFFFF");
+            $("#attachmentFileText").css("background-color", "#FFFFFF");
+            $("#releaseDateAddPopup").css("background-color", "#FFFFFF");
+            $("#statusAddPopup").css("background-color", "#FFFFFF");
+        }
+
+        return valid;
+    }
+
+    function checkMandatory() {
+        if ($("#documentTitleAddPopup").val() == '') {
+            $("#documentTitleAddPopup").focus();
+        }
+        else if ($("#attachmentFileText").val() == '') {
+            $("#attachmentFileText").focus();
+        }
+        else if ($("#releaseDateAddPopup").val() == '') {
+            $("#releaseDateAddPopup").focus();
+        }
+        else if ($("#statusAddPopup").val() == '') {
+            $("#statusAddPopup").focus();
+        }
+    }
+
+    function removeMandatory(object) {
+        $(object).css("background-color", "#FFFFFF");
+    }
+
+    function getFormData() {
+        var data = new Object();
+
+        data.ANNOUNCEMENT_TITLE = $("#documentTitleAddPopup").val().trim();
+        data.DATE_RELEASE_STR = $("#releaseDateAddPopup").val().trim();
+        data.STATUS = $("#statusAddPopup").val().trim();
+        return data;
+    }
+    // Save Input Add & Edit [start]
+
+
+
+	// Open Popup Edit [start]
+    function openEditPopup() {
+
+        $.ajax({
+			type : "POST",
+			url : "@Html.Toyota().Page.GetActionUrl("GetByKey")",
+			data: {
+                DOCUMENT_ID: $(".grid-checkbox-body:checked").attr('data-value')
+            },
+			beforeSend:function () {$('#btnSearch').button('loading');},
+            success: function (returnResult) {
+                setScreenToEditMode(returnResult);
+			},
+			complete:function () {$('#btnSearch').button('reset');}
+		});
+	}
+
+    function setScreenToEditMode(returnResult) {
+        gScreenMode = 'EDIT';
+        $("#addpopup").modal();
+
+        var data = returnResult.Params[0];
+        $("#documentIdAddPopup").val(data.DOCUMENT_ID);
+        $("#documentTitleAddPopup").val(data.ANNOUNCEMENT_TITLE);
+        $("#attachmentFileText").val(data.FILE_NAME);
+        $("#releaseDateAddPopup").val(data.DATE_RELEASE_STR);
+        $("#statusAddPopup").val(data.STATUS);
+
+        $("#documentTitleAddPopup").css("background-color", "#FFFFFF");
+        $("#attachmentFileText").css("background-color", "#FFFFFF");
+        $("#releaseDateAddPopup").css("background-color", "#FFFFFF");
+        $("#statusAddPopup").css("background-color", "#FFFFFF");
+        
+    }
+    // Open Popup Edit [end]
+
+    // Delete Data [start]
+    function deleteData() {
+		$("#delete-confirm").modal();
+	}
+
+    function confirmDeleteData() {
+        var doc_id = $(".grid-checkbox-body:checked").attr('data-value')
+
+		$.ajax({
+			type : "POST",
+			url : "@Html.Toyota().Page.GetActionUrl("DeleteAnnouncement")",
+            data: {
+                DOCUMENT_ID: doc_id
+            },
+			success : function(returnResult){
+				if (returnResult.Result == returnResult.ValueSuccess) {
+                    $("#msgInfoId").text("Delete Data Success");
+                    $("#selected-info").modal();
+				} else {
+                    $("#msgErrorId").text(returnResult.ErrMesgs);
+                    $("#error-confirm").modal();
+				}
+				searchData(1);
+			},
+			error : function(returnResult) {
+				$("#msgErrorId").text("Error Delete Data");
+				$("#error-confirm").modal();
+			}
+		});
+		$("#delete-confirm").hide();
+	}
+    // Delete Data [end]
+</script>

@@ -1,0 +1,12 @@
+update 
+	TB_R_GR_IR_FROM_SAP
+set 
+	GR_STATUS = 'CANCEL',
+	CANCEL_DOC_NO = @CANCEL_DOC_NO,
+	NOTIF_FLAG = @NOTIF_FLAG,
+	UPDATED_BY = @UPDATED_BY,
+	UPDATED_DT = getdate()
+where 
+	1=1
+and 
+	MATDOC_NUMBER = @REF_DOC

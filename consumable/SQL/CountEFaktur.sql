@@ -1,0 +1,18 @@
+DECLARE @@val INT = 0
+
+SELECT @@val = SYSTEM_VALUE_NUM FROM PROCUREMENT.dbo.TB_M_SYSTEM WHERE SYSTEM_CD = 'EFAKTUR_EXPIRED' and SYSTEM_TYPE = 'CREATE_INV'
+
+
+SELECT 
+	count(*)      
+FROM 
+	TB_R_VAT_IN_H
+WHERE 
+	--SUPPLIER_CODE = right(@SUPPLIER_CD, len(@SUPPLIER_CD)- 4)
+	--AND TAX_INVOICE_NO like '%' + ISNULL(@Parameter,'') + '%'
+	--AND ISNULL(USED, 'N') != 'Y'
+	SUPPLIER_CODE = substring(@SUPPLIER_CD, patindex('%[^0]%',@SUPPLIER_CD), 10)
+	AND TAX_INVOICE_NO like '%' + ISNULL(@Parameter,'') + '%'
+	AND ISNULL(USED, 'N') != 'Y'
+	AND DATEADD(MONTH, @@val, TAX_INVOICE_DT) >= GETDATE()
+

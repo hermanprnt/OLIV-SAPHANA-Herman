@@ -1,0 +1,379 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+    
+    <style type="text/css">
+        .modal-icon
+        {
+            height: 35px;
+        }
+        
+        .twitter-typeahead
+        {
+            width: 100%;
+        }
+    </style>
+}
+
+<div class="hidden-xs">
+    @Html.Partial("_SearchCriteria")
+
+    <div class="text-center" style="margin-bottom: 3px;">
+        <hr id="hrsrc" style="margin:0;padding:0;" />
+        @*<button onclick="javascript:toggleSearch()" type="button" class="fa fa-chevron-up btn btn-primary btn-xs btn-tiny-down" id="toogle-search"></button>*@
+    </div>
+
+
+    @Html.Partial("_SimpleGrid")
+</div>
+<div class="visible-xs">
+    @Html.Partial("_SearchMobile")
+</div>
+
+    @Html.Partial("_LookupGrid")
+ 
+    @Html.Partial("_UploadPopup")
+
+
+@section BodyScript{
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <!-- Dropzone file js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/dropzone.js")"></script>
+
+    <script src="@Url.Content("~/Content/Bootstrap/js/typeahead.jquery.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ace.vars['PLANT'] = ["Plant 1", "Plant 2", "Plant 3", "Plant 4", "Plant 5"];
+
+            var substringMatcher = function (strs) {
+		        return function findMatches(q, cb) {
+		            var matches, substringRegex;
+
+		            // an array that will be populated with substring matches
+		            matches = [];
+
+		            // regex used to determine if a string contains the substring `q`
+		            substrRegex = new RegExp(q, 'i');
+
+		            // iterate through the pool of strings and for any string that
+		            // contains the substring `q`, add it to the `matches` array
+		            $.each(strs, function (i, str) {
+		                if (substrRegex.test(str)) {
+		                    // the typeahead jQuery plugin expects suggestions to a
+		                    // JavaScript object, refer to typeahead docs for more info
+		                    matches.push({ value: str });
+		                }
+		            });
+
+		            cb(matches);
+		        }
+		    }
+
+            $('input.autocomplete').typeahead({
+		        hint: true,
+		        highlight: true,
+		        minLength: 1
+		    }, {
+		        name: 'states',
+		        displayKey: 'value',
+		        source: substringMatcher(ace.vars['PLANT'])
+		    });
+
+            $("#btnlookup").click(function () {
+                $("#gridlookup").modal()
+            });
+
+            $("#btnclearlookup").click(function () {
+                $("#txtsearchlookup").val('');
+            });
+
+            $(".btn-xs").click(function () {
+                var valbtn = $(this).val();
+                $("#gridlookup").modal('hide')
+            });
+
+
+            $(".btn-edit").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else if ($(".check:checked").length == 1) {
+                    $("#selected-info").modal();
+                    $("#infoModal").html('Data editing ...');
+                }
+            });
+
+            $(".btn-delete").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else
+                    $("#delete-confirm").modal();
+            });
+            
+            $(".btn-reject").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else
+                    $("#reject-confirm").modal();
+            });
+
+            $(".btn-approve").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else {
+                    $("#selected-info").modal();
+                    $("#infoModal").html('Data has been approved.');
+                }
+            });
+
+            $("._datepicker").datepicker();
+
+            /*Checkbox all*/
+            $("#checkall").click(function () {
+                if ($("#checkall").is(":checked")) {
+                    $( ".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $( ".grid-checkbox-body").prop('checked', false);
+                }
+            });
+
+            $("#gridLookup-checkAll").click(function () {
+                if ($("#gridLookup-checkAll").is(":checked")) {
+                    $( ".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $( ".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+
+            $("#popupLookup-checkAll").click(function () {
+                if ($("#popupLookup-checkAll").is(":checked")) {
+                    $( ".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $( ".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+
+            /* toggle show or hide searching criteria (that has class _criteria) */
+            $("#lnsearch-toggle").click(function () {
+                var _criteria = $("._criteria");
+                _criteria.toggle(200, "linear");
+
+                var text = $("#lnsearch-toggle").text();
+                $("#lnsearch-toggle").text(text == "More search criteria" ? "Less search criteria" : "More search criteria");
+            });
+
+            /* toggle column on tablegrid (that <th> has class _toggle-detail) */
+            $("#btnToggleDetail").click(function () {
+                var _detail = $("._toggle-detail");
+
+                _detail.each(function () {
+                    pos = $(this).index();
+                    $(this).toggle();
+                    $("td:nth-child(" + (pos + 1) + ")").toggle();
+                });
+            });
+
+            //datepicker plugin
+		    //link
+		    $('.date-picker').datepicker({
+		        autoclose: true,
+		        todayHighlight: true
+		    })
+			//show datepicker when clicking on the icon
+			.next().on(ace.click_event, function () {
+				$(this).prev().focus();
+			});
+
+		    //or change it into a date range picker
+		    $('.input-daterange').datepicker({ autoclose: true });
+
+
+		    //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+		    $('input[name=date-range-picker]').daterangepicker({
+                format: 'DD.MM.YYYY',
+		        'applyClass': 'btn-sm btn-success',
+		        'cancelClass': 'btn-sm btn-default',
+		        locale: {
+		            applyLabel: 'Apply',
+		            cancelLabel: 'Cancel',
+		        }
+		    })
+			.prev().on(ace.click_event, function () {
+				$(this).next().focus();
+			});
+
+
+            //for generate title ellipsis class
+            $.each( $('.ellipsis'), function(i, a) {
+                var aih = a.innerHTML;
+                aih = aih.replace(/&amp;/ig, '&');
+                a.title= aih;
+            });
+
+        });
+        
+        function popuplookupSelected(setValue) {
+            var result = '';
+            if (($(".popupLookup-checkbox-body:checked").length > 0)&&(setValue == 'OK')) {
+                for(i=0; i<$(".popupLookup-checkbox-body").length; i++) {
+                    if ($(".popupLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '')?';':'') + $(".popupLookup-checkbox-body")[i].dataset.value;
+                }
+                $("#txtUsername").val(result);
+            }
+
+            if (setValue == 'CS'){
+                $(".popupLookup-checkbox-body").prop('checked', false);
+                $("#txtUsername").val('');
+            }
+        }
+
+        function gridlookupSelected(setValue) {
+            var result = '';
+            if (($(".gridLookup-checkbox-body:checked").length > 0)&&(setValue == 'OK')) {
+                for(i=0; i<$(".gridLookup-checkbox-body").length; i++) {
+                    if ($(".gridLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '')?';':'') + $(".gridLookup-checkbox-body")[i].dataset.value;
+                }
+//                $("#btn-value").html(result);
+                $("#txtVendor").val(result);
+            }
+
+            if (setValue == 'CS'){
+                $(".gridLookup-checkbox-body").prop('checked', false);
+                $("#txtVendor").val('Select item');
+            }
+
+            closePopup();
+        }
+
+        function openPopup() {
+            $("#txtsearchlookup").val('');
+            if ($("#btn-group").hasClass('open'))
+                $("#btn-group").removeClass('open')
+            else
+                $("#btn-group").addClass('open')
+        }
+
+        function closePopup() {
+            $("#txtsearchlookup").val('');
+            $("#btn-group").removeClass('open')
+        }
+
+        function clearPopupFilter() {
+            $("#txtsearchlookup").val('');
+        }
+
+        function clearPopupFilter2() {
+            $("#txtPopupSearchLookup").val('');
+        }
+        
+        function toggleSearch() {
+            $("._criteria").toggle(200, "linear");
+
+            if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+                $("#toogle-search").removeClass("fa-angle-double-up");
+                $("#toogle-search").addClass("fa-angle-double-down");
+                $("#toogle-search").removeClass("btn-tiny-down");
+                $("#toogle-search").addClass("btn-tiny-down");
+                document.getElementById('hrsrc').style.display = 'none';
+                $("#tScrollBody").height(450);
+                $("#toogle-search").prop('title', 'Show filter');
+            }
+            else {
+                $("#toogle-search").removeClass("fa-angle-double-down");
+                $("#toogle-search").addClass("fa-angle-double-up");
+                $("#toogle-search").removeClass("btn-tiny-down");
+                $("#toogle-search").addClass("btn-tiny-down");
+                document.getElementById('hrsrc').style.display = 'block';
+                $("#tScrollBody").height(325);
+                $("#toogle-search").prop('title', 'Hide filter');
+            }
+            //document.getElementById("btnLostFocus").focus();
+            $("#toogle-search").blur();
+            //var text = $("#lnsearch-toggle").text();
+            //$("#lnsearch-toggle").text(text == "More search criteria" ? "Less search criteria" : "More search criteria");
+        }
+
+        function ToggleGrid() {
+            //$("._toggle-detail").toggle(200, "linear"); //harusnya kanan ke kiri
+
+
+            var text = $("#grid-toggle").html();
+            if (text == "Show detail") {
+                $("#grid-toggle").html("Hide detail");
+                $("._toggle-detail").show();
+                $("#grid-toggle").prop('title', 'Hide detail grid');
+            }
+            else {
+                $("#grid-toggle").html("Show detail");
+                $("._toggle-detail").hide();
+                $("#grid-toggle").prop('title', 'Show detail grid');
+            }
+        }
+
+        function searchData() {
+            if ($("#cmb_status").val() == '')
+                $("#cmb_status").css("background-color", "#F2BCD5");
+            else
+                $("#cmb_status").css("background-color", "#FFFFFF");
+        }
+
+        function clearData() {
+            $("#cmb_status").css("background-color", "#FFFFFF");
+            $("#cmb_status").val('');
+            $("#txtUsername").val('');
+            $("#navtxtdesc").val('');
+            $("#id-date-picker-1").val('');
+            $("#amount").val('');
+            $("#btn-value").html('Select item');
+            $("#id-date-range-picker-1").val('');
+            $("#sw1").prop('checked', false);
+            $("#cmb_status").val('');
+        }
+
+        function uploadDialog() {
+            $("#uploadPopup").modal("show");
+        }
+
+        function Key(e) {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                return;
+            }
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        }
+
+        function CheckAmount() {
+            var snum = $('#amount').val();
+            snum = snum.trim();
+            //alert(Number(snum.toString()));
+            $('#amount').val(Number(snum));
+        }
+
+        function Download() {
+            window.open("@Url.Content("~/Content/Download/dummy_download.xlsx")", "_blank");
+        }
+
+        function onLookupSelected(value) {
+            $("#txtUsername").val(value);
+            $("#gridlookup").modal("hide");
+        }
+
+    </script>
+
+}

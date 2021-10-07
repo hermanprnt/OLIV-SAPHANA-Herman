@@ -1,0 +1,764 @@
+﻿@using consumable.Models.InvoiceCreation
+@*Modal popup Preview Invoice [start] *@
+<div id="modal-preview-invoice" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 1000px;">@*1100px;*@
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                    Invoice Preview</h4>
+            </div>
+            <div class="modal-body">
+                @*<form role="form" class="form-horizontal">*@
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12">
+                            @*<div class="table-responsive col-xs-12 col-sm-6 col-md-4">
+                            <div style="border: 1pt solid #ccc;">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                        <div class="form-group form-group-xs" style="margin-bottom: 3px;">
+                                            Invoice List Selection
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tScrollHead" style="width: 98.5%; overflow: hidden; margin-left: 10px;">
+                                    <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed"
+                                        style="width: 295px; max-width: 295px !important;">
+                                        <thead>
+                                            <tr>
+                                                <th width="150px">
+                                                    Invoice No
+                                                </th>
+                                                <th width="80px">
+                                                    Status
+                                                </th>
+                                                <th width="50px">
+                                                    Attach
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div id="tScrollBody" style="overflow: auto; height: 325px; margin-left: 10px; margin-bottom: 5px;">
+                                    <table id="tblScroll" class="table table-striped table-bordered table-condensed table-fixed"
+                                        style="width: 295px; max-width: 295px !important;">
+                                        <tbody>
+                                            @{
+                                                if (invoiceCreationList != null && invoiceCreationList.Count > 0)
+                                                {
+                                                    foreach (consumable.Common.Data.GR_IR_DATA item in invoiceCreationList)
+                                                    {
+                                                <tr>
+                                                    <td width="150px" class="text-center">
+                                                        <a id="@item.INVOICE_NO" class="a1 linkInvoiceNo" onclick="setInvoice('@(item.INVOICE_NO)')" style="cursor: pointer; color:black; text-decoration:underline;">@item.INVOICE_NO</a>
+                                                    </td>
+                                                    <td width="80px" class="text-left">@item.GR_STATUS
+                                                    </td>
+                                                    <td width="50px" class="text-center">
+                                                        <i class="fa fa-file"></i>
+                                                    </td>
+                                                </tr>  
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                <tr>
+                                                    <td colspan="3" class="text-center">
+                                                        No data retrieved.
+                                                    </td>
+                                                </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>*@
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                @* Invoice No *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Invoice No</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="invoiceNo" class="form-control mandatory" type="text" value="" />
+                                    </div>
+                                </div>
+                                @* Invoice Date *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Invoice Date</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7" style="cursor: pointer;">
+                                        <div class="input-group customDatePicker" style="width: 100%;">
+                                            <input class="form-control date-picker mandatory" id="invoiceDate" type="text" data-date-format="dd.mm.yyyy" />
+                                            <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* Turn Over *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Turn Over</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="turnOver" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+                                @* Tax Base *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Tax Base</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="taxBase" class="form-control" type="text" value="" style="text-align: right;"
+                                            onkeyup="numberFormat(this); calculateAll();" />
+                                    </div>
+                                </div>
+                                @* Calculate Tax *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Calculate Tax</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        @*<input type="checkbox" />*@
+                                        <div class="col-xs-8 col-sm-9 col-md-3">
+                                            <input type="radio" name="calTax" value="10" style="margin-left: -10px; margin-top: 8px"
+                                                onclick="calculateAll();" class="calTax1" />
+                                            10 %
+                                        </div>
+                                        <div class="col-xs-8 col-sm-9 col-md-3">
+                                            <input type="radio" name="calTax" value="1" style="margin-left: -10px; margin-top: 8px"
+                                                onclick="calculateAll();" class="calTax2" />
+                                            1 %
+                                        </div>
+                                        <div class="col-xs-8 col-sm-9 col-md-3">
+                                            <input type="radio" name="calTax" value="0" style="margin-left: -10px; margin-top: 8px"
+                                                onclick="calculateAll();" class="calTax3" />
+                                            0 %
+                                        </div>
+                                    </div>
+                                </div>
+                                @* Stamp Included *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Stamp Included</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="checkboxStamp" class="checkboxStamp" type="checkbox" style="margin-top: 8px"
+                                            onclick="calculateAll()" />
+                                    </div>
+                                </div>
+                                @* Total Amount *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Total Amount</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="totalAmount" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+                                @* File Attachment *@
+                                <div class="form-group form-group-xs" style="padding-top: 20px;">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted" style="margin-top: 6px">
+                                        Attachment Invoice</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <div class="input-group" style="width: 100%;">
+                                            @*<button type="button" title="Upload Invoice" id="btn-upload" class="fa fa-upload btn btn-warning btn-xs"
+                                            style="padding: 2px;" onclick="javascript:uploadDialog()">
+                                            <span style="font-family: Open Sans; font-size: 12px">Upload Invoice</span>
+                                        </button>*@ @*<input type="file" name="file" class="filestyle" data-buttontext="Pilih file" data-buttonname="btn-primary" />*@
+                                            <form action="@Html.Toyota().Page.GetActionUrl("UploadInvoice")" id="formDestUploadFile"
+                                            enctype="multipart/form-data" method="post" target="upload_target"
+                                            role="form" class="form-horizontal">
+                                            <div id="divFileDestFile" class="file-input btn btn-xs btn-primary btn-file">
+                                                <i class="ace-icon fa fa-upload fa-lg fa-fw"></i>
+                                                <input id="fileDestFile" type="file" name="file" class="input-file" data-row="0"
+                                                    data-type-one="UPLOAD_INVOICE" accept="application/pdf" onchange="uploadFile_OnChange(this, 'linkDestDocFileName-1', 'divDestDocFileNameServer-1', 'btnDeleteDestUpload-1', true);" />
+                                            </div>
+                                            </form>
+                                            <table id="tblDestDoc" style="width: 260px; max-width: 260px !important;">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="trDestDoc-1-a-1" class="hide">
+                                                        <td width="120px">
+                                                            <div id="linkDestDocFileName-1-a-1">
+                                                            </div>
+                                                            @*<a href="#" id="linkDestDocFileName-1-a1" class="control-label text-muted"
+                                                            onclick="downloadFileOfUploadFile('linkDestDocFileName-1-a1', 'divDestDocFileNameServer-1-a1');"></a>*@
+                                                            <div id="divDestDocFileNameServer-1-a-1" class="hide">
+                                                            </div>
+                                                        </td>
+                                                        <td style="padding-left: 10px;" width="5px">
+                                                            <button type="button" class="btn btn-sm btn-primary button-input btn-del-upload"
+                                                                id="btnDeleteDestUpload-1-a-1" data-type-one="UPLOAD_INVOICE" onclick="deleteUploadFile(this, 'linkDestDocFileName-1-a-1', 'divDestDocFileNameServer-1-a-1', 'trDestDoc-1-a-1', true);">
+                                                                X</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                @* Button upload *@ @*<div class="form-group form-group-xs">
+                                <div class="col-xs-8 col-sm-9 col-md-12">
+                                    <button type="button" title="Upload" id="btn-upload-EFaktur" class="fa fa-upload btn btn-warning btn-xs pull-right"
+                                        onclick="javascript:uploadEFaktur()">
+                                        <span style="font-family: Open Sans; font-size: 12px">Upload eFaktur</span>
+                                    </button>
+                                </div>
+                            </div>*@ @* eFaktur No *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        eFaktur No</label>
+                                    @* <div class="input-group input-group-xs col-xs-8 col-sm-9 col-md-7">
+                                    <input id="taxNo" class="form-control" type="text" value="" 
+                                        placeholder="Select tax no.">
+                                        <span class="input-group-btn">
+                                            <button id="btnlookupefaktur" class=" btn btn-default btn-xs" type="button">
+                                                <i class="fa fa-search"></i></button>
+                                        </span>
+                                </div>*@
+                                    <div class="col-xs-8 col-sm-9 col-md-7" style="cursor: pointer;">
+                                        <div class="input-group" style="width: 100%;">
+                                            <input id="taxNo" class="form-control mandatory" type="text" value="" placeholder="Select tax invoice no"
+                                                readonly />
+                                            <span class="input-group-btn">
+                                                <button id="btnlookupefaktur" class=" btn btn-default btn-xs" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* eFaktur Date *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        eFaktur Date</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input class="form-control" id="TaxDate" type="text" data-date-format="dd.mm.yyyy"
+                                            readonly />
+                                    </div>
+                                </div>
+                                @* eFaktur Amount *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        eFaktur Amount</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="taxAmount" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+                                @* Invoice Tax Amount *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Invoice Tax Amount</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="invoiceTaxAmount" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+                                @* Total PO Item *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Total PO Item</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="totalDeliveryNote" class="form-control" type="text" value="" readonly
+                                            style="text-align: right;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*</form>*@
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px;">
+                    <button type="button" class="btn btn-primary btn-xs" style="width: 150px;" onclick="javascript:saveInvoice()">
+                        Save Invoice Document</button>
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_LookupEFaktur")
+</div>
+@*Modal popup Preview Invoice [end] *@
+<script type="text/javascript">
+    var gTagUploadFileNameStr = null;
+    var gTagUploadFileNameServerStr = null;
+    var gTagUploadDeleteStr = null;
+    var gThisObj = null;
+    
+    // Function radio button calculate tax [start]
+    function calcTax(valCalTax) {
+        
+        if ($("#taxBase").val() != '') {
+            var amount = removeCommas($("#taxBase").val());
+            var tax = (valCalTax / 100) * parseFloat(amount);
+
+            $("#invoiceTaxAmount").val(numberWithCommas(tax));
+
+            var totalAmount = parseFloat(amount) + tax;
+            $("#totalAmount").val(numberWithCommas(totalAmount));
+        }
+        else 
+        {
+            $("#msgWarningId").text("Tax Base amount must be filled");
+            $("#warning-confirm").modal();
+        }
+
+        if(valCalTax==0) 
+        {  
+            $("#btnlookupefaktur").prop('disabled', true);
+            $("#taxNo").val('');
+            $("#TaxDate").val('');
+            $("#taxAmount").val(0);
+        }
+        else 
+        {
+            $("#btnlookupefaktur").prop('disabled', false);
+        }
+    }
+    // Function radio button calculate tax [end]
+
+    // Function textbox calculate tax [start]
+    function calculateInvoiceTax(valTaxBase) {
+        if(valTaxBase!='') {
+            var valCalTax = 0;
+            if($(".calTax1:checked").length==1) {
+                valCalTax = $(".calTax1").val();
+            }
+            else if($(".calTax2:checked").length==1) {
+                // alert("nih" + $(".calTax2").val())
+                valCalTax = $(".calTax2").val();
+            }
+            else if($(".calTax3:checked").length==1) {
+                valCalTax = $(".calTax3").val();
+            }
+
+            var amount = removeCommas(valTaxBase);
+            var tax = (valCalTax / 100) * parseFloat(amount);
+
+            $("#invoiceTaxAmount").val(numberWithCommas(tax));
+
+            var turnOver = removeCommas($("#turnOver").val());
+            var totalAmount = parseFloat(turnOver) + tax;
+            $("#totalAmount").val(numberWithCommas(totalAmount));
+        }
+        else {
+            $("#invoiceTaxAmount").val('');
+        }
+    }
+    // Function textbox calculate tax [end]
+
+    // Function Stamp Included [start]
+    function checkStamp() {
+        var turnOver = parseInt(removeCommas($("#turnOver").val()));
+        var totalAmount = parseInt(removeCommas($("#totalAmount").val()));
+
+        if ($(".checkboxStamp:checked").length == 1) {
+            if (turnOver >= 251000 && turnOver <= 1000000) {
+                $("#totalAmount").val(numberWithCommas(totalAmount + 3000))
+            }
+            else if (turnOver > 1000000) {
+                $("#totalAmount").val(numberWithCommas(totalAmount + 6000))
+            }
+        }
+        else {
+            if (turnOver >= 251000 && turnOver <= 1000000) {
+                $("#totalAmount").val(numberWithCommas(totalAmount - 3000))
+            }
+            else if (turnOver > 1000000) {
+                $("#totalAmount").val(numberWithCommas(totalAmount - 6000))
+            }
+        }
+    }
+    // Function Stamp Included [end]
+
+
+     function calculateAll() {  
+        var taxAmount
+        var taxAmountDecimal
+        var taxBase = removeCommas($("#taxBase").val());
+        var taxPercentage = 0;
+        var turnOver = parseInt(removeCommas($("#turnOver").val()));
+
+        if (taxBase != '') {
+            if(taxBase > turnOver)
+            {
+                //$("#msgWarningId").text("Tax Base is greater than turn over");
+                //$("#warning-confirm").modal();
+                $("#taxBase").val(numberWithCommas(turnOver))
+            }
+           
+            if($(".calTax1:checked").length==1) {
+                taxPercentage = $(".calTax1").val();
+            }
+            else if($(".calTax2:checked").length==1) {
+                taxPercentage = $(".calTax2").val();              
+            }
+            else if($(".calTax3:checked").length==1) {
+                taxPercentage = $(".calTax3").val();
+                taxBase = turnOver
+                $("#taxBase").val(numberWithCommas(taxBase))
+            }
+            
+            taxBase = removeCommas($("#taxBase").val());
+            taxAmountDecimal = ((taxPercentage / 100) * (taxBase)).toFixed(2);
+            taxAmount = Math.round(taxAmountDecimal * 100) / 100 
+            //alert((taxPercentage / 100) + "*" + taxBase + "=" + taxAmount )
+            $("#invoiceTaxAmount").val(numberWithCommas(taxAmount));
+            
+        }
+        else 
+        {
+            $("#msgWarningId").text("Tax Base amount must be filled");
+            $("#warning-confirm").modal();
+        }
+
+        if(taxPercentage==0) 
+        {  
+            $("#btnlookupefaktur").prop('disabled', true);
+            $("#taxNo").val('');
+            $("#TaxDate").val('');
+            $("#taxAmount").val(0);
+        }
+        else 
+        {
+            $("#btnlookupefaktur").prop('disabled', false);
+        }
+
+       
+        if ($(".checkboxStamp:checked").length == 1) {
+            if (turnOver >= 251000 && turnOver <= 1000000) {
+                stamp = 3000;      
+            }
+            else if (turnOver > 1000000) {
+                stamp = 6000;
+            }
+        }
+        else {
+           stamp = 0;
+        }
+      
+        totalAmount = (turnOver + taxAmount + stamp).toFixed(2)
+         $("#totalAmount").val(numberWithCommas(Math.round(totalAmount * 100) / 100 ));
+
+     }
+
+    // Function Save Invoice [start]
+    function saveInvoice() {
+
+        valid = validateInputForm();
+        //valid = true;
+            
+        if(valid) {
+            GR_IR_DATA_Arrays = new Array();
+            $('[name=selectedManifest]:checked').each(function () {  
+                //alert($(this).parent().siblings('td').eq(0).text().trim());
+                GR_IR_DATA_Arrays.push({
+                    PO_NUMBER:$(this).parent().siblings('td').eq(0).text().trim(),
+                    PO_ITEM:$(this).parent().siblings('td').eq(1).text().trim(),
+                    VEND_CODE:$(this).parent().siblings('td').eq(4).text().trim(),
+                    CURRENCY:$(this).parent().siblings('td').eq(9).text().trim()
+			    });      
+		    });
+
+            var paramsObj = new Object();
+            paramsObj.invoice = getFormData();
+            paramsObj.items = GR_IR_DATA_Arrays;
+			$.ajax({
+				type : "POST",
+				url : "@Html.Toyota().Page.GetActionUrl("SaveInvoice")",
+				contentType: 'application/json',
+				dataType: 'json',
+                traditional: true,
+				data: JSON.stringify(paramsObj),
+				success : function(returnResult) {
+                    if (returnResult.Result == returnResult.ValueSuccess) {
+                        $("#modal-preview-invoice").modal('hide');
+                    
+                        $("#msgInfoId").text("Save Data Success");
+                        $("#msgInfoCertificateId").text(returnResult.SuccMesgs);
+                        $("#selected-info").modal();
+
+                        printCertificate(returnResult.Params[0],returnResult.Params[1],returnResult.Params[2]);
+
+                        $("#sumAmount").text('');
+			            $("#sumManifest").text('');
+
+                        searchData(pagepos);
+					} 
+                    else {                       
+                        $("#msgWarningId").text("Error Save : " + returnResult.ErrMesgs);
+                        $("#warning-confirm").modal();
+					}
+				},
+				error : function(returnResult) {
+                    $("#msgWarningId").text("Error Save : " + returnResult.ErrMesgs);
+                    $("#warning-confirm").modal();
+				}
+			});
+        }
+	}
+
+    function validateInputForm() {
+        var valid = true;
+        
+        if ($("#invoiceNo").val() == '') {
+            $("#invoiceNo").css("background-color", "#F2BCD5");
+            valid = false;
+        }
+        else {
+            $("#invoiceNo").css("background-color", "#FFFFFF");
+        }
+
+        if ($("#invoiceDate").val() == '') {
+            $("#invoiceDate").css("background-color", "#F2BCD5");
+            valid = false;
+        }
+        else {
+            $("#invoiceDate").css("background-color", "#FFFFFF");
+        }
+
+        if(valid == true &&  $(".calTax3:checked").length!=1) {
+             if ($("#taxNo").val() == '') {
+                $("#msgWarningId").text("Please Select EFaktur");
+                $("#warning-confirm").modal();
+                //$("#taxNo").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#taxNo").css("background-color", "#FFFFFF");
+            }
+        }
+
+       
+        if(valid) {
+            
+            var turnOver = parseInt(removeCommas($("#turnOver").val()));
+            var taxBase = parseInt(removeCommas($("#taxBase").val()));
+
+            if($("#taxAmount").val()!=$("#invoiceTaxAmount").val()) {
+                $("#msgWarningId").text("eFaktur Amount ​​and Invoice Tax Amount must equal");
+                $("#warning-confirm").modal();
+                valid = false;
+            }
+            else if(taxBase > turnOver) {
+                $("#msgWarningId").text("Tax Base amount greater than Turn Over amount");
+                $("#warning-confirm").modal();
+                valid = false;
+            }
+        }
+
+        return valid;
+    }
+
+    var DEST_DOC_COL_IDX = {
+        'FileName': 0
+    };
+
+    function getFormData() {
+        var data = new Object();
+
+        data.INVOICE_NO = $("#invoiceNo").val().trim();
+        data.S_INVOICE_DATE = $("#invoiceDate").val().trim();
+        data.TURN_OVER = $("#turnOver").val().replace(/,/g , '');
+	    data.TAX_BASE = $("#taxBase").val().replace(/,/g , '');
+
+        if($(".calTax1:checked").length==1) {
+            data.CALCULATE_TAX = $(".calTax1").val();
+        }
+        else if($(".calTax2:checked").length==1) {
+            data.CALCULATE_TAX = $(".calTax2").val();
+        }
+        else if($(".calTax3:checked").length==1) {
+            data.CALCULATE_TAX = $(".calTax3").val();
+        }
+
+        var turnOver = parseInt(removeCommas($("#turnOver").val()));
+        if ($(".checkboxStamp:checked").length == 1) {
+            data.CHECKBOX_STAMP = 'Y';
+
+            if (turnOver >= 251000 && turnOver <= 1000000) {
+                data.STAMP_AMOUNT = 3000;
+            }
+            else if (turnOver > 1000000) {
+                data.STAMP_AMOUNT = 6000
+            }
+        }
+        else { 
+            data.CHECKBOX_STAMP = 'N';
+            data.STAMP_AMOUNT = 0;
+        }
+        data.TOTAL_AMOUNT =	$("#totalAmount").val().replace(/,/g , '');
+        data.TAX_INVOICE_NO = $("#taxNo").val();
+        data.TAX_INVOICE_AMOUNT = $("#invoiceTaxAmount").val().replace(/,/g , '');
+
+        data.InvoiceAttachmentList = [];
+        var i = 0;
+        $("#tblDestDoc").children('tbody').children('tr:not(.hide)').each(function () { // must exclude class hide, template is hide class
+            var trObj2 = jQuery(this);
+            var destDoc = new Object();
+
+            i = trObj2.attr("index");
+
+            destDoc.FILE_NAME = trObj2.children('td').eq(DEST_DOC_COL_IDX.FileName).find("#linkDestDocFileName-1-a" + i).text().trim();
+            destDoc.FILE_NAME_SERVER= trObj2.children('td').eq(DEST_DOC_COL_IDX.FileName).find("#divDestDocFileNameServer-1-a" + i).text().trim();
+            data.InvoiceAttachmentList.push(destDoc);
+        });
+
+        return data;
+    }
+    // Function Save Invoice [end]
+
+    // Upload function [start]
+    function uploadFile_OnChange(obj, tagUploadFileNameStr, tagUploadFileNameServerStr, tagUploadDeleteStr, isCustomUpload) {
+//            popUpProgressShow();
+        gTagUploadFileNameStr = tagUploadFileNameStr;
+        gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        gTagUploadDeleteStr = tagUploadDeleteStr;
+//            gIsCustomUpload = isCustomUpload;
+        gThisObj = obj;
+
+//            // validate request max length
+//            var maxRequestLength = '@ViewData["MaxRequestLength"]';
+//            if (maxRequestLength != "") {
+//                if (obj.files[0].size && obj.files[0].size > parseInt(maxRequestLength)) {
+//                    popUpProgressHide();
+//                    showErrorMesgGrowl("Maximum upload file size is " + parseInt(maxRequestLength) / 1024 + 
+//                        " KB, please choose another file");
+
+//                    return;
+//                }
+//            }
+
+        obj.form.submit();
+    }
+
+    function uploadTarget_OnLoad() {
+        var returnResult = $(window.frames["upload_target"].document.body).children("pre").html();
+        
+        if (returnResult != "") {
+//            popUpProgressHide();
+//            handleAjaxResultGrowl(JSON.parse(returnResult), "Upload", onUploadFileSuccess);
+            onUploadFileSuccess(JSON.parse(returnResult));
+        }
+    }
+
+    function onUploadFileSuccess(returnResult) {
+        var fileName = returnResult.Params[0];
+        var fileNameServer = returnResult.Params[1];
+        var oldFileNameServer = null;
+        
+        var result = $("#trDestDoc-1-a-1").clone().removeClass('hide').prop('outerHTML');
+        
+        var row = $("#fileDestFile").attr("data-row");
+        var tagUploadFileNameStr = gTagUploadFileNameStr;
+        var tagUploadFileNameServerStr = gTagUploadFileNameServerStr;
+        //var destIndex = gDestIndex;
+        row++;
+        result = result.replace(/id=["'].*-a-1.*["']/gi, function myFunction(x){ return x.replace(/a-1/, "a" + row); });
+        result = result.replace(/["'].*-a-1["']/gi, function myFunction(x){ return x.replace(/a-1/gi, "a" + row); });
+        $("#tblDestDoc").find("tbody").append(result);
+
+        $("#" + gTagUploadDeleteStr + "-a" + row).prop('onclick', null);
+        $("#" + gTagUploadDeleteStr + "-a" + row).click(function() {
+            deleteUploadFile(this, tagUploadFileNameStr + '-a' + row, 
+                tagUploadFileNameServerStr + '-a' + row, 'trDestDoc-1' + '-a' + row, true);
+        });
+
+//        $("#" + gTagUploadFileNameStr + "-a" + row).prop('onclick', null);
+//        $("#" + gTagUploadFileNameStr + "-a" + row).click(function() {
+//            downloadFileOfUploadFile(tagUploadFileNameStr + '-a' + row, 
+//                tagUploadFileNameServerStr + '-a' + row);
+//        });
+        $("#" + gTagUploadFileNameStr + "-a" + row).html(fileName);
+        $("#" + gTagUploadFileNameServerStr + "-a" + row).html(fileNameServer);
+        $("#fileDestFile").attr("data-row", row);
+        $("#trDestDoc-1" + "-a" + row).attr("index", row);
+    }
+
+    function deleteUploadFile(obj, tagUploadFileNameStr, tagUploadFileNameServerStr, tagToBeRemoveStr, isCustomUpload) {
+        gTagUploadFileNameStr = tagUploadFileNameStr;
+        gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        gTagToBeRemoveStr = tagToBeRemoveStr;
+        gUploadDelete = obj;
+        gIsCustomUpload = isCustomUpload;
+        //gDestIndex = destIndex;
+        gThisObj = obj;
+
+//        showConfirmMesg("Delete upload file " + $("#" + gTagUploadFileNameStr).html() + " ?", doDeleteUploadFile);
+        doDeleteUploadFile();
+    }
+
+    function doDeleteUploadFile() {
+        //popUpProgressShow();
+        //gTagUploadFileNameStr = tagUploadFileNameStr;
+        //gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        $.ajax({
+            type: "POST",
+            url: "@Html.Toyota().Page.GetActionUrl("DeleteUploadFile")",
+            //contentType: 'application/json',
+            dataType: 'json',
+            traditional: true,
+            data: {
+                fileNameServer: $("#" + gTagUploadFileNameServerStr).html()
+            },
+            success: function (returnResult) {
+                //popUpProgressHide();
+                //handleAjaxResultGrowl(returnResult, "Delete Upload File", onDeleteUploadFileSuccess);
+                onDeleteUploadFileSuccess();
+            },
+            error: function (returnResult) {
+                //popUpProgressHide();
+                //handleAjaxResponseErrorGrowl(returnResult, "Delete Upload File");
+            }
+        });
+    }
+    
+    function onDeleteUploadFileSuccess() {
+        //gArrDeletedFileNameServer.push($("#" + gTagUploadFileNameServerStr).html());
+        if (gIsCustomUpload) {
+            var row = $("#fileDestFile").attr("data-row");
+            row--;
+            $("#fileDestFile").attr("data-row", row);
+
+            // adjust seq
+            var currRow = $(gThisObj).closest("tr[id^=trDestDoc-]").attr("index");
+            var ctr = currRow;
+            $("#trDestDoc-1-a" + currRow).nextAll().each(function () {
+                ctr++;
+                var thisJquery = $(this);
+                thisJquery.attr("index", (ctr - 1));
+                thisJquery.attr("id", "trDestDoc-1-a" + (ctr - 1));
+
+                var html = thisJquery.html();
+                //var pattern = new RegExp('id=["\'].*-a' + ctr + '.*["\']', "gi");
+                var pattern = new RegExp('["\'].*-a' + ctr + '.*["\']', "gi");
+                var pattern2 = new RegExp('a' + ctr, "gi");
+                //html = html.replace(/id=["'].*-a-1.*["']/gi, function myFunction(x){ return x.replace(/a-1/, "a" + ctr); });
+                html = html.replace(pattern, function myFunction(x){ return x.replace(pattern2, "a" + (ctr - 1)); });
+                thisJquery.html(html);
+            });
+        }
+
+        $("#" + gTagUploadFileNameStr).html("");
+        $("#" + gTagUploadFileNameServerStr).html("");
+
+        if (gTagToBeRemoveStr != null && gTagToBeRemoveStr != "") {
+            $("#" + gTagToBeRemoveStr).remove();
+        } else {
+            //$(gUploadDelete).addClass('hide');
+            $(gUploadDelete).hide();
+        }
+    }
+    // Upload function [end]
+
+
+    function printCertificate(invoiceId,supplierCode,certificateId) {
+        window.open("@Url.Action("PrintCertificate")"+"?invoiceId="+invoiceId+"&&supplierCode="+supplierCode+"&&certificateId="+certificateId);     
+    }
+
+</script>

@@ -1,0 +1,422 @@
+﻿@using consumable.Commons.Constants;
+<div id="postInvoicePopUp" class="modal fade">
+    <div class="modal-dialog modal-lg" style="width:1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Post Invoice
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-7">
+                        @* Supplier *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Supplier</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="supplierCodePost" class="form-control" type="text" value="" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        @* Supplier Invoice No *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Supplier Invoice No</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="invoiceNoPost" class="form-control" type="text" value="" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        @* Posting Date *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Posting Date</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5" style="cursor: pointer;">
+                                <div class="input-group" style="width: 100%;">
+                                    <input class="form-control date-picker mandatory" id="postingDate" type="text" data-date-format="dd.mm.yyyy" />
+                                    <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        @* Invoice Date *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Invoice Date</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5" style="cursor: pointer;">
+                                <div class="input-group" style="width: 100%;">
+                                    <div class="input-group" style="width: 100%;">
+                                        <input id="invoiceDatePost" class="form-control" type="text" value="" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @* Baseline Date *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Baseline Date</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5" style="cursor: pointer;">
+                                <div class="input-group" style="width: 100%;">
+                                    <input class="form-control date-picker mandatory" id="baselineDate" type="text" data-date-format="dd.mm.yyyy" />
+                                    <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        @* Term Of Payment *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Term Of Payment
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                @*<div class="input-group" style="width: 100%;">
+                                    <input id="termOfPayment" class="form-control mandatory" type="text" value="" />
+                                </div>*@
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="termOfPayment" class="cursor-1 mandatory">
+                                        @foreach (var item in (List<consumable.Models.SystemProperty.SystemProperty>)ViewData["TermPaymList"])
+                                        {
+                                            <option value="@item.SYSTEM_CD">
+                                                @item.SYSTEM_CD - @item.SYSTEM_VALUE_TEXT
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* Payment Method *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Payment Method
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                @*<div class="input-group" style="width: 100%;">
+                                    <input id="paymentMethod" class="form-control mandatory" type="text" value="" />
+                                </div>*@
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="paymentMethod" class="cursor-1 mandatory">
+                                        @foreach (var item in (List<consumable.Models.SystemProperty.SystemProperty>)ViewData["PaymMethodList"])
+                                        {
+                                            <option value="@item.SYSTEM_CD">
+                                                @item.SYSTEM_CD - @item.SYSTEM_VALUE_TEXT
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-5">               
+                       
+                        @* Amount  *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Amount</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="invoiceAmount" class="form-control" maxlength="13" type="text" value=""
+                                        onkeyup="numberFormat(this);" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        @* Invoice Note *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Invoice Note</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="invoiceNote" class="form-control" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        @* Header Text *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Header Text</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="eFakturNoPost" class="form-control" type="text" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        @* Assignment *@
+                       @* <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Assignment</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="assignmentPost" class="form-control" type="text"  readonly/>
+                                </div>
+                            </div>
+                        </div>*@
+                        
+                        @* Tax Code *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Tax Code
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="taxCode" class="cursor-1">
+                                        @foreach (var item in (List<consumable.Models.SystemProperty.SystemProperty>)ViewData["TaxCodeList"])
+                                        {
+                                            <option @(item != null && item.SYSTEM_CD.Equals(CommonConstant.SYSTEM_TAX_CODE_V1) ? "selected" : null) 
+                                                    value="@item.SYSTEM_CD">
+                                                @item.SYSTEM_VALUE_TEXT
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* Tax Date *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Tax Date</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7" style="cursor: pointer;">
+                                <div class="input-group" style="width: 100%;">
+                                    <input class="form-control date-picker" id="taxDatePost" type="text" data-date-format="dd.mm.yyyy"
+                                        disabled />                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-12">
+                        @* Partner Bank *@
+                        <div class="form-group form-group-md" style="margin-left:20px">
+                            <label class="col-xs-4 col-sm-3 col-md-2 control-label text-muted">
+                                Partner Bank</label>
+                            <div class="col-xs-8 col-sm-9 col-md-9" >
+                                <div class="input-group">                                
+                                    <select id="partnerBankPost" class="cursor-1 mandatory">
+                                        @foreach (var item in (List<consumable.Models.SUPPLIER.Supplier>)ViewData["PartnerBankList"])
+                                        {
+                                            <option value="@item.PARTNER_BANK_TYPE">
+                                               @item.PARTNER_BANK_TYPE - @item.PARTNER_BANK_NAME - @item.CURRENCY
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center" style="margin-bottom: 5px;">
+                    <hr id="hrsrc" style="margin: 0; padding: 0;" />
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        @* Label  *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                <strong>Withholding Tax</strong></label>
+                        </div>
+                        @* Witholding Tax Code *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                Withholding Tax Code</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="withHoldingTaxPost" class="cursor-1 mandatory">
+                                        <option value=""></option>
+                                        @foreach (var item in (List<consumable.Models.GLAccount.GLAccount>)ViewData["WitholdingTaxList"])
+                                        {
+                                            <option value="@item.CODE">@item.CODE -
+                                                @item.NAME
+                                            </option>
+                                        }
+                                    </select>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        @* Label  *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                <br /></label>
+                        </div>
+                        @* Base Amount  *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Base Amount</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 96%;">
+                                    <input id="baseAmountPost" class="form-control" maxlength="13" type="text" value=""
+                                        onkeyup="numberFormat(this);" style="margin-left:-5px" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="text-center" style="margin-bottom: 5px;">
+                    <hr id="hrsrc" style="margin: 0; padding: 0;" />
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        @* Label  *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                <strong>PPV Amount </strong>
+                            </label>
+                        </div>
+                        @* GL Account *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                                GL Account</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="glAccount" class="cursor-1 mandatory">
+                                        <option value=""></option>
+                                        @foreach (var item in (List<consumable.Models.GLAccount.GLAccount>)ViewData["GlAccountList"])
+                                        {
+                                            <option value="@item.GL_ACCOUNT_NO">
+                                                @item.NAME
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        @* Label  *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                <br /></label>
+                        </div>
+                        @* PPV Amount  *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                PPV Amount</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 96%;">
+                                    <input id="glAmount" class="form-control" maxlength="13" type="text" value="" 
+                                        onkeyup="numberFormatwithMinus(this);" style="margin-left:-5px" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                Attachment PPV</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7" style="margin-left:-4px">
+                                <div class="input-group" style="width: 100%;">
+                                    <form action="@Html.Toyota().Page.GetActionUrl("UploadPpv")" id="formDestUploadFile"
+                                        enctype="multipart/form-data" method="post" target="upload_target"
+                                        role="form" class="form-horizontal">
+                                        <div id="divFileDestFile" class="file-input btn btn-xs btn-primary btn-file">
+                                            <i class="ace-icon fa fa-upload fa-lg fa-fw"></i>
+                                            <input id="fileDestFile" type="file" name="file" class="input-file"
+                                                data-row="0" data-type-one="UPLOAD_PPV" accept="application/pdf"
+                                                onchange="uploadFile_OnChange(this, 'linkDestDocFileName-1', 'divDestDocFileNameServer-1', 'btnDeleteDestUpload-1', true);"/>
+                                        </div>
+                                    </form>
+                                    <table id="tblDestDoc" style="width: 260px; max-width: 260px !important;">
+                                        <thead></thead>
+                                        <tbody>
+                                            <tr id="trDestDoc-1-a-1" class="hide">
+                                                <td width="120px">
+                                                    <div id="linkDestDocFileName-1-a-1"></div>
+                                                    <div id="divDestDocFileNameServer-1-a-1" class="hide"></div>
+                                                </td>
+                                                <td style="padding-left: 10px;" width="5px">
+                                                    <button type="button" class="btn btn-sm btn-primary button-input btn-del-upload" id="btnDeleteDestUpload-1-a-1" 
+                                                        data-type-one="UPLOAD_PPV"
+                                                        onclick="deleteUploadFile(this, 'linkDestDocFileName-1-a-1', 'divDestDocFileNameServer-1-a-1', 'trDestDoc-1-a-1', true);">X</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" style="margin-bottom: 5px;">
+                    <hr id="hrsrc" style="margin: 0; padding: 0;" />
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px; margin-bottom: 10px;">
+                    @*<button type="button" class="btn btn-primary btn-xs" style="width: 60px;">
+                        Save</button>*@
+                    <button id="submitPostBtn" type="button" class="btn btn-primary btn-xs" onclick="javascript:submitPost('POST_INVOICE')"
+                        style="width: 60px;">
+                        Post</button>
+                    <button id="clearPostBtn" class="btn btn-default btn-xs" style="width: 60px;">
+                        Clear</button>
+                    <button id="closePostBtn" class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+                @*</form>*@
+                </div>
+            </div>
+        </div>
+        @*<div class="modal-footer">
+            <button type="button" id="btncloselookup" class="btn btn-default btn-xs" data-dismiss="modal">
+                close</button>
+        </div>*@
+    </div>
+</div>
+<script type="text/javascript">
+
+    function openPopupSupplierInputInvoice() {
+        $("#txtsearchlookupSupplierInputInvoice").val('');
+        if ($("#btn-group-supplier-input-invoice").hasClass('open'))
+            $("#btn-group-supplier-input-invoice").removeClass('open')
+        else
+            $("#btn-group-supplier-input-invoice").addClass('open')
+    }
+
+    function onLookupSelectedInput(value, value2) {
+        $("#supplierInputInvoice").val(value);
+        closePopupSupplierInputInvoice(); ;
+    }
+
+    function clearPopupFilterSupplierInputInvoice() {
+        $("#txtsearchlookupSupplierInputInvoice").val('');
+    }
+
+    function closePopupSupplierInputInvoice() {
+        $("#txtsearchlookupSupplierInputInvoice").val('');
+        $("#btn-group-supplier-input-invoice").removeClass('open')
+    }
+
+
+    function openPopupWithholdingTax() {
+        $("#txtsearchwithholdingtax").val('');
+        if ($("#withholdingtax-popup").hasClass('open'))
+            $("#withholdingtax-popup").removeClass('open')
+        else
+            $("#withholdingtax-popup").addClass('open')
+    }
+
+    function onLookupSelectedWithholdingTax(value, value2) {
+        $("#txtwithholdingtax").val(value);
+        closePopupWithholdingTax(); ;
+    }
+
+    function closePopupWithholdingTax() {
+        $("#txtsearchwithholdingtax").val('');
+        $("#withholdingtax-popup").removeClass('open')
+    }
+
+</script>

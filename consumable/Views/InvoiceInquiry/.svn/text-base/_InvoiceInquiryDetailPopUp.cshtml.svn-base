@@ -1,0 +1,162 @@
+﻿@using consumable.Models.InvoiceInquiry
+@using consumable.Models
+@{
+    List<InvoiceInquiryDetail> invoiceInquiryDtlList = (List<InvoiceInquiryDetail>)ViewData["InvoiceInquiryDetail"];
+}
+<div id="modal-invoice-detail" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Invoice & Payment Inquiry Detail
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div style="margin-left: -13px;">
+                            <label class="col-xs-12 col-sm-12 col-md-12 control-label text-muted">
+                                <strong>Invoice No : <span id="invoiceNoModal"></span></strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+                        <div style="border: 1pt solid #ccc;">
+                            <div id="tScrollHeadDetail" style="width: 98%; overflow: hidden;">
+                                <table id="dynamic-table-detail" class="table table-striped table-bordered table-condensed table-fixed"
+                                    style="width: 1050px; max-width: 1050px !important;">
+                                    <thead>
+                                        <tr>
+                                            <th width="100px">
+                                                PO No
+                                            </th>
+                                            <th width="100px">
+                                                PO Item
+                                            </th>
+                                            <th width="100px">
+                                                Po Text
+                                            </th>
+                                            <th width="100px">
+                                                Material Doc No
+                                            </th>
+                                            <th width="100px">
+                                                Material Doc Item
+                                            </th>
+                                            <th width="100px">
+                                                Header Text
+                                            </th>
+                                            <th width="100px">
+                                                Receiving Date
+                                            </th>
+                                            <th width="100px">
+                                                Material
+                                            </th>
+                                            <th width="80px">
+                                                Qty
+                                            </th>
+                                            <th width="100px">
+                                                Amount
+                                            </th>
+                                            <th width="60px">
+                                                Unit
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div id="tScrollBodyDetail" style="overflow: scroll; height: 325px;">
+                                <table id="tblScrollDetail" class="table table-striped table-bordered table-condensed table-fixed"
+                                    style="width: 1050px; max-width: 1050px !important;">
+                                    <tbody>
+                                        @{
+                                            if (invoiceInquiryDtlList != null && invoiceInquiryDtlList.Count > 0)
+                                            {
+                                                foreach (InvoiceInquiryDetail item in invoiceInquiryDtlList)
+                                                {
+                                            <tr>
+                                                <td width="100px" class="text-left">@item.PO_NUMBER
+                                                </td>
+                                                <td width="100px" class="text-left">@item.PO_ITEM
+                                                </td>
+                                                <td width="100px" class="text-left">@item.PO_TEXT
+                                                </td>
+                                                <td width="100px" class="text-left">@item.MATDOC_NUMBER
+                                                </td>
+                                                <td width="100px" class="text-left">@item.MATDOC_ITEM
+                                                </td>
+                                                <td width="100px" class="text-left">@item.HEADER_TEXT
+                                                </td>
+                                                <td width="100px" class="text-left">
+                                                    @(item.MATDOC_DATE.HasValue ? item.MATDOC_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                                </td>
+                                                <td width="100px" class="text-left">@item.MAT_NUMBER
+                                                </td>
+                                                <td width="80px" class="text-right">@item.MATDOC_QTY
+                                                </td>
+                                                <td width="100px" class="text-right">
+                                                    @if (item.MATDOC_CURRENCY == "IDR")
+                                                    { @item.MATDOC_AMOUNT.FormatCommaSeparator() }
+                                                    else
+                                                    { @item.MATDOC_AMOUNT.FormatCommaSeparatorWithDecimal();
+                                                    }
+                                                </td>
+                                                <td width="60px" class="text-center">@item.MATDOC_UNIT
+                                                </td>
+                                            </tr>                                                    
+                                                }
+                                            }
+                                            else
+                                            {
+                                            <tr>
+                                                <td colspan="13" class="text-center">
+                                                    No data retrieved.
+                                                </td>
+                                            </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            @*<div>
+                                <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="13">
+                                                @Html.Partial("_UIPaging")
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btncloselookup" class="btn btn-default btn-sm" data-dismiss="modal">
+                    close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tScrollBodyDetail").scroll(function () {
+        $("#tScrollHeadDetail").scrollLeft($("#tScrollBodyDetail").scrollLeft());
+    });
+
+    var table = document.getElementById("dynamic-table-detail");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                table.rows[i].cells[j].onclick = function () {
+                    tableText(this);
+                    sorting_execute = '1';
+                };
+            }
+        }
+    }
+</script>

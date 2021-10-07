@@ -1,0 +1,197 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Web;
+using System.Web.Hosting;
+using System.Web.Mvc;
+using System.Xml;
+using consumable.Commons.Constants;
+using consumable.Models;
+using consumable.Models.EFaktur;
+using consumable.Models.Paging;
+using consumable.Models.SUPPLIER;
+using consumable.Models.SystemProperty;
+using consumable.Models.VAT_IN_H;
+using Ghostscript.NET;
+using Ghostscript.NET.Rasterizer;
+using ThoughtWorks.QRCode.Codec;
+using ThoughtWorks.QRCode.Codec.Data;
+using Toyota.Common.Web.Platform;
+
+namespace consumable.Controllers
+{
+
+    public class EFakturScanController : PageController
+    {
+
+        private EFakturRepository efakturRepo = EFakturRepository.Instance;
+        private SystemPropertyRepository systemPropertyRepo = SystemPropertyRepository.Instance;
+        private SupplierRepository supplierRepo = SupplierRepository.Instance;
+
+        private static string ErrorMessage = "";
+
+        protected override void Startup()
+        {
+            Settings.Title = "E-Faktur Scan";
+            //btnQRPDFScan_Click();
+
+            string vendCodeLogin = CommonFunction.Instance.getVendCodeLogin(Lookup.Get<Toyota.Common.Credential.User>());
+            ViewData["vendCodeLogin"] = vendCodeLogin;
+            if (vendCodeLogin != null)
+            {
+                ViewData["readonly"] = "readonly";
+                ViewData["disabled"] = "disabled";
+
+                ViewData["visibilityUser"] = "false";
+                ViewData["visibilityVndr"] = "true";
+            }
+            else
+            {
+                ViewData["readonly"] = "";
+                ViewData["disabled"] = "";
+
+                ViewData["visibilityUser"] = "true";
+                ViewData["visibilityVndr"] = "false";
+            }
+
+            constructComboBoxes();
+
+            getEFakturList(null, null, vendCodeLogin, CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
+        }
+
+        public void constructComboBoxes()
+        {
+            getLookupSupplierSearch(
+                CommonFunction.Instance.DefaultStringValue(),
+                CommonFunction.Instance.DefaultPage(),
+                CommonFunction.Instance.DefaultSize());
+        }
+
+        private void getLookupSupplierSearch(string parameter, int page, int size)
+        {
+            Paging pg = new Paging(supplierRepo.countSupplier(parameter), page, size);
+
+            ViewData["LookupPaging"] = pg;
+
+            ViewData["Suppliers"] = supplierRepo.GetSupplier(parameter, pg.StartData, pg.EndData);
+        }
+
+        public ActionResult search(string taxInvoiceNoSearch, string taxInvoiceDtSearch, string supplierSearch, 
+            int page, int size)
+        {
+            string NoReg = Lookup.Get<Toyota.Common.Credential.User>().Id;
+
+            getEFakturList(taxInvoiceNoSearch, taxInvoiceDtSearch, supplierSearch, page, size);
+
+            return PartialView("_GridView");
+        }
+
+        private void getEFakturList(string taxInvoiceNoSearch, string taxInvoiceDtSearch, 
+            string supplierCodeSearch, int page, int size)
+        {
+            int countdata = 0;
+            countdata = efakturRepo.countEFaktorList(taxInvoiceNoSearch, taxInvoiceDtSearch, supplierCodeSearch);
+
+            Paging pg = new Paging(countdata, page, size);
+            ViewData["CountData"] = countdata;
+            ViewData["Paging"] = pg;
+
+            ViewData["EFakturList"] = efakturRepo.GetEFakturList(taxInvoiceNoSearch, taxInvoiceDtSearch, supplierCodeSearch, pg.StartData, pg.EndData);
+        }
+
+
+        public ActionResult Upload(HttpPostedFileBase file, String supplierInput)
+        {
+            string result = null;
+            AjaxResult ajaxResult = new AjaxResult();
+
+            try
+            {
+                if (supplierInput != null && !"".Equals(supplierInput))
+                {
+                    string fileName = Lookup.Get<Toyota.Common.Credential.User>().Username + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                    SystemProperty sysProp = (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType(
+                        CommonConstant.SYSTEM_CD_EFAKTUR_PATH, CommonConstant.SYSTEM_TYPE_EFAKTUR_PATH);
+                    string pathTempEfaktur = "";
+
+                    if (sysProp != null) pathTempEfaktur = sysProp.SYSTEM_VALUE_TEXT;
+
+                    string pdfFile = pathTempEfaktur + fileName + ".pdf";
+                    string pngFile = pathTempEfaktur + fileName + ".png";
+                    file.SaveAs(pdfFile);
+                    efakturRepo.PdfToPng(pdfFile, pngFile);
+                    
+                    QRCodeDecoder decoder = new QRCodeDecoder();
+                    String decodedString = "";
+                    //Bitmap bitmapQR = new Bitmap(System.Web.HttpContext.Current.Server.MapPath("~/Content/Images/"+  fileName + ".png"));
+                    using (Bitmap bitmapQR = new Bitmap(Path.GetFullPath(pngFile)))
+                    {
+                        decodedString = decoder.decode(new QRCodeBitmapImage(new Bitmap(bitmapQR)));
+                    }
+
+                    System.IO.File.Delete(pdfFile);
+                    System.IO.File.Delete(pngFile);
+
+                    String qrLink = decodedString;
+
+                    string uploadBy = Lookup.Get<Toyota.Common.Credential.User>().Username;
+
+                    result = efakturRepo.ViewBarcodeFaktur(qrLink, supplierInput, uploadBy);
+                    if (result == null)
+                    {
+                        ajaxResult.Result = AjaxResult.VALUE_SUCCESS;
+                        ajaxResult.SuccMesgs = new string[] { "Upload E-Faktur Success" };
+                    }
+                    else
+                    {
+                        ajaxResult.Result = AjaxResult.VALUE_ERROR;
+                        ajaxResult.ErrMesgs = new string[] { result };
+                    }
+                }
+                else
+                {
+                    ajaxResult.Result = AjaxResult.VALUE_ERROR;
+                    ajaxResult.ErrMesgs = new string[] { "Supplier Code Empty" };
+                }
+
+            }
+            catch(Exception e)
+            {
+                ajaxResult.Result = AjaxResult.VALUE_ERROR;
+                ajaxResult.ErrMesgs = new string[] { e.Message };
+
+            }           
+
+            return Json(ajaxResult);
+        }
+
+        
+        public ActionResult onLookupSupplierSearchAndInput(string Parameter, int Page, string PartialViewSearchAndInput)
+        {
+            getLookupSupplierSearch(
+                Parameter,
+                Page,
+                CommonFunction.Instance.DefaultSize());
+            return PartialView(PartialViewSearchAndInput);
+        }
+
+        public ActionResult onLookupSupplier(string Parameter, string PartialViewSearchAndInput, int Page)
+        {
+            if (PartialViewSearchAndInput.Equals("_LookupTableSupplier"))
+            {
+                getLookupSupplierSearch(
+                    Parameter,
+                    Page,
+                    CommonFunction.Instance.DefaultSize());
+            }
+
+            return PartialView(PartialViewSearchAndInput);
+        }
+    
+    }
+}

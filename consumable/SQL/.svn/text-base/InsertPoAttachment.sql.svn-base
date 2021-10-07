@@ -1,0 +1,12 @@
+INSERT INTO TB_R_PO_ATTACHMENT
+(          
+    PO_NUMBER,
+	[FILE_NAME],
+    FILE_NAME_SERVER 
+) 
+ VALUES 
+(
+    @PO_NUMBER,
+	@FILE_NAME,  
+    @FILE_NAME_SERVER
+);

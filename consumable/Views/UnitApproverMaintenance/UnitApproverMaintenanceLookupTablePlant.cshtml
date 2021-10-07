@@ -1,0 +1,55 @@
+﻿<div id="tblPopupPlantSearch" class="table-responsive multiselect-item filter" style="overflow: hidden;">
+    <div style="border: 1pt solid #ccc;">
+        <table class="table table-striped table-bordered table-condensed table-fixed">
+            <thead>
+                <tr>
+                    @*<th class="text-center" style="width: 14px; max-width: 14px">
+                        <input class="gridLookup-checkbox cursor-link" type="checkbox" style="height: 13px; margin-top: 3px;" id="gridLookup-checkAll" />
+                    </th>*@
+                    <th class="text-center" style="width: 60px; max-width: 60px">
+                        Plant Code
+                    </th>
+                    <th class="text-center" style="width: 218px; max-width: 218px">
+                        Plant Name
+                    </th>
+                    <th class="text-center" style="width: 8px; max-width: 8px"> </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div style="overflow: scroll; height: 153px;">
+        <table class="table table-striped table-bordered table-condensed table-fixed">
+            @foreach (var item in (List<consumable.Models.PLANT.Plant>)ViewData["Plant"])
+            {
+                <tr>
+                    @*<td class="text-center" style="width: 20px; max-width: 20px">
+                        <input type="checkbox" class="gridLookup-checkbox gridLookup-checkbox-body cursor-link" style="height: 13px; margin-top: 3px;" data-value="@item.PLANT_CD" />
+                    </td>*@
+                    <td class="text-center cursor-link" style="width: 80px; max-width: 80px" onclick="javascript:gridLookupPlantSearchSelected('@item.PLANT_CD')">
+                        @item.PLANT_CD
+                    </td>
+                    <td class="text-left cursor-link" style="width: 288px; max-width: 288px" onclick="javascript:gridLookupPlantSearchSelected('@item.PLANT_CD')">
+                        @item.PLANT_NAME
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div>
+        <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+            <tfoot>
+                <tr>
+                    <td colspan="13">
+                        @Html.Partial("_UIPagingLookup")
+                        <script type="text/javascript" language="javascript">
+                            $(".IndexPagingLookup").click(function () {
+                                var pg = $(this).attr('Page');
+                                onLookupPlantSearch(pg);
+                            });
+                        </script>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿<div id="displaynoticepopup" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Display Notice
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal _criteria" id="inputInvoiceForm">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-9">
+                         @* By *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-2">
+                                Notice By  :  
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <span id="displayNoticeBy"></span>                            
+                            </div>                          
+                        </div>
+                        @* Date *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-2 ">
+                                Notice Date : 
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <span id="displayNoticeDt"></span>                          
+                            </div>
+                        </div>
+                        @* Remarks *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-2">
+                                Remarks : 
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <span id="displayNoticeRemarks"></span>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px;">                    
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        @*<div class="modal-footer">
+            <button type="button" id="btncloselookup" class="btn btn-default btn-xs" data-dismiss="modal">
+                close</button>
+        </div>*@
+    </div>
+</div>

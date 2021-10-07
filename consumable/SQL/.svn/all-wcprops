@@ -1,0 +1,881 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL
+END
+SavePostInvoiceSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SavePostInvoiceSAP.sql
+END
+UpdateCancelGRInitial.sql
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateCancelGRInitial.sql
+END
+DeleteRFDtl.sql
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/DeleteRFDtl.sql
+END
+GetEmployeeProfile.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetEmployeeProfile.sql
+END
+UpdateGRIRData.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateGRIRData.sql
+END
+CountInvoiceReceiving.sql
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountInvoiceReceiving.sql
+END
+InsertGLAccount.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertGLAccount.sql
+END
+UpdateEfaktur.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateEfaktur.sql
+END
+DeleteUserSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/DeleteUserSAP.sql
+END
+GetGLAccountByCode.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGLAccountByCode.sql
+END
+CountEmployeeProfile.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountEmployeeProfile.sql
+END
+GetGRAlreadyProcess.sql
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGRAlreadyProcess.sql
+END
+GetNewDataWithoutCancelRef.sql
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetNewDataWithoutCancelRef.sql
+END
+InvoiceCreationCheckGRStatus.sql
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/ID.TMMIN/!svn/ver/17513/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InvoiceCreationCheckGRStatus.sql
+END
+NoticeInvoiceInquiry.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/NoticeInvoiceInquiry.sql
+END
+UpdateGrStatus.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateGrStatus.sql
+END
+InsertPOHeaderSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertPOHeaderSAP.sql
+END
+InsertGRIRFromSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertGRIRFromSAP.sql
+END
+UpdateCancelGRSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateCancelGRSAP.sql
+END
+InsertPOItemSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertPOItemSAP.sql
+END
+UpdateReverseInvoiceSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateReverseInvoiceSAP.sql
+END
+GetSupplier.sql
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetSupplier.sql
+END
+GetPartnerBankList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetPartnerBankList.sql
+END
+GetSystemPropertyByCodeAndType.sql
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetSystemPropertyByCodeAndType.sql
+END
+GetInvoiceInquiryUnique.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceInquiryUnique.sql
+END
+SavePostInvoiceSAPInput.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SavePostInvoiceSAPInput.sql
+END
+ApproveGR.sql
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/ApproveGR.sql
+END
+CountInvoiceCreationRev.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17713/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountInvoiceCreationRev.sql
+END
+InsertPOTextSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertPOTextSAP.sql
+END
+UpdateGRIRDataRev.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateGRIRDataRev.sql
+END
+UpdateRFDtl.sql
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateRFDtl.sql
+END
+GetInvoiceCreation.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceCreation.sql
+END
+InsertInvoice.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertInvoice.sql
+END
+ApproveGRRev.sql
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/ApproveGRRev.sql
+END
+GetPoApproval.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetPoApproval.sql
+END
+SYSTEM_GetPROXY.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SYSTEM_GetPROXY.sql
+END
+UpdateUserSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateUserSAP.sql
+END
+CountInvoiceInquiry.sql
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountInvoiceInquiry.sql
+END
+ProcessInvoiceReceiving.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/ProcessInvoiceReceiving.sql
+END
+GetGLAccountById.sql
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGLAccountById.sql
+END
+DeleteRF.sql
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/DeleteRF.sql
+END
+CountInvoiceCreation.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountInvoiceCreation.sql
+END
+UpdateInvoiceWithCancelGR.sql
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateInvoiceWithCancelGR.sql
+END
+GetEFakturList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetEFakturList.sql
+END
+GetListFileDownloadPo.sql
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetListFileDownloadPo.sql
+END
+InsertPpvAttachment.sql
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertPpvAttachment.sql
+END
+CountGR_IR_DATA.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountGR_IR_DATA.sql
+END
+InputProcTrack.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InputProcTrack.sql
+END
+GetToleranceValue.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetToleranceValue.sql
+END
+GetListFilePpvDownloadInquiry.sql
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetListFilePpvDownloadInquiry.sql
+END
+DeleteProcTrack.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/DeleteProcTrack.sql
+END
+CountSupplier.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountSupplier.sql
+END
+GetInvoiceInquiry.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceInquiry.sql
+END
+InsertSystemProperty.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertSystemProperty.sql
+END
+GetListFileDownloadInquiry.sql
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetListFileDownloadInquiry.sql
+END
+SYSTEM_GetTMMIN.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SYSTEM_GetTMMIN.sql
+END
+GetPOForPosting.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetPOForPosting.sql
+END
+InsertInvoiceAttachment.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertInvoiceAttachment.sql
+END
+UpdateReverseInvoiceSAPDirect.sql
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateReverseInvoiceSAPDirect.sql
+END
+GetInvoiceInquiryExcel.sql
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceInquiryExcel.sql
+END
+CountProcurementTracking.sql
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountProcurementTracking.sql
+END
+GetMaintenanceApprovalById.sql
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetMaintenanceApprovalById.sql
+END
+GetGLAccount1.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGLAccount1.sql
+END
+InsertRFDtl.sql
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertRFDtl.sql
+END
+CountMaintenanceApproval.sql
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountMaintenanceApproval.sql
+END
+GetSystemPropertyById.sql
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetSystemPropertyById.sql
+END
+VAT_IN_H_checkOriginalTaxInvoice.sql
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/VAT_IN_H_checkOriginalTaxInvoice.sql
+END
+SavePostInvoiceSAPGL.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SavePostInvoiceSAPGL.sql
+END
+ApproveRejectPo.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/ApproveRejectPo.sql
+END
+InsertPODetailItemSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertPODetailItemSAP.sql
+END
+GetInvoiceInquiryErrorDetail.sql
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceInquiryErrorDetail.sql
+END
+UpdateRF.sql
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateRF.sql
+END
+GetGLAccountList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGLAccountList.sql
+END
+InsertMaintenanceApproval.sql
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertMaintenanceApproval.sql
+END
+CountRf.sql
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountRf.sql
+END
+SavePostInvoice.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SavePostInvoice.sql
+END
+CountPoList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountPoList.sql
+END
+GetUniqueEmployeeProfile.sql
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetUniqueEmployeeProfile.sql
+END
+VAT_IN_H_checkDuplicateHeader.sql
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/VAT_IN_H_checkDuplicateHeader.sql
+END
+GetInvoiceInquiryDetail.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceInquiryDetail.sql
+END
+GetEFaktur.sql
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetEFaktur.sql
+END
+GetGR_IR_Notif.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGR_IR_Notif.sql
+END
+GetProcurementTrackingExcel.sql
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetProcurementTrackingExcel.sql
+END
+GetPoList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetPoList.sql
+END
+DeleteMaintenanceApproval.sql
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/DeleteMaintenanceApproval.sql
+END
+CountEFaktur.sql
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountEFaktur.sql
+END
+GetGR_IR_DATA_DETAIL.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGR_IR_DATA_DETAIL.sql
+END
+InsertReverseInvoiceLog.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertReverseInvoiceLog.sql
+END
+InsertTbRVatInD.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertTbRVatInD.sql
+END
+CancelInvoiceInquiry.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CancelInvoiceInquiry.sql
+END
+InsertTbRVatInH.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertTbRVatInH.sql
+END
+GetPoItemList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetPoItemList.sql
+END
+FindInvoiceReceiving.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/FindInvoiceReceiving.sql
+END
+GetReceivingListDetail.sql
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetReceivingListDetail.sql
+END
+GetRfDtlByRfNo.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetRfDtlByRfNo.sql
+END
+SYSTEM_isAllowReplacement.sql
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SYSTEM_isAllowReplacement.sql
+END
+GetRefDocGRCancel.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetRefDocGRCancel.sql
+END
+DeleteGLAccount.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/DeleteGLAccount.sql
+END
+GetNewCertificateSeq.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetNewCertificateSeq.sql
+END
+SavePostInvoiceSAPGRData.sql
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SavePostInvoiceSAPGRData.sql
+END
+GetSupplierById.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetSupplierById.sql
+END
+GetRfByKey.sql
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetRfByKey.sql
+END
+DeleteSystemProperty.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/DeleteSystemProperty.sql
+END
+GetGR_IR_DATAExcel.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGR_IR_DATAExcel.sql
+END
+CountReceivingList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountReceivingList.sql
+END
+GetReceivingListRev.sql
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetReceivingListRev.sql
+END
+GetSystemPropertyByType.sql
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetSystemPropertyByType.sql
+END
+GetRequistionForm.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetRequistionForm.sql
+END
+DeleteSupplier.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/DeleteSupplier.sql
+END
+UpdateEfakturCancelInvoice.sql
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateEfakturCancelInvoice.sql
+END
+UpdateMaintenanceApproval.sql
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateMaintenanceApproval.sql
+END
+GetInvoiceCreationRev.sql
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17668/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceCreationRev.sql
+END
+CountSystemProperty.sql
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountSystemProperty.sql
+END
+CountEFakturList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountEFakturList.sql
+END
+CountGLAccount1.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountGLAccount1.sql
+END
+GetInvoiceReceivingExcel.sql
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceReceivingExcel.sql
+END
+InsertReverseInvoiceLogDirect.sql
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertReverseInvoiceLogDirect.sql
+END
+GetRfDtlByKey.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetRfDtlByKey.sql
+END
+CountSupplierParam2.sql
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountSupplierParam2.sql
+END
+GetUserSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetUserSAP.sql
+END
+UpdateGLAccount.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateGLAccount.sql
+END
+GetProcurementTracking.sql
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetProcurementTracking.sql
+END
+GetMaintenanceApproval.sql
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetMaintenanceApproval.sql
+END
+InsertSupplier.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertSupplier.sql
+END
+InsertPOServiceSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertPOServiceSAP.sql
+END
+GetInvoiceReceiving.sql
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetInvoiceReceiving.sql
+END
+GetSystemProperty.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetSystemProperty.sql
+END
+GetUserSAPById.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetUserSAPById.sql
+END
+NoticeProcTrack.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/NoticeProcTrack.sql
+END
+CountUserSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountUserSAP.sql
+END
+GetGR_IR_DATA.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetGR_IR_DATA.sql
+END
+InsertRF.sql
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertRF.sql
+END
+UpdateSystemProperty.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateSystemProperty.sql
+END
+CountReceivingListRev.sql
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/CountReceivingListRev.sql
+END
+GetPoItemByHeader.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetPoItemByHeader.sql
+END
+SendMailNotification.sql
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/SendMailNotification.sql
+END
+GetOrganization.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetOrganization.sql
+END
+GetSupplierByCd.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetSupplierByCd.sql
+END
+GetPoUnique.sql
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetPoUnique.sql
+END
+GetSupplierParam2.sql
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetSupplierParam2.sql
+END
+UpdateSupplier.sql
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/UpdateSupplier.sql
+END
+InsertUserSAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertUserSAP.sql
+END
+GetReceivingList.sql
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/GetReceivingList.sql
+END
+InsertPoAttachment.sql
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/InsertPoAttachment.sql
+END
+NoticePO.sql
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/NoticePO.sql
+END
+Cancel_GR_SAP.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/SQL/Cancel_GR_SAP.sql
+END

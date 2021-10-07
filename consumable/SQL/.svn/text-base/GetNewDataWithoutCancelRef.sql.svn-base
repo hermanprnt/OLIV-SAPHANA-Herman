@@ -1,0 +1,8 @@
+SELECT
+	*
+FROM 
+	TB_R_GR_IR_FROM_SAP
+where 1=1
+and REF_DOC = ''
+and MOV_TYPE = '102'
+and LAST_SYNC_FLAG = 'Y'

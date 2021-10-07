@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <div class="form-group form-group-xs">
+            <a href="@Html.Toyota().Page.GetControllerUrl("DatagridFixed")" class="btn btn-sm btn-default">
+                <i class="fa fa-angle-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+
+<div class="_line-br"></div>
+
+<div class="_tbflow_mobile">
+    <table class="table table-striped table-hover table-bordered table-condensed">
+        <tbody>
+
+            @for (int i=1; i < 10; i++)
+            {
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-5"><strong>Field 1</strong></div>
+                        <div class="col-xs-7">Value field 1</div>
+                        <div class="col-xs-5"><strong>Field 2</strong></div>
+                        <div class="col-xs-7">Value field 2</div>
+                        <div class="col-xs-5"><strong>Field 3</strong></div>
+                        <div class="col-xs-7">Value field 3</div>
+                        <div class="col-xs-5"><strong>Field 4</strong></div>
+                        <div class="col-xs-7">Value field 4</div>
+                        <div class="col-xs-5"><strong>Field 5</strong></div>
+                        <div class="col-xs-7">Value field 5</div>
+                    </div>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

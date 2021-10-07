@@ -1,0 +1,48 @@
+﻿<form role="form" class="form-horizontal _criteria" id="searchForm">
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                Holiday Date
+            </label>
+            <div class="col-xs-8 col-sm-9 col-md-7">
+                <div class="input-group">
+                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                    </i></span>
+                    <input class="form-control" type="text" name="date-range-picker" id="holidayDateSearch"
+                        data-date-format="dd.mm.yyyy" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                Baseline Date
+            </label>
+            <div class="col-xs-8 col-sm-9 col-md-7">
+                <div class="input-group">
+                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                    </i></span>
+                    <input class="form-control" type="text" name="date-range-picker" id="baselineDateSearch"
+                        data-date-format="dd.mm.yyyy" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-bottom: 10px;">
+    <div class="col-xs-6" style="margin-top: 5px;">
+    </div>
+    <div class="col-xs-6 text-right">
+        <div class="form-group-xs _criteria">
+            <button type="button" id="btnSearch" class="btn btn-primary btn-xs" onclick="javascript:searchData(1)">
+                Search
+            </button>
+            <button type="reset" class="btn btn-default btn-xs">
+                Clear
+            </button>
+        </div>
+    </div>
+</div>
+</form>

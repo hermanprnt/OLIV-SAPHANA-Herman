@@ -1,0 +1,267 @@
+﻿@using consumable.Common.Data
+@using consumable.Models
+@{
+    List<GR_IR_DATA> invoiceCreationList = (List<GR_IR_DATA>)ViewData["InvoiceCreation"];
+    //List<InvoiceCreation> materialList = (List<InvoiceCreation>)ViewData["MaterialList"];
+}
+
+<style type="text/css">
+    .close
+    {
+        opacity: 1;
+    }
+    
+    @*a {
+        color: Blue;
+        text-decoration: underline;
+    }
+
+    a:hover {
+        color: Blue;
+    }*@
+</style>
+
+<div class="row">
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+        <div style="border: 1pt solid #ccc;">
+            <div id="tScrollHead" style="width: 98.5%; overflow: hidden;">
+                <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed"
+                    style="width: 2400px; max-width: 1400px !important;">
+                    <thead>
+                        <tr>
+                            <th width="20px" class="grid-checkbox-col">
+                                <input class="grid-checkbox" type="checkbox" style="height: 12px;" id="checkall" />
+                            </th>
+                            <th width="80px" data-field="PO_NO" data-sort="none">PO No</th>
+                            <th width="65px" data-field="PO_ITEM" data-sort="none">PO Item</th>
+                            <th width="80px" data-field="PO_NO" data-sort="none">DN No</th>
+                            <th width="65px" data-field="PO_ITEM" data-sort="none">DN No Item</th>
+                            <th width="200px" data-field="PO_TEXT" data-sort="none">PO Text</th>
+                            <th width="75px" data-field="PO_DATE" data-sort="none">PO Date</th>                             
+                            <th width="105px" data-field="MATDOC_DATE" data-sort="none">Receiving Date</th>
+                            <th width="100px" data-field="VEND_CODE" data-sort="none">Supplier Code</th>
+                            <th width="150px" data-field="SUPPLIER_NAME" data-sort="none">Supplier Name</th>
+                            <th width="110px" data-field="MATDOC_NUMBER" data-sort="none">Material Doc No</th>
+                            <th width="50px" data-field="MATDOC_QTY" data-sort="none">Qty</th>                                                      
+                            <th width="130px" data-field="MATDOC_AMOUNT" data-sort="none">Amount</th>
+                            <th width="110px" data-field="HEADER_TEXT" data-sort="none">Header Text</th>
+                            <th data-field="MATDOC_CURRENCY" data-sort="none">Currency</th>  
+                            <th class="hidden">GR IR ID</th>                         
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tScrollBody" style="overflow: scroll; height: 200px;">
+                <table id="tblScroll" class="table table-striped table-bordered table-condensed table-fixed"
+                    style="width: 2400px; max-width: 1400px !important;">
+                    <tbody>
+                        @{
+                            if (invoiceCreationList!= null && invoiceCreationList.Count > 0)
+                            {
+                                foreach (consumable.Common.Data.GR_IR_DATA item in invoiceCreationList)
+                                {
+                            <tr>
+                                <td width="20px" class="text-center grid-checkbox-col">
+                                    <input type="checkbox" class="grid-checkbox grid-checkbox-body"  name="selectedManifest"  onclick="javascript:updateManifest()"/>
+                                </td>
+                                <td width="80px" class="text-center">@item.PO_NUMBER</td>
+                                <td width="65px" class="text-center">@item.PO_ITEM</td>
+                                <td width="80px" class="text-center">@item.DN_NO</td>
+                                <td width="65px" class="text-center">@item.DN_NO_ITEM</td>
+                                <td width="200px" class="text-left ellipsis" title="@item.MAT_DESCR" style="max-width: 200px;">                                  
+                                    @item.MAT_DESCR
+                                </td>  
+                                <td width="75px" class="text-center">
+                                     @(item.PO_DATE.HasValue ? item.PO_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+                                <td width="105px" class="text-center">
+                                     @(item.MATDOC_DATE.HasValue ? item.MATDOC_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+                                <td width="100px" class="text-center">@item.VEND_CODE</td>
+                                <td width="150px" class="text-left ellipsis" title="@item.SUPPLIER_NAME" style="max-width: 150px;">
+                                    @item.SUPPLIER_NAME
+                                </td>  
+                                <td width="110px" class="text-center">@item.MATDOC_NUMBER</td>
+                                <td width="50px" class="text-right">@item.MATDOC_QTY</td>  
+                                <td width="130px" class="text-right">                                   
+                                    @if (item.MATDOC_CURRENCY == "IDR")
+                                    { @item.MATDOC_AMOUNT.FormatCommaSeparator() }
+                                    else
+                                    { @item.MATDOC_AMOUNT.FormatCommaSeparatorWithDecimal();
+                                    }
+                                </td>
+                                <td width="110px" class="text-left ellipsis" title="@item.HEADER_TEXT" style="max-width: 110px;">
+                                    @item.HEADER_TEXT
+                                </td>
+                                <td class="text-center">@item.MATDOC_CURRENCY</td>
+                                <td class="hidden">@item.GR_IR_ID</td>
+                                <td class="hidden">@item.MATDOC_ITEM</td>
+                                <td class="hidden">@item.USRID</td>
+                            </tr>   
+                                }
+                            }
+                            else
+                            {
+                            <tr>
+                                <td colspan="13" class="text-center">
+                                    No data retrieved.
+                                </td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+                    <tfoot>
+                        <tr>
+                            <td colspan="13">
+                                @Html.Partial("_UIPaging")
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tScrollBody").scroll(function () {
+        $("#tScrollHead").scrollLeft($("#tScrollBody").scrollLeft());
+        $("#tScrollSearch").scrollLeft($("#tScrollBody").scrollLeft());
+    });
+
+    var table = document.getElementById("dynamic-table");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                table.rows[i].cells[j].onclick = function () {
+                    tableText(this);
+                    sorting_execute = '1';
+                };
+            }
+        }
+    }
+
+    function tableText(tableCell) {
+        var removeClass;
+        var addClass;
+        var dataSort;
+
+        if (tableCell.getAttribute("class").indexOf('sorting') >= 0) {
+            if (tableCell.getAttribute("class").indexOf('sorting_asc') >= 0) {
+
+                removeClass = 'sorting_asc';
+                addClass = 'sorting_desc';
+                dataSort = 'desc';
+
+            } else if (tableCell.getAttribute("class").indexOf('sorting_desc') >= 0) {
+
+                removeClass = 'sorting_desc';
+                addClass = 'sorting_none';
+                dataSort = 'none';
+
+            } else {
+
+                removeClass = 'sorting_none';
+                addClass = 'sorting_asc';
+                dataSort = 'asc';
+
+            }
+        }
+
+        //reset all
+        var tableReset = document.getElementById("dynamic-table");
+        if (tableReset != null) {
+            for (var i = 0; i < tableReset.rows.length; i++) {
+                for (var j = 0; j < tableReset.rows[i].cells.length; j++) {
+
+                    if (tableReset.rows[i].cells[j].className.indexOf('sorting_asc') >= 0) {
+                        tableReset.rows[i].cells[j].classList.remove('sorting_asc');
+                        tableReset.rows[i].cells[j].classList.add('sorting');
+                        tableReset.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                    if (tableReset.rows[i].cells[j].className.indexOf('sorting_desc') >= 0) {
+                        tableReset.rows[i].cells[j].classList.remove('sorting_desc');
+                        tableReset.rows[i].cells[j].classList.add('sorting');
+                        tableReset.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                }
+            }
+        }
+        // end
+
+        if (tableCell.getAttribute("class").indexOf('sorting') >= 0) {
+            tableCell.classList.remove(removeClass);
+            tableCell.classList.add(addClass);
+            tableCell.dataset.sort = dataSort;
+
+            if (pagepos == null) pagepos = 1;
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetInvoiceCreationSort")'+'?poNoSearch='+$('#poNoSearch').val()+
+                    '&&supplierSearch='+$('#supplierSearch').val()+'&&poDateSearch='+$('#poDateSearch').val()+
+                    '&&poText='+$('#poTextSearch').val()+'&&page='+pagepos+'&&size='+$("#pageSize").val()+
+                    '&&field='+tableCell.dataset.field+'&&sort='+dataSort,
+//                data: {
+//                    poNoSearch: $('#poNoSearch').val(),
+//                    supplierSearch: $('#supplierSearch').val(),
+//                    poDateSearch: $('#poDateSearch').val(),
+//                    poText: $('#poTextSearch').val(),
+//                    page: pagepos,
+//                    size: $("#pageSize").val(),
+//                    field: tableCell.dataset.field,
+//                    sort: dataSort
+//                },
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    $("#tblScroll").find('tbody').html(result);
+                }
+            });
+        }
+    }
+
+    
+    
+
+    // set invoice [start]
+//    function setInvoice(invoiceNo) {
+//        $("#invoiceNo").val(invoiceNo);
+//        $("#invoiceDate").val('20.08.2015');
+//        $("#turnOver").val('test1');
+//        $("#totalDeliveryNote").val('1');
+//        $("#totalAmount").val('100,000');
+
+//        $(".linkInvoiceNo").css("color", "black");
+
+//        $("#" + invoiceNo + "").css("color", "blue");
+
+////        $('.linkInvoiceNo').hover(function () {
+////            $(this).css("color", 'blue');
+////            $(this).hover("mouseout", function () {
+////                $(this).css("color", 'black');
+////            })
+//        //        });
+
+//    }
+    // set invoice [end]
+
+    
+
+    // Checkbox all grid view [start]
+    $("#checkall").click(function () {
+        if ($("#checkall").is(":checked")) {
+            $( ".grid-checkbox-body").prop('checked', true);
+        } else {
+            $( ".grid-checkbox-body").prop('checked', false);
+        }
+
+        updateManifest();
+    });
+    // Checkbox all grid view [end]
+</script>

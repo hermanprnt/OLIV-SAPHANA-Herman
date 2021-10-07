@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "UploadApprovedEFakturScreen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_FAKTUR_BRIDGE.Models;
+
+@{
+    List<VAT_OUTModel> UploadEFaktur = (List<VAT_OUTModel>)ViewData["UploadApprovedEFaktur"];
+}
+
+<h2>Upload Approved e-Faktur Screen</h2>
+
+<script>
+    @*$(document).ready(function () {
+        $(".onClickUploadApprovedEFakturScreen").click(function () {
+
+            $.FileDialog({ multiple: true }).on('files.bs.filedialog', function (ev) {
+                var files = ev.files;
+
+                var data = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+                $.ajax({
+                    url: "VAT_OUT/UploadFileZip",
+                    type: "POST",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        alert(result);
+                    },
+                    error: function (err) {
+                        alert(err.statusText)
+                    }
+                });
+            }).on('cancel.bs.filedialog', function (ev) {
+                alert("Cancelled!");
+            });
+        });
+    });
+
+    function uploadApprovedEFakturScreen_onClick() {
+        $.post('@Html.Toyota().Page.GetActionUrl("VAT_OUT", "UploadFileZip")',
+        {
+            PDF_FILENAME: $("#fileZipUpload").val()
+        });
+    }*@
+
+    var validFilesTypes = "zip";
+    function onValidate() {
+        var file = document.getElementById("<%=fileZipUpload.ClientID%>");
+        var label = document.getElementById("<%=lblWarning.ClientID%>");
+        var path = file.value;
+        var ext = path.substring(path.lastIndexOf(".") + 1, path.length).toLowerCase();
+        var isValidFile = false;
+        for (var i = 0; i < validFilesTypes.length; i++) {
+            if (ext == validFilesTypes[i]) {
+                isValidFile = true;
+                break;
+            }
+        }
+        if (!isValidFile) {
+            label.style.color = "red";
+            label.innerHTML = "Invalid File. Please upload a File with" +
+             " extension:\n\n" + validFilesTypes;
+        }
+        return isValidFile;
+    }
+</script>
+
+
+<div class="panel panel-default panel-dark">
+    <div class="panel-heading">
+        <h3 class="panel-title">Upload Approved e-Faktur Screen</h3>
+    </div>
+
+    <div class="panel-body">
+        <form class="form-horizontal" id="formUpload" method="post"
+              action="@Url.Content("~/VAT_OUT/UploadFileZip")"
+              enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="col-md-8">
+                        <div class="col-md-3">
+                            <label class="control-label small">Upload Approved e-Faktur :</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-7">
+                        <div class="col-md-6">
+
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <span class="btn btn-primary btn-file">
+                                    <input type="file" id="fileZipUpload" name="fileZipUpload" />
+                                </span>
+                                <span class="fileupload-preview toyota-color"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary start" type="submit" id="uploadButton" onclick="onValidate();">
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <span>Upload</span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <label class="control-label" for="lblWarning" id="lblWarning" ></label>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>

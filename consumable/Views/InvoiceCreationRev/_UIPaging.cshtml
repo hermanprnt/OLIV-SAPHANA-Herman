@@ -1,0 +1,58 @@
+﻿@using consumable.Models.Paging
+@{
+    Paging pg = (Paging)ViewData["Paging"]; 
+}
+<input id="txtmaxpg" type="text" class="hidden" />
+<script type="text/javascript" language="javascript">
+        $("#txtmaxpg").val(@pg.CountPage);
+</script>
+<div class="col-xs-12 col-sm-9 col-md-9" style="height: 30px;">
+    @if ((pg != null) && pg.CountData > 0)
+    {
+        <ul class="pagination pagination-sm hidden-xs">
+             
+            <li><span class="_pagination-label">Showing @pg.PositionPage to @pg.CountPage of @pg.CountData
+                row(s)</span> </li>
+            <li><a href="javascript: onCallback(@pg.First)">First</a></li>
+            <li><a href="javascript: onCallback(@pg.Prev)">Prev</a></li>
+            <li class="active">
+                @for (int p = 1; p <= @pg.CountPage; p++)
+                {
+                    if ((p >= @pg.MinPage) && (p <= @pg.MaxPage))
+                    {
+                        if (@p == pg.PositionPage)
+                        {
+                    <li class="active"><a href="javascript: onCallback(@p)">@p</a></li> 
+                        }
+                        else
+                        {
+                    <li><a href="javascript: onCallback(@p)">@p</a></li>  
+                        }
+                    }
+                }
+            </li>
+            <li><a href="javascript: onCallback(@pg.Next)">Next</a></li>
+            <li><a href="javascript: onCallback(@pg.Last)">Last</a></li>
+            <li><span class="_pagination-empty"></span></li>
+            <li><span class="_pagination-goto">
+                <input id="txtgo" type="text" class="_number-only" maxlength="4" />
+            </span></li>
+            <li><span class="_pagination-goto">
+                <button id="btngo" type="button" class="_btn-go" onclick="javascript: onCallback($('#txtgo').val());">
+                    Go</button>
+            </span></li>
+        </ul>
+    }
+</div>
+<div class="col-xs-12 col-sm-3 col-md-3 text-right" style="height: 30px; padding-top: 3px;">
+    <div class="form-inline">
+        <span>Size</span>&nbsp;
+        <select class="input-xs page-size" id="pageSize" onchange="javascript: searchData(1);">
+            <option>10</option>
+            <option>25</option>
+            <option>50</option>
+            <option selected>100</option>
+            <option>1000</option>
+        </select>
+    </div>
+</div>

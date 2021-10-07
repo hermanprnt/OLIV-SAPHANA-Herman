@@ -1,0 +1,699 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadScript{
+	<!-- Bootstrap Datepicker css -->
+	<link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+	<!-- Daterange picker css -->
+	<link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+	<!-- Dropzone file css -->
+	<link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+	<style type="text/css">
+		.datepicker.dropdown-menu
+        {
+            z-index: 2000 !important;
+        }
+		.modal-icon
+		{
+			height: 35px;
+		}
+		
+		.twitter-typeahead
+		{
+			width: 100%;
+		}
+	</style>
+}
+
+<div class="hidden-xs">
+	@Html.Partial("_SearchCriteria")
+	<div class="text-center" style="margin-bottom: 5px;">
+		<hr id="hrsrc" style="margin: 0; padding: 0;" />
+	</div>
+	<div id="tablegrid">
+		@Html.Partial("_GridView")
+	</div>
+</div>
+@*<div class="visible-xs">
+	@Html.Partial("_SearchMobile")
+</div>*@
+@Html.Partial("_InputInvoice")
+@Html.Partial("_InputNotice")
+
+
+<div id="selected-0-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                Warning</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    Please select data.
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-confirm" class="modal fade">
+	<div class="modal-dialog modal-md" style="width: 400px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="close" style="opacity: 1 !important; margin-top: -7px;">
+					<span aria-hidden="true">
+						<img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+					<span class="sr-only">Close</span>
+				</div>
+				<h4 class="modal-title" id="popup-title">
+					Confirmation</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body">
+					<div class="row" style="padding-left: 10px;">
+						Are you sure want to delete(s)?
+					</div>
+					<div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+						<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+							onclick="javascript:confirmDeleteData()">
+							Yes</button>
+						<button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+							No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="selected-info" class="modal fade">
+	<div class="modal-dialog modal-md" style="width: 300px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="close" style="opacity: 1 !important; margin-top: -7px;">
+					<span aria-hidden="true">
+						<img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" /></span>
+					<span class="sr-only">Close</span>
+				</div>
+				<h4 class="modal-title" id="popup-title">
+				Information</div>
+			<div class="modal-body">
+				<div class="row" style="padding-left: 10px;">
+					<div id="msgInfoId">
+						&nbsp;</div>
+				</div>
+				<div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+					<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+						OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="warning-confirm" class="modal fade">
+	<div class="modal-dialog modal-md" style="width: 300px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="close" style="opacity: 1 !important; margin-top: -7px;">
+					<span aria-hidden="true">
+						<img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+					<span class="sr-only">Close</span>
+				</div>
+				<h4 class="modal-title" id="popup-title">
+				Warning</div>
+			<div class="modal-body">
+				<div class="row" style="padding-left: 10px;">
+					<div id="msgWarningId">
+						&nbsp;</div>
+				</div>
+				<div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+					<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+						OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section BodyScript{
+	<script type="text/javascript" src="@Url.Content("~/Content/js/jquery.filedownload.js")"></script>
+	<!-- Bootstrap Datepicker js -->
+	<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+	<!-- Daterange picker js -->
+	<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+	<script type="text/javascript">
+        var pagepos = null;
+
+		// date range picker [start]
+		//to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+		$('input[name=date-range-picker]').daterangepicker({
+			format: 'DD.MM.YYYY',
+			'applyClass': 'btn-sm btn-success',
+			'cancelClass': 'btn-sm btn-default',
+			locale: {
+				applyLabel: 'Apply',
+				cancelLabel: 'Cancel'
+			}
+		})
+		.prev().on(ace.click_event, function () {
+			$(this).next().focus();
+		});
+		// date range picker [end]
+
+		// datepicker plugin [start]
+		//link
+		$('.date-picker').datepicker({
+			autoclose: true,
+			todayHighlight: true
+		})
+		//show datepicker when clicking on the icon
+		.next().on(ace.click_event, function () {
+			$(this).prev().focus();
+		});
+		// datepicker plugin [end]
+		
+		// Toggle for hide search form [start]
+		function toggleSearch() {
+			$("._criteria").toggle(200, "linear");
+
+			if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+				$("#toogle-search").removeClass("fa-angle-double-up");
+				$("#toogle-search").addClass("fa-angle-double-down");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'none';
+				$("#tScrollBody").height(450);
+				$("#toogle-search").prop('title', 'Show filter');
+			}
+			else {
+				$("#toogle-search").removeClass("fa-angle-double-down");
+				$("#toogle-search").addClass("fa-angle-double-up");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'block';
+				$("#tScrollBody").height(325);
+				$("#toogle-search").prop('title', 'Hide filter');
+			}
+			//document.getElementById("btnLostFocus").focus();
+			$("#toogle-search").blur();
+			//var text = $("#lnsearch-toggle").text();
+			//$("#lnsearch-toggle").text(text == "More search criteria" ? "Less search criteria" : "More search criteria");
+		}
+		// Toggle for hide search form [end]
+
+		// Toggle for hide show detail [start] 
+		function ToggleGrid() {
+			//$("._toggle-detail").toggle(200, "linear"); //harusnya kanan ke kiri
+
+
+			var text = $("#grid-toggle").html();
+			if (text == "Show detail") {
+				$("#grid-toggle").html("Hide detail");
+				$("._toggle-detail").show();
+				$("#grid-toggle").prop('title', 'Hide detail grid');
+			}
+			else {
+				$("#grid-toggle").html("Show detail");
+				$("._toggle-detail").hide();
+				$("#grid-toggle").prop('title', 'Show detail grid');
+			}
+		}
+		// Toggle for hide show detail [end]
+
+		// Lookup function search supplier [start]
+		// Grid lookup selected 'Ok' or 'CS'
+		function gridlookupSelected(setValue) {
+			var result = '';
+			if (($(".gridLookup-checkbox-body:checked").length > 0)&&(setValue == 'OK')) {
+				for(i=0; i<$(".gridLookup-checkbox-body").length; i++) {
+					if ($(".gridLookup-checkbox-body")[i].checked)
+						result = result + ((result != '')?';':'') + $(".gridLookup-checkbox-body")[i].dataset.value;
+				}
+//                $("#btn-value").html(result);
+				$("#supplierSearch").val(result);
+			}
+
+			if (setValue == 'CS'){
+				$(".gridLookup-checkbox-body").prop('checked', false);
+				$("#supplierSearch").val('');
+			}
+
+			closePopup();
+		}
+
+		function openPopup() {
+			$("#txtSearchLookupSupplier").val('');
+			if ($("#btn-group").hasClass('open'))
+				$("#btn-group").removeClass('open')
+			else
+				$("#btn-group").addClass('open')
+		}
+
+		function closePopup() {
+			$("#txtSearchLookupSupplier").val('');
+			$("#btn-group").removeClass('open')
+		}
+		
+		function clearPopupFilter() {
+			$("#txtSearchLookupSupplier").val('');
+		}
+
+		$("#btnSearchLookupSupplier").click(function(){
+			onLookupSupplier(1);
+		});
+
+        function onEnterSearchDataLookupSupplier(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupSupplier(1);
+            }
+        }
+
+        function onLookupSupplier(page) {
+			$.ajax({
+				type: "Post",
+				url: "@Html.Toyota().Page.GetActionUrl("onLookupSupplier")",
+				data: {
+					Parameter:$('#txtSearchLookupSupplier').val(),
+					PartialViewSearchAndInput:'_LookupTableSupplier',
+					Page:page
+				},
+				beforeSend:function () {$('#btnSearchLookupSupplier').button('loading');},
+				success: function (result) { 
+					$("#tblSupplierPopupSearch").html(result);
+				},
+				complete:function () {$('#btnSearchLookupSupplier').button('reset');}
+			});
+		}
+		// Lookup function search supplier [end]
+
+		// Lookup function input invoice [start]
+		$("#btnSearchLookupSupplierInputInvoice").click(function(){
+			onLookupSupplierInputInvoice(1);
+		});
+
+		function clearPopupFilterSupplierInputInvoice() {
+			$("#txtSearchLookupSupplierInputInvoice").val('');
+		}
+
+		function onLookupSelectedInput(value, value2) {
+			$("#supplierInputInvoice").val(value);
+			$("#supplierNameInputInvoice").val(value2);
+			closePopupSupplierInputInvoice();
+		}
+		// Lookup function input invoice [end]
+
+		// For check amount [start]
+		function Key(e) {
+			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+				(e.keyCode == 65 && e.ctrlKey === true) ||
+				(e.keyCode >= 35 && e.keyCode <= 40)) {
+				return;
+			}
+			if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+				e.preventDefault();
+			}
+		}
+
+		function CheckAmount() {
+			var snum = $('#amount').val();
+			snum = snum.trim();
+			//alert(Number(snum.toString()));
+			$('#amount').val(Number(snum));
+		}
+		// For check amount [end]
+
+		// Lookup Supplier Input Invoice [start]
+		function onLookupSupplierInputInvoice(page) {
+			$.ajax({
+				type: "Post",
+				url: "@Html.Toyota().Page.GetActionUrl("onLookupSupplier")",
+				data: {
+					Parameter:$('#txtSearchLookupSupplierInputInvoice').val(),
+					PartialViewSearchAndInput:'_LookupTableSupplierInputInvoice',
+					Page:page
+				},
+				beforeSend:function () {$('#btnSearchLookupSupplierInputInvoice').button('loading');},
+				success: function (result) { 
+					$("#tblSupplierPopupInputInvoice").html(result);
+				},
+				complete:function () {$('#btnSearchLookupSupplierInputInvoice').button('reset');}
+			});
+		}
+		// Lookup Supplier Input Invoice [end]
+
+		// Function Search [start]
+        function onEnterSearchData(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                searchData(1);
+            }
+        }
+
+		function searchData(page) {
+			if(page==null)page=1;
+			pagepos=page;
+			
+            var pageSize = $("#pageSize").val();
+            		  
+			$.ajax({
+				type: "POST",
+				url: "@Html.Toyota().Page.GetActionUrl("search")",
+				data: {
+					receivedDate: $('#receivedDateSearch').val(),
+					supplier: $('#supplierSearch').val(),
+					sapDocNo: $('#sapDocNoSearch').val(),
+					planPaymentDate: $('#planPaymentDateSearch').val(),
+					verifiedStatus: $('#verifiedStatusSearch').val(),
+					paymentStatus: $('#paymentStatusSearch').val(),
+					taxInvoiceNo: $('#taxInvoiceNoSearch').val(),
+					invoiceNo: $('#invoiceNoSearch').val(),
+					actualPaymentDate: $('#actualPaymentDateSearch').val(),
+					typeOfTransaction: $('#typeOfTransactionSearch').val(),
+					page: page,
+					size: $("#pageSize").val()
+				},
+				beforeSend:function () {
+					$('#btnSearch').button('loading');
+				},
+				success: function (data) {
+					$("#tablegrid").html(data);
+                    $("#pageSize").val(pageSize);	
+				},
+				complete:function () {
+					$('#btnSearch').button('reset');
+				},
+                error: function(data) {
+                   $('#btnSearch').button('reset');
+                }
+			});			
+		}
+		// Function Search [end]
+
+		// Delete Data [start]
+		function deleteData() {	
+			var row = 0;
+			var flag = false;
+			ProcTrackArrays = new Array();
+			$('[name=selectedProcTrack]:checked').each(function () {
+				//alert($(this).val());
+				if($(this).val()=='TBL') {
+					//alert('masuk');
+					ProcTrackArrays.push({					
+						TAX_INVOICE_NO:$(this).parent().siblings('td').eq(4).text().trim() 		
+					});
+				}
+				else 
+				{
+					flag = true;
+				}
+				row++;
+			});
+			
+			if(row < 1)
+			{	
+				$("#msgWarningId").text("Please select data");		
+				$("#warning-confirm").modal();
+			}
+			else if(flag)
+			{
+				$("#msgWarningId").text("Only data manual invoice can be deleted");		
+				$("#warning-confirm").modal();
+			}		
+			else 
+			{
+				if(!jQuery.isEmptyObject(ProcTrackArrays))
+				{
+					$("#delete-confirm").modal();				
+				}
+				else 
+				{
+					$("#msgWarningId").text("Error data model");		
+					$("#warning-confirm").modal();
+				}
+			}
+		}
+
+		function confirmDeleteData() {
+			$.ajax({
+				type : "POST",
+				url : "@Html.Toyota().Page.GetActionUrl("DeleteProcTrack")",
+				contentType: 'application/json',
+				dataType: 'json',
+				data: JSON.stringify(ProcTrackArrays),
+				success : function(returnResult){
+					if (returnResult.Result == returnResult.ValueSuccess) {
+						$("#msgInfoId").text("Delete Data Success");
+						$("#selected-info").modal();
+					} else {
+						$("#msgWarningId").text(returnResult.ErrMesgs);
+						$("#warning-confirm").modal();
+					}
+					searchData(1);							
+				},
+				error : function(returnResult) {
+					$("#msgWarningId").text("Error Delete Data");		
+					$("#warning-confirm").modal();
+				}
+			});
+			$("#delete-confirm").hide();
+		}
+		// Delete Data [end]
+
+		// Notice [start]
+		function inputNotice() {
+			var row = 0;
+			$('[name=selectedProcTrack]:checked').each(function () {
+				row++;
+			});
+
+			if(row < 1)
+			{	
+				$("#msgWarningId").text("Please select data");		
+				$("#warning-confirm").modal();
+			}
+			else if(row > 1)
+			{
+				$("#msgWarningId").text("Please select data only one row");		
+				$("#warning-confirm").modal();
+			}
+			else 
+			{
+				$('[name=selectedProcTrack]:checked').each(function () {
+                    //alert($(this).parent().siblings('td').eq(4).text().trim());
+					if($(this).parent().siblings('td').eq(4).text().trim()=='') 
+					{
+						$("#msgWarningId").text("Tax Invoice No is empty");		
+						$("#warning-confirm").modal();
+					}
+					else 
+					{
+						$("#inputnoticepopup").modal()
+					}
+				});
+			}
+		}
+
+		function submitNotice() {	
+			valid = validateNoticeForm();
+			
+			if(valid) {
+				var row = 0;
+				ProcTrackArrays = new Array();
+				$('[name=selectedProcTrack]:checked').each(function () {
+					
+					ProcTrackArrays.push({
+						TAX_INVOICE_NO:$(this).parent().siblings('td').eq(4).text().trim(),					
+						NOTICE_DATE:$('#noticeDate').val().trim(),
+						REMARKS:$('#remarks').val().trim() 		
+					});
+					row++;
+				});
+			
+				$.ajax({
+					type : "POST",
+					url : "@Html.Toyota().Page.GetActionUrl("SubmitNotice")",
+					contentType: 'application/json',
+					dataType: 'json',
+					data: JSON.stringify(ProcTrackArrays),
+					success : function(returnResult){
+						if (returnResult.Result == returnResult.ValueSuccess) {
+							$("#inputnoticepopup").modal('hide');
+							$("#msgInfoId").text("Submit Notice Success");
+							$("#selected-info").modal();
+							searchData(pagepos);
+						} else {
+							$("#msgWarningId").text(returnResult.ErrMesgs);
+							$("#warning-confirm").modal();
+						}
+						searchData(1);							
+					},
+					error : function(returnResult) {
+						$("#msgWarningId").text("Error Submit Notice");		
+						$("#warning-confirm").modal();
+					}
+				});
+			}
+		}
+
+		function validateNoticeForm() {
+			var valid = true;
+
+			if ($("#noticeDate").val() == '') {
+				$("#noticeDate").css("background-color", "#F2BCD5");
+				valid = false;
+			}
+			else {
+				$("#noticeDate").css("background-color", "#FFFFFF");
+			}
+
+			if ($("#remarks").val() == '') {
+				$("#remarks").css("background-color", "#F2BCD5");
+				valid = false;
+			}
+			else {
+				$("#remarks").css("background-color", "#FFFFFF");
+			}
+
+			return valid;
+		}
+		// Submit Notice [end]
+
+		// Save Input Other Invoice [start]
+		function input() {
+			$("#inputinvoicepopup").modal()
+		}
+
+		function saveInputOtherInvoice() {
+			
+			valid = validateInputForm();
+			//alert('valid = ' + valid);
+			
+			if(valid) {
+				var paramsObj = new Object();
+				paramsObj.procTrack = getFormData();
+				$.ajax({
+					type : "POST",
+					url : "@Html.Toyota().Page.GetActionUrl("SaveInputOtherInvoice")",
+					contentType: 'application/json',
+					dataType: 'json',
+					traditional: true,
+					data: JSON.stringify(paramsObj),
+					success : function(returnResult) {
+						$("#inputinvoicepopup").modal('hide');
+						$("#msgInfoId").text("Save Data Success");
+						$("#selected-info").modal();
+						searchData(pagepos);
+					},
+					error : function(returnResult) {
+						$("#msgWarningId").text("Error Save");
+						$("#warning-confirm").modal();
+					}
+				});
+			}
+		}
+
+		function validateInputForm() {
+			var valid = true;
+
+			if ($("#receivingDateInputInvoice").val() == '') {
+				$("#receivingDateInputInvoice").css("background-color", "#F2BCD5");
+				valid = false;
+			}
+			else {
+				$("#receivingDateInputInvoice").css("background-color", "#FFFFFF");
+			}
+
+			if ($("#supplierInputInvoice").val() == '') {
+				$("#supplierInputInvoice").css("background-color", "#F2BCD5");
+				valid = false;
+			}
+			else {
+				$("#supplierInputInvoice").css("background-color", "#FFFFFF");
+			}
+
+			if ($("#invoiceNoInputInvoice").val() == '') {
+				$("#invoiceNoInputInvoice").css("background-color", "#F2BCD5");
+				valid = false;
+			}
+			else {
+				$("#invoiceNoInputInvoice").css("background-color", "#FFFFFF");
+			}
+
+			if ($("#invoiceDateInputInvoice").val() == '') {
+				$("#invoiceDateInputInvoice").css("background-color", "#F2BCD5");
+				valid = false;
+			}
+			else {
+				$("#invoiceDateInputInvoice").css("background-color", "#FFFFFF");
+			}
+
+			if ($("#invoiceAmountInputInvoice").val() == '') {
+				$("#invoiceAmountInputInvoice").css("background-color", "#F2BCD5");
+				valid = false;
+			}
+			else {
+				$("#invoiceAmountInputInvoice").css("background-color", "#FFFFFF");
+			}
+
+			if ($("#typeOfTransactionInputInvoice").val() == '') {
+				$("#typeOfTransactionInputInvoice").css("background-color", "#F2BCD5");
+				valid = false;
+			}
+			else {
+				$("#typeOfTransactionInputInvoice").css("background-color", "#FFFFFF");
+			}
+
+			return valid;
+		}
+
+		function getFormData() {
+			var data = new Object();
+
+			data.RECEIVED_DATE = $("#receivingDateInputInvoice").val().trim();
+			data.VENDOR_CODE = $("#supplierInputInvoice").val().trim();
+			data.INVOICE_NO = $("#invoiceNoInputInvoice").val().trim();
+			data.INV_DOC_DATE = $("#invoiceDateInputInvoice").val().trim();
+			data.INVOICE_AMOUNT = $("#invoiceAmountInputInvoice").val().replace(/,/g , '');
+			data.TRANS_TYPE = $("#typeOfTransactionInputInvoice").val().trim();
+
+			return data;
+		}
+		// Save Input Other Invoice [end]
+
+		function Download(){       
+			$.fileDownload("ProcurementTracking/DownloadProcurementTracking", {
+			data: {                      
+				receivedDate: $('#receivedDateSearch').val(),
+				supplier: $('#supplierSearch').val(),
+				sapDocNo: $('#sapDocNoSearch').val(),
+				planPaymentDate: $('#planPaymentDateSearch').val(),
+				verifiedStatus: $('#verifiedStatusSearch').val(),
+				paymentStatus: $('#paymentStatusSearch').val(),
+				taxInvoiceNo: $('#taxInvoiceNoSearch').val(),
+				invoiceNo: $('#invoiceNoSearch').val(),
+				actualPaymentDate: $('#actualPaymentDateSearch').val(),
+				typeOfTransaction: $('#typeOfTransactionSearch').val()
+			},
+			successCallback: function (url) {
+					
+			},
+			failCallback: function (responseHtml, url) {
+					
+				}
+			});
+		}
+
+	</script>
+}

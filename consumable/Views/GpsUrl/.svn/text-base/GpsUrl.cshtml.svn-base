@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <style type="text/css">
+        .modal-icon
+        {
+            height: 35px;
+        }
+        
+        .twitter-typeahead
+        {
+            width: 100%;
+        }
+    </style>
+}
+
+<a target="_blank" href=@ViewData["GpsUrl"]>GPS</a>
+
+

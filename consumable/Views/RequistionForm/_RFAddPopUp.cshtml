@@ -1,0 +1,268 @@
+﻿@using consumable.Models.RequistionForm
+@{
+    RequistionForm rf = (RequistionForm)ViewData["rf"];
+    IList<RequistionFormDtl> listRequistionFormDtl = null;
+    if (rf != null)
+    {
+        listRequistionFormDtl = rf.listRequistionFormDtl;
+    }
+}
+<!-- Bootstrap Datepicker js -->
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+<script type="text/javascript">
+    //datepicker plugin
+    //link
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    })
+    //show datepicker when clicking on the icon
+	.next().on(ace.click_event, function () {
+	    $(this).prev().focus();
+	});
+</script>
+<div id="addpopup" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Add/Edit Requistion Form
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal _criteria" id="inputRfForm">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-12">
+                        @* RF No *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                RF No</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="rfRegisterIdAddPopup" type="hidden" 
+                                        value="@(rf != null && !string.IsNullOrEmpty(rf.RF_REGISTER_ID) ? rf.RF_REGISTER_ID : null)" />
+                                    <input id="rfNoAddPopup" class="form-control mandatory" type="text" maxlength="8"
+                                        value="@(rf != null && !string.IsNullOrEmpty(rf.RF_NO) ? rf.RF_NO : string.Empty)" />
+                                </div>
+                            </div>
+                        </div>
+                        @* RF Date *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                RF Date</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%; cursor: pointer;">
+                                    <input class="form-control date-picker mandatory" id="rfDateAddPopup" type="text" data-date-format="dd.mm.yyyy" 
+                                        value="@(rf != null ? rf.S_RF_DT : null)" />
+                                    <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        @* PIC *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                PIC</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="picUserAddPopUp" class="form-control mandatory" type="text" maxlength="50"
+                                        value="@(rf != null && !string.IsNullOrEmpty(rf.PIC_USER) ? rf.PIC_USER : string.Empty)" readonly />
+                                    <span class="input-group-btn">
+                                        <button id="btnlookupemployeeinput" class=" btn btn-default btn-sm" type="button"
+                                            style="height: 30px; line-height: 0;">
+                                            &nbsp<i class="fa fa-search"></i>&nbsp</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        @* Divisi *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Divisi
+                            </label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <select id="divisionAddPopUp" class="cursor-1" style="width: 100%;
+                                        background-color: #EEEEEE">
+                                        @foreach (var org in (List<consumable.Models.Organization.Organization>)ViewData["Divisions"])
+                                        {
+                                            <option value="@org.ORG_ID"
+                                                @if (org.ORG_NAME != null && org != null && string.Equals(org.ORG_NAME, rf.DIVISION))
+                                                {<text>selected</text>}>
+                                                @org.ORG_NAME
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* WBS No *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                WBS No</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="wbsNoAddPopUp" class="form-control mandatory" type="text" 
+                                        value="@(rf != null && !string.IsNullOrEmpty(rf.WBS_NO) ? rf.WBS_NO : string.Empty)"/>
+                                </div>
+                            </div>
+                        </div>
+                        @* Total Amount *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Total Amount</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="totalAmountAddPopUp" class="form-control" type="text" maxlength="13"
+                                        value="@(rf != null && !string.IsNullOrEmpty(rf.S_TOTAL_AMOUNT) ? rf.S_TOTAL_AMOUNT : string.Empty)" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-9 col-md-2">
+                            </div>
+                            <div class="col-xs-8 col-sm-9 col-md-10">
+                                <div class="form-group form-group-xs">
+                                    @{
+                                        int dataRow = (listRequistionFormDtl != null ? listRequistionFormDtl.Count - 1 : 0);
+                                    }
+                                    <button id="btnDelRfDtl" type="button" class="btn btn-xs btn-primary" data-row="@dataRow">
+                                        <i class="fa fa-minus"></i> Delete</button>
+                                    <button id="btnAddRfDtl" type="button" class="btn btn-xs btn-primary" data-row="@dataRow">
+                                        <i class="fa fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2">
+                            </div>
+                            <div class="col-xs-10">
+                                <div class="row">
+                                    <div class="table-responsive" style="margin-top: -10px">
+                                        <table id="dynamic-table-detail" class="table table-striped table-bordered table-condensed table-fixed"
+                                            style="width: 500px; max-width: 500px !important;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="140px">
+                                                        PR Creator
+                                                    </th>
+                                                    <th width="200px">
+                                                        Description
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = -1; i < 0 || (listRequistionFormDtl != null
+                                                        && i < listRequistionFormDtl.Count); i++)
+                                                {
+                                                    RequistionFormDtl rfDtl = i < 0 ? null : listRequistionFormDtl[i];
+                                                    <tr id="trRfDtl-@i" index="@i">
+                                                        <td class="text-left" width="140px">
+                                                            <input id="rfRegisterDtlId-@i"
+                                                                type="hidden" value="@(rfDtl != null && !string.IsNullOrEmpty(rfDtl.RF_REGISTER_DTL_ID) ? rfDtl.RF_REGISTER_DTL_ID : null)" />
+                                                            <input id="prCreatorRfDtl-@i" class="form-control mandatory" maxlength="50"
+                                                                type="text" value="@(rfDtl != null && !string.IsNullOrEmpty(rfDtl.PR_CREATOR) ? rfDtl.PR_CREATOR : string.Empty)" />
+                                                        </td>
+                                                        <td class="text-left" width="200px">
+                                                            <input id="descriptionRfDtl-@i" class="form-control" maxlength="256"
+                                                                type="text" value="@(rfDtl != null && !string.IsNullOrEmpty(rfDtl.DESCRIPTION) ? rfDtl.DESCRIPTION : string.Empty)" />
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <input id="amountRfDtl-@i" class="form-control mandatory" maxlength="13"
+                                                                type="text" value="@(rfDtl != null && !string.IsNullOrEmpty(rfDtl.S_AMOUNT) ? rfDtl.S_AMOUNT : string.Empty)" onkeyup="numberFormat(this); sumAmount();" onblur="sumAmount();" />
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px;">
+                    <button id="btnEditPopup" type="button" class="btn btn-primary btn-xs" style="width: 60px;"
+                        onclick="enableInputEdit();">
+                        Edit</button>
+                    <button id="btnSavePopup" type="button" class="btn btn-primary btn-xs"
+                        style="width: 60px;" onclick="javascript:saveInput()">
+                        Save</button>
+                    @*<button class="btn btn-default btn-xs" data-dismiss="modal" style="width: 60px;">
+                            Clear</button>*@
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        @*<div class="modal-footer">
+            <button type="button" id="btncloselookup" class="btn btn-default btn-xs" data-dismiss="modal">
+                close</button>
+        </div>*@
+    </div>
+</div>
+@*<div id="addpopupDtlRf" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Add Detail Requistion Form
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal _criteria" id="inputDtlRfForm">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-9">
+<div class="form-group form-group-xs">
+    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+        Description</label>
+    <div class="col-xs-8 col-sm-9 col-md-5">
+        <div class="input-group" style="width: 100%;">
+            <input id="descriptionAddPopUp" class="form-control descriptionAddPopUp" type="text"
+                value="" />
+        </div>
+    </div>
+</div>
+<div class="form-group form-group-xs">
+    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+        Amount</label>
+    <div class="col-xs-8 col-sm-9 col-md-5">
+        <div class="input-group" style="width: 100%;">
+            <input id="amountAddPopUp" class="form-control amountAddPopUp" type="text" value="" />
+        </div>
+    </div>
+</div>
+</div> </div>
+<div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+    margin-top: 10px; margin-right: 2px;">
+    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+        onclick="javascript:saveInputRfDtl()">
+        Save</button>
+    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+        Close</button>
+</div>
+</form> </div> </div> </div> </div>*@
+<script type="text/javascript">
+    
+    // Btn Lookup Employee Input [start]
+    $("#btnlookupemployeeinput").click(function () {
+        $("#gridlookupemployeeinput").modal()
+    });
+    // Btn Lookup Employee Input [end]
+
+    $("#btnDelRfDtl").click(function () {
+        delRowRfDtl();
+    });
+
+    $("#btnAddRfDtl").click(function () {
+        addRowRfDtl();
+    });
+</script>

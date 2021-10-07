@@ -1,0 +1,134 @@
+﻿<div id="addeditpopup" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="popup-title">
+                    Add Unit Approver Maintenance
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal _criteria" id="addeditForm">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-12">
+                        @* Plant Code *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Plant Code
+                            </label>
+                            <div class="input-group input-group-xs col-xs-4 col-sm-4 col-md-4">
+                                <input type="text" id="plantCDInput" class="form-control" placeholder="Select Plant Code" onblur="javascript:EnableDisableSlocInput()"/>
+                                <span class="input-group-btn">
+                                    <div class="btn-group" id="btn-group-plant-input">
+                                        <button id="btnPopupLookupPlantInput" class="multiselect dropdown-toggle btn btn-default btn-sm" type="button" style="height: 30px; line-height: 0;" aria-expanded="false" onclick="javascript:openPopupPlantInput()" >
+                                            <i class="fa fa-caret-down" style="margin-right: -4px"></i>&nbsp
+                                        </button>
+                                        <div class="form-horizontal multiselect-container dropdown-menu" style="left: -216px; width: 500px;">
+                                            <div class="form-group form-group-xs">
+                                                <div>
+                                                    <div class="input-group">
+                                                        <input id="txtInputLookupPlant" class="form-control" type="text" placeholder="Input Plant..." style="margin-left: 5px;" onkeypress="onEnterLookupPlantInput(event);" />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" id="btnSearchLookupPlantInput" data-loading-text="<i class='glyphicon-refresh-animate glyphicon glyphicon-refresh'></i>" class=" btn btn-default btn-sm " style="margin-left: 5px; margin-right: 5px; height: 30px;">
+                                                                &nbsp<i class="fa fa-search"></i>
+                                                            </button>
+                                                            <button id="btnClearLookupPlantInput" class=" btn btn-default btn-sm " title="Clear" type="button" style="margin-right: 5px; height: 30px;" onclick="javascript:clearPopupPlantInputFilter()">
+                                                                &nbsp<i class="fa  fa-eraser"></i>&nbsp
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Html.Partial("UnitApproverMaintenanceLookupTablePlantInput")
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        @* Sloc Code *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Sloc Code
+                            </label>
+                            <div class="input-group input-group-xs col-xs-4 col-sm-4 col-md-4">
+                                <input type="text" id="slocCDInput" class="form-control" placeholder="Select Sloc Code" onblur="javascript:EnableDisableSlocInput()"/>
+                                <span class="input-group-btn">
+                                    <div class="btn-group" id="btn-group-sloc-input">
+                                        <button id="btnPopupLookupSlocInput" class="multiselect dropdown-toggle btn btn-default btn-sm" type="button" style="height: 30px; line-height: 0;" aria-expanded="false" onclick="javascript:openPopupSlocInput()" disabled="disabled">
+                                            <i class="fa fa-caret-down" style="margin-right: -4px"></i>&nbsp
+                                        </button>
+                                        <div class="form-horizontal multiselect-container dropdown-menu" style="left: -216px; width: 500px;">
+                                            <div class="form-group form-group-xs">
+                                                <div>
+                                                    <div class="input-group">
+                                                        <input id="txtInputLookupSloc" class="form-control" type="text" placeholder="Input Sloc..." style="margin-left: 5px;" onkeypress="onEnterLookupSlocInput(event);" />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" id="btnSearchLookupSlocInput" data-loading-text="<i class='glyphicon-refresh-animate glyphicon glyphicon-refresh'></i>" class=" btn btn-default btn-sm " style="margin-left: 5px; margin-right: 5px; height: 30px;">
+                                                                &nbsp<i class="fa fa-search"></i>
+                                                            </button>
+                                                            <button id="btnClearLookupSlocInput" class=" btn btn-default btn-sm " title="Clear" type="button" style="margin-right: 5px; height: 30px;" onclick="javascript:clearPopupSlocInputFilter()">
+                                                                &nbsp<i class="fa  fa-eraser"></i>&nbsp
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Html.Partial("UnitApproverMaintenanceLookupTableSlocInput")
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        @* PIC *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                PIC
+                            </label>
+                            <div class="input-group input-group-xs col-xs-4 col-sm-4 col-md-4">
+                                <input type="text" id="PICInput" class="form-control" placeholder="Select PIC" />
+                                <span class="input-group-btn">
+                                    <div class="btn-group" id="btn-group-employeeprofile-input">
+                                        <button id="btnPopupLookupEmployeeProfileInput" class="multiselect dropdown-toggle btn btn-default btn-sm" type="button" style="height: 30px; line-height: 0;" aria-expanded="false" onclick="javascript:openPopupEmployeeProfileInput()" >
+                                            <i class="fa fa-caret-down" style="margin-right: -4px"></i>&nbsp
+                                        </button>
+                                        <div class="form-horizontal multiselect-container dropdown-menu" style="left: -216px; width: 500px;">
+                                            <div class="form-group form-group-xs">
+                                                <div>
+                                                    <div class="input-group">
+                                                        <input id="txtInputLookupEmployeeProfile" class="form-control" type="text" placeholder="Input PIC..." style="margin-left: 5px;" onkeypress="onEnterLookupEmployeeProfileInput(event);" />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" id="btnSearchLookupEmployeeProfileInput" data-loading-text="<i class='glyphicon-refresh-animate glyphicon glyphicon-refresh'></i>" class=" btn btn-default btn-sm " style="margin-left: 5px; margin-right: 5px; height: 30px;">
+                                                                &nbsp<i class="fa fa-search"></i>
+                                                            </button>
+                                                            <button id="btnClearLookupEmployeeProfileInput" class=" btn btn-default btn-sm " title="Clear" type="button" style="margin-right: 5px; height: 30px;" onclick="javascript:clearPopupEmployeeProfileInputFilter()">
+                                                                &nbsp<i class="fa  fa-eraser"></i>&nbsp
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Html.Partial("UnitApproverMaintenanceLookupTableEmployeeProfileInput")
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        @* Deletion Flag *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Deletion Flag
+                            </label>
+                            <div class="input-group input-group-xs col-xs-1 col-sm-1 col-md-1">
+                                <input type="text" id="deletionFlagInput" class="form-control" value="N" style="width:40px;text-align:center;" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px; margin-top: 10px; margin-right: 2px;">
+                    <button id="btnSavePopup" type="button" class="btn btn-primary btn-xs" style="width: 60px;" onclick="javascript:saveData()">Save</button>
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿@using consumable.Models.UserSAP
+@{
+    UserSAP userSAP = (UserSAP)ViewData["userSAP"];
+}
+<!-- Bootstrap Datepicker js -->
+<script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+<script type="text/javascript">
+    //datepicker plugin
+    //link
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    })
+    //show datepicker when clicking on the icon
+	.next().on(ace.click_event, function () {
+	    $(this).prev().focus();
+	});
+</script>
+<div id="addpopup" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Add/Edit User SAP
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal _criteria" id="inputRfForm">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-12">
+                      
+                        @* Username *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Username</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="userSAPIdAddPopup" class="form-control mandatory" type="hidden"
+                                        value="@(userSAP != null && !string.IsNullOrEmpty(userSAP.USER_ID) ? userSAP.USER_ID : null)" />
+                                    <input id="usernameAddPopup" class="form-control mandatory" type="text" maxlength="50"
+                                        value="@(userSAP != null && !string.IsNullOrEmpty(userSAP.USERNAME) ? userSAP.USERNAME : null)" />
+                                </div>
+                            </div>
+                        </div>
+                        @* Complete Name *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Complete Name</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="completeNameAddPopup" class="form-control" type="text" maxlength="50"
+                                        value="@(userSAP != null && !string.IsNullOrEmpty(userSAP.COMPLETE_NAME) ? userSAP.COMPLETE_NAME : null)" />
+                                </div>
+                            </div>
+                        </div>
+                         @* NOREG  *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                NOREG</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="noRegAddPopup" class="form-control" type="text" maxlength="50"
+                                        value="@(userSAP != null && !string.IsNullOrEmpty(userSAP.NOREG) ? userSAP.NOREG : null)" />
+                                </div>
+                            </div>
+                        </div>
+                         @* Group *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Group</label>
+                            <div class="col-xs-8 col-sm-9 col-md-5">
+                                <div class="input-group" style="width: 100%;">
+                                    <input id="groupAddPopup" class="form-control" type="text" maxlength="50"
+                                        value="@(userSAP != null && !string.IsNullOrEmpty(userSAP.GROUP) ? userSAP.GROUP : null)" />
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px;">
+                    <button id="btnSavePopup" type="button" class="btn btn-primary btn-xs" style="width: 60px;"
+                        onclick="javascript:saveInput()">
+                        Save</button>
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

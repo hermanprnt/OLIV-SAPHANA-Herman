@@ -1,0 +1,273 @@
+﻿<!--
+<h2>VAT OUT</h2>
+
+<div class="panel panel-default panel-dark">
+    <div class="panel-heading">
+        <h3 class="panel-title">SEARCH DATA</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group-sm">
+                <!--First input row-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Tax Invoice Date</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">From</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" id="TaxInDtFrom" name="TaxInDtFrom" class="form-control input-sm" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar Date"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">To</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" id="TaxInDtTo" name="TaxInDtTo" class="form-control input-sm" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Tax Invoice No</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">From</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="TaxInNoFrom" name="TaxInNoFrom" class="form-control input-sm" />
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">To</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="TaxInNoTo" name="TaxInNoTo" class="form-control input-sm" />
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+            </div><!--First input row-->
+            <div class="form-group-sm">
+                <!--Second input row-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Interface Date</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">From</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" id="InterfaceDtFrom" name="InterfaceDtFrom" class="form-control input-sm" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">To</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" id="InterfaceDtTo" name="InterfaceDtTo" class="form-control input-sm" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Customer Name</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="CustomerName" name="CustomerName" class="form-control input-sm" />
+                            <div class="col-md-5"></div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+            </div><!--Second input row-->
+            <div class="form-group-sm">
+                <!--Third input row-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Download Date</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">From</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" id="DownloadDtFrom" name="DownloadDtFrom" class="form-control input-sm" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">To</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" id="DownloadDtTo" name="DownloadDtTo" class="form-control input-sm" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Customer NPWP</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="CustomerNPWP" name="CustomerNPWP" class="form-control input-sm Date" />
+                            <div class="col-md-5"></div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+            </div><!--Third input row-->
+            <div class="form-group-sm">
+                <!--Fifth input row-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Complete Date</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">From</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" id="CompleteDtFrom" name="CompleteDtFrom" class="form-control input-sm" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label small">To</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" id="CompleteDtTo" name="CompleteDtTo" class="form-control input-sm" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Status</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select id="Status" name="Status" class="form-control input-sm">
+                                <option value="">All</option>
+                                <option value="2">Downloaded</option>
+                                <option value="1">Registered</option>
+                                <option value="3">Completed</option>
+                            </select>
+                            <div class="col-md-5"></div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+            </div><!--Fifth input row-->
+            <div class="form-group-sm">
+                <!--Sixth input row-->
+                <div class="col-md-6">
+                </div><!--Column-6-->
+                <div class="col-md-6">
+                    <div class="form-group-sm ">
+                        <div class="col-md-3">
+                            <label class="control-label small">Record / Page</label>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="Length" name="Length" class="form-control input-sm">
+                                @*@foreach (var item in RecordsPerPage)
+                                {
+                                    <option>@item</option>
+                                }*@
+                                <option>5</option>
+                                <option>10</option>
+                                <option>15</option>
+                                <option>20</option>
+                            </select>
+                            <div class="col-md-7"></div>
+                        </div>
+                    </div><!--inner form group-->
+                </div><!--Column-6-->
+            </div><!--Sixth input row-->
+            <div class="form-group-sm ">
+                <!--Seventh input row-->
+                <div class="col-md-10">
+                    <label class="control-label small">Upload Tax Invoice from SAP :</label>
+                </div>
+                <div class="col-md-1">
+                    <input type="button" value="Search" class="btn btn-danger btn-block" onclick="javascript: onSearchVATOut(1);" />
+                </div>
+                <div class="col-md-1">
+                    <input type="reset" class="btn btn-danger btn-block" value="Clear" onclick="javascript:onResetScreen()" />
+                </div>
+            </div><!--Seventh input row-->
+        </form>
+
+        <div class="form-group-sm">
+            <div class="col-md-10">@Html.Partial("_UploadExcelFile")</div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</div>
+
+@*@Html.Partial("_PopUpeFaktur")*@
+
+<div id="TableList">
+    <div class="panel panel-dark">
+        <div class="panel-body" id="panelbody">
+            <br /><br /><br /><br /><br /><br /><br /><br />
+        </div>
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2"><b>Total data selected : 0</b></div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="form-group-sm">
+            <div class="col-md-2">
+                Page 0 of 0<br />
+                Total data retrieved : 0
+            </div>
+            <div class="col-md-5 paging">
+                <div class="form-group-sm">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" id="PageInput" name="PageInput" class="form-control input-sm" disabled />
+                            <span class="input-group-btn">
+                                <input type="button" value="Go" onclick="javascript:onGoClick()" class="btn btn-danger btn-sm" disabled />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        First | Prev | Next | Last
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-inline">
+                    <button class="btn btn-danger btn-2row" id="DownloadExcel" onclick="javascript: onDownloadExcel()" disabled>Export<br /> to Excel</button>
+                    <button class="btn btn-danger btn-2row" id="DownloadCSV" onclick="javascript: onDownloadCSV()" disabled>Download<br /> (to CSV)</button>
+                    <button class="btn btn-danger btn-2row" id="DownloadPDF" disabled>Download<br /> eFaktur PDF</button>
+                    <button class="btn btn-danger btn-2row" id="DetailBtn" onclick="javascript: onViewEFakturClick();" disabled>View eFaktur</button>
+                    <button class="btn btn-danger btn-2row" onclick="window.location.href='\Home'">Close</button><br /><br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->

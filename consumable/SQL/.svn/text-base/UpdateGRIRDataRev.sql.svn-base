@@ -1,0 +1,10 @@
+update 
+	TB_R_GR_IR_FROM_SAP
+set 
+	INVOICE_ID = @INVOICE_ID,
+	UPDATED_BY = @UPDATED_BY,
+	UPDATED_DT = getdate()
+where 
+	1=1
+	and VEND_CODE = @VEND_CODE
+	and GR_IR_ID = @GR_IR_ID

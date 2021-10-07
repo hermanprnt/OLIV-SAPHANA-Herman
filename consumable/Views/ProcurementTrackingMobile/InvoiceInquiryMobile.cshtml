@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using consumable.Models.InvoiceInquiry
+@{
+    List<InvoiceInquiry> invoiceInquiryList = (List<InvoiceInquiry>)ViewData["InvoiceInquiry"];
+}
+
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <div class="form-group form-group-xs">
+            <a href="@Html.Toyota().Page.GetControllerUrl("InvoiceInquiry")" class="btn btn-sm btn-default">
+                <i class="fa fa-angle-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+
+<div class="_line-br"></div>
+
+<div class="_tbflow_mobile">
+    <table class="table table-striped table-hover table-bordered table-condensed">
+        <tbody>
+
+            @if (invoiceInquiryList.Count > 0)
+            {
+                foreach (InvoiceInquiry item in invoiceInquiryList)
+                {
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-5"><strong>Invoice Date</strong></div>
+                        <div class="col-xs-7">@item.INVOICE_DATE.ToString("dd-MM-yyyy")</div>
+                        <div class="col-xs-5"><strong>Currency</strong></div>
+                        <div class="col-xs-7">@item.CURRENCY</div>
+                        <div class="col-xs-5"><strong>Total Amount</strong></div>
+                        <div class="col-xs-7">@item.TOTAL_AMOUNT</div>
+                        <div class="col-xs-5"><strong>Amount Before Tax</strong></div>
+                        <div class="col-xs-7">@item.AMOUNT_BFR_TAX</div>
+                        <div class="col-xs-5"><strong>Tax Amount</strong></div>
+                        <div class="col-xs-7">@item.TAX_AMOUNT</div>
+                        <div class="col-xs-5"><strong>Status</strong></div>
+                        <div class="col-xs-7">@item.STATUS</div>
+                        <div class="col-xs-5"><strong>Supplier Code</strong></div>
+                        <div class="col-xs-7">@item.SUPPLIER_CODE</div>
+                        <div class="col-xs-5"><strong>Plan Payment Date</strong></div>
+                        <div class="col-xs-7">@item.PLAN_PAYMENT_DT.ToString("dd-MM-yyyy")</div>
+                        <div class="col-xs-5"><strong>Actual Payment Date</strong></div>
+                        <div class="col-xs-7">@item.ACTUAL_PAYMENT_DT.ToString("dd-MM-yyyy")</div>
+                        <div class="col-xs-5"><strong>Progress Status</strong></div>
+                        <div class="col-xs-7">@item.PROGRESS_STATUS</div>
+                        <div class="col-xs-5"><strong>Notice</strong></div>
+                        <div class="col-xs-7">@item.NOTICE</div>
+						<div class="col-xs-5"><strong>Created By</strong></div>
+                        <div class="col-xs-7">@item.CREATED_BY</div>
+						<div class="col-xs-5"><strong>Created Date</strong></div>
+                        <div class="col-xs-7">@item.CREATED_DT</div>
+                    </div>
+                </td>
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

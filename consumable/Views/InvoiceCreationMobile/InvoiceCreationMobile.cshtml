@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using consumable.Models.InvoiceCreation
+@{
+    List<InvoiceCreation> invoiceCreationList = (List<InvoiceCreation>)ViewData["InvoiceCreation"];
+}
+
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <div class="form-group form-group-xs">
+            <a href="@Html.Toyota().Page.GetControllerUrl("InvoiceCreation")" class="btn btn-sm btn-default">
+                <i class="fa fa-angle-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+
+<div class="_line-br"></div>
+
+<div class="_tbflow_mobile">
+    <table class="table table-striped table-hover table-bordered table-condensed">
+        <tbody>
+
+            @if (invoiceCreationList.Count > 0)
+            {
+                foreach (InvoiceCreation item in invoiceCreationList)
+                {
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-5"><strong>PO No</strong></div>
+                        <div class="col-xs-7">@item.PO_NO</div>
+                        <div class="col-xs-5"><strong>PO Item</strong></div>
+                        <div class="col-xs-7">@item.PO_ITEM</div>
+                        <div class="col-xs-5"><strong>Material</strong></div>
+                        <div class="col-xs-7">@item.MATERIAL</div>
+                        <div class="col-xs-5"><strong>Qty</strong></div>
+                        <div class="col-xs-7">@item.QTY</div>
+                        <div class="col-xs-5"><strong>Unit</strong></div>
+                        <div class="col-xs-7">@item.UNIT</div>
+                        <div class="col-xs-5"><strong>Delivery Note</strong></div>
+                        <div class="col-xs-7">@item.DELIVERY_NOTE</div>
+                        <div class="col-xs-5"><strong>Supplier Code</strong></div>
+                        <div class="col-xs-7">@item.SUPPLIER_CODE</div>
+                        <div class="col-xs-5"><strong>Receiving Date</strong></div>
+                        <div class="col-xs-7">@item.RECEIVING_DATE</div>
+                        <div class="col-xs-5"><strong>Currency</strong></div>
+                        <div class="col-xs-7">@item.CURRENCY</div>
+                        <div class="col-xs-5"><strong>Amount</strong></div>
+                        <div class="col-xs-7">@item.AMOUNT</div>
+                        <div class="col-xs-5"><strong>Uploaded By</strong></div>
+                        <div class="col-xs-7">@item.UPLOADED_BY</div>
+                    </div>
+                </td>
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

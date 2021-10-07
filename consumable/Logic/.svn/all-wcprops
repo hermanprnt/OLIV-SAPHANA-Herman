@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic
+END
+ProfileWrite.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/ProfileWrite.cs
+END
+ColumnDef.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/ColumnDef.cs
+END
+XmlLogic.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/XmlLogic.cs
+END
+ServiceLogic.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/ServiceLogic.cs
+END
+SapConfigChange.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/SapConfigChange.cs
+END
+LogHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/LogHelper.cs
+END
+GenericEqualityComparer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/GenericEqualityComparer.cs
+END
+TopologicalSort.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/TopologicalSort.cs
+END
+OrgHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/OrgHelper.cs
+END
+Item.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/Item.cs
+END
+ProfileHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/ProfileHelper.cs
+END
+ServiceHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/ServiceHelper.cs
+END
+Entry.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/Entry.cs
+END
+SAPLogic.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/SAPLogic.cs
+END
+GrIrHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/GrIrHelper.cs
+END
+Singlet.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/Singlet.cs
+END
+ItemEqualityComparer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/ItemEqualityComparer.cs
+END
+TableDef.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/TableDef.cs
+END
+LevelCounter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Logic/LevelCounter.cs
+END

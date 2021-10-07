@@ -1,0 +1,14 @@
+SELECT [SYSTEM_ID]
+      ,[SYSTEM_CD]
+      ,[SYSTEM_TYPE]
+      ,[SYSTEM_VALUE_TEXT]
+	  ,[SYSTEM_VALUE_NUM] AS S_SYSTEM_VALUE_NUM
+	  ,convert(varchar, convert(datetime, [SYSTEM_VALUE_DT]), 104) S_SYSTEM_VALUE_DT
+      ,[SYSTEM_DESC]
+      ,[CREATED_DT]
+      ,[CREATED_BY]
+      ,[UPDATED_DT]
+      ,[UPDATED_BY]
+FROM TB_M_SYSTEM
+WHERE 1 = 1
+	and [SYSTEM_ID] = @SYSTEM_ID	

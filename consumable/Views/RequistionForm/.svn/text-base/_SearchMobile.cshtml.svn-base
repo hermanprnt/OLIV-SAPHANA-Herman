@@ -1,0 +1,61 @@
+﻿<form role="form" class="form-horizontal" id="searchFormMobile" action="@Html.Toyota().Page.GetControllerUrl("InvoiceInquiryMobile")">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 control-label text-muted">Created Date</label>
+                <div class="col-xs-8">
+                    <input class="form-control" type="text" name="date-range-picker" id="createdDate" data-date-format="dd.mm.yyyy" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+              <label class="col-xs-4 control-label text-muted">Invoice Date</label>
+              <div class="col-xs-8">
+                <input class="form-control" type="text" name="date-range-picker" id="invoiceDate" data-date-format="dd.mm.yyyy" />
+              </div>
+            </div>
+            <div class="form-group form-group-xs">
+              <label class="col-xs-4 control-label text-muted">Plan Payment Date</label>
+              <div class="col-xs-8">
+                <input class="form-control" type="text" name="date-range-picker" id="planPaymentDate" data-date-format="dd.mm.yyyy" />
+              </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 control-label text-muted">Supplier</label>
+                <div class="col-xs-8">
+                    <select id="supplier" class="cursor-1" style="width: 100%;">
+                        <option class="cursor-1"></option>
+                        <option class="cursor-1">Supplier 1</option>
+                        <option class="cursor-1">Supplier 2</option>
+                        <option class="cursor-1">Supplier 3</option>
+                        <option class="cursor-1">Supplier 4</option>                      
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+              <label class="col-xs-4 control-label text-muted">Status</label>
+              <div class="col-xs-8">
+                <select id="status" class="cursor-1" style="width: 100%;">
+                  <option class="cursor-1"></option>
+                  <option class="cursor-1">Paid</option>
+                  <option class="cursor-1">Posted</option>
+                  <option class="cursor-1">Submited</option>
+                  <option class="cursor-1">Created</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 control-label text-muted">Invoice No.</label>
+                <div class="col-xs-8">
+                    <input id="invoiceNo" class="form-control" type="text" value="" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <div class="col-xs-12 text-right">
+                    <button type="submit" class="btn btn-sm btn-primary">Cari</button>
+                    <button type="reset" class="btn btn-sm btn-default">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

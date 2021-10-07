@@ -1,0 +1,932 @@
+﻿@using consumable.Models.InvoiceCreation;
+@using consumable.Commons.Constants;
+@*Modal popup Preview Invoice Excel [start] *@
+
+<div id="modal-preview-invoice-xls" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 1000px;">@*1100px;*@
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                    Invoice Preview</h4>
+            </div>
+            <div class="modal-body">
+                @*<form role="form" class="form-horizontal">*@
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12">
+                            @*<div class="table-responsive col-xs-12 col-sm-6 col-md-4">
+                            <div style="border: 1pt solid #ccc;">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                        <div class="form-group form-group-xs" style="margin-bottom: 3px;">
+                                            Invoice List Selection
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tScrollHead" style="width: 98.5%; overflow: hidden; margin-left: 10px;">
+                                    <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed"
+                                        style="width: 295px; max-width: 295px !important;">
+                                        <thead>
+                                            <tr>
+                                                <th width="150px">
+                                                    Invoice No
+                                                </th>
+                                                <th width="80px">
+                                                    Status
+                                                </th>
+                                                <th width="50px">
+                                                    Attach
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div id="tScrollBody" style="overflow: auto; height: 325px; margin-left: 10px; margin-bottom: 5px;">
+                                    <table id="tblScroll" class="table table-striped table-bordered table-condensed table-fixed"
+                                        style="width: 295px; max-width: 295px !important;">
+                                        <tbody>
+                                            @{
+                                                if (invoiceCreationList != null && invoiceCreationList.Count > 0)
+                                                {
+                                                    foreach (consumable.Common.Data.GR_IR_DATA item in invoiceCreationList)
+                                                    {
+                                                <tr>
+                                                    <td width="150px" class="text-center">
+                                                        <a id="@item.INVOICE_NO" class="a1 linkInvoiceNo" onclick="setInvoice('@(item.INVOICE_NO)')" style="cursor: pointer; color:black; text-decoration:underline;">@item.INVOICE_NO</a>
+                                                    </td>
+                                                    <td width="80px" class="text-left">@item.GR_STATUS
+                                                    </td>
+                                                    <td width="50px" class="text-center">
+                                                        <i class="fa fa-file"></i>
+                                                    </td>
+                                                </tr>  
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                <tr>
+                                                    <td colspan="3" class="text-center">
+                                                        No data retrieved.
+                                                    </td>
+                                                </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>*@
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                
+                                @*PO Categories 20200514*@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        PO Categories</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        @*<input type="checkbox" />*@
+                                        <div class="col-xs-8 col-sm-9 col-md-4">
+                                            <input type="radio" name="poCategoryxls" class="poCategoryGoodsxls" value="Goods" style="margin-left: -10px; margin-top: 8px" />
+                                            Goods
+                                        </div>
+                                        <div class="col-xs-8 col-sm-9 col-md-4">
+                                            <input type="radio" name="poCategoryxls" class="poCategoryServicesxls" value="Services" style="margin-left: -10px; margin-top: 8px" />
+                                            Services
+                                        </div>
+                                    </div>
+                                </div>
+                                @* Invoice No *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Invoice No</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="invoiceNoxls" class="form-control mandatory" type="text" value="" maxlength="16"/>
+                                    </div>
+                                </div>
+                                @* Invoice Date *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Invoice Date</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7" style="cursor: pointer;">
+                                        <div class="input-group customDatePicker" style="width: 100%;">
+                                            <input class="form-control date-picker mandatory" id="invoiceDatexls" type="text" data-date-format="dd.mm.yyyy" />
+                                            <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* Turn Over *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Turn Over</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="turnOverxls" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+                                @* Tax Base *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Tax Base</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="taxBasexls" class="form-control" type="text" value="" style="text-align: right;"
+                                            onkeyup="numberFormat(this); calculateAllExcel();" />
+                                    </div>
+                                </div>
+                                @* Calculate Tax *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Calculate Tax</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        @*<input type="checkbox" />*@
+                                        <div class="col-xs-8 col-sm-9 col-md-3">
+                                            <input type="radio" name="calTax" value="10" style="margin-left: -10px; margin-top: 8px"
+                                                onclick="calculateAllExcel();" class="calTax1xls" />
+                                            10 %
+                                        </div>
+                                        <div class="col-xs-8 col-sm-9 col-md-3">
+                                            <input type="radio" name="calTax" value="1" style="margin-left: -10px; margin-top: 8px"
+                                                onclick="calculateAllExcel();" class="calTax2xls" />
+                                            1 %
+                                        </div>
+                                        <div class="col-xs-8 col-sm-9 col-md-3">
+                                            <input type="radio" name="calTax" value="0" style="margin-left: -10px; margin-top: 8px"
+                                                onclick="calculateAllExcel();" class="calTax3xls" />
+                                            0 %
+                                        </div>
+                                    </div>
+                                </div>
+                                @*witholding tax code 20200514*@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Withholding Tax Code</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-5">
+                                        <div class="input-group" style="width: 100%;">
+                                            <select id="withHoldingTaxxls" class="cursor-1">
+                                                <option value=""></option>
+                                                @foreach (var item in (List<consumable.Models.GLAccount.GLAccount>)ViewData["WitholdingTaxList"])
+                                                {
+                                                    <option value="@item.CODE">@item.CODE -
+                                                        @item.NAME
+                                                    </option>
+                                                }
+                                            </select>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                @* Stamp Included *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Stamp Included</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="checkboxStampxls" class="checkboxStampxls" type="checkbox" style="margin-top: 8px"
+                                            onclick="calculateAllExcel()" />
+                                    </div>
+                                </div>
+                                @* Total Amount *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Total Amount</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="totalAmountxls" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+                                @* File Attachment *@
+                                <div class="form-group form-group-xs" style="padding-top: 20px;">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted" style="margin-top: 6px">
+                                        Attachment Invoice</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <div class="input-group" style="width: 100%;">
+                                            @*<button type="button" title="Upload Invoice" id="btn-upload" class="fa fa-upload btn btn-warning btn-xs"
+                                            style="padding: 2px;" onclick="javascript:uploadDialog()">
+                                            <span style="font-family: Open Sans; font-size: 12px">Upload Invoice</span>
+                                        </button>*@ @*<input type="file" name="file" class="filestyle" data-buttontext="Pilih file" data-buttonname="btn-primary" />*@
+                                            <form action="@Html.Toyota().Page.GetActionUrl("UploadInvoice")" id="formDestUploadFilexls"
+                                            enctype="multipart/form-data" method="post" target="upload_target"
+                                            role="form" class="form-horizontal">
+                                            <div id="divFileDestFilexls" class="file-input btn btn-xs btn-primary btn-file">
+                                                <i class="ace-icon fa fa-upload fa-lg fa-fw"></i>
+                                                <input id="fileDestFilexls" type="file" name="file" class="input-file" data-row="0"
+                                                    data-type-one="UPLOAD_INVOICE" accept="application/pdf" onchange="uploadFile_OnChangeExcel(this, 'linkDestDocFileNamexls-1', 'divDestDocFileNameServerxls-1', 'btnDeleteDestUploadxls-1', true);" />
+                                            </div>
+                                            </form>
+                                            
+                                            <table id="tblDestDoc" style="width: 260px; max-width: 260px !important;">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="trDestDocxls-1-a-1" class="hide">
+                                                        <td width="120px">
+                                                            <div id="linkDestDocFileNamexls-1-a-1">
+                                                            </div>
+                                                            @*<a href="#" id="linkDestDocFileName-1-a1" class="control-label text-muted"
+                                                            onclick="downloadFileOfUploadFile('linkDestDocFileName-1-a1', 'divDestDocFileNameServer-1-a1');"></a>*@
+                                                            <div id="divDestDocFileNameServerxls-1-a-1" class="hide">
+                                                            </div>
+                                                        </td>
+                                                        <td style="padding-left: 10px;" width="5px">
+                                                            <button type="button" class="btn btn-sm btn-primary button-input btn-del-upload"
+                                                                id="btnDeleteDestUploadxls-1-a-1" data-type-one="UPLOAD_INVOICE" 
+                                                                onclick="deleteUploadFileExcel(this, 'linkDestDocFileNamexls-1-a-1', 'divDestDocFileNameServerxls-1-a-1', 'trDestDocxls-1-a-1', true);">
+                                                                X</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                @* Button upload *@ @*<div class="form-group form-group-xs">
+                                <div class="col-xs-8 col-sm-9 col-md-12">
+                                    <button type="button" title="Upload" id="btn-upload-EFaktur" class="fa fa-upload btn btn-warning btn-xs pull-right"
+                                        onclick="javascript:uploadEFaktur()">
+                                        <span style="font-family: Open Sans; font-size: 12px">Upload eFaktur</span>
+                                    </button>
+                                </div>
+                            </div>*@ @* eFaktur No *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        eFaktur No</label>
+                                    @* <div class="input-group input-group-xs col-xs-8 col-sm-9 col-md-7">
+                                    <input id="taxNo" class="form-control" type="text" value="" 
+                                        placeholder="Select tax no.">
+                                        <span class="input-group-btn">
+                                            <button id="btnlookupefaktur" class=" btn btn-default btn-xs" type="button">
+                                                <i class="fa fa-search"></i></button>
+                                        </span>
+                                </div>*@
+                                    <div class="col-xs-8 col-sm-9 col-md-7" style="cursor: pointer;">
+                                        <div class="input-group" style="width: 100%;">
+                                            <input id="taxNoxls" class="form-control mandatory" type="text" value="" placeholder="Select tax invoice no"
+                                                readonly />
+                                            <span class="input-group-btn">
+                                                <button id="btnlookupefakturxls" class=" btn btn-default btn-xs" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* eFaktur Date *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        eFaktur Date</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input class="form-control" id="TaxDatexls" type="text" data-date-format="dd.mm.yyyy"
+                                            readonly />
+                                    </div>
+                                </div>
+                                @* eFaktur Amount *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        eFaktur Amount</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="taxAmountxls" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+                                @* Invoice Tax Amount *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Invoice Tax Amount</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="invoiceTaxAmountxls" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                    <span id="ToleranceValuexls" style="display:none"></span>
+                                </div>
+                                @* Total GR Item *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Total GR Item</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="totalDeliveryNotexls" class="form-control" type="text" value="" readonly
+                                            style="text-align: right;" />
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-xs" style="display: none;">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Currency</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="currencyxls" class="form-control" type="text" value="" readonly
+                                            style="text-align: right;" />
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-xs" style="display: none;">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Gr</label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="grIrxls" class="form-control" type="text" value="" readonly
+                                            style="text-align: right;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*</form>*@
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px; margin-right: 2px;">
+
+                     @if(!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                      {
+                    <button id="saveInvoiceBtnxls" type="button" class="btn btn-primary btn-xs" style="width: 150px;" onclick="javascript:saveInvoiceExcel()">
+                        Save Invoice Document</button>
+                      }
+                    <button id="closeInvoiceBtnxls" class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_LookupEFakturExcel")
+</div>
+@*Modal popup Preview Invoice [end] *@
+<script type="text/javascript">
+    var gTagUploadFileNameStr = null;
+    var gTagUploadFileNameServerStr = null;
+    var gTagUploadDeleteStr = null;
+    var gThisObj = null;
+    
+
+    //202005 onchange po category
+    $(document).on('change', 'input[name=poCategoryxls]', function () {
+        var suppCodexls = $(this).attr('data-supp');//modif 20200910
+        console.log('Suplier COde = ' + suppCodexls);
+        $(".calTax3xls").attr("disabled", false);
+        $("#withHoldingTaxxls").removeClass("mandatory");
+        $("#withHoldingTaxxls").val('');
+        $.ajax({
+            type: "POST",
+            url: "@Html.Toyota().Page.GetActionUrl("getValidVATWHT")",
+            data: {
+                suppCode: suppCodexls //modif 20200910
+            },
+            success: function (data) {
+                if ((data == '1') && ($(".poCategoryServicesxls").prop("checked"))) {
+                    $(".calTax3xls").attr("disabled", true);
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+                if ((data == '1') && ($(".poCategoryGoodsxls").prop("checked"))) {
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+                if ((data == '2') && ($(".poCategoryServicesxls").prop("checked"))) {
+                    $(".calTax3xls").attr("disabled", true);
+                    $("#withHoldingTaxxls").addClass("mandatory");
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+                if ((data == '2') && ($(".poCategoryGoodsxls").prop("checked"))) {
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+                if ((data == '3') && ($(".poCategoryServicesxls").prop("checked"))) {
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+                if ((data == '4') && ($(".poCategoryServicesxls").prop("checked"))) {
+                    $("#withHoldingTaxxls").addClass("mandatory");
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+                if ((data == '4') && ($(".poCategoryGoodsxls").prop("checked"))) {
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+                if ((data == '5') && ($(".poCategoryServicesxls").prop("checked"))) {
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+                if ((data == '5') && ($(".poCategoryGoodsxls").prop("checked"))) {
+                    newWhtValidExcel(suppCodexls);//modif 20200910
+                }
+
+            }
+        });
+
+    })
+    // Function radio button calculate tax [start]
+    function calcTaxExcel(valCalTax) {
+        
+        if ($("#taxBasexls").val() != '') {
+            var amount = removeCommas($("#taxBasexls").val());
+            var tax = (valCalTax / 100) * parseFloat(amount);
+
+            $("#invoiceTaxAmountxls").val(numberWithCommas(tax));
+
+            var totalAmount = parseFloat(amount) + tax;
+            $("#totalAmountxls").val(numberWithCommas(totalAmount));
+        }
+        else 
+        {
+            $("#msgWarningId").text("Tax Base amount must be filled");
+            $("#warning-confirm").modal();
+        }
+
+        if(valCalTax==0) 
+        {  
+            $("#btnlookupefakturxls").prop('disabled', true);
+            $("#taxNoxls").val('');
+            $("#TaxDatexls").val('');
+            $("#taxAmountxls").val(0);
+        }
+        else 
+        {
+            $("#btnlookupefakturxls").prop('disabled', false);
+        }
+    }
+    // Function radio button calculate tax [end]
+
+    // Function textbox calculate tax [start]
+    function calculateInvoiceTaxExcel(valTaxBase) {
+        if(valTaxBase!='') {
+            var valCalTax = 0;
+            if($(".calTax1xls:checked").length==1) {
+                valCalTax = $(".calTax1xls").val();
+            }
+            else if($(".calTax2xls:checked").length==1) {
+                // alert("nih" + $(".calTax2").val())
+                valCalTax = $(".calTax2xls").val();
+            }
+            else if($(".calTax3xls:checked").length==1) {
+                valCalTax = $(".calTax3xls").val();
+            }
+
+            var amount = removeCommas(valTaxBase);
+            var tax = (valCalTax / 100) * parseFloat(amount);
+
+            $("#invoiceTaxAmountxls").val(numberWithCommas(tax));
+
+            var turnOver = removeCommas($("#turnOverxls").val());
+            var totalAmount = parseFloat(turnOver) + tax;
+            $("#totalAmountxls").val(numberWithCommas(totalAmount));
+        }
+        else {
+            $("#invoiceTaxAmountxls").val('');
+        }
+    }
+    // Function textbox calculate tax [end]
+
+    // Function Stamp Included [start]
+    function checkStampExcel() {
+        var turnOver = parseInt(removeCommas($("#turnOverxls").val()));
+        var totalAmount = parseInt(removeCommas($("#totalAmountxls").val()));
+
+        if ($(".checkboxStampxls:checked").length == 1) {
+            if (turnOver >= 251000 && turnOver <= 1000000) {
+                $("#totalAmountxls").val(numberWithCommas(totalAmount + 3000))
+            }
+            else if (turnOver > 1000000) {
+                $("#totalAmountxls").val(numberWithCommas(totalAmount + 6000))
+            }
+        }
+        else {
+            if (turnOver >= 251000 && turnOver <= 1000000) {
+                $("#totalAmountxls").val(numberWithCommas(totalAmount - 3000))
+            }
+            else if (turnOver > 1000000) {
+                $("#totalAmountxls").val(numberWithCommas(totalAmount - 6000))
+            }
+        }
+    }
+    // Function Stamp Included [end]
+
+
+     function calculateAllExcel() {  
+        var taxAmount
+        var taxAmountDecimal
+        var taxBase = removeCommas($("#taxBasexls").val());
+        var taxPercentage = 0;
+        var turnOver = parseInt(removeCommas($("#turnOverxls").val()));
+        if (taxBase != '') {
+            if(taxBase > turnOver)
+            {
+                //$("#msgWarningId").text("Tax Base is greater than turn over");
+                //$("#warning-confirm").modal();
+                $("#taxBasexls").val(numberWithCommas(turnOver))
+            }
+           
+            if($(".calTax1xls:checked").length==1) {
+                taxPercentage = $(".calTax1xls").val();
+            }
+            else if($(".calTax2xls:checked").length==1) {
+                taxPercentage = $(".calTax2xls").val();              
+            }
+            else if($(".calTax3xls:checked").length==1) {
+                taxPercentage = $(".calTax3xls").val();
+                taxBase = turnOver;
+                $("#taxBasexls").val(numberWithCommas(taxBase))
+            }
+            
+            taxBase = removeCommas($("#taxBasexls").val());
+            taxAmountDecimal = ((taxPercentage / 100) * (taxBase)).toFixed(2);
+            taxAmount = Math.round(taxAmountDecimal * 100) / 100 
+            //alert((taxPercentage / 100) + "*" + taxBase + "=" + taxAmount )
+            $("#invoiceTaxAmountxls").val(numberWithCommas(taxAmount));
+            
+        }
+        else 
+        {
+            $("#msgWarningId").text("Tax Base amount must be filled");
+            $("#warning-confirm").modal();
+        }
+
+        if(taxPercentage==0) 
+        {  
+            $("#btnlookupefakturxls").prop('disabled', true);
+            $("#taxNoxls").val('');
+            $("#TaxDatexls").val('');
+            $("#taxAmountxls").val(0);
+        }
+        else 
+        {
+            $("#btnlookupefakturxls").prop('disabled', false);
+        }
+
+       
+        if ($(".checkboxStampxls:checked").length == 1) {
+            if (turnOver >= 251000 && turnOver <= 1000000) {
+                stamp = 3000;      
+            }
+            else if (turnOver > 1000000) {
+                stamp = 6000;
+            }
+        }
+        else {
+           stamp = 0;
+        }
+      
+        totalAmount = (turnOver + taxAmount + stamp).toFixed(2)
+         $("#totalAmountxls").val(numberWithCommas(Math.round(totalAmount * 100) / 100 ));
+
+     }
+
+    // Function Save Invoice [start]
+    function saveInvoiceExcel() {
+
+        valid = validateInputFormExcel();
+        //valid = true;
+            
+        if (valid) {
+            var stri = $("#grIrxls").val();
+            var curre = $("#currencyxls").val();
+            var vendo = $("input[name='poCategoryxls']").attr('data-supp');
+            console.log(vendo);
+            var getgrirdata = stri.split(",");
+            GR_IR_DATA_Arrays = new Array();
+            for (var z = 0; z < getgrirdata.length; z++) {
+                GR_IR_DATA_Arrays.push({
+                    GR_IR_ID: getgrirdata[z],
+                    VEND_CODE: vendo,
+                    CURRENCY: curre
+                })
+            }
+		    
+
+            var paramsObj = new Object();
+            paramsObj.invoice = getFormDataExcel();
+            paramsObj.items = GR_IR_DATA_Arrays;
+			$.ajax({
+				type : "POST",
+				url : "@Html.Toyota().Page.GetActionUrl("SaveInvoice")",
+				contentType: 'application/json',
+				dataType: 'json',
+                traditional: true,
+				data: JSON.stringify(paramsObj),
+                beforeSend: function () {
+                    $('#saveInvoiceBtnxls').button('loading');
+                    $('#closeInvoiceBtnxls').button('loading');
+                },
+				success : function(returnResult) {
+                    if (returnResult.Result == returnResult.ValueSuccess) {
+                        $("#modal-preview-invoice-xls").modal('hide');
+                    
+                        $("#msgInfoId").text("Save Data Success");
+                        $("#msgInfoCertificateId").text(returnResult.SuccMesgs);
+                        $("#selected-info").modal();
+
+                        printCertificateExcel(returnResult.Params[0],returnResult.Params[1],returnResult.Params[2]);
+
+                        $("#sumAmount").text('');
+			            $("#sumManifest").text('');
+
+                        searchData(pagepos);
+					} 
+                    else {                       
+                        $("#msgWarningId").text("Error Save : " + returnResult.ErrMesgs);
+                        $("#warning-confirm").modal();
+					}
+                    $('#saveInvoiceBtn').button('reset');
+                    $('#closeInvoiceBtn').button('reset');
+				},
+				error : function(returnResult) {
+                    $("#msgWarningId").text("Error Save : " + returnResult.ErrMesgs);
+                    $("#warning-confirm").modal();
+
+                    $('#saveInvoiceBtn').button('reset');
+                    $('#closeInvoiceBtn').button('reset');
+				}
+			});
+        }
+	}
+
+    function validateInputFormExcel() {
+        var valid = true;
+        
+        if ($("#invoiceNoxls").val() == '') {
+            $("#invoiceNoxls").css("background-color", "#F2BCD5");
+            valid = false;
+        }
+        else {
+            $("#invoiceNoxls").css("background-color", "#FFFFFF");
+        }
+
+        if ($("#invoiceDatexls").val() == '') {
+            $("#invoiceDatexls").css("background-color", "#F2BCD5");
+            valid = false;
+        }
+        else {
+            $("#invoiceDatexls").css("background-color", "#FFFFFF");
+        }
+
+        if(valid == true &&  $(".calTax3xls:checked").length!=1) {//modif 20200908
+             if ($("#taxNoxls").val() == '') {
+                $("#msgWarningId").text("Please Select EFaktur");
+                $("#warning-confirm").modal();
+                //$("#taxNo").css("background-color", "#F2BCD5");
+                valid = false;
+            }
+            else {
+                $("#taxNoxls").css("background-color", "#FFFFFF");
+            }
+        }
+
+        //20200724 wht start
+        if ($("#withHoldingTaxxls").hasClass("mandatory") && $("#withHoldingTaxxls").val() == '') {
+            $("#withHoldingTaxxls").css("background-color", "#F2BCD5");
+            valid = false;
+        }
+        else {
+            $("#withHoldingTaxxls").css("background-color", "#FFFFFF");
+        }
+        //20200724 wht end
+       
+        if(valid) {
+            
+            var turnOver = parseInt(removeCommas($("#turnOverxls").val()));
+            var taxBase = parseInt(removeCommas($("#taxBasexls").val()));
+            var taxamt = parseInt(removeCommas($("#taxAmountxls").val()));
+            var invtaxamt = parseInt(removeCommas($("#invoiceTaxAmountxls").val()));
+            var icToleranceVal = $("#ToleranceValuexls").html();
+          
+          
+            if (taxamt != invtaxamt) {
+               
+                if (Math.abs(taxamt - invtaxamt) > icToleranceVal) {
+                    $("#msgWarningId").text("eFaktur Amount ​​and Invoice Tax Amount must equal");
+                    $("#warning-confirm").modal();
+                    valid = false;
+                }
+
+                //$("#msgWarningId").text("eFaktur Amount ​​and Invoice Tax Amount must equal");
+                //$("#warning-confirm").modal();
+                //valid = false;
+            }
+            else if (taxBase > turnOver) {
+               
+                $("#msgWarningId").text("Tax Base amount greater than Turn Over amount");
+                $("#warning-confirm").modal();
+                valid = false;
+            }
+        }
+
+        //20200811 start
+        if ($("#withHoldingTaxxls").hasClass("mandatory") && $("#withHoldingTaxxls").val() == '') {//modif 20200908
+            $("#msgWarningId").text("Cannot select blank Witholding Tax!");
+            $("#warning-confirm").modal();
+            valid = false;
+        }
+        //20200811 end
+
+        return valid;
+    }
+
+    var DEST_DOC_COL_IDX = {
+        'FileName': 0
+    };
+
+    function getFormDataExcel() {
+        var data = new Object();
+
+        data.INVOICE_NO = $("#invoiceNoxls").val().trim();
+        data.S_INVOICE_DATE = $("#invoiceDatexls").val().trim();
+        data.TURN_OVER = $("#turnOverxls").val().replace(/,/g , '');
+        data.TAX_BASE = $("#taxBasexls").val().replace(/,/g, '');
+        data.WITHOLDING_TAX_CD = $("#withHoldingTaxxls").val().trim();//20200605
+
+        if($(".calTax1xls:checked").length==1) {
+            data.CALCULATE_TAX = $(".calTax1xls").val();
+        }
+        else if($(".calTax2xls:checked").length==1) {
+            data.CALCULATE_TAX = $(".calTax2xls").val();
+        }
+        else if($(".calTax3xls:checked").length==1) {
+            data.CALCULATE_TAX = $(".calTax3xls").val();
+        }
+
+        var turnOver = parseInt(removeCommas($("#turnOverxls").val()));
+        if ($(".checkboxStampxls:checked").length == 1) {
+            data.CHECKBOX_STAMP = 'Y';
+
+            if (turnOver >= 251000 && turnOver <= 1000000) {
+                data.STAMP_AMOUNT = 3000;
+            }
+            else if (turnOver > 1000000) {
+                data.STAMP_AMOUNT = 6000
+            }
+        }
+        else { 
+            data.CHECKBOX_STAMP = 'N';
+            data.STAMP_AMOUNT = 0;
+        }
+        data.TOTAL_AMOUNT =	$("#totalAmountxls").val().replace(/,/g , '');
+        data.TAX_INVOICE_NO = $("#taxNoxls").val();
+        data.TAX_INVOICE_AMOUNT = $("#invoiceTaxAmountxls").val().replace(/,/g , '');
+
+        data.InvoiceAttachmentList = [];
+        var i = 0;
+        $("#tblDestDocxls").children('tbody').children('tr:not(.hide)').each(function () { // must exclude class hide, template is hide class
+            var trObj2 = jQuery(this);
+            var destDoc = new Object();
+
+            i = trObj2.attr("index");
+
+            destDoc.FILE_NAME = trObj2.children('td').eq(DEST_DOC_COL_IDX.FileName).find("#linkDestDocFileNamexls-1-a" + i).text().trim();//modif 20200908
+            destDoc.FILE_NAME_SERVER = trObj2.children('td').eq(DEST_DOC_COL_IDX.FileName).find("#divDestDocFileNameServerxls-1-a" + i).text().trim();//modif 20200908
+            data.InvoiceAttachmentList.push(destDoc);
+        });
+
+        return data;
+    }
+    // Function Save Invoice [end]
+
+    // Upload function [start]
+    function uploadFile_OnChangeExcel(obj, tagUploadFileNameStr, tagUploadFileNameServerStr, tagUploadDeleteStr, isCustomUpload) {
+//            popUpProgressShow();
+        gTagUploadFileNameStr = tagUploadFileNameStr;
+        gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        gTagUploadDeleteStr = tagUploadDeleteStr;
+//            gIsCustomUpload = isCustomUpload;
+        gThisObj = obj;
+
+//            // validate request max length
+//            var maxRequestLength = '@ViewData["MaxRequestLength"]';
+//            if (maxRequestLength != "") {
+//                if (obj.files[0].size && obj.files[0].size > parseInt(maxRequestLength)) {
+//                    popUpProgressHide();
+//                    showErrorMesgGrowl("Maximum upload file size is " + parseInt(maxRequestLength) / 1024 + 
+//                        " KB, please choose another file");
+
+//                    return;
+//                }
+//            }
+
+        obj.form.submit();
+    }
+
+    function uploadTarget_OnLoadExcel() {
+        var returnResult = $(window.frames["upload_target"].document.body).children("pre").html();
+        
+        if (returnResult != "") {
+//            popUpProgressHide();
+//            handleAjaxResultGrowl(JSON.parse(returnResult), "Upload", onUploadFileSuccess);
+            onUploadFileSuccess(JSON.parse(returnResult));
+        }
+    }
+
+    function onUploadFileSuccessExcel(returnResult) {
+        var fileName = returnResult.Params[0];
+        var fileNameServer = returnResult.Params[1];
+        var oldFileNameServer = null;
+        
+        var result = $("#trDestDocxls-1-a-1").clone().removeClass('hide').prop('outerHTML');
+        
+        var row = $("#fileDestFilexls").attr("data-row");
+        var tagUploadFileNameStr = gTagUploadFileNameStr;
+        var tagUploadFileNameServerStr = gTagUploadFileNameServerStr;
+        //var destIndex = gDestIndex;
+        row++;            
+           
+        result = result.replace(/id=["'].*-a-1.*["']/gi, function myFunction(x) { return x.replace(/a-1/, "a" + row); });
+        result = result.replace(/["'].*-a-1["']/gi, function myFunction(x) { return x.replace(/a-1/gi, "a" + row); });
+        $("#tblDestDocxls").find("tbody").append(result);
+
+        $("#" + gTagUploadDeleteStr + "-a" + row).prop('onclick', null);
+        $("#" + gTagUploadDeleteStr + "-a" + row).click(function () {
+            deleteUploadFileExcel(this, tagUploadFileNameStr + '-a' + row,
+                tagUploadFileNameServerStr + '-a' + row, 'trDestDocxsl-1' + '-a' + row, true);
+        });
+
+        //        $("#" + gTagUploadFileNameStr + "-a" + row).prop('onclick', null);
+        //        $("#" + gTagUploadFileNameStr + "-a" + row).click(function() {
+        //            downloadFileOfUploadFile(tagUploadFileNameStr + '-a' + row, 
+        //                tagUploadFileNameServerStr + '-a' + row);
+        //        });
+        $("#" + gTagUploadFileNameStr + "-a" + row).html(fileName);
+        $("#" + gTagUploadFileNameServerStr + "-a" + row).html(fileNameServer);
+        $("#fileDestFilexls").attr("data-row", row);
+        $("#trDestDocxls-1" + "-a" + row).attr("index", row);
+            
+    }
+
+    function deleteUploadFileExcel(obj, tagUploadFileNameStr, tagUploadFileNameServerStr, tagToBeRemoveStr, isCustomUpload) {
+        gTagUploadFileNameStr = tagUploadFileNameStr;
+        gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        gTagToBeRemoveStr = tagToBeRemoveStr;
+        gUploadDelete = obj;
+        gIsCustomUpload = isCustomUpload;
+        //gDestIndex = destIndex;
+        gThisObj = obj;
+
+//        showConfirmMesg("Delete upload file " + $("#" + gTagUploadFileNameStr).html() + " ?", doDeleteUploadFile);
+        doDeleteUploadFileExcel();
+    }
+
+    function doDeleteUploadFileExcel() {
+        //popUpProgressShow();
+        //gTagUploadFileNameStr = tagUploadFileNameStr;
+        //gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        $.ajax({
+            type: "POST",
+            url: "@Html.Toyota().Page.GetActionUrl("DeleteUploadFile")",
+            //contentType: 'application/json',
+            dataType: 'json',
+            traditional: true,
+            data: {
+                fileNameServer: $("#" + gTagUploadFileNameServerStr).html()
+            },
+            success: function (returnResult) {
+                //popUpProgressHide();
+                //handleAjaxResultGrowl(returnResult, "Delete Upload File", onDeleteUploadFileSuccess);
+                onDeleteUploadFileSuccessExcel();//modif 20200908
+            },
+            error: function (returnResult) {
+                //popUpProgressHide();
+                //handleAjaxResponseErrorGrowl(returnResult, "Delete Upload File");
+            }
+        });
+    }
+    
+    function onDeleteUploadFileSuccessExcel() {
+        //gArrDeletedFileNameServer.push($("#" + gTagUploadFileNameServerStr).html());
+        if (gIsCustomUpload) {
+            var row = $("#fileDestFilexls").attr("data-row");//modif 20200908
+            row--;
+            $("#fileDestFilexls").attr("data-row", row);//modif 20200908
+
+            // adjust seq
+            var currRow = $(gThisObj).closest("tr[id^=trDestDocxls-]").attr("index");//modif 20200908
+            var ctr = currRow;
+            $("#trDestDocxls-1-a" + currRow).nextAll().each(function () {//modif 20200908
+                ctr++;
+                var thisJquery = $(this);
+                thisJquery.attr("index", (ctr - 1));
+                thisJquery.attr("id", "trDestDocxls-1-a" + (ctr - 1));//modif 20200908
+
+                var html = thisJquery.html();
+                //var pattern = new RegExp('id=["\'].*-a' + ctr + '.*["\']', "gi");
+                var pattern = new RegExp('["\'].*-a' + ctr + '.*["\']', "gi");
+                var pattern2 = new RegExp('a' + ctr, "gi");
+                //html = html.replace(/id=["'].*-a-1.*["']/gi, function myFunction(x){ return x.replace(/a-1/, "a" + ctr); });
+                html = html.replace(pattern, function myFunction(x){ return x.replace(pattern2, "a" + (ctr - 1)); });
+                thisJquery.html(html);
+            });
+        }
+
+        $("#" + gTagUploadFileNameStr).html("");
+        $("#" + gTagUploadFileNameServerStr).html("");
+
+        if (gTagToBeRemoveStr != null && gTagToBeRemoveStr != "") {
+            $("#" + gTagToBeRemoveStr).remove();
+        } else {
+            //$(gUploadDelete).addClass('hide');
+            $(gUploadDelete).hide();
+        }
+    }
+    // Upload function [end]
+
+
+    function printCertificateExcel(invoiceId,supplierCode,certificateId) {
+        window.open("@Url.Action("PrintCertificate")"+"?invoiceId="+invoiceId+"&&supplierCode="+supplierCode+"&&certificateId="+certificateId);     
+    }
+
+    $("#btnlookupefakturxls").click(function () {
+        $("#lookupeFakturPopupSearchxls").modal('show');
+    });
+
+</script>

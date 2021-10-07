@@ -1,0 +1,381 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+}
+<div class="hidden-xs">
+    @Html.Partial("_SearchCriteria")
+    <div class="text-center" style="margin-bottom: 5px;">
+        <hr id="hrsrc" style="margin: 0; padding: 0;" />
+    </div>
+    <div id="tablegrid">
+        @Html.Partial("_GridView")
+    </div>
+</div>
+@*<div class="visible-xs">
+	@Html.Partial("_SearchMobile")
+</div>*@
+@Html.Partial("_InputNotice")
+@Html.Partial("_DisplayNotice")
+<div id="selected-0-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                Warning</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgWarningId">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;" onclick="checkMandatory()">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="selected-info" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                Information</div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgInfoId">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button onclick="javascript:invoiceOK()" type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="error-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Error.png")" class="modal-icon" />
+                    </span><span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Error
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgErrorId">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 15px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section BodyScript{
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.filedownload.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript">
+        var pagepos = null;
+
+		//datepicker plugin [start]
+		//link
+		$('.date-picker').datepicker({
+			autoclose: true,
+			todayHighlight: true
+		})
+		//show datepicker when clicking on the icon
+		.next().on(ace.click_event, function () {
+			$(this).prev().focus();
+		});
+        $( ".date-picker" ).datepicker("setDate", new Date());
+        //datepicker plugin [end]
+
+		function toggleSearch() {
+			$("._criteria").toggle(200, "linear");
+			if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+				$("#toogle-search").removeClass("fa-angle-double-up");
+				$("#toogle-search").addClass("fa-angle-double-down");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'none';
+				$("#tScrollBody").height(450);
+				$("#toogle-search").prop('title', 'Show filter');
+			}
+			else {
+				$("#toogle-search").removeClass("fa-angle-double-down");
+				$("#toogle-search").addClass("fa-angle-double-up");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'block';
+				$("#tScrollBody").height(325);
+				$("#toogle-search").prop('title', 'Hide filter');
+			}
+			$("#toogle-search").blur();
+		}
+
+		function invoiceOK()
+		{
+		    window.location = "@Html.Toyota().Page.GetControllerUrl("InvoiceReceiving")";
+        }
+
+
+          // Download data [start]
+        function Download(){       
+            $.fileDownload("InvoiceReceiving/DownloadInvoiceReceiving", {
+                data: {
+			       
+			    },
+                prepareCallback: function (url) { 
+                    $('#btn-download').button('loading');
+                },
+			    successCallback: function (url) {
+                    $('#btn-download').button('reset');
+			    },
+			    failCallback: function (responseHtml, url) {
+				    $('#btn-download').button('reset');
+				}
+			});
+        }
+        // Download data [end]
+
+        // Function Search [start]
+        function findInvoice() {      
+            if( $('#txtCertificateId').val() != '')
+			{	
+                $.ajax({
+				    type: "POST",
+				    url: "@Html.Toyota().Page.GetActionUrl("findInvoiceReceiving")",
+				    data: {
+					    certificateId: $('#txtCertificateId').val()
+				    },				
+				    success: function (data) {
+                        if (data.Result == data.ValueSuccess) {
+                            $('#txtSupplier').val(data.Params[0]);
+                            $('#txtInvoiceNo').val(data.Params[1]);
+                            $('#txtInvoiceAmount').val(data.Params[2]);
+                            $('#txtInvoiceTaxNo').val(data.Params[3]);                    
+                            $('#txtInvoiceTaxAmount').val(data.Params[4]);
+					    } else {
+                            $("#msgWarningId").text(data.ErrMesgs);		
+				            $("#selected-0-confirm").modal();
+                            $('#txtSupplier').val("");
+                            $('#txtInvoiceNo').val("");
+                            $('#txtInvoiceAmount').val("");
+                            $('#txtInvoiceTaxNo').val("");            
+                            $('#txtInvoiceTaxAmount').val("");
+					    }                   
+				    }  
+			    }); 
+			}        
+        }
+        // Function Search [end]
+
+        // Process scan [start]
+        function process(type) {			
+			if( $('#txtInvoiceNo').val() == '')
+			{	
+                $("#msgWarningId").text("Please scan certificate Id");		
+				$("#selected-0-confirm").modal();
+			}
+            else 
+            {
+                if(type == 'ACCEPT')
+			    {
+				    $.ajax({
+				        type : "POST",
+				        url : "@Html.Toyota().Page.GetActionUrl("process")",			    
+				        data: {
+					        certificateId: $('#txtCertificateId').val(),
+                            processType:'ACCEPT',
+                            noticeDate:'',
+                            noticeRemark:''
+				        },	
+				        success : function(returnResult){
+				            if (returnResult.Result == returnResult.ValueSuccess) {
+
+                                if (returnResult.SuccMesgs != null && returnResult.SuccMesgs != '') {
+                                    // update 11-12-2020
+					                //$("#msgInfoId").text("Success" + ' (' + returnResult.SuccMesgs + ')');
+				                    //$("#selected-info").modal();
+				                 }
+                                //$("#tablegrid").html(returnResult);
+                                searchData(1);
+                                $('#txtSupplier').val("");
+                                $('#txtInvoiceNo').val("");
+                                $('#txtInvoiceAmount').val("");
+                                $('#txtInvoiceTaxNo').val("");            
+                                $('#txtInvoiceTaxAmount').val("");
+                                $('#txtCertificateId').val("")
+					        } else {
+                                $("#msgErrorId").text(returnResult.ErrMesgs);
+                                $("#error-confirm").modal();
+					        }
+					        						
+				        },
+				        error : function(returnResult) {
+					        $("#msgErrorId").text("Error Simpan Data");		
+				            $("#error-confirm").modal();
+				        }
+			        });				
+			    }
+                else if(type == 'REJECT')
+                {
+                     $("#inputnoticepopup").modal();		
+                }
+            }
+		}
+        // Process scan [end]
+
+        // Function submit notice cancel [start]
+        function submitNoticeCancel() {	
+			valid = validateNoticeForm();
+			
+			if(valid) 
+            {
+				$.ajax({
+				    type : "POST",
+				    url : "@Html.Toyota().Page.GetActionUrl("process")",				      		    
+				    data: {
+					    certificateId: $('#txtCertificateId').val(),
+                        processType:'REJECT',
+                        noticeDate:$('#noticeDate').val(),
+                        noticeRemark:$('#remarks').val()
+				    },	
+				    success : function(returnResult){
+					    if (returnResult.Result == returnResult.ValueSuccess) {
+                            $("#inputnoticepopup").hide();
+                            $("#msgInfoId").text("Invoice is Rejected");
+                            $("#selected-info").modal();
+                            //$("#tablegrid").html(returnResult);
+                            searchData(1);
+                            $('#txtSupplier').val("");
+                            $('#txtInvoiceNo').val("");
+                            $('#txtInvoiceAmount').val("");
+                            $('#txtInvoiceTaxNo').val("");            
+                            $('#txtInvoiceTaxAmount').val("");
+                            $('#txtCertificateId').val("");
+                                
+                                
+					    } else {
+                            $("#msgErrorId").text(returnResult.ErrMesgs);
+                            $("#error-confirm").modal();
+                                
+					    }					       					
+				    },
+				    error : function(returnResult) {
+					    $("#msgErrorId").text("Error Delete Data");		
+				        $("#error-confirm").modal();
+				    }
+			    });				
+			}
+            @*window.location = "@Html.Toyota().Page.GetControllerUrl("InvoiceReceiving")";*@
+		}
+
+        function validateNoticeForm() {
+			var valid = true;
+
+			if ($("#noticeDate").val() == '') {
+				$("#noticeDate").css("background-color", "#F2BCD5");
+                valid = false;
+
+                $("#msgErrorId").text("Notice Date is mandatory");
+                $("#error-confirm").modal();
+			}
+			else {
+				$("#noticeDate").css("background-color", "#FFFFFF");
+			}
+
+            if ($("#remarks").val() == '') {
+                $("#remarks").css("background-color", "#F2BCD5");
+                valid = false;
+
+                $("#msgErrorId").text("Problem description is mandatory");
+                $("#error-confirm").modal();
+
+            } else if ($("#remarks").val().length > 150) {
+                valid = false;
+                $("#msgErrorId").text("Problem Description to long, can't more then 150 character");
+                $("#error-confirm").modal();
+            }
+			else {
+				$("#remarks").css("background-color", "#FFFFFF");
+			}
+
+			return valid;
+		}
+        // Function submit notice cancel [end]
+
+        function checkRemarks() {
+            var length = $("#remarks").val().length;
+
+            if (length > 150) {
+                $("#lengthRemark").css("color", "#FF0000");
+            } else {
+                $("#lengthRemark").css("color", "#777777");
+            }
+
+            $("#lengthRemark").text(length + " / 150");
+        }
+
+        function clearLengthRemarks() {
+            $("#lengthRemark").css("color", "#777777");
+            $("#lengthRemark").text("0 / 150");
+        }
+
+        function checkMandatory() {
+            if ($("#remarks").val() == '') {
+                $("#remarks").focus();
+            } else if ($("#remarks").val().length > 150) {
+                $("#remarks").focus();
+            }
+        }
+
+        // Function Search [start]
+        function searchData(page) {           
+            if(page==null)page=1;
+            pagepos=page;
+
+            var pageSize = $("#pageSize").val();
+
+            $.ajax({
+				type: "POST",
+				url: "@Html.Toyota().Page.GetActionUrl("search")",
+                data: {
+                    page: page,
+                    size: $("#pageSize").val()
+				},				
+				success: function (data) {
+					$("#tablegrid").html(data);
+                    $("#pageSize").val(pageSize);	
+				}   
+			});
+        }
+        // Function Search [end]
+
+    </script>
+}

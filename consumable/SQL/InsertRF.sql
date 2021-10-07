@@ -1,0 +1,25 @@
+INSERT INTO TB_R_RF_REGISTER
+(          
+    RF_NO,
+	RF_DT,
+    PIC_USER,
+    DIVISION,
+	WBS_NO,
+	TOTAL_AMOUNT,
+    CREATED_BY,
+	CREATED_DT 
+) 
+ VALUES 
+(
+    @RF_NO,
+	@RF_DT,  
+    @PIC_USER,  
+    @DIVISION,  
+	@WBS_NO,
+	@TOTAL_AMOUNT,
+	'mr1',    
+    GETDATE()
+);
+
+SELECT @@@@IDENTITY;
+

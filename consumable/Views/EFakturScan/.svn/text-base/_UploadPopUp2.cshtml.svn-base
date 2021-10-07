@@ -1,0 +1,69 @@
+﻿<div id="uploadPopup2" class="modal fade">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form id="uploadEFaktur" role="form" class="form-horizontal" enctype="multipart/form-data"
+            method="post">
+            <input id="supplierInput" class="form-control mandatory" type="hidden" value="@ViewData["vendCodeLogin"]" />
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Upload E-Faktur</h4>
+            </div>
+            <div class="modal-body">
+                @{
+                    if (ViewData["visibilityVndr"].Equals("false"))
+                    { 
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @* SupplierInput *@
+                            <div class="form-group form-group-xs">
+                                <label class="col-xs-3 col-md-2 control-label text-muted">
+                                    Supplier
+                                </label>
+                                <div class="col-xs-8 col-sm-9 col-md-8">
+                                    <div class="input-group" style="width: 100%;">
+                                        <input id="supplierCodeNameInput" class="form-control mandatory" type="text" maxlength="50"
+                                            readonly />
+                                        <span class="input-group-btn">
+                                            <button id="btnlookupsupplierinput" class=" btn btn-default btn-sm" type="button"
+                                                style="height: 30px; line-height: 0;">
+                                                &nbsp<i class="fa fa-search"></i>&nbsp</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                }
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-3 col-md-2 control-label text-muted">
+                                Berkas</label>
+                            <div class="col-xs-8 col-md-9">
+                                <input type="file" name="file" class="filestyle" data-buttontext="Pilih file" data-buttonname="btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" id="unggahButton" class="btn btn-primary btn-sm" value="Unggah"></input>
+                <button type="button"  id="batalButton" class="btn btn-default btn-sm" data-dismiss="modal">
+                    Batal</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    // Btn Lookup Supplier Input [start]
+    $("#btnlookupsupplierinput").click(function () {
+        $("#gridlookupsupplierinput").modal()
+    });
+    // Btn Lookup Supplier Input [end]
+
+</script>

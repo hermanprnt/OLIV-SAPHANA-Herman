@@ -1,0 +1,270 @@
+﻿<div id="uploadpopopup" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Upload PO Files
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-12">
+                        @* File Attachment *@
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">
+                                Attachment PO</label>
+                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                <div class="input-group" style="width: 100%;">
+                                    <form action="@Html.Toyota().Page.GetActionUrl("UploadPo")" id="formDestUploadFile"
+                                        enctype="multipart/form-data" method="post" target="upload_target"
+                                        role="form" class="form-horizontal">
+                                        <div id="divFileDestFile" class="file-input btn btn-xs btn-primary btn-file">
+                                            <i class="ace-icon fa fa-upload fa-lg fa-fw"></i>
+                                            <input id="fileDestFile" type="file" name="file" class="input-file"
+                                                data-row="0" data-type-one="UPLOAD_PO" accept="application/pdf"
+                                                onchange="uploadFile_OnChange(this, 'linkDestDocFileName-1', 'divDestDocFileNameServer-1', 'btnDeleteDestUpload-1', true);"/>
+                                        </div>
+                                    </form>
+                                    <table id="tblDestDoc" style="width: 260px; max-width: 260px !important;">
+                                        <thead></thead>
+                                        <tbody>
+                                            <tr id="trDestDoc-1-a-1" class="hide">
+                                                <td width="120px">
+                                                    <div id="linkDestDocFileName-1-a-1"></div>
+                                                    <div id="divDestDocFileNameServer-1-a-1" class="hide"></div>
+                                                </td>
+                                                <td style="padding-left: 10px;" width="5px">
+                                                    <button type="button" class="btn btn-sm btn-primary button-input btn-del-upload" id="btnDeleteDestUpload-1-a-1" 
+                                                        data-type-one="UPLOAD_PO"
+                                                        onclick="deleteUploadFile(this, 'linkDestDocFileName-1-a-1', 'divDestDocFileNameServer-1-a-1', 'trDestDoc-1-a-1', true);">X</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm" style="width: auto;"
+                onclick="javascript:saveFile()">
+                Save File</button>
+            <button type="button" id="btncloselookup" class="btn btn-default btn-sm" data-dismiss="modal">
+                close</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var gTagUploadFileNameStr = null;
+    var gTagUploadFileNameServerStr = null;
+    var gTagUploadDeleteStr = null;
+    var gThisObj = null;
+
+    // Upload function [start]
+    function uploadFile_OnChange(obj, tagUploadFileNameStr, tagUploadFileNameServerStr, tagUploadDeleteStr, isCustomUpload) {
+        gTagUploadFileNameStr = tagUploadFileNameStr;
+        gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        gTagUploadDeleteStr = tagUploadDeleteStr;
+//            gIsCustomUpload = isCustomUpload;
+        gThisObj = obj;
+
+//            // validate request max length
+//            var maxRequestLength = '@ViewData["MaxRequestLength"]';
+//            if (maxRequestLength != "") {
+//                if (obj.files[0].size && obj.files[0].size > parseInt(maxRequestLength)) {
+//                    popUpProgressHide();
+//                    showErrorMesgGrowl("Maximum upload file size is " + parseInt(maxRequestLength) / 1024 + 
+//                        " KB, please choose another file");
+
+//                    return;
+//                }
+//            }
+
+        obj.form.submit();
+    }
+
+    function uploadTarget_OnLoad() {
+        var returnResult = $(window.frames["upload_target"].document.body).children("pre").html();
+
+        if (returnResult != "") {
+            onUploadFileSuccess(JSON.parse(returnResult));
+        }
+    }
+
+    function onUploadFileSuccess(returnResult) {
+        var fileName = returnResult.Params[0];
+        var fileNameServer = returnResult.Params[1];
+        var oldFileNameServer = null;
+        
+        var result = $("#trDestDoc-1-a-1").clone().removeClass('hide').prop('outerHTML');
+        
+        var row = $("#fileDestFile").attr("data-row");
+        var tagUploadFileNameStr = gTagUploadFileNameStr;
+        var tagUploadFileNameServerStr = gTagUploadFileNameServerStr;
+        //var destIndex = gDestIndex;
+        row++;
+        result = result.replace(/id=["'].*-a-1.*["']/gi, function myFunction(x){ return x.replace(/a-1/, "a" + row); });
+        result = result.replace(/["'].*-a-1["']/gi, function myFunction(x){ return x.replace(/a-1/gi, "a" + row); });
+        $("#tblDestDoc").find("tbody").append(result);
+        $("#" + gTagUploadDeleteStr + "-a" + row).prop('onclick', null);
+        $("#" + gTagUploadDeleteStr + "-a" + row).click(function() {
+            deleteUploadFile(this, tagUploadFileNameStr + '-a' + row, 
+                tagUploadFileNameServerStr + '-a' + row, 'trDestDoc-1' + '-a' + row, true);
+        });
+
+//        $("#" + gTagUploadFileNameStr + "-a" + row).prop('onclick', null);
+//        $("#" + gTagUploadFileNameStr + "-a" + row).click(function() {
+//            downloadFileOfUploadFile(tagUploadFileNameStr + '-a' + row, 
+//                tagUploadFileNameServerStr + '-a' + row);
+//        });
+        $("#" + gTagUploadFileNameStr + "-a" + row).html(fileName);
+        $("#" + gTagUploadFileNameServerStr + "-a" + row).html(fileNameServer);
+        $("#fileDestFile").attr("data-row", row);
+        $("#trDestDoc-1" + "-a" + row).attr("index", row);
+    }
+
+    function deleteUploadFile(obj, tagUploadFileNameStr, tagUploadFileNameServerStr, tagToBeRemoveStr, isCustomUpload) {
+        gTagUploadFileNameStr = tagUploadFileNameStr;
+        gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        gTagToBeRemoveStr = tagToBeRemoveStr;
+        gUploadDelete = obj;
+        gIsCustomUpload = isCustomUpload;
+        //gDestIndex = destIndex;
+        gThisObj = obj;
+
+//        showConfirmMesg("Delete upload file " + $("#" + gTagUploadFileNameStr).html() + " ?", doDeleteUploadFile);
+        doDeleteUploadFile();
+    }
+
+    function doDeleteUploadFile() {
+        //gTagUploadFileNameStr = tagUploadFileNameStr;
+        //gTagUploadFileNameServerStr = tagUploadFileNameServerStr;
+        $.ajax({
+            type: "POST",
+            url: "@Html.Toyota().Page.GetActionUrl("DeleteUploadFile")",
+            //contentType: 'application/json',
+            dataType: 'json',
+            traditional: true,
+            data: {
+                fileNameServer: $("#" + gTagUploadFileNameServerStr).html()
+            },
+            success: function (returnResult) {
+                //handleAjaxResultGrowl(returnResult, "Delete Upload File", onDeleteUploadFileSuccess);
+                onDeleteUploadFileSuccess();
+            },
+            error: function (returnResult) {
+                //handleAjaxResponseErrorGrowl(returnResult, "Delete Upload File");
+            }
+        });
+    }
+    
+    function onDeleteUploadFileSuccess() {
+        //gArrDeletedFileNameServer.push($("#" + gTagUploadFileNameServerStr).html());
+        if (gIsCustomUpload) {
+            var row = $("#fileDestFile").attr("data-row");
+            row--;
+            $("#fileDestFile").attr("data-row", row);
+
+            // adjust seq
+            var currRow = $(gThisObj).closest("tr[id^=trDestDoc-]").attr("index");
+            var ctr = currRow;
+            $("#trDestDoc-1-a" + currRow).nextAll().each(function () {
+                ctr++;
+                var thisJquery = $(this);
+                thisJquery.attr("index", (ctr - 1));
+                thisJquery.attr("id", "trDestDoc-1-a" + (ctr - 1));
+
+                var html = thisJquery.html();
+                //var pattern = new RegExp('id=["\'].*-a' + ctr + '.*["\']', "gi");
+                var pattern = new RegExp('["\'].*-a' + ctr + '.*["\']', "gi");
+                var pattern2 = new RegExp('a' + ctr, "gi");
+                //html = html.replace(/id=["'].*-a-1.*["']/gi, function myFunction(x){ return x.replace(/a-1/, "a" + ctr); });
+                html = html.replace(pattern, function myFunction(x){ return x.replace(pattern2, "a" + (ctr - 1)); });
+                thisJquery.html(html);
+            });
+        }
+
+        $("#" + gTagUploadFileNameStr).html("");
+        $("#" + gTagUploadFileNameServerStr).html("");
+
+        if (gTagToBeRemoveStr != null && gTagToBeRemoveStr != "") {
+            $("#" + gTagToBeRemoveStr).remove();
+        } else {
+            //$(gUploadDelete).addClass('hide');
+            $(gUploadDelete).hide();
+        }
+    }
+    // Upload function [end]
+
+    // Function Save File PO [start]
+    function saveFile() {
+
+        //valid = validateInputForm();
+        valid = true;
+            
+        if(valid) {
+            var paramsObj = new Object();
+            paramsObj.poDownload = getFormData();
+			$.ajax({
+				type : "POST",
+				url : "@Html.Toyota().Page.GetActionUrl("SaveFilePo")",
+				contentType: 'application/json',
+				dataType: 'json',
+                traditional: true,
+				data: JSON.stringify(paramsObj),
+				success : function(returnResult) {
+                    if (returnResult.Result == returnResult.ValueSuccess) {
+                        $("#modal-preview-invoice").modal('hide');
+                    
+                        $("#msgInfoId").text("Save File PO Success");
+                        $("#selected-info").modal();
+
+                        searchData(pagepos);
+					} 
+                    else {                       
+                        $("#msgWarningId").text("Error Save : " + returnResult.ErrMesgs);
+                        $("#warning-confirm").modal();
+					}
+				},
+				error : function(returnResult) {
+                    $("#msgWarningId").text("Error Save : " + returnResult.ErrMesgs);
+                    $("#warning-confirm").modal();
+				}
+			});
+        }
+	}
+
+    var DEST_DOC_COL_IDX = {
+        'FileName': 0
+    };
+
+    function getFormData() {
+        var data = new Object();
+
+        $('[name=selected]:checked').each(function () {  
+            data.PO_NUMBER = $(this).parent().siblings('td').eq(0).text().trim()      
+		});
+
+        data.PoAttachmentList = [];
+        var i = 0;
+        $("#tblDestDoc").children('tbody').children('tr:not(.hide)').each(function () { // must exclude class hide, template is hide class
+            var trObj2 = jQuery(this);
+            var destDoc = new Object();
+
+            i = trObj2.attr("index");
+
+            destDoc.FILE_NAME = trObj2.children('td').eq(DEST_DOC_COL_IDX.FileName).find("#linkDestDocFileName-1-a" + i).text().trim();
+            destDoc.FILE_NAME_SERVER= trObj2.children('td').eq(DEST_DOC_COL_IDX.FileName).find("#divDestDocFileNameServer-1-a" + i).text().trim();
+            data.PoAttachmentList.push(destDoc);
+        });
+
+        return data;
+    }
+    // Function Save File PO [end]
+</script>

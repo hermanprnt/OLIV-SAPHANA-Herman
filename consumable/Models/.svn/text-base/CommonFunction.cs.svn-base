@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Text.RegularExpressions;
+using NPOI.SS.UserModel;
+using Toyota.Common.Credential;
+using consumable.Models.SUPPLIER;
+
+
+namespace consumable.Models
+{
+    public class CommonFunction
+    {
+        #region singleton
+        private CommonFunction() { }
+        private static CommonFunction instance = null;
+        public static CommonFunction Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new CommonFunction();
+                }
+                return instance;
+            }
+        }
+        #endregion singleton
+
+        private SupplierRepository supplierRepo = SupplierRepository.Instance;
+
+        public string DefaultStringValue()
+        {
+            return "";
+        }
+
+        public int DefaultPage()
+        {
+            return 1;
+        }
+
+        public int DefaultSize()
+        {
+            return 10;
+        }
+
+        public string getVendCodeLogin(User user)
+        {
+            //int _10000 = 10000;
+            //String supplierCdLogin = (_10000 + user.Username.Substring(0, 6)).Substring(0, 10);
+            if (user.Username.Length >= 7 && ".".Equals(user.Username.Substring(6, 1)))
+            { 
+                String supplierCdLogin = "0000" + user.Username.Substring(0, 6);
+                Supplier supplier = supplierRepo.GetBySupplierCd(supplierCdLogin);
+
+                if (supplier != null)
+                {
+                    return supplier.SUPPLIER_CD;
+                }
+                else
+                {
+                    return null;
+                }
+            }              
+            else
+            {
+                return null;
+            }
+        }
+    }
+}

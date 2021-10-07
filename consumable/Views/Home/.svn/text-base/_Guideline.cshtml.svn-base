@@ -1,0 +1,132 @@
+﻿<style type="text/css">
+    .close
+    {
+        opacity: 1;
+    }
+    
+    @*a {
+        color: Blue;
+        text-decoration: underline;
+    }
+
+    a:hover {
+        color: Blue;
+    }*@
+</style>
+<div class="row">
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+        <h4>
+            Petunjuk Pengisian Invoice</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+        <div style="border: 1pt solid #ccc;">
+            <div id="tScrollHead" style="overflow: hidden;">
+                <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed"
+                    style="width: 1113px; max-width: 1113px !important;">
+                    <thead>
+                        <tr>
+                            <th width="50px">
+                                No
+                            </th>
+                            <th width="850px">
+                                Image
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tScrollBody" style="overflow: scroll; height: 400px;">
+                <table id="tblScroll" class="table table-striped table-bordered table-condensed table-fixed"
+                    style="width: 1113px; max-width: 1113px !important;">
+                    <tbody>
+                        <tr>
+                            <td width="50px" class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                1
+                            </td>
+                            <td width="850px" class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                <img src="@Url.Content("~/Content/Images/Guideline/step1.png")" width="800px" height="400px" />
+                            </td>
+                            <td class="text-center">
+                                Pilih <strong>Invoice/Payment</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                2
+                            </td>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                <img src="@Url.Content("~/Content/Images/Guideline/step2.png")" width="800px" height="400px" />
+                            </td>
+                            <td class="text-center">
+                                Klik <strong>Invoice Creation</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                3
+                            </td>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                <img src="@Url.Content("~/Content/Images/Guideline/step3.png")" width="800px" height="400px" />
+                            </td>
+                            <td class="text-center">
+                                Beri Tickmark (√) pada document yang ingin di review, lalu klik <strong>Preview Invoice</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                4
+                            </td>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                <img src="@Url.Content("~/Content/Images/Guideline/step4.png")" width="800px" height="400px" />
+                            </td>
+                            <td class="text-left">
+                                <ul style="list-style-type:circle">
+                                    <li>Isi kolom nomor invoice dan tanggal invoice sesuai dengan invoice yang diterbitkan
+                                        perusahaan masing-masing </li>
+                                    <li>Untuk calculate tax, bisa dipilih sesuai dengan besaran pajak yang akan ditagihkan
+                                    </li>
+                                    <li>Isi kolom nomor faktur pajak dengan faktur pajak yang telah discan sebelumnya di
+                                        menu e-faktur </li>
+                                    <li>Bila amount telah dirasa benar, klik save </li>
+                                    <li>Save document hanya bisa dilakukan apabila nilai tax amount dan invoice tax amount
+                                        mempunyai nilai yang sama </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                5
+                            </td>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                <img src="@Url.Content("~/Content/Images/Guideline/step5a.png")" width="800px" height="400px" />
+                            </td>
+                            <td class="text-center">
+                                Pesan sukses ditampilkan berikut nomor Certificate ID
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                6
+                            </td>
+                            <td class="text-center" style="padding-top: 15px; padding-bottom: 15px;">
+                                <img src="@Url.Content("~/Content/Images/Guideline/step5.png")" width="800px" height="400px" />
+                            </td>
+                            <td class="text-center">
+                                Pop Up window baru akan terbuka (mohon Allow pop up), lalu Print <strong>Certificate
+                                    ID</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  
+</script>

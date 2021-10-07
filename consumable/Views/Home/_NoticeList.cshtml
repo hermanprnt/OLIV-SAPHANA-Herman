@@ -1,0 +1,214 @@
+﻿@using consumable.Models.InvoiceCreation
+@using consumable.Models
+@{
+    List<Invoice> noticeList = (List<Invoice>)ViewData["NoticeList"];
+}
+<div class="row" style="margin-bottom:25px;">
+    <div class="col-xs-12 col-sm-12" style="overflow: hidden;">
+        <h5><b>Notice List</b></h5>
+    </div>
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+        <div style="border: 1pt solid #ccc;">
+            <div id="tScrollHead" style="overflow: hidden;">
+                <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed"
+                       style="width: 1113px; max-width: 1113px !important;">
+                    <thead>
+                        <tr>
+                            <th width="50px">No</th>
+                            <th width="112px">Action</th>
+                            <th width="300px">Supplier</th>
+                            <th width="200px">Invoice No</th>
+                            <th width="150px">Invoice Date</th>
+                            <th width="150px">Amount</th>
+                            <th width="150px">Notice Date</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tScrollBody" style="overflow-y: scroll; height: 150px;">
+                <table id="tblScroll" class="table table-striped table-bordered table-condensed table-fixed"
+                       style="width: 1113px; max-width: 1113px !important;">
+                    <tbody>
+                        @{
+                            if (noticeList != null && noticeList.Count > 0)
+                            {
+                                foreach (Invoice item in noticeList)
+                                {
+                                    <tr>
+                                        <td width="50px" class="text-center">@item.NUMBER</td>
+                                        <td width="112px" class="text-center cursor-link">
+                                            <a onclick="viewNotice('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">View</a>
+                                        </td>
+                                        <td width="300px" style="padding-left:10px;">
+                                            @string.Format("{0} - {1}", item.SUPPLIER_CD, item.SUPPLIER_NAME)
+                                        </td>
+                                        <td width="200px" style="padding-left:10px;">@item.INVOICE_NO</td>
+                                        <td width="150px" class="text-center">
+                                            @(item.INVOICE_DATE.HasValue ? item.INVOICE_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                        </td>
+                                        <td width="150px" style="padding-right:10px;" class="text-right">
+                                            @if (item.CURRENCY == "IDR")
+                                            {
+                                                @item.TOTAL_AMOUNT.FormatCommaSeparator()
+                                            }
+                                            else
+                                            {
+                                                @item.TOTAL_AMOUNT.FormatCommaSeparatorWithDecimal();
+                                            }
+                                        </td>
+                                        <td width="150px" class="text-center">
+                                            @(item.NOTICE_DATE.HasValue ? item.NOTICE_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        No data retrieved.
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                @Html.Partial("_UIPaging")
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function viewNotice(invoiceId, invoiceNo) {
+        //window.location = 'InvoiceInquiry?id='+invoiceId+'&no='+invoiceNo;
+
+        //show invoice verification in dashboard
+        $("#modal-preview-invoice").modal();
+        $.ajax({
+            type: "POST",
+            url: "@Html.Toyota().Page.GetActionUrl("GetInvoiceDetailByInvIdInvNo")",
+            data: {
+                invoiceId: invoiceId,
+                invoiceNo: invoiceNo
+            },
+            success: function(result) {
+                if (result.Result == "SUCCESS") {
+
+                    //clear attachment
+                    var tab = document.getElementById("table_attachment");
+                    var n = tab.rows.length;
+
+                    for (var i = 1; i < n; i++) {
+                        var docType = tab.rows[i].cells[2].innerText;
+                        docType = docType.replace("*", "");
+                        docType = docType.replace(" ", "_");
+                        docType = docType.replace(/\//g, '_');
+
+                        var filename = $("#" + docType);
+
+                        filename.text("");
+                        filename.val("");
+                    }
+
+                    if (result.Data.InvoiceAttachment.length > 0) {
+                        result.Data.InvoiceAttachment.forEach(function (item) {
+                            var fileName = item.FILE_NAME;
+                            var fileNameServer = item.FILE_NAME_SERVER;
+
+                            var update = item.ATTACHMENT_TYPE.replace(/\//g, '_');
+                            $("#" + update).text(fileName);
+                            $("#" + update).val(fileNameServer);
+                        });
+                    }
+
+                    if (result.Data.PO_CATEGORY == 'GOODS') {
+                        $(".poCategoryGoods").prop("checked", true);
+                    }
+                    if (result.Data.PO_CATEGORY == 'SERVICE') {
+                        $(".poCategoryServices").prop("checked", true);
+                    }
+                    $("#invoiceNo").val(result.Data.INVOICE_NO);
+                    $("#noticeChat").val('');
+                    $("#invoiceId").val(result.Data.INVOICE_ID);
+                    $("#supplierCd").val(result.Data.SUPPLIER_CD);
+                    $("#invoiceStatus").val(result.Data.STATUS);
+                    $("#invoiceDate").val(result.Data.INVOICE_DATE_STR);
+                    $("#turnOver").val(currencyFormat(result.Data.TURN_OVER));
+                    $("#taxBase").val(currencyFormat(result.Data.TAX_BASE));
+                    if (result.Data.CALCULATE_TAX == '10') {
+                        $(".calTax1").prop("checked", true);
+                    }
+                    if (result.Data.CALCULATE_TAX == '1') {
+                        $(".calTax2").prop("checked", true);
+                    }
+                    if (result.Data.CALCULATE_TAX == '0') {
+                        $(".calTax3").prop("checked", true);
+                    }
+                    $("#withHoldingTax").val(result.Data.WITHOLDING_TAX_CD);
+                    if (result.Data.CHECKBOX_STAMP == 'Y') {
+                        $(".checkboxStamp").prop("checked", true);
+                    } else {
+                        $(".checkboxStamp").prop("checked", false);
+                    }
+
+                    $("#totalAmount").val(currencyFormat(result.Data.TOTAL_AMOUNT));
+                    $("#taxNo").val(result.Data.TAX_INVOICE_NO);
+                    $("#TaxDate").val(result.Data.TAX_INVOICE_DT_STR);
+                    $("#taxAmount").val(currencyFormat(result.Data.TAX_AMOUNT));
+                    $("#invoiceTaxAmount").val(currencyFormat(result.Data.TAX_INVOICE_AMOUNT));
+                    $("#totalDeliveryNote").val(result.Data.TOTAL_GR_ITEM);
+
+                    var htmlBuffer = "";
+                    result.Data.HistoryChat.forEach(function (item) {
+                        var type = "";
+                        var float = "";
+                        if ((item.CHAT_FROM == "Finance" && result.Data.ROLE == "Finance") || (item.CHAT_FROM != "Finance" && result.Data.ROLE == "Supplier")) {
+                            type = "success";
+                            float = "right";
+                        } else {
+                            type = "info";
+                            float = "left";
+                        }
+                     
+                        htmlBuffer +=
+                        '<div class="alert alert-' +type+'"' +
+                        ' role="alert" style="margin-bottom: 10px;width:90%;float:' + float + '">' +
+                        '<div style="font-size:12px;font-weight: bold;">' + item.CHAT_FROM + '<span style="font-size:12px;float:right;color:grey">'+item.CHAT_DATETIME_STR+'</span></div>'
+                        + '<span style="font-size:12px;color:grey">To: '+item.CHAT_TO+'</span></br>'+ item.CHAT_MESSAGE +
+                        //+ '<span>'+item.CHAT_MESSAGE+'</span></br>'+
+                        '</div>';
+                    });
+                    
+                    $('#containerChat').html(htmlBuffer);
+
+                    if (result.Data.NOTICE_FLAG != "Y" && result.Data.ROLE == "Supplier") {
+                        $("#notice").prop("disabled", "disabled");
+                    } else {
+                        $("#notice").prop("disabled", "");
+                    }
+                    if (result.Data.STATUS == "CREATED") {
+                        $("#verifyBtn").prop("disabled", "");
+                    } else {
+                        $("#verifyBtn").prop("disabled", "disabled");
+                    }
+
+                } else {
+                    $("#msgWarningId").text(result.ErrMesgs);
+                    $("#warning-confirm").modal();
+                }
+            }
+        });
+    }
+
+</script>

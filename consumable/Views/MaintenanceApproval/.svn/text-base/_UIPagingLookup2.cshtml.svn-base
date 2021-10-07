@@ -1,0 +1,37 @@
+﻿@using consumable.Models.Paging
+@{
+    Paging _page = (Paging)ViewData["LookupPaging2"]; 
+}
+
+@if ((_page != null) && _page.CountData > 0)
+{
+    <input id="txtmaxpg" type="text" class="hidden"/>
+    
+    <script type="text/javascript" language="javascript">
+        $("#txtmaxpg").val(@_page.CountPage);
+    </script>
+    <ul class="pagination pagination-sm hidden-xs" style="margin-top: 0;margin-left: -10px;">
+        <li><span class="_pagination-label">Showing @_page.PositionPage to @_page.CountPage of @_page.CountData row(s)</span></li>
+        <li><a href="#" class="IndexPagingLookup2" Page="@_page.First">First</a></li>
+        <li><a href="#" class="IndexPagingLookup2" Page="@_page.Prev">Prev</a></li>
+        @for (int p = 1; p <= @_page.CountPage; p++)
+        {
+            if ((p >= @_page.MinPage) && (p <= @_page.MaxPage))
+            {
+                if (@p == _page.PositionPage)
+                {
+                    <li class="active"><a href="#" class="IndexPagingLookup2" Page="@p">@p</a></li> 
+                }
+                else
+                {
+                    <li><a href="#"  class="IndexPagingLookup2" Page="@p">@p</a></li>  
+                }
+            }
+        } 
+        <li><a href="#" class="IndexPagingLookup2" Page="@_page.Next">Next</a></li>
+        <li><a href="#" class="IndexPagingLookup2" Page="@_page.Last">Last</a></li> 
+        
+    </ul>
+    
+    
+}

@@ -1,0 +1,57 @@
+﻿<div id="gridlookupstatus" class="modal fade"> 
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">Status Lookup</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row ">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="form-group form-group-xs">
+                            <div>
+                                <div class="input-group input-group-xs">
+                                    <input id="txtsearchlookup" class="form-control" type="text" placeholder="input name...." />
+                                    <span class="input-group-btn">
+                                        <button type="button" id="btnsearchlookupuser" 
+                                            data-loading-text="<i class='glyphicon-refresh-animate glyphicon glyphicon-refresh'></i>"
+                                            class=" btn btn-default btn-sm " >&nbsp<i class="fa fa-search"></i>
+                                        </button> 
+                                        <button id="btnclearlookup" class=" btn btn-default btn-sm " title="Clear" type="button">&nbsp<i class="fa  fa-eraser"></i>&nbsp</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-xs" >
+                           <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Status</th>                                            
+                                        </tr>
+                                    </thead>    
+                                   
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Paid</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Posted</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Submitted</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Created</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Outstanding GR</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Error Upload</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Rejected</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Cancelled</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Reversed</td></tr>
+                                        <tr><td class="text-center cursor-link" onclick="javascript:onLookupSelected('')">Error Posting</td></tr>                                 
+                                   
+                                </table>
+                            </div> 
+                        </div>
+                    </div>
+                </div> 
+            </div> 
+            <div class="modal-footer"> 
+                <button type="button" id="btncloselookup" class="btn btn-default btn-sm" data-dismiss="modal">close</button>
+            </div>
+        </div>
+    </div>
+</div>

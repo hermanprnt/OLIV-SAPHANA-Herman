@@ -1,0 +1,20 @@
+SELECT r.SUPPLIER_ID
+      ,r.SUPPLIER_CD
+	  ,r.SUPPLIER_NAME
+	  ,r.PKP_FLAG
+	  ,r.EDIT_AMOUNT_FLAG
+      ,r.PPN_RATE
+	  ,CONVERT(varchar, CAST(PPN_RATE AS numeric), 1) as S_PPN_RATE
+	  ,EDIT_AMOUNT_FLAG
+      ,PAY_METHOD
+      ,TERM_PAY
+	  ,PAY_METHOD_NAME
+      ,TERM_PAY_NAME
+	  ,EMAIL
+      ,r.CREATED_DT
+      ,r.CREATED_BY
+      ,r.UPDATED_DT
+      ,r.UPDATED_BY
+FROM TB_M_SUPPLIER r
+WHERE 1 = 1
+	and r.SUPPLIER_ID = @SupplierId	

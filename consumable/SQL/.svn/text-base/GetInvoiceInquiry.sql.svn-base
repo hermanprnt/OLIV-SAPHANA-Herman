@@ -1,0 +1,167 @@
+DECLARE @@sqlstate varchar(max);
+DECLARE @@INVOICE_NO varchar(100);
+DECLARE @@SUPPLIER  varchar(MAX);
+DECLARE @@STATUS  varchar(MAX);
+DECLARE @@CREATED_DATE_FROM  varchar(50);
+DECLARE @@CREATED_DATE_TO  varchar(50);
+DECLARE @@INVOICE_DATE_FROM  varchar(50);
+DECLARE @@INVOICE_DATE_TO  varchar(50);
+DECLARE @@PLAN_PAYMENT_DATE_FROM  varchar(50);
+DECLARE @@PLAN_PAYMENT_DATE_TO  varchar(50);
+DECLARE @@NumberFrom  varchar(4);
+DECLARE @@NumberTo  varchar(4);
+
+SET @@sqlstate = '';
+SET @@INVOICE_NO = @INVOICE_NO;
+SET @@SUPPLIER = @SUPPLIER;
+SET @@STATUS = @STATUS;
+SET @@CREATED_DATE_FROM = @CREATED_DATE_FROM;
+SET @@CREATED_DATE_TO = @CREATED_DATE_TO;
+SET @@INVOICE_DATE_FROM = @INVOICE_DATE_FROM;
+SET @@INVOICE_DATE_TO = @INVOICE_DATE_TO;
+SET @@PLAN_PAYMENT_DATE_FROM = @PLAN_PAYMENT_DATE_FROM;
+SET @@PLAN_PAYMENT_DATE_TO = @PLAN_PAYMENT_DATE_TO;
+SET @@NumberFrom = @NumberFrom;
+SET @@NumberTo = @NumberTo;
+
+
+SET @@sqlstate = @@sqlstate + '
+	SELECT NTABLE.*, EFAKTUR.TAX_INVOICE_DT FROM (
+	SELECT * FROM 
+	( ';
+
+SET @@sqlstate = @@sqlstate + '
+	SELECT 
+		ROW_NUMBER () OVER (ORDER BY INVOICE_DATE desc, inv.SUPPLIER_CD, inv.INVOICE_NO) AS Number
+		,INVOICE_ID
+		,inv.INVOICE_NO
+		,INVOICE_DATE
+		,inv.TAX_INVOICE_NO
+		,CURRENCY
+		,TURN_OVER
+		,TAX_BASE
+		,CALCULATE_TAX
+		,CHECKBOX_STAMP
+		,TOTAL_AMOUNT
+		,inv.STATUS
+		,NOTICE_BY
+		,NOTICE_REMARK
+		,NOTICE_DATE
+		,CERTIFICATE_ID	
+		,SUBMIT_DT
+		,SUBMIT_BY
+		,RECEIVED_STATUS
+		,RECEIVED_DT
+		,TAX_INVOICE_AMOUNT
+		,inv.PPV_AMOUNT
+		,inv.SAP_DOC_NO
+		,inv.LOG_DOC_NO
+		,POSTED_BY
+		,POSTED_DT
+		,SAP_YEAR
+		,REVERSE_REASON
+		,REVERSE_POST_DT
+		,SUPPLIER_NAME
+		,inv.SUPPLIER_CD
+		,s.PAY_METHOD
+		,s.TERM_PAY
+		,GR_CANCEL
+		,inv.PAYMENT_PLAN_DATE
+		,ptNew.INV_PAYMENT_ACTUAL_DATE as PAYMENT_ACTUAL_DATE
+		,ptNew.CLEARING_NO as PAYMENT_DOC_NO
+		,inv.CREATED_DT
+		,inv.CREATED_BY
+		,ON_PROCESS_SAP_POST
+        ,ON_PROCESS_SAP_REV
+	FROM TB_R_INVOICE inv
+		left join TB_M_SUPPLIER s on s.SUPPLIER_CD = inv.SUPPLIER_CD
+		
+		OUTER APPLY (
+			select top 1 INV_PAYMENT_ACTUAL_DATE, CLEARING_NO ,AP_DOC_NO
+			from TB_R_PROCUREMENT_TRACKING pt
+			where inv.SAP_DOC_NO =  pt.AP_DOC_NO ) ptNew
+	where 1=1
+		';
+
+
+IF(@@INVOICE_NO <> '' AND @@INVOICE_NO is not null)
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and inv.INVOICE_NO like ''%'+ @@INVOICE_NO + '%'' ';
+END
+
+IF(@@SUPPLIER <> '' AND @@SUPPLIER is not null)
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and inv.SUPPLIER_CD in ('+@@SUPPLIER+') ';
+END
+
+IF(@@STATUS <> '' AND @@STATUS is not null)
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and inv.status in ('+@@STATUS+') ';
+END
+
+IF(@@CREATED_DATE_FROM <> '')
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and CAST(inv.CREATED_DT as DATE) >= CAST(CONVERT(datetime, ''' + @@CREATED_DATE_FROM + ''' , 104) as DATE)';
+END
+
+IF(@@CREATED_DATE_TO <> '')
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and CAST(inv.CREATED_DT as DATE) <= CAST(CONVERT(datetime, ''' + @@CREATED_DATE_TO + ''' , 104) as DATE)';
+END
+
+
+IF(@@INVOICE_DATE_FROM <> '')
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and CAST(inv.INVOICE_DATE as DATE) <= CAST(CONVERT(datetime, ''' + @@INVOICE_DATE_FROM + ''' , 104) as DATE)';
+END
+
+IF(@@INVOICE_DATE_TO <> '')
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and CAST(inv.INVOICE_DATE as DATE) >= CAST(CONVERT(datetime, ''' + @@INVOICE_DATE_TO + ''' , 104) as DATE)';
+END
+
+
+IF(@@PLAN_PAYMENT_DATE_FROM <> '')
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and CAST(inv.PAYMENT_PLAN_DATE as DATE) >= CAST(CONVERT(datetime, ''' + @@PLAN_PAYMENT_DATE_FROM + ''' , 104) as DATE)';
+END
+
+IF(@@PLAN_PAYMENT_DATE_TO <> '')
+BEGIN
+	SET @@sqlstate = @@sqlstate + '
+	and CAST(inv.PAYMENT_PLAN_DATE as DATE) <= CAST(CONVERT(datetime, ''' + @@PLAN_PAYMENT_DATE_TO + ''' , 104) as DATE)';
+END
+
+
+SET @@sqlstate = @@sqlstate + '
+	) REFF WHERE Number BETWEEN ' + @@NumberFrom + ' AND ' + @@NumberTo 
+	+' ) NTABLE
+	
+
+	LEFT JOIN (
+		SELECT TAX_INVOICE_NO, TAX_INVOICE_DT FROM OPENQUERY([10.16.25.2], 
+		''
+			select  v1.TAX_INVOICE_NO AS TAX_INVOICE_NO, V1.TAX_INVOICE_DT AS TAX_INVOICE_DT from TMMIN_E_FAKTUR_UAT.dbo.tb_r_vat_in_h v1 
+			WHERE 
+			v1.REPLACEMENT_FG = (SELECT MAX(v2.REPLACEMENT_FG) FROM TMMIN_E_FAKTUR_UAT.dbo.TB_R_VAT_IN_H V2 
+			WHERE V2.TAX_INVOICE_NO = v1.TAX_INVOICE_NO)'')
+		
+	) EFAKTUR
+
+	ON NTABLE.TAX_INVOICE_NO = EFAKTUR.TAX_INVOICE_NO
+
+	ORDER BY Number ASC
+	
+	'
+
+--print(@@sqlstate);
+
+execute(@@sqlstate);

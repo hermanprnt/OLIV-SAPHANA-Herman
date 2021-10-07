@@ -1,0 +1,211 @@
+﻿<form role="form" class="form-horizontal _criteria" id="searchForm">
+<div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-4">
+        @* PO No *@
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-5 col-md-4 control-label text-muted">
+                PO No</label>
+            <div class="col-xs-8 col-sm-7 col-md-8">
+                <div class="input-group pos-rel" style="width: 100%;">
+                    <input id="poNoSearch" class="form-control" type="text" value="" onkeypress="onEnterSearchData(event);" />
+                </div>
+            </div>
+        </div>
+         @* PO Date *@
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-5 col-md-4 control-label text-muted">
+                PO Date</label>
+            <div class="col-xs-8 col-sm-7 col-md-8">
+                <div class="input-group pos-rel" style="width: 100%;">
+                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                    </i></span>
+                    <input class="form-control" type="text" name="date-range-picker" id="poDateSearch"
+                        data-date-format="dd.mm.yyyy" style="width: 99%;" onkeypress="onEnterSearchData(event);" />
+                </div>
+            </div>
+        </div>
+        @* DN No *@
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-5 col-md-4 control-label text-muted">
+                DN No
+            </label>
+            <div class="col-xs-8 col-sm-7 col-md-8">
+                <div class="input-group pos-rel" style="width: 100%;">
+                    <input id="dnNoSearch" class="form-control" type="text" value="" maxlength="50" onkeypress="onEnterSearchData(event);" />
+                </div>
+            </div>
+        </div>
+       
+        <div class="form-group form-group-xs _criteria" style="background-color: InfoBackground; 
+                margin-left: 1px; width: 320px;">
+            <label class="col-xs-6 col-sm-6 col-md-8 control-label text-muted" style="text-align: left;">
+                Selected Record (s) : <b><span id="sumManifest"></span></b>
+            </label>
+        </div>
+        <div class="form-group form-group-xs _criteria" style="background-color: InfoBackground; 
+                margin-left: 1px; margin-top: -15px; width: 320px;">
+           <label class="col-xs-6 col-sm-6 col-md-8 control-label text-muted" style="text-align: left;">
+                Total Amount : <b><span id="sumAmount"></span></b>
+            </label>
+        </div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-4">
+        @* Supplier *@
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-5 col-md-4 control-label text-muted">
+                Supplier</label>
+            <div class="input-group input-group-xs col-xs-8 col-sm-7 col-md-8" style="padding-left: 11px;
+                padding-right: 10px; height: 26px;">
+                <input id="supplierSearch" class="form-control" type="text" style="font-size: 9pt;"
+                    value="@ViewData["vendCodeLogin"]" placeholder="Select supplier" onkeypress="onEnterSearchData(event);"
+                    @ViewData["readonly"]>
+                <span class="input-group-btn">
+                    <div class="btn-group" id="btn-group">
+                        <button id="btnPopupLookupSupplierSearch" class="multiselect dropdown-toggle btn btn-default btn-sm"
+                            type="button" style="height: 30px; line-height: 0;" aria-expanded="false" onclick="javascript:openPopup()"
+                            @ViewData["disabled"]>
+                            <i class="fa fa-caret-down" style="margin-right: -4px"></i>&nbsp
+                        </button>
+
+                        <div class="form-horizontal multiselect-container dropdown-menu" style="left: -214px; width: 600px;">
+                            <div class="form-group form-group-xs">
+                                <div>
+                                    <div class="input-group">
+                                        <input id="txtSearchLookupSupplier" class="form-control" type="text" placeholder="input supplier...."
+                                            style="margin-left: 5px;" onkeypress="onEnterSearchDataLookupSupplier(event);" />
+                                        <span class="input-group-btn">
+                                            <button type="button" id="btnSearchLookupSupplier" data-loading-text="<i class='glyphicon-refresh-animate glyphicon glyphicon-refresh'></i>"
+                                                class=" btn btn-default btn-sm " style="margin-left: 5px; margin-right: 5px;
+                                                height: 30px;">
+                                                &nbsp<i class="fa fa-search"></i>
+                                            </button>
+                                            <button id="btnClearSearchLookupSupplier" class=" btn btn-default btn-sm " title="Clear" type="button"
+                                                style="margin-right: 5px; height: 30px;" onclick="javascript:clearPopupFilter()">
+                                                &nbsp<i class="fa  fa-eraser"></i>&nbsp</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.Partial("_LookupTableSupplier")
+                            <div class="text-center" style="margin-bottom: 3px;">
+                                <hr id="hrsrc" style="margin: 0; padding: 0;" />
+                            </div>
+                            <div class="form-group-xs">
+                                <div class="text-right" style="margin-right: 7px;">
+                                    <button type="button" class="btn btn-primary btn-xs" style="width: 70px;" onclick="javascript:gridlookupSelected('OK')">
+                                        Ok</button>
+                                    <button type="button" class="btn btn-danger btn-xs" style="width: 70px;" onclick="javascript:gridlookupSelected('CS')">
+                                        Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+         @* PO Text *@
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-5 col-md-4 control-label text-muted">
+                PO Text</label>
+            <div class="col-xs-8 col-sm-7 col-md-8">
+                <div class="input-group pos-rel" style="width: 100%;">
+                    <input id="poTextSearch" class="form-control" type="text" value="" onkeypress="onEnterSearchData(event);" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-4 col-md-4 control-label text-muted">
+                Receiving Date</label>
+            <div class="col-xs-8 col-sm-8 col-md-8">
+                <div class="input-group" style="cursor: pointer;">
+                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                    </i></span>
+                    <input class="form-control" type="text" name="date-range-picker" id="receivingDateSearch"
+                        data-date-format="dd.mm.yyyy" style="width: 99%;" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-4 col-md-4 control-label text-muted">
+                Material Doc No</label>
+            <div class="col-xs-8 col-sm-8 col-md-8">
+                <input type="text" id="matDocNoSearch" class="form-control" />
+            </div>
+        </div>        
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-4" style="margin-left: -30px">
+       
+       @* <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-5 col-md-4 control-label text-muted">
+                Material Doc No</label>
+            <div class="col-xs-8 col-sm-7 col-md-7">
+                <input type="text" id="matDocNoSearch" class="form-control" />
+            </div>
+        </div>
+       
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-5 col-md-4 control-label text-muted">
+                Receiving Date</label>
+            <div class="col-xs-8 col-sm-7 col-md-8">
+                <div class="input-group">
+                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
+                    </i></span>
+                    <input class="form-control" type="text" name="date-range-picker" id="receivingDateSearch"
+                        data-date-format="dd.mm.yyyy" style="width: auto;" />
+                </div>
+            </div>
+        </div>*@
+       
+        @*<div class="form-group form-group-xs _criteria">
+            <label class="col-xs-5 col-sm-5 col-md-8 control-label text-muted">
+                Show Uploaded Invoice Only</label>
+            <div class="col-xs-7 col-sm-7 col-md-4">
+                <label style="margin-left: -15px; margin-top: 5px">
+                    <input name="switch-field-1" class="ace ace-switch ace-switch-6" type="checkbox" />
+                    <span class="lbl"></span>
+                </label>
+            </div>
+        </div>*@
+    </div>
+</div>
+    @*<div class="col-xs-3 col-sm-3 col-md-3">
+        <label class="col-xs-5 col-sm-5 col-md-9 control-label text-muted" style="margin-left: -10px">
+            Show Uploaded Invoice Only</label>
+        <div class="col-xs-7 col-sm-7 col-md-3">
+            <label style="margin-left: -15px; margin-top: 5px">
+                <input name="switch-field-1" class="ace ace-switch ace-switch-6" type="checkbox" />
+                <span class="lbl"></span>
+            </label>
+        </div>
+    </div>*@
+<div class="row" style="margin-bottom: 10px;">
+    @*<div class="col-xs-4 col-sm-4 col-md-4 text-left">
+        <div class="form-group form-group-xs _criteria" style="background-color: InfoBackground">
+            <label class="col-xs-6 col-sm-6 col-md-6 control-label text-muted" style="text-align: left;">
+                Selected Manifest : 0
+            </label>
+            <label class="col-xs-6 col-sm-6 col-md-6 control-label text-muted" style="text-align: left;">
+                Total Amount : 0
+            </label>
+        </div>
+    </div>*@
+    <div class="col-xs-6">
+    </div>
+    <div class="col-xs-6 text-right">
+        <div class="form-group-xs _criteria" style="margin-top: -25px;">
+            @*<button type="button" class="btn btn-primary btn-xs" onclick="javascript:searchData()">
+                Refresh</button>
+            <button type="button" class="btn btn-sm btn-decision" style="background-color: #fff !important;
+                border-color: #fff !important;" disabled>
+                &nbsp;
+            </button>*@
+            <button type="button" class="btn btn-primary btn-xs" onclick="javascript:searchData(1)">
+                Search</button>
+            <button type="reset" class="btn btn-default btn-xs" onclick="javascript:clearData()">
+                Clear</button>
+        </div>
+    </div>
+</div>
+</form>

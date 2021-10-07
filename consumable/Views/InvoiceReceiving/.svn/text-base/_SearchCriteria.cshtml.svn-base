@@ -1,0 +1,82 @@
+﻿<form role="form" class="form-horizontal _criteria" id="searchForm">
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-4 col-md-4 control-label text-muted" style="font-size: medium; margin-top: -5px">
+              <strong>Certificate ID</strong></label>
+            <div class="col-xs-8 col-sm-8 col-md-8">
+                <input type="text" id="txtCertificateId" class="form-control mandatory" style="font-size: medium;"  
+                         onkeyup="findInvoice()"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-8">
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-2 col-md-2 control-label text-muted">
+                Supplier</label>
+            <div class="col-xs-8 col-sm-10 col-md-10">
+                <input type="text" id="txtSupplier" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-2 col-sm-2 col-md-2 control-label text-muted">
+                Invoice No</label>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <input type="text" id="txtInvoiceNo" class="form-control" readonly />
+            </div>
+            <label class="col-xs-2 col-sm-2 col-md-2 control-label text-muted">
+                Invoice Tax No</label>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <input type="text" id="txtInvoiceTaxNo" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-2 col-sm-2 col-md-2 control-label text-muted">
+                Invoice Amount</label>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <input type="text" id="txtInvoiceAmount" class="form-control" readonly />
+            </div>
+            <label class="col-xs-2 col-sm-2 col-md-3 control-label text-muted" style="margin-left:-66px;">
+                Invoice Tax Amount</label>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <input type="text" id="txtInvoiceTaxAmount" class="form-control" readonly />
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<div id="reject-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                    Reject Confirmation</h4>
+            </div>
+            <div class="modal-body" style="padding-top: 0px;">
+                <div class="row" style="padding-left: 10px;">
+                    Reject Reason
+                </div>
+                <div class="row" style="padding-left: 10px;">
+                    <textarea class="form-control limited" id="form-field-9" maxlength="100"></textarea>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    margin-top: 10px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Reject</button>
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                        Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".btn-reject").click(function () {
+        $("#reject-confirm").modal();
+    });
+</script>

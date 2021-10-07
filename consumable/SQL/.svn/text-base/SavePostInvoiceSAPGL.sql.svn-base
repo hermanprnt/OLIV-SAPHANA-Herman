@@ -1,0 +1,18 @@
+INSERT INTO TB_R_INVOICE_SAP_GL
+    (INVOICE_ID
+    ,GL_ACCOUNT
+    ,AMOUNT
+    ,SHKZG
+	,ON_PROCESS
+    ,CREATED_DT
+    ,CREATED_BY
+    )
+VALUES
+    (@INVOICE_ID
+    ,@GL_ACCOUNT
+    ,@AMOUNT
+    ,@SHKZG
+	,'Y'
+    ,getdate()
+    ,@CREATED_BY
+    )

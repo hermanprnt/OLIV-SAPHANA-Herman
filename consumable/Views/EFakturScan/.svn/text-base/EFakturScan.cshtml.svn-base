@@ -1,0 +1,386 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+    <style type="text/css">
+        .modal-icon
+        {
+            height: 35px;
+        }
+        
+        .twitter-typeahead
+        {
+            width: 100%;
+        }
+    </style>
+}
+<div class="hidden-xs">
+    @Html.Partial("_SearchCriteria")
+    <div class="text-center">
+        <hr id="hrsrc" style="margin: 0; padding: 0;" />
+    </div>
+    @* Button Process *@
+    <div class="col-xs-12 col-sm-12 col-md-12 text-center" style="margin-top: 5px; margin-bottom: 5px;">
+        <div class="col-xs-4 col-sm-4 col-md-4 text-left">
+            <div class="btn-group">
+                <button type="button" title="Upload Invoice" id="btn-upload" class="fa fa-upload btn btn-warning btn-xs"
+                    style="padding: 6px; margin-left: -25px;" onclick="javascript:uploadDialog()">
+                    <span style="font-family: Open Sans; font-size: 12px">Upload E-TAX</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 text-center">
+            <button data-rel="tooltip" title="Hide filter" onclick="javascript:toggleSearch()"
+                type="button" class="ace-icon fa fa-angle-double-up btn btn-default btn-xs btn-tiny-down"
+                id="toogle-search" style="top: 6px;">
+            </button>
+            <input type="text" id="btnLostFocus" style="display: block; height: 1px; width: 1px;
+                border: none;" />
+        </div>
+    </div>
+</div>
+<div id="tablegrid">
+    @Html.Partial("_GridView")
+</div>
+</div>
+@*@Html.Partial("_UploadPopup")*@
+@Html.Partial("_UploadPopup2")
+@Html.Partial("_LookupSupplierInput")
+@Html.Partial("_LookupSupplierGrid")
+
+<div id="selected-info" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Information
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgInfoId">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="warning-confirm" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Warning</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgWarningId">
+                        &nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section BodyScript{
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <!-- Dropzone file js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/dropzone.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
+    <script type="text/javascript">
+        //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+		$('input[name=date-range-picker]').daterangepicker({
+            format: 'DD.MM.YYYY',
+		    'applyClass': 'btn-sm btn-success',
+		    'cancelClass': 'btn-sm btn-default',
+		    locale: {
+		        applyLabel: 'Apply',
+		        cancelLabel: 'Cancel',
+		    }
+		})
+		.prev().on(ace.click_event, function () {
+			$(this).next().focus();
+		});
+
+
+		function toggleSearch() {
+            $("._criteria").toggle(200, "linear");
+
+            if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+                $("#toogle-search").removeClass("fa-angle-double-up");
+                $("#toogle-search").addClass("fa-angle-double-down");
+                $("#toogle-search").removeClass("btn-tiny-down");
+                $("#toogle-search").addClass("btn-tiny-down");
+                document.getElementById('hrsrc').style.display = 'none';
+                $("#tScrollBody").height(450);
+                $("#toogle-search").prop('title', 'Show filter');
+            }
+            else {
+                $("#toogle-search").removeClass("fa-angle-double-down");
+                $("#toogle-search").addClass("fa-angle-double-up");
+                $("#toogle-search").removeClass("btn-tiny-down");
+                $("#toogle-search").addClass("btn-tiny-down");
+                document.getElementById('hrsrc').style.display = 'block';
+                $("#tScrollBody").height(325);
+                $("#toogle-search").prop('title', 'Hide filter');
+            }
+            //document.getElementById("btnLostFocus").focus();
+            $("#toogle-search").blur();
+            //var text = $("#lnsearch-toggle").text();
+            //$("#lnsearch-toggle").text(text == "More search criteria" ? "Less search criteria" : "More search criteria");
+        }
+
+		 function ToggleGrid() {
+            //$("._toggle-detail").toggle(200, "linear"); //harusnya kanan ke kiri
+
+
+            var text = $("#grid-toggle").html().toString().trim();
+            
+            if (text == "Show detail") {
+                $("#grid-toggle").html("Hide detail");
+                $("._toggle-detail").show();
+                $("#grid-toggle").prop('title', 'Hide detail grid');
+                $("#tblScroll").width(2000);
+                $("#dynamic-table").width(2000);
+            }
+            else {
+                $("#grid-toggle").html("Show detail");
+                $("._toggle-detail").hide();
+                $("#grid-toggle").prop('title', 'Show detail grid');
+                $("#tblScroll").width(1350);
+                $("#dynamic-table").width(1350);
+            }
+        }
+
+        function uploadDialog() {
+            $("#uploadPopup2").modal("show");
+        }
+
+        function openPopup() {
+            $("#txtSearchLookupSupplier").val('');
+            if ($("#btn-group").hasClass('open'))
+                $("#btn-group").removeClass('open')
+            else
+                $("#btn-group").addClass('open')
+        }
+
+        function closePopup() {
+            $("#txtSearchLookupSupplier").val('');
+            $("#btn-group").removeClass('open')
+        }
+
+        // Lookup function search supplier [start]
+		function gridlookupSelected(setValue) {
+            var result = '';
+            if (($(".gridLookup-checkbox-body:checked").length > 0)&&(setValue == 'OK')) {
+                for(i=0; i<$(".gridLookup-checkbox-body").length; i++) {
+                    if ($(".gridLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '')?';':'') + $(".gridLookup-checkbox-body")[i].dataset.value;
+                }
+//                $("#btn-value").html(result);
+                $("#supplierSearch").val(result);
+            }
+
+            if (setValue == 'CS'){
+                $(".gridLookup-checkbox-body").prop('checked', false);
+                $("#supplierSearch").val('');
+            }
+
+            closePopup();
+        }
+
+         $("#uploadEFaktur").submit(function (e) {           
+            $(this).ajaxSubmit({
+				type: "POST",
+				url: "@Html.Toyota().Page.GetActionUrl("Upload")",
+                data: {
+                        supplierInput : $("#supplierInput").val()
+                },
+                beforeSend: function(returnResult){
+                    $('#unggahButton').button('loading'); 
+                    $('#batalButton').button('loading'); 
+                },
+                success: function(returnResult){
+                    if (returnResult.Result == returnResult.ValueSuccess) {
+                        $("#uploadPopup2").modal('hide');
+                        $("#msgInfoId").text(returnResult.SuccMesgs);
+                        $("#selected-info").modal();
+                        searchData(1);
+					} else {                   
+                        $("#msgWarningId").text(returnResult.ErrMesgs);
+                        $("#warning-confirm").modal();
+					}
+                    
+                    $('#unggahButton').button('reset'); 
+                    $('#batalButton').button('reset');                     
+                },
+                error : function(returnResult) {                        
+					$("#msgWarningId").text(returnResult.ErrMesgs);
+                    $("#warning-confirm").modal();
+
+                    $('#unggahButton').button('reset'); 
+                    $('#batalButton').button('reset');    
+				}
+            });
+
+            e.preventDefault();
+          
+        });
+
+        // Function Search [start]
+        function onEnterSearchData(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                searchData(1);
+            }
+        }
+
+        function searchData(page) {
+            if(page==null)page=1;
+            pagepos=page;
+            
+            var pageSize = $("#pageSize").val();
+               
+			$.ajax({
+				type: "POST",
+				url: "@Html.Toyota().Page.GetActionUrl("search")",
+				data: {
+					taxInvoiceNoSearch: $('#taxInvoiceNoSearch').val(),
+                    taxInvoiceDtSearch: $('#taxInvoiceDateSearch').val(),
+                    supplierSearch: $('#supplierSearch').val(),
+                    page: page,
+                    size: $("#pageSize").val()
+				},
+				beforeSend: function () {
+                    $('#btnSearch').button('loading');
+                },
+				success: function (data) {
+					$("#tablegrid").html(data);	
+                    $("#pageSize").val(pageSize);
+				},
+				complete: function () {
+                    $('#btnSearch').button('reset');
+                }, 
+                error: function(data) {
+                   $('#btnSearch').button('reset');
+                }
+			});			
+		}
+        // Function Search [end]
+
+     
+        // Lookup function search Criteria supplier [start] 
+        function closePopup() {
+            $("#txtSearchLookupSupplier").val('');
+            $("#btn-group").removeClass('open')
+        }
+
+        function clearPopupFilter() {
+            $("#txtSearchLookupSupplier").val('');
+        }
+          
+        $("#btnSearchLookupSupplier").click(function(){
+            onLookupSupplier(1);
+        });
+
+        function onEnterSearchDataLookupSupplier(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupSupplier(1);
+            }
+        }
+
+        function onLookupSupplier(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupSupplier")",
+                data: {
+                    Parameter:$('#txtSearchLookupSupplier').val(),
+                    PartialViewSearchAndInput:'_LookupTableSupplier',
+                    Page:page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupSupplier').button('loading');
+                },
+                success: function (result) { 
+                    $("#tblSupplierPopupSearch").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupSupplier').button('reset');
+                },
+                error: function(result) {
+                   $('#btnSearchLookupSupplier').button('reset');
+                }
+            });
+        }
+        // Lookup function search Criteria supplier [end]   
+
+        $("#btnSearchLookupSupplierInput").click(function(){
+            onLookupSupplierInput(1);
+        });
+
+        $("#btnClearLookupSupplierInput").click(function () {
+            $("#txtinputlookupsupplier").val('');
+            onLookupSupplierInput(1);
+        });
+
+         function onLookupSelectedInput(supplierCd, supplierName) {
+		    $("#supplierInput").val(supplierCd);
+		    $("#supplierCodeNameInput").val(supplierCd + " - " + supplierName);
+		    $("#gridlookupsupplierinput").modal("hide");
+        }
+
+        // Function Lookup Input [start]
+        function onEnterLookupInputSupplier(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                onLookupSupplierInput(1);
+            }
+        }
+
+        function onLookupSupplierInput(page) {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("onLookupSupplierSearchAndInput")",
+                data: {
+                    Parameter:$("#txtinputlookupsupplier").val(),
+                    Page:page,
+                    PartialViewSearchAndInput:'_LookupTableSupplierInput'
+                },
+                beforeSend:function () {$('#btnSearchLookupSupplierInput').button('loading');},
+                success: function (result) { 
+                    $("#tblSupplierPopupInput").html(result);
+                },
+                complete:function () {$('#  Input').button('reset');}
+            });
+        }
+
+    </script>
+}

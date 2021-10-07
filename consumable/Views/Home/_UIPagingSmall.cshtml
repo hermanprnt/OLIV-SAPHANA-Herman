@@ -1,0 +1,94 @@
+﻿@using consumable.Models.Paging
+@{
+    Paging pg = (Paging)ViewData["PagingSmall"]; 
+}
+<input id="txtmaxpg" type="text" class="hidden" />
+<script type="text/javascript" language="javascript">
+        $("#txtmaxpg").val(@pg.CountPage);
+</script>
+<div class="col-xs-12 col-sm-9 col-md-9" style="height: 30px;">
+    @if ((pg != null) && pg.CountData > 0)
+    {
+        <ul class="pagination pagination-sm hidden-xs">
+             
+            <li><span class="_pagination-label">Showing @pg.PositionPage to @pg.CountPage of @pg.CountData
+                row(s)</span> </li>
+            <li><a href="javascript: onCallbackSmall(@pg.First)">First</a></li>
+            <li><a href="javascript: onCallbackSmall(@pg.Prev)">Prev</a></li>
+            <li class="active">
+                @for (int p = 1; p <= @pg.CountPage; p++)
+                {
+                    if ((p >= @pg.MinPage) && (p <= @pg.MaxPage))
+                    {
+                        if (@p == pg.PositionPage)
+                        {
+                    <li class="active"><a href="javascript: onCallbackSmall(@p)">@p</a></li> 
+                        }
+                        else
+                        {
+                    <li><a href="javascript: onCallbackSmall(@p)">@p</a></li>  
+                        }
+                    }
+                }
+            </li>
+            <li><a href="javascript: onCallbackSmall(@pg.Next)">Next</a></li>
+            <li><a href="javascript: onCallbackSmall(@pg.Last)">Last</a></li>
+        </ul>
+    }
+</div>
+<div class="col-xs-12 col-sm-3 col-md-3 text-right" style="height: 30px; padding-top: 3px;">
+    <div class="form-inline">
+        <span>Size</span>&nbsp;
+        <select class="input-xs page-size" id="pageSize" onchange="javascript: searchData(1);">
+            <option>10</option>
+            <option>25</option>
+            <option>50</option>
+            <option>100</option>
+        </select>
+    </div>
+</div>
+<script type="text/javascript">
+    // NOTE: converting razor var to js var to avoid js intellisense's "syntax error"
+    $(document).ready(function () {
+        $("#pageSize").val(@pg.SizePage);
+    });
+
+    function onCallbackSmall(pg) {
+        var mx = parseInt($("#txtmaxpg").val());
+        if ((parseInt(pg) <= mx) && (parseInt(pg) > 0)) {
+            searchDataSmall(pg);
+        }
+        else {
+            $.ajax({
+                type: "Post",
+                url: "@Html.Toyota().Page.GetActionUrl("PageNotFound")",
+                success: function (result) {msgWarning(result);}
+            });  
+        }
+    }
+
+    function searchDataSmall(page) {
+        if(page==null)page=1;
+        pagepos=page;
+                         
+	    $.ajax({
+		    type: "POST",
+		    url: "@Html.Toyota().Page.GetActionUrl("SearchDashboardAnnouncement")",
+		    data: {
+                page: page,
+                size: $("#pageSize").val()			
+		    },
+		    beforeSend:function () {
+                $('#btnSearch').button('loading');
+            },
+		    success: function (data) {
+			    $("#_AnnouncementList").html(data);	
+		    },
+		    complete:function () {
+                $('#btnSearch').button('reset');
+            }
+	    });
+			
+    }
+
+</script>

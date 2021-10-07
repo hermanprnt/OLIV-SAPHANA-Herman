@@ -1,0 +1,37 @@
+﻿<div class="col-xs-12 col-sm-9" style="height: 30px;">
+    <ul class="pagination pagination-sm hidden-xs">
+
+        <li>
+            <span class="_pagination-label">Showing 1 to 10 of 20 row(s)</span>
+        </li>
+        <li><span>First</span></li>
+        <li><span>Prev</span></li>
+        <li class="active">
+                <a href="javascript: onSearchData(1)">1</a>
+            </li>
+        <li><span>Next</span></li>
+        <li><span>Last</span></li>
+        <li><span class="_pagination-empty"></span></li>
+        <li>
+            <span class="_pagination-goto">
+                <input type="text" class="_number-only" maxlength="4" />
+            </span>
+        </li>
+        <li>
+            <span class="_pagination-goto">
+                <button type="button" class="_btn-go">Go</button>
+            </span>
+        </li>
+    </ul>
+</div>
+<div class="col-xs-12 col-sm-3 text-right" style="height: 30px; padding-top: 3px;">
+    <div class="form-inline">
+            <span>Size</span>&nbsp;
+            <select class="input-xs page-size">
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+                <option>100</option>
+            </select>
+    </div>
+</div>

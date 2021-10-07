@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Configurations
+END
+Menu-DEV.xml
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Configurations/Menu-DEV.xml
+END
+SingleSignOn-DEV.config
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Configurations/SingleSignOn-DEV.config
+END
+Database-DEV.config
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Configurations/Database-DEV.config
+END
+SingleSignOn-PRD.config
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Configurations/SingleSignOn-PRD.config
+END
+Locale-US.config
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Configurations/Locale-US.config
+END
+System.config
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Configurations/System.config
+END

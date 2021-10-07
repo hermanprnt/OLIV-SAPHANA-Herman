@@ -1,0 +1,133 @@
+﻿@using consumable.Models.InvoiceCreation
+@using consumable.Models
+@{
+    List<consumable.Common.Data.GR_IR_DATA> grIrDataList = (List<consumable.Common.Data.GR_IR_DATA>)ViewData["GR_IR_DATA"];
+}
+<div class="col-xs-4 col-sm-4 col-md-12 text-left" style="margin-top: 5px; margin-bottom: 5px;">
+    <div class="btn-group">
+        <button type="button" title="Upload" id="btn-upload" class="fa fa-upload btn btn-warning btn-xs"
+            style="padding: 6px; margin-left: -12px;" onclick="javascript:uploadDialog()">
+            <span style="font-family: Open Sans; font-size: 12px">Upload ZIP</span>
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+        <div style="border: 1pt solid #ccc;">
+            <div id="tScrollHead" style="width: 98.5%; overflow: hidden;">
+                <table id="dynamic-table" class="table table-striped table-bordered table-condensed table-fixed"
+                    style="width: 1460px; max-width: 1460px !important;">
+                    <thead>
+                        <tr>
+                            <th width="20px" class="grid-checkbox-col">
+                                <input class="grid-checkbox" type="checkbox" style="height: 12px;" id="checkall" />
+                            </th>
+                            <th width="100px" class="sorting" data-field="PO_NO" data-sort="none">PO No</th>
+                            <th width="80x" class="sorting" data-field="PO_DATE" data-sort="none">
+                                PO Date
+                            </th>
+                            <th width="110px" class="sorting" data-field="HEADER_TEXT" data-sort="none">
+                                Header Text
+                            </th>
+                            <th width="105px" class="sorting" data-field="RECEIVING_DATE" data-sort="none">Receiving Date</th>
+                            <th width="100px" class="sorting" data-field="SUPPLIER_CODE" data-sort="none">Supplier Code</th>
+                            <th width="120px" class="sorting" data-field="MATERIAL_DOC_NO" data-sort="none">Material Doc No</th>
+                            @*<th width="100px" class="sorting" data-field="DELIVERY_NOTE" data-sort="none">Delivery Note</th>
+                            <th width="100px" class="sorting" data-field="DOC_CODE" data-sort="none">Doc Code</th>*@
+                            <th width="100px" class="sorting" data-field="SUBMIT_DATE" data-sort="none">
+                                IR Doc No
+                            </th>
+                            <th width="80px;" class="sorting" data-field="SUBMIT_BY" data-sort="none">
+                                Status
+                            </th>
+                            <th width="60px" class="sorting" data-field="PLANT" data-sort="none">Plant</th>
+                            <th width="70px" class="sorting" data-field="CURRENCY" data-sort="none">Currency</th>
+                            <th width="80px" class="sorting" data-field="AMOUNT" data-sort="none">Amount</th>
+                            <th width="100px" class="sorting" data-field="INVOICE_NO" data-sort="none">Cancel Doc No</th>
+                            <th width="90px" class="sorting" data-field="UPLOAD_BY" data-sort="none">Upload By</th>
+                            <th width="90px" class="sorting" data-field="UPLOAD_DATE" data-sort="none">Upload Date</th>
+                            <th class="sorting">Attach</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tScrollBody" style="overflow: scroll; height: 265px;">
+                <table id="tblScroll" class="table table-striped table-bordered table-condensed table-fixed"
+                    style="width: 1460px; max-width: 1460px !important;">
+                    <tbody>
+                        @{
+                            if (grIrDataList != null && grIrDataList.Count > 0)
+                            {
+                                foreach (consumable.Common.Data.GR_IR_DATA item in grIrDataList)
+                                {
+                            <tr>
+                                <td width="20px" class="text-center grid-checkbox-col">
+                                    <input type="checkbox" class="grid-checkbox grid-checkbox-body"  name="selectedManifest"  onclick="javascript:updateManifest()"/>
+                                </td>
+                                <td width="100px" class="text-center">@item.PO_NUMBER</td>
+                                <td width="80px" class="text-center">
+                                     @(item.PO_DATE.HasValue ? item.PO_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+                                <td width="110px" class="text-left">
+                                    @item.HEADER_TEXT
+                                </td>
+                                <td width="105px" class="text-center">
+                                     @(item.MATDOC_DATE.HasValue ? item.MATDOC_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+                                <td width="100px" class="text-center">@item.VEND_CODE</td>
+                                <td width="120px" class="text-center cursor-link">
+                                    <a onclick="openPopupMaterial('@(item.MATDOC_NUMBER)')">@item.MATDOC_NUMBER</a>
+                                </td>
+                                @*<td width="100px" class="text-left">@item.DELIVERY_NOTE</td>
+                                <td width="100px" class="text-center">@item.DOC_CODE</td>*@
+                                <td width="100px" class="text-center">@item.IR_NO</td>
+                                <td width="80px" class="text-center">@item.GR_STATUS</td>
+                                <td width="60px" class="text-center">@item.PLANT_CODE</td>
+                                <td width="70px" class="text-center">@*@item.CURRENCY*@</td>
+                                <td width="80px" class="text-right">
+                                    @*@if (item.CURRENCY == "IDR") { @item.AMOUNT.FormatCommaSeparator() }
+                                    else { @item.AMOUNT.FormatCommaSeparatorWithDecimal();  }*@
+                                </td>
+                                <td width="100px" class="text-center">@item.CANCEL_DOC_NO</td>
+                                <td width="90px" class="text-left ellipsis" style="max-width: 90px;">@*@item.UPLOAD_BY*@</td>
+                                <td width="90px" class="text-center">
+                                    @*@(item.UPLOAD_DATE != DateTime.MinValue ? item.UPLOAD_DATE.ToString("dd.MM.yyyy") : "")*@
+                                </td>
+                                <td class="text-center cursor-link"><i class="fa fa-file"></i></td>
+                            </tr>   
+                                }
+                            }
+                            else
+                            {
+                            <tr>
+                                <td colspan="13" class="text-center">
+                                    No data retrieved.
+                                </td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tScrollBody").scroll(function () {
+        $("#tScrollHead").scrollLeft($("#tScrollBody").scrollLeft());
+    });
+
+    var table = document.getElementById("dynamic-table");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                table.rows[i].cells[j].onclick = function () {
+                    tableText(this);
+                    sorting_execute = '1';
+                };
+            }
+        }
+    }
+</script>

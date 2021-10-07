@@ -1,0 +1,157 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using consumable.Models.Paging;
+using Toyota.Common.Database;
+using consumable.Commons.Constants;
+using consumable.Models;
+using System.Net;
+using System.Text;
+using System.IO;
+using Toyota.Common.Web.Platform;
+using consumable.Models.SUPPLIER;
+using consumable.Models.SystemProperty;
+
+namespace consumable.Controllers
+{
+    public class VendorController : PageController
+    {
+        private DatabaseManager databaseManager = DatabaseManager.Instance;
+        private SupplierRepository supplierRepo = SupplierRepository.Instance;
+        private SystemPropertyRepository systemPropertyRepo = SystemPropertyRepository.Instance;
+
+        protected override void Startup()
+        {
+            Settings.Title = "Vendor";
+            constructComboBoxes();
+            getListVendor(null, null, CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
+        }
+
+        public void constructComboBoxes()
+        {
+            List<SystemProperty> listTermPaym = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.TERM_PAY);
+            ViewData["TermPaymList"] = listTermPaym;
+
+            List<SystemProperty> listPaymMethod = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.PAY_METHOD);
+            ViewData["PaymMethodList"] = listPaymMethod;
+        }
+
+        public ActionResult search(string vendorCode, string vendorName, int page, int size)
+        {
+            string NoReg = Lookup.Get<Toyota.Common.Credential.User>().Id;
+
+            getListVendor(vendorCode, vendorName, page, size);
+
+            return PartialView("_GridView");
+        }
+
+        private void getListVendor(string vendorCode, string vendorName, int page, int size)
+        {
+            Paging pg = new Paging(supplierRepo.countSupplier(vendorCode, vendorName), page, size);
+            ViewData["Paging"] = pg;
+            List<Supplier> vendorList = supplierRepo.GetSupplier(vendorCode, vendorName, pg.StartData, pg.EndData);
+            ViewData["vendorList"] = vendorList;
+        }
+
+        public ActionResult InitAddVendor()
+        {
+            constructComboBoxes();
+            Supplier supplier = new Supplier();
+
+            ViewData["supplier"] = supplier;
+
+            return PartialView("_VendorAddPopUp");
+        }
+
+        public JsonResult SaveInput(string screenMode, Supplier supplier)
+        {
+            AjaxResult results = new AjaxResult();
+
+            IDBContext db = databaseManager.GetContext();
+
+            try
+            {
+                string NoReg = Lookup.Get<Toyota.Common.Credential.User>().RegistrationNumber;
+                if (CommonConstant.SCREEN_MODE_ADD.Equals(screenMode))
+                {
+                    //results = supplierRepo.SaveData(db, supplier, NoReg);
+                }
+                else if (CommonConstant.SCREEN_MODE_EDIT.Equals(screenMode))
+                {
+                    results = supplierRepo.EditData(db, supplier, NoReg);
+                }
+                //message = "Success";
+
+                if (AjaxResult.VALUE_ERROR.Equals(results.Result))
+                {
+                    db.AbortTransaction();
+                }
+                else
+                {
+                    db.CommitTransaction();
+                }
+            }
+            catch (Exception e)
+            {
+                results.Result = AjaxResult.VALUE_ERROR;
+                results.ErrMesgs = new String[] { 
+                                    string.Format("{0} = {1}", e.GetType().FullName, e.Message)};
+            }
+            finally
+            {
+                db.Close();
+            }
+
+            return Json(results);
+        }
+
+        public ActionResult GetByKey(string supplierId)
+        {
+            constructComboBoxes();
+            string NoReg = Lookup.Get<Toyota.Common.Credential.User>().Id;
+
+            Supplier supplier = supplierRepo.GetBySupplierId(supplierId);
+
+            ViewData["supplier"] = supplier;
+
+            return PartialView("_VendorAddPopUp");
+        }
+
+        public ActionResult DeleteSupplier(List<Supplier> supplierList)
+        {
+            //string message = "";
+            //int results = 0;
+            IDBContext db = databaseManager.GetContext();
+            AjaxResult results = null;
+
+            try
+            {
+                results = supplierRepo.DeleteData(db, supplierList);
+                //message = "Success";
+
+                if (AjaxResult.VALUE_ERROR.Equals(results.Result))
+                {
+                    db.AbortTransaction();
+                }
+                else
+                {
+                    db.CommitTransaction();
+                }
+            }
+            catch (Exception e)
+            {
+                results.Result = AjaxResult.VALUE_ERROR;
+                results.ErrMesgs = new String[] { 
+                                    string.Format("{0} = {1}", e.GetType().FullName, e.Message)};
+            }
+            finally
+            {
+                db.Close();
+            }
+
+            return Json(results);
+        }
+    }
+}

@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+
+    <style type="text/css">
+        .modal-icon
+        {
+            height: 35px;
+        }
+        
+        .twitter-typeahead
+        {
+            width: 100%;
+        }
+    </style>
+}
+
+<div class="hidden-xs">
+	@Html.Partial("_SearchCriteria")
+
+	<div class="text-center" style="margin-bottom: 5px;">
+			<hr id="hrsrc" style="margin:0;padding:0;" />
+	</div>
+
+    @Html.Partial("_GridView")
+</div>
+
+@section BodyScript{
+	<!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    
+    <script type="text/javascript">
+		
+		function toggleSearch() {
+			$("._criteria").toggle(200, "linear");
+
+			if ($("#toogle-search").hasClass("fa-angle-double-up")) {
+				$("#toogle-search").removeClass("fa-angle-double-up");
+				$("#toogle-search").addClass("fa-angle-double-down");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'none';
+				$("#tScrollBody").height(450);
+				$("#toogle-search").prop('title', 'Show filter');
+			}
+			else {
+				$("#toogle-search").removeClass("fa-angle-double-down");
+				$("#toogle-search").addClass("fa-angle-double-up");
+				$("#toogle-search").removeClass("btn-tiny-down");
+				$("#toogle-search").addClass("btn-tiny-down");
+				document.getElementById('hrsrc').style.display = 'block';
+				$("#tScrollBody").height(250);
+				$("#toogle-search").prop('title', 'Hide filter');
+			}
+			//document.getElementById("btnLostFocus").focus();
+			$("#toogle-search").blur();
+			//var text = $("#lnsearch-toggle").text();
+			//$("#lnsearch-toggle").text(text == "More search criteria" ? "Less search criteria" : "More search criteria");
+		}
+
+
+        //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+		$('input[name=date-range-picker]').daterangepicker({
+            format: 'DD.MM.YYYY',
+		    'applyClass': 'btn-sm btn-success',
+		    'cancelClass': 'btn-sm btn-default',
+		    locale: {
+		        applyLabel: 'Apply',
+		        cancelLabel: 'Cancel',
+		    }
+		})
+		.prev().on(ace.click_event, function () {
+			$(this).next().focus();
+		});
+
+    </script>
+}
+
+
+
+
+
+

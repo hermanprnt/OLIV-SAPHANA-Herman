@@ -1,0 +1,69 @@
+/**
+* desc : Number format from pressing keyboard
+*          (,) is separator, (.) is decimal
+* 
+* @author  Argyaputri
+* @date    01 March 2010 5:55 PM
+* @param   {Object} obj
+* @use     onkeyup="javascript: numberFormat(this);"
+*/
+function numberFormat(obj) {
+    var a = obj.value;
+    var b = a.replace(/[^\d+\..]/g, "");
+    var dtNumber = b.split('.');
+    var numberInt = dtNumber[0];
+    var numberVal = "";
+    var intLength = numberInt.length;
+    var j = 0;
+
+    if (dtNumber.length == 1) {
+        numberDec = "";
+    } else {
+        numberDec = ".";
+    }
+
+    for (n = 1; n < dtNumber.length; n++) {
+        numberDec += dtNumber[n];
+    }
+
+    for (i = intLength; i > 0; i--) {
+        j = j + 1;
+        if (((j % 3) == 1) && (j != 1)) {
+            numberVal = numberInt.substr(i - 1, 1) + "," + numberVal;
+        } else {
+            numberVal = numberInt.substr(i - 1, 1) + numberVal;
+        }
+    }
+
+    obj.value = numberVal + numberDec;
+}
+function currencyFormat(obj) {
+   var a = obj;
+   var b = a.toString().replace(/[^\d+\..]/g, "");
+   var dtNumber = b.split('.');
+   var numberInt = dtNumber[0];
+   var numberVal = "";
+   var intLength = numberInt.length;
+   var j = 0;
+
+   if (dtNumber.length == 1) {
+      numberDec = "";
+   } else {
+      numberDec = ".";
+   }
+
+   for (n = 1; n < dtNumber.length; n++) {
+      numberDec += dtNumber[n];
+   }
+
+   for (i = intLength; i > 0; i--) {
+      j = j + 1;
+      if (((j % 3) == 1) && (j != 1)) {
+         numberVal = numberInt.substr(i - 1, 1) + "," + numberVal;
+      } else {
+         numberVal = numberInt.substr(i - 1, 1) + numberVal;
+      }
+   }
+
+   return numberVal + numberDec;
+}

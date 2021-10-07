@@ -1,0 +1,4 @@
+EXECUTE @RetVal					= [SP_Update_Status_invoice]
+		@@CERTIFICATE_ID		= @CERTIFICATE_ID,
+		@@PAYMENT_PLAN_DATE		= @PAYMENT_PLAN_DATE,
+		@@UPDATED_BY			= @UPDATED_BY

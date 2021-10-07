@@ -1,0 +1,7 @@
+SELECT count(*) + 1
+  FROM TB_R_INVOICE
+  where 1=1
+  and INVOICE_NO = @INVOICE_NO 
+  and CAST(INVOICE_DATE as DATE) >= CAST(CONVERT(datetime, @DATENOW , 104) as DATE)
+  and SUPPLIER_CD = @VENDOR_CD
+

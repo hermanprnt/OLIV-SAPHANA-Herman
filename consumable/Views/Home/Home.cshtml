@@ -1,0 +1,370 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadScript {
+    <link rel="stylesheet" href="@Url.Content("~/Content/angular/angular-gridster.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/angular/style-common.css")" />
+    @*<link rel="stylesheet" href="@Url.Content("~/Content/angular/style-dashboard.css")" />*@
+
+    <style type="text/css">
+        h3, .h3 {
+            margin-top: 3px !important;
+            margin-bottom: 3px;
+            font-size: 12pt;
+        }
+    </style>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/angular/angular.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/angular/ui-bootstrap-tpls.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/angular/angular-gridster.js")"></script>
+
+    <script type="text/javascript">
+
+        (function () {
+            //gettiket();
+
+            angular.module('app', ['gridster', 'ui.bootstrap'])
+                .config(['gridsterConfig',
+                    function (gridsterConfig) {
+                        var margin = gridsterConfig.margins[0] + gridsterConfig.margins[1] + 20 + 75 + 90;
+                        //        			    gridsterConfig.rowHeight = (($(".main-content-inner").height() - margin) / 2);
+                        gridsterConfig.rowHeight = 247;
+                    }
+                ])
+                .controller('RootCtrl', function ($scope) {
+                    $scope.gridsterOptions = {
+                        margins: [5, 5],
+                        columns: 4,
+                        draggable: {
+                            handle: 'h3'
+                        }
+                    };
+
+                    $scope.widget1 = { name: "Widget 1", col: 0, row: 0, sizeY: 2, sizeX: 2 };
+                    $scope.widget2 = { name: "Widget 2", col: 2, row: 0, sizeY: 1, sizeX: 2 };
+                    $scope.widget3 = { name: "Widget 3", col: 2, row: 1, sizeY: 1, sizeX: 2 };
+                    $scope.dashboards = {
+                        '1': {
+                            id: '1',
+                            name: 'Home',
+                            widgets: [$scope.widget1, $scope.widget2, $scope.widget3]
+                        }
+                    };
+
+                    $scope.widgetOpt = {
+                        '1': {
+                            id: '1',
+                            name: 'Widget 1'
+                        },
+                        '2': {
+                            id: '3',
+                            name: 'Widget 2'
+                        },
+                        '3': {
+                            id: '3',
+                            name: 'Widget 3'
+                        }
+                    };
+
+                    $scope.clear = function () {
+                        $scope.dashboard.widgets = [];
+                    };
+
+                    $scope.addWidget = function () {
+
+                        switch ($("#cbWidget").val()) {
+                            case '0': $scope.dashboard.widgets.push({
+                                name: "Widget 1",
+                                sizeX: 2,
+                                sizeY: 2
+                            }); break;
+                            case '1': $scope.dashboard.widgets.push({
+                                name: "Widget 2",
+                                sizeX: 2,
+                                sizeY: 1
+                            }); break;
+                            case '2': $scope.dashboard.widgets.push({
+                                name: "Widget 3",
+                                sizeX: 2,
+                                sizeY: 1
+                            }); break;
+                            default: $("#selected-warning").modal(); break;
+                        }
+                    };
+
+                    $scope.$watch('selectedDashboardId', function (newVal, oldVal) {
+                        if (newVal !== oldVal) {
+                            $scope.dashboard = $scope.dashboards[newVal];
+                        } else {
+                            $scope.dashboard = $scope.dashboards[1];
+                        }
+                    });
+
+                    // init dashboard (first display layout)
+                    $scope.selectedDashboardId = '1';
+                })
+
+                .controller('CustomWidgetCtrl', ['$scope', '$modal',
+                    function ($scope, $modal) {
+
+                        $scope.remove = function (widget) {
+                            $scope.dashboard.widgets.splice($scope.dashboard.widgets.indexOf(widget), 1);
+                        };
+
+                        $scope.openSettings = function (widget) {
+                            $modal.open({
+                                scope: $scope,
+                                templateUrl: 'Home/WidgetSettings',
+                                controller: 'WidgetSettingsCtrl',
+                                resolve: {
+                                    widget: function () {
+                                        return widget;
+                                    }
+                                }
+                            });
+                        };
+
+                    }
+                ])
+
+                .controller('WidgetSettingsCtrl', ['$scope', '$timeout', '$rootScope', '$modalInstance', 'widget',
+                    function ($scope, $timeout, $rootScope, $modalInstance, widget) {
+                        $scope.widget = widget;
+
+                        $scope.form = {
+                            name: widget.name,
+                            sizeX: widget.sizeX,
+                            sizeY: widget.sizeY,
+                            col: widget.col,
+                            row: widget.row
+                        };
+
+                        $scope.sizeOptions = [{
+                            id: '1',
+                            name: '1'
+                        }, {
+                            id: '2',
+                            name: '2'
+                        }, {
+                            id: '3',
+                            name: '3'
+                        }, {
+                            id: '4',
+                            name: '4'
+                        }];
+
+                        $scope.dismiss = function () {
+                            $modalInstance.dismiss();
+                        };
+
+                        $scope.remove = function () {
+                            $scope.dashboard.widgets.splice($scope.dashboard.widgets.indexOf(widget), 1);
+                            $modalInstance.close();
+                        };
+
+                        $scope.submit = function () {
+                            angular.extend(widget, $scope.form);
+
+                            $modalInstance.close(widget);
+                        };
+
+                    }
+                ])
+
+                .filter('object2Array', function () {
+                    return function (input) {
+                        var out = [];
+                        for (i in input) {
+                            out.push(input[i]);
+                        }
+                        return out;
+                    }
+                });
+        })();
+
+        //        function gettiket() {
+        //            document.getElementById('hiddenform').action = 'http://10.33.1.108/trusted';
+        //        }
+    </script>
+
+}
+
+@*<form role="form" class="form-horizontal _criteria" id="hiddenform">
+    </form>*@
+
+<div ng-controller="RootCtrl" id="RootCtrl">
+    @*<div class="page-header">
+
+            <a class="pull-right btn btn-primary" ng-click="addWidget()"><i class="glyphicon glyphicon-plus"></i> Add Widget</a>
+            <a class="pull-right btn btn-warning" ng-click="clear()"><i class="glyphicon glyphicon-trash"></i> Clear</a>
+
+            <h1 style="display: inline-block; width: 200px;">Dashboard</h1>
+            <select class="form-control" style="width: 150px; margin-bottom: 5px; display:inline-block;" ng-change="changeDashboard()" ng-model="selectedDashboardId" ng-options="d.id as d.name for d in dashboards | object2Array | orderBy:'id'">
+            </select>
+
+        </div>*@
+
+    @*<div class="row" id="dashboard-box" style="margin-bottom: 5px;">
+            <div class="col-xs-12 col-md-8 form-horizontal">
+                <label class="control-label col-xs-2">Dashboard</label>
+                <div class="col-xs-10 col-sm-7 col-md-6">
+                    <select class="form-control" id="select-dashboard" style="width: 176px; margin-bottom: 5px; display:inline-block;" ng-change="changeDashboard()" ng-model="selectedDashboardId" ng-options="d.id as d.name for d in dashboards | object2Array | orderBy:'id'">
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <div class="input-group text-right">
+                    <select class="form-control add-widget" id="cbWidget" ng-model="selectedWidgetId" ng-options="d.id as d.name for d in widgetOpt | object2Array | orderBy:'id'"></select>
+                    <span class="input-group-btn">
+                        <a class="btn btn-primary btn-sm add-widget" id="btnAddWidget" ng-click="addWidget()" style="line-height: 1.1; margin-left: 5px;">Add Widget</a>
+                        <a class="btn btn-warning btn-sm" id="btnClearWidget" ng-click="clear()" style="line-height: 1.1; margin-left: 5px;">Clear</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="line-br"></div>*@
+
+    @*<div gridster="gridsterOptions">
+            <ul>
+                <li gridster-item="widget" ng-repeat="widget in dashboard.widgets">
+                    <div class="box" ng-controller="CustomWidgetCtrl" style="background: #dfe0e2 url('Content/Bootstrap/css/images/pattern.png') repeat;">
+                        <div class="box-header">
+                            <h3>{{ widget.name }}</h3>
+                            <div class="box-header-btns pull-right">
+                                <a title="settings" ng-click="openSettings(widget)"><i class="glyphicon glyphicon-cog"></i></a>
+                                <a title="Remove widget" ng-click="remove(widget)"><i class="glyphicon glyphicon-trash"></i></a>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                        @ViewData["tableauUrl"]
+                           <iframe src='@ViewData["tableauUrl"]' width="800" height="400"></iframe>
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>*@
+    <div id="noticeList">
+        @Html.Partial("_NoticeList")
+    </div>
+    <div id="announcementList">
+        @Html.Partial("_AnnouncementList")
+    </div>
+    <div id="guideline">
+        @Html.Partial("_Guideline")
+    </div>
+    @Html.Partial("_PreviewInvoice")
+
+</div>
+
+<!-- partial to add css and js tour plugin -->
+@Html.Partial("_TourPlugin")
+
+@section BodyScript{
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
+
+    <!-- Tour js is defined here -->
+    <script type="text/javascript">
+
+        $(function () {
+
+            STEP_OPTIONS = {
+                one: 1,
+                two: 2
+            };
+
+            STEPS = [{
+                content: '<p>Choose your dashboard here.</p>',
+                highlightTarget: false,
+                nextButton: true,
+                target: $('#select-dashboard'),
+                my: 'top center',
+                at: 'bottom center'
+            }, {
+                content: '<p>Choose widget that you want to add to your dashboard, and then click Add Widget button.</p>',
+                highlightTarget: false,
+                nextButton: true,
+                target: $(".add-widget"),
+                my: 'top center',
+                at: 'bottom center'
+            }, {
+                content: '<p>Click Clear button to remove all widgets on your dashboard.</p>',
+                highlightTarget: false,
+                nextButton: true,
+                target: $("#btnClearWidget"),
+                my: 'top right',
+                at: 'bottom left'
+            }]
+
+            TOUR = new Tourist.Tour({
+                stepOptions: STEP_OPTIONS,
+                steps: STEPS,
+                tipOptions: {
+                    showEffect: 'slidein'
+                }
+            });
+
+            $("#btnTourMenu").click(function () {
+                TOUR.start();
+            });
+
+        });
+
+        function searchData(page) {
+            if(page==null)page=1;
+            pagepos=page;
+
+			$.ajax({
+				type: "POST",
+				url: "@Html.Toyota().Page.GetActionUrl("SearchDashboardNotice")",
+				data: {
+                    page: page,
+                    size: $("#pageSize").val()
+				},
+				beforeSend:function () {
+                    $('#btnSearch').button('loading');
+                },
+				success: function (data) {
+					$("#noticeList").html(data);
+				},
+				complete:function () {
+                    $('#btnSearch').button('reset');
+                }
+			});
+
+		}
+
+        function onEnterSearchData(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                searchData(1);
+            }
+        }
+
+    </script>
+}
+
+<div id="selected-warning" class="modal fade">
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true"><img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Warning</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    Please select widget type.
+                </div>
+                <div class="row" style="text-align: right;padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

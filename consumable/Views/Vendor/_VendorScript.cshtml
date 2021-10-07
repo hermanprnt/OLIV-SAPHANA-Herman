@@ -1,0 +1,97 @@
+﻿@using consumable.Models.RequistionForm
+
+<script type="text/javascript">
+    // Edit [start]
+//    function btnEdit_onClick(rollerNo) {
+//        popUpProgressShow();
+
+//        setScreenToEditMode();
+
+//        $.ajax({
+//            type: "POST",
+//            url: "@Url.Content("~/Roller/GetByKey")",
+//            //contentType: 'application/json',
+//            dataType: 'json',
+//            traditional: true,
+//            data: { 
+//                rollerNo: rollerNo
+//            },
+//            success: function (returnResult) {
+//                popUpProgressHide();
+//                handleAjaxResult(returnResult, "Get Data Roller", onEditGetDataSuccess, null, true);  
+//            },
+//            error: function (returnResult) {
+//                popUpProgressHide();
+//                handleAjaxResponseError(returnResult, "Get Data Roller");
+//           }
+//        });
+//    }
+
+    // Open Popup Edit [start]
+    function openEditPopup(rfNo) {
+		setScreenToEditMode();
+        
+        $.ajax({
+			type : "POST",
+			url : "@Html.Toyota().Page.GetActionUrl("GetByKey")",
+			//contentType: 'application/json',
+			dataType: 'json',
+            traditional: true,
+			data: { 
+                rfNo: rfNo
+            },
+			success : function(returnResult) {
+                handleAjaxResult(returnResult, "Get Data Roller", onEditGetDataSuccess, null, true);
+				alert('popup sukses');
+			},
+			error : function(returnResult) {
+				$("#msgInfoId").text("Error Save");
+				$("#msgInfo").show();
+			}
+		});
+
+//        $.ajax({
+//            type: "POST",
+//            url: "@Url.Content("~/Roller/GetByKey")",
+//            //contentType: 'application/json',
+//            dataType: 'json',
+//            traditional: true,
+//            data: { 
+//                rollerNo: rollerNo
+//            },
+//            success: function (returnResult) {
+//                popUpProgressHide();
+//                handleAjaxResult(returnResult, "Get Data Roller", onEditGetDataSuccess, null, true);  
+//            },
+//            error: function (returnResult) {
+//                popUpProgressHide();
+//                handleAjaxResponseError(returnResult, "Get Data Roller");
+//           }
+//        });
+	}
+
+    function setScreenToEditMode() {
+        $("#descriptionEditPopup").prop('disabled', true);
+        $("#amountEditPopup").prop('disabled', true);
+        $("#picEditPopup").prop('disabled', true);
+        $("#wbsNoEditPopup").prop('disabled', true);
+
+        $("#btnEditPopup").prop('disabled', false);
+        $("#btnSubmitPopup").prop('disabled', true);
+    }
+
+    function onEditGetDataSuccess(returnResult) {
+    alert('popup sukses');
+        var data = returnResult.Params[0];
+
+        $("#rfNoEditPopup").val(data.RF_NO);
+        $("#descriptionEditPopup").val(data.DESCRIPTION);
+        $("#divisionEditPopUp").val(data.DIVISION);
+        $("#amountEditPopup").val(data.AMOUNT);
+        $("#picEditPopup").val(data.USER);
+        $("#wbsNoEditPopup").val(data.WBS_NO);
+
+        $("#editPopup").modal();
+    }
+    // Open Popup Edit [end]
+</script>

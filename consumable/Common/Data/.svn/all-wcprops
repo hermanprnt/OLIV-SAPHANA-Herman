@@ -1,0 +1,347 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data
+END
+OrgUserPosition.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/OrgUserPosition.cs
+END
+TOvertime.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/TOvertime.cs
+END
+ProfilePersonalId.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ProfilePersonalId.cs
+END
+GR_IR_DOC_NO.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/GR_IR_DOC_NO.cs
+END
+OrgPersRel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/OrgPersRel.cs
+END
+CANCEL_GR_TABLE.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CANCEL_GR_TABLE.cs
+END
+SEND_PO_DATE.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/SEND_PO_DATE.cs
+END
+PO_TABLE.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/PO_TABLE.cs
+END
+SEND_PO_RETURN.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/SEND_PO_RETURN.cs
+END
+CANCEL_INV_IN.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CANCEL_INV_IN.cs
+END
+ProfileData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ProfileData.cs
+END
+SEND_PO_TEXT.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/SEND_PO_TEXT.cs
+END
+ProfileEducation.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ProfileEducation.cs
+END
+TBdjk.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/TBdjk.cs
+END
+OrgStruData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/OrgStruData.cs
+END
+PersonData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/PersonData.cs
+END
+ObjectBase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ObjectBase.cs
+END
+TAction.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/TAction.cs
+END
+TCICO.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/TCICO.cs
+END
+ProfileFamily.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ProfileFamily.cs
+END
+CANCEL_GR_OUT.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CANCEL_GR_OUT.cs
+END
+CREATE_INV_IN.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CREATE_INV_IN.cs
+END
+ProfileAddress.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ProfileAddress.cs
+END
+CicoData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CicoData.cs
+END
+CANCEL_INV_TABLE.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CANCEL_INV_TABLE.cs
+END
+GR_IR_TABLE.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/GR_IR_TABLE.cs
+END
+ActPlvar.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ActPlvar.cs
+END
+CREATE_INV_GL_ACCOUNT.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CREATE_INV_GL_ACCOUNT.cs
+END
+ProfileTax.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ProfileTax.cs
+END
+MessageData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/MessageData.cs
+END
+TLeave.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/TLeave.cs
+END
+OrgPers.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/OrgPers.cs
+END
+OrgTables.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/OrgTables.cs
+END
+SEND_PO_NO.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/SEND_PO_NO.cs
+END
+GR_IR_DOC_DATE.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/GR_IR_DOC_DATE.cs
+END
+OrgStrucImports.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/OrgStrucImports.cs
+END
+CREATE_INV_TABLE.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CREATE_INV_TABLE.cs
+END
+OrgUnit.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/OrgUnit.cs
+END
+SEND_PO_DETAIL_ITEM.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/SEND_PO_DETAIL_ITEM.cs
+END
+CANCEL_INV_OUT.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CANCEL_INV_OUT.cs
+END
+GR_IR_DATA.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/ID.TMMIN/!svn/ver/17919/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/GR_IR_DATA.cs
+END
+SEND_PO_HEADER.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/SEND_PO_HEADER.cs
+END
+CREATE_INV_GR_DATA.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CREATE_INV_GR_DATA.cs
+END
+GR_IR_RETURN.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/GR_IR_RETURN.cs
+END
+DirOrgStrucGetData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/DirOrgStrucGetData.cs
+END
+TShift.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/TShift.cs
+END
+OrgStrucTables.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/OrgStrucTables.cs
+END
+CANCEL_GR_IN.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CANCEL_GR_IN.cs
+END
+UnitExports.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/UnitExports.cs
+END
+ProfileMain.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ProfileMain.cs
+END
+RelationAct.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/RelationAct.cs
+END
+SEND_PO_ITEM.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/SEND_PO_ITEM.cs
+END
+CREATE_INV_OUT.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/CREATE_INV_OUT.cs
+END
+SEND_PO_SERVICE.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/SEND_PO_SERVICE.cs
+END
+RelationBase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/RelationBase.cs
+END
+ProfileHeader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/ProfileHeader.cs
+END
+UnitData.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/ID.TMMIN/!svn/ver/17491/2017.PAS%20PUD/2018.LIV/Code/liv-consumable/consumable/Common/Data/UnitData.cs
+END

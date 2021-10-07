@@ -1,0 +1,491 @@
+﻿<div id="uploadPopup3" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">
+                    Upload Invoice</h4>
+            </div>
+            <form id="uploadInvoice" role="form" class="form-horizontal" enctype="multipart/form-data" method="post">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div>
+                            @*action="@Url.Content("~/InvoiceCreation/UploadInvoice")"*@
+                            @*<form action="@Url.Content("~/InvoiceCreation/UploadInvoice")" class="dropzone" id="dropzone">
+                            <div class="fallback">
+                                <input name="file" type="file" />
+                            </div>
+                            </form>*@
+                            <input id="uploadxls" type="file" name="file" class="filestyle" data-buttontext="Pilih file" data-buttonname="btn-primary" />
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary btn-sm" value="Upload"></input>
+                <button type="button" id="btncloselookup" class="btn btn-default btn-sm" data-dismiss="modal">
+                    Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- inline scripts related to this page -->
+
+<script type="text/javascript">
+    
+    //    jQuery(function ($) {
+
+    //        try {
+    //            Dropzone.autoDiscover = false;
+    //            var myDropzone = new Dropzone("#dropzone", {
+    //                paramName: "file", // The name that will be used to transfer the file
+    //                maxFilesize: 0.5, // MB
+    //                acceptedFiles: "application/pdf",
+    //                addRemoveLinks: true,
+    //                dictDefaultMessage:
+    //		        '<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
+    //		        <span class="smaller-80 grey">(or click)</span> <br /> \
+    //		        <i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>',
+    //                dictResponseError: 'Error while uploading file!',
+    //                //change the previewTemplate to use Bootstrap progress bars
+    //                previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
+    //            });
+
+    //            $(document).one('ajaxloadstart.page', function (e) {
+    //                try {
+    //                    myDropzone.destroy();
+    //                } catch (e) { }
+    //            });
+
+    //        } catch (e) {
+    //            alert('Dropzone.js does not support older browsers!');
+    //        }
+
+    //    });
+
+    $("#uploadInvoice").submit(function (e) {
+        $(this).ajaxSubmit({
+            url: "@Html.Toyota().Page.GetActionUrl("UploadDataFile")",
+            data: {
+                jenis: ""
+            },
+            success: function (returnResult) {
+
+                console.log(returnResult);
+                if (returnResult.Params == null || returnResult.Params[0][0] == null) {
+                    $("#msgWarningId").text("Error : Data not found");
+                    $("#warning-confirm").modal();
+                } else {
+
+                    $('[name=poCategory]').prop('checked', false);
+                    $("#withHoldingTaxxls option:selected").prop("selected", false);
+                    $("#withHoldingTax option:selected").prop("selected", false);
+                    $("#withHoldingTaxxls option:first").prop("selected", "selected");
+                    $("#withHoldingTax option:first").prop("selected", "selected");
+                    $("#withHoldingTaxxls").removeClass("mandatory");
+                    $("#withHoldingTax").removeClass("mandatory");
+                    $(".calTax3xls").attr("disabled", false);
+                    $(".calTax3").attr("disabled", false);
+                    
+                    var obj = returnResult.Params[0];
+                    var result = 1;
+                    var resolt = 0;
+                    var resalt = 1;
+                    var reselt = 0;
+                    var resilt = 1;
+                    var risult = 0;
+                    var risolt = 1;
+                    var riselt = 0;
+
+                    clearForm();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Html.Toyota().Page.GetActionUrl("getToleranceValue")",
+                        data: {},
+                        success: function (tolerance) {
+                            $("#ToleranceValuexls").html(tolerance);
+                            $("#ToleranceValue").html(tolerance);
+                        }
+                    });
+                    var amount = 0;
+                    var vendor = obj[0].VEND_CODE;
+                    var currency = obj[0].MATDOC_CURRENCY;
+                    var dn = obj[0].DN_NO;
+                    //console.log('DN = ' + dn);
+                    if (dn == null || dn == '') {
+                        risult = 1;
+                    }
+                    //console.log('awal = ' + risult);
+                    var docno = obj[0].MATDOC_NUMBER.charAt(0);
+
+                    for (var i = 1; i < obj.length; i++) {
+
+                        if (obj[i].VEND_CODE == vendor) {
+                            result++;
+                        }
+                        else {
+                            resolt++;
+                        }
+
+                        if (obj[i].MATDOC_CURRENCY == currency) {
+                            resalt++;
+                        }
+                        else {
+                            reselt++;
+                        }
+
+                        if (obj[i].DN_NO != null && obj[i].DN_NO != '') {//modif 20200908
+                            resilt++;
+                        }
+                        else {
+                            risult++;
+                        }
+
+                        if (obj[i].MATDOC_NUMBER.charAt(0) == docno) {
+                            risolt++;
+                        }
+                        else {
+                            riselt++;
+                        }
+
+                    }
+
+
+                    if (resolt > 0) {
+                        $("#msgWarningId").text("Selected invoice different Supplier");
+                        $("#warning-confirm").modal();
+                    }
+
+                    if (reselt > 0) {
+                        $("#msgWarningId").text("Selected invoice different currencies");
+                        $("#warning-confirm").modal();
+                    }
+
+                    if (riselt > 0) {
+                        $("#msgWarningId").text("Please select with same procurement channel");
+                        $("#warning-confirm").modal();
+                    }
+
+                    if (risult > 0 && risult < obj.length) {
+                        $("#msgWarningId").text("DN is not from same source");
+                        $("#warning-confirm").modal();
+                    }
+
+                    if (result == obj.length && resalt == obj.length && (resilt == obj.length || risult == obj.length)) {
+                        for (var a = 0; a < obj.length; a++) {
+                            amount = amount + obj[a].MATDOC_AMOUNT;
+                        }
+
+                        var datas = [];
+                        var grIrId = null;
+
+                        //untuk mendapatkan GR_IR_ID
+                        for (b = 0; b < obj.length; b++) {
+                            var objk = null;
+                            objk = obj[b].PO_NUMBER + "," + obj[b].PO_ITEM + "," + obj[b].MATDOC_NUMBER + "," + obj[b].MATDOC_ITEM;
+
+                            datas.push(objk);
+                        }
+
+                        var selectedKeys = datas.join(";");
+                        var getgrIr = getGrIr(selectedKeys);
+                        var grStat = checkGrStatus(selectedKeys);
+                        var testing = existInvo(selectedKeys);
+
+                        if (grStat == 'APPROVED') {
+                            if (testing == 'NOT EXIST') {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Html.Toyota().Page.GetActionUrl("getPoCategoryExcel")",
+                                    data: {
+                                        keys: selectedKeys
+                                    },
+                                    success: function (data) {
+                                        if (data == 'GOODS') {
+                                            $(".poCategoryGoodsxls").prop("checked", true);
+                                            $(".poCategoryGoods").prop("checked", true);
+                                        }
+                                        if (data == 'SERVICE') {
+                                            $(".poCategoryServicesxls").prop("checked", true);
+                                            $(".poCategoryServices").prop("checked", true);
+                                        }
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Html.Toyota().Page.GetActionUrl("getValidVATWHT")",
+                                            data: {
+                                                suppCode: vendor
+                                            },
+                                            success: function (data) {
+                                                if ((data == '1') && ($(".poCategoryServicesxls").prop("checked"))) {
+                                                    $(".calTax3xls").attr("disabled", true);
+                                                    $(".calTax3").attr("disabled", true);
+                                                    newWhtValidExcel(vendor);
+                                                }
+
+                                                if ((data == '1') && ($(".poCategoryGoodsxls").prop("checked"))) {
+                                                    newWhtValidExcel(vendor);
+                                                }
+
+                                                if ((data == '2') && ($(".poCategoryServicesxls").prop("checked"))) {
+                                                    $(".calTax3xls").attr("disabled", true);
+                                                    $("#withHoldingTaxxls").addClass("mandatory");
+                                                    $(".calTax3").attr("disabled", true);
+                                                    $("#withHoldingTax").addClass("mandatory");
+                                                    newWhtValidExcel(vendor);
+                                                }
+
+                                                if ((data == '2') && ($(".poCategoryGoodsxls").prop("checked"))) {
+                                                    newWhtValidExcel(vendor);
+                                                }
+
+                                                if ((data == '3') && ($(".poCategoryServicesxls").prop("checked"))) {
+                                                    newWhtValidExcel(vendor);
+                                                }
+
+                                                if ((data == '4') && ($(".poCategoryServicesxls").prop("checked"))) {
+                                                    $("#withHoldingTaxxls").addClass("mandatory");
+                                                    $("#withHoldingTax").addClass("mandatory");
+                                                    newWhtValidExcel(vendor);
+                                                }
+
+                                                if ((data == '4') && ($(".poCategoryGoodsxls").prop("checked"))) {
+                                                    newWhtValidExcel(vendor);
+                                                }
+
+                                                if ((data == '5') && ($(".poCategoryServicesxls").prop("checked"))) {
+                                                    newWhtValidExcel(vendor);
+                                                }
+
+                                                if ((data == '5') && ($(".poCategoryGoodsxls").prop("checked"))) {
+                                                    newWhtValidExcel(vendor);
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+
+                                //check invoice hardcopy status
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Html.Toyota().Page.GetActionUrl("checkInvoiceByHardcopyStatus")",
+                                    dataType: 'json',
+                                    data: {
+                                        supplierCode: vendor
+                                    },
+                                    success: function (result) {
+                                        console.log(result);
+                                        if (result.Result == result.ValueError) {
+                                            $("#msgWarningId").text(result.ErrMesgs);
+                                            $("#warning-confirm").modal();
+                                            $("#uploadPopup3").modal('hide');
+                                        } else {
+                                            // show preview invoice screen
+                                            $("#modal-preview-invoice").modal();
+                                            $("#totalDeliveryNote").val(obj.length);
+                                            $("#turnOver").val(numberWithCommas(amount));
+                                            $("#taxBase").val(numberWithCommas(amount));
+                                            $('[name=poCategory]').attr('data-supp', vendor);
+                                            $("#txtVendorCodeEfaktur").val(vendor);
+                                            $("#currencyxls").val(currency);
+                                            $("#grIrxls").val(getgrIr);
+                                            calculateAll()
+                                            onLookupEfaktur(1);
+
+                                            $("#fromUpload").val('Y');
+
+                                            //clear attachment
+                                            var tab = document.getElementById("table_attachment");
+                                            var n = tab.rows.length;
+
+                                            for (var i = 1; i < n; i++) {
+                                                var docType = tab.rows[i].cells[2].innerText;
+                                                docType = docType.replace("*", "");
+                                                docType = docType.replace(" ", "_");
+                                                docType = docType.replace(/\//g, '_');
+
+                                                var filename = $("#" + docType);
+
+                                                filename.text("");
+                                                filename.val("");
+                                            }
+
+                                            // update 24-12-2020 [START]
+                                            $("#amountStamp").val(result.Params[0]);
+                                            $("#amountInvoice").val(result.Params[1]);
+                                            // update 24-12-2020 [END]
+
+                                            // show preview invoice screen xls
+                                            //$("#modal-preview-invoice-xls").modal();
+                                            //$("#totalDeliveryNotexls").val(obj.length);
+                                            //$("#turnOverxls").val(numberWithCommas(amount));
+                                            //$("#taxBasexls").val(numberWithCommas(amount));
+                                            //$("#txtVendorCodeEfakturxls").val(vendor);
+                                            //$("#currencyxls").val(currency);
+                                            //$("#grIrxls").val(getgrIr);
+                                            //$('[name=poCategoryxls]').attr('data-supp', vendor);
+                                            //calculateAllExcel();
+                                            //onLookupEfakturxls(1);
+                                            $("#uploadPopup3").modal('hide');
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            },
+            error: function (returnResult) {
+                var erro = returnResult.ErrMesgs;
+                var dataserro = [];
+                for (var i = 0 ; i < obj.length; i++) {
+                    dataserro.push(erro[i]);
+                }
+
+                var errmsg = dataserro.join(",");
+                $("#msgWarningId").text("Error" + errmsg);
+                $("#warning-confirm").modal();
+            }
+        });
+
+        e.preventDefault();
+
+    });
+
+    @*function onLookupEfakturxls(page) {
+        $.ajax({
+            type: "Post",
+            url: "@Html.Toyota().Page.GetActionUrl("onLookupEfaktur")",
+                data: {
+                    Parameter: $('#txtSearchLookupEfakturxls').val(),
+                    VendCode: $('#txtVendorCodeEfakturxls').val(),
+                    PartialViewSearchAndInput: '_LookupTableEfakturExcel',
+                    Page: page
+                },
+                beforeSend: function () {
+                    $('#btnSearchLookupEfaktur').button('loading');
+                },
+                success: function (result) {
+                    $("#lookupTableFaktur").html(result);
+                },
+                complete: function () {
+                    $('#btnSearchLookupEfaktur').button('reset');
+                },
+                error: function (result) {
+                    $('#btnSearchLookupEfaktur').button('reset');
+                }
+            });
+        }*@
+    // rev valid WHT 20200714 [start]
+    function newWhtValidExcel(supplierCode) {
+        $.ajax({
+            type: "Post",
+            url: "@Html.Toyota().Page.GetActionUrl("getSuppWHT")",
+            data: {
+                suppCode: supplierCode
+            },
+            success: function (result) {
+                var res = result.trim();
+                if ($("#withHoldingTaxxls").hasClass("mandatory") && res != null) {
+                    $('select#withHoldingTaxxls').val(res);
+                    $('select#withHoldingTax').val(res);
+                }
+                if ($("#withHoldingTaxxls").hasClass("mandatory") && (res == null || res == '')) {
+                    $('select#withHoldingTaxxls').val('W2');
+                    $('select#withHoldingTax').val('W2');
+                }
+                if (!$("#withHoldingTaxxls").hasClass("mandatory") && res != null) {
+                    $('select#withHoldingTaxxls').val(res);
+                    $('select#withHoldingTax').val(res);
+                }
+                if (!$("#withHoldingTaxxls").hasClass("mandatory") && (res == null || res == '')) { }
+            },
+            error: function (result) {
+
+            }
+        });
+    }
+    // rev valid WHT [end]
+
+    // exist invoice 20200720 [start]
+    function existInvo(invo) {
+        var eksis = null;
+        $.ajax({
+            type: "Post",
+            url: "@Html.Toyota().Page.GetActionUrl("existInvo")",
+            data: {
+                kode: invo
+            },
+            async: false,
+            success: function (hasil) {
+                var exi = hasil.trim();
+                
+                if (exi == 'EXIST') {
+                    $("#msgWarningId").text("Selected invoice already exists");
+                    $("#warning-confirm").modal();
+                    eksis = exi;
+                }
+                else { eksis = exi; }
+            },
+            error: function (result) {
+            }
+        });
+        return eksis;
+    }
+    // exist invoice [end]
+
+    // get gr ir [start]
+    function getGrIr(kiy) {
+        var grIr = null;
+        $.ajax({
+            type: "Post",
+            url: "@Html.Toyota().Page.GetActionUrl("getGrIr")",
+            data: {
+                kode: kiy
+            },
+            async: false,
+            success: function (hasil) {
+                grIr = hasil;
+            },
+            error: function (hasil) {
+            }
+        });
+        return grIr;
+    }
+    // get gr ir [end]
+
+    // cek status gr excel [start]
+    function checkGrStatus(keyy)
+    {
+        var approv = null;
+        $.ajax({
+            type: "Post",
+            url: "@Html.Toyota().Page.GetActionUrl("checkGrStatusExcel")",
+            data: {
+                keyy : keyy
+            },
+            async: false,
+            success: function (data) {
+                var grstatu = data.trim();
+
+                if (grstatu == 'NOT APPROVED') {
+                    $("#msgWarningId").text("Selected invoice already exists");
+                    $("#warning-confirm").modal();
+                    approv = grstatu;
+                }
+                else { approv = grstatu; }
+            },
+            error: function (data) { }
+        });
+        return approv;
+    }
+    //cek stats gr excel [end]
+</script>
