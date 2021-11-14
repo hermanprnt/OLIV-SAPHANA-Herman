@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+  <!--Notes-->
+  <!--
+    Record -> tag untuk table name
+    Field -> tag untuk kolom tiap table 
+      Attribute -> name : kolom untuk mapping dari sql
+                   start : posisi awal karakter 
+                   length : jumlah karakter
+                   delimiter : (optional) jika pake tanda pemisah tiap kolom, contoh : delimiter="#"
+                   justification : (optional) untuk menentukan posisi data dimulai dari kiri apa kanan / jika tidak diisi default kiri, contoh : justification="Right"
+                   primarykey : wajib diisi bila table berupa header detail / optional jika hanya 1 rows
+  -->
+
+  <!--Filename-->
+  <Filename id="filename">
+    
+  </Filename>
+
+  <!--Header-->
+  <!--Header FGW-->
+  <Record id="Header-FGW">
+    <Field name="Headerdiscernmentcode" start="1" length="5"/>
+    <Field name="DivisionclassificationinGW" start="6" length="1"/>
+    <Field name="Blank" start="7" length="5"/>
+    <Field name="Logicalfilename" start="12" length="30"/>
+    <Field name="Filename" start="42" length="26"/>
+    <Field name="Totalnumberofdivision" start="68" length="2"/>
+    <Field name="Sequencenumber" start="70" length="2"/>
+    <Field name="Dataretentiondays" start="72" length="1"/>
+    <Field name="Compression" start="73" length="1"/>
+    <Field name="ReceiversFILEID" start="74" length="8"/>
+    <Field name="InitialFILEID" start="82" length="8"/>
+    <Field name="LastFILEID" start="90" length="8"/>
+    <Field name="UserID" start="98" length="10"/>
+    <Field name="Sendercompanycode" start="108" length="5"/>
+    <Field name="Senderlocationcode" start="113" length="5"/>
+    <Field name="ReceiverCompanycode" start="118" length="5"/>
+    <Field name="Receiverlocationcode" start="123" length="5"/>
+    <Field name="DataID" start="128" length="5"/>
+    <Field name="TotalRecordNumber" start="133" length="10"/>
+    <Field name="Reserve" start="143" length="58"/>
+  </Record>
+  <!--End Header FGW-->
+  
+  <!--Get Header FGW SQL-->
+  <SQL id="Header-FGW-Sql">
+    SP_BH00021_GET_HEADER_FGW
+  </SQL>
+  <!--End Header FGW SQL-->
+
+  <!--Header File-->
+  <Record id="Header-File">
+    <Field name="BeginningofRecord" start="1" length="1" delimiter=""/>
+    <Field name="HeaderSymbol" start="2" length="1" delimiter=""/>
+    <Field name="BeginningofFromSystem" start="3" length="1" delimiter=""/>
+    <Field name="FromSystem" start="4" length="3" delimiter=""/>
+    <Field name="BeginningofToSystem" start="7" length="1" delimiter=""/>
+    <Field name="ToSystemName" start="8" length="3" delimiter=""/>
+    <Field name="BeginningofFileName" start="11" length="1" delimiter=""/>
+    <Field name="FileName" start="12" length="24" delimiter=""/>
+    <Field name="BeginningofInterfaceName" start="36" length="1" delimiter=""/>
+    <Field name="InterfaceName" start="37" length="7" delimiter=""/>
+    <Field name="BeginningofRecordLength" start="44" length="1" delimiter=""/>
+    <Field name="RecordLength" start="45" length="5" delimiter=""/>
+    <Field name="EndingofRecord" start="50" length="1" delimiter=""/>
+  </Record>
+  <!--End Header File-->
+
+  <!--Get header sql-->
+  <SQL id="Header-Sql">
+    SP_BH00021_GET_HEADER_FILE
+  </SQL>
+  <!--End Get header sql-->
+  <!--End Header-->
+
+  <!--Body-->
+  <!--Header Data-->
+  <Record id="Header-Data">
+    <Field name="RECORD_ID" start="1" length="7"  delimiter="|"/>
+    <Field name="COUNTRY_CD" start="8" length="3"  delimiter="|"/>
+    <Field name="COMPANY_CD" start="11" length="8"  delimiter="|"/>
+    <Field name="COMPANY_BRANCH" start="19" length="5"  delimiter="|"/>
+    <Field name="LEGACY_SYSTEM" start="24" length="10"  delimiter="|"/>
+    <Field name="PART_CATEGORY" start="34" length="2"  delimiter="|"/>
+    <Field name="DOC_NO" start="36" length="25"  delimiter="|"/>
+    <Field name="DOC_TYPE" start="61" length="2"  delimiter="|"/>
+    <Field name="DOC_DT" start="63" length="8"  delimiter="|"/>
+    <Field name="DOC_CURR" start="71" length="3"  delimiter="|"/>
+    <Field name="TAX_CD" start="74" length="5"  delimiter="|"/>
+    <Field name="WITHHOLDING_TAX_CD" start="79" length="5"  delimiter="|"/>
+    <Field name="TERM_OF_PAYMENT" start="84" length="5"  delimiter="|"/>
+    <Field name="DUE_DT" start="89" length="8"  delimiter="|"/>
+    <Field name="REFF_DOC_NO" start="97" length="20"  delimiter="|"/>
+    <Field name="ORACLE_SUPP_CD" start="117" length="10"  delimiter="|"/>
+    <Field name="SUPP_CD" start="127" length="10"  delimiter="|"/>
+    <Field name="ORACLE_SUPP_PLANT_CD" start="137" length="5"  delimiter="|"/>
+    <Field name="SUPP_PLANT_CD" start="142" length="5"  delimiter="|"/>
+    <Field name="REFF_CUSTOMER_INV_NO" start="147" length="20"  delimiter="|"/>
+    <Field name="ORACLE_CUST_CD" start="167" length="10"  delimiter="|"/>
+    <Field name="CUST_CD" start="177" length="10"  delimiter="|"/>
+    <Field name="ORACLE_CUST_PLANT_CD" start="187" length="5"  delimiter="|"/>
+    <Field name="CUST_PLANT_CD" start="192" length="5"  delimiter="|"/>
+    <Field name="PART_RECEIVED_DT" start="197" length="8"  delimiter="|"/>
+    <Field name="PO_NO" start="205" length="20"  delimiter="|"/>
+    <Field name="VEHICLE_CATEGORY" start="225" length="5"  delimiter="|"/>
+    <Field name="MODEL_CD" start="230" length="20"  delimiter="|"/>
+    <Field name="FIXED_ASSET_NO" start="250" length="20"  delimiter="|"/>
+    <Field name="ITEM_CD" start="270" length="20"  delimiter="|"/>
+    <Field name="ITEM_QTY" start="290" length="10"  delimiter="|"/>
+    <Field name="UOM" start="300" length="10"  delimiter="|"/>
+    <Field name="STD_UNIT_COST" start="310" length="14"  delimiter="|"/>
+    <Field name="STD_COST_AMT" start="324" length="14"  delimiter="|"/>
+    <Field name="STD_TTL_AMT" start="338" length="14"  delimiter="|"/>
+    <Field name="ACT_UNIT_COST" start="352" length="14"  delimiter="|"/>
+    <Field name="ACT_COST_AMT" start="366" length="14"  delimiter="|"/>
+    <Field name="ACT_TTL_AMT" start="380" length="21"  delimiter="|"/>
+    <Field name="VARIANCE_AMT" start="401" length="14"  delimiter="|"/>
+    <Field name="TAX_AMT" start="415" length="21"  delimiter="|"/>
+    <Field name="GRAND_AMT" start="436" length="21"  delimiter="|"/>
+    <Field name="WITHHOLDING_TAX_BASE_AMT" start="457" length="21"  delimiter="|"/>
+    <Field name="WITHHOLDING_TAX_AMT" start="478" length="21"  delimiter="|"/>
+    <Field name="ORDER_TYPE" start="499" length="2"  delimiter="|"/>
+    <Field name="REASON_CD" start="501" length="2"  delimiter="|"/>
+    <Field name="COST_CENTER" start="503" length="10"  delimiter="|"/>
+    <Field name="BUDGET_NO" start="513" length="10"  delimiter="|"/>
+    <Field name="DESCRIPTION" start="523" length="50"  delimiter="|"/>
+    <Field name="MARK_CD" start="573" length="1"  delimiter="|"/>
+    <Field name="SIGN_CD" start="574" length="1"  delimiter="|"/>
+    <Field name="STOCK_MOVEMENT_FLAG" start="575" length="1"  delimiter="|"/>
+    <Field name="CANCEL_FLAG" start="576" length="1"  delimiter="|"/>
+    <Field name="INTERFACE_TYPE_FLAG" start="577" length="1"  delimiter="|"/>
+    <Field name="COA_FLAG" start="578" length="1"  delimiter="|"/>
+    <Field name="COA_SEGMENT_1" start="579" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_2" start="599" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_3" start="619" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_4" start="639" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_5" start="659" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_6" start="679" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_7" start="699" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_8" start="719" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_9" start="739" length="20"  delimiter="|"/>
+    <Field name="COA_SEGMENT_10" start="759" length="20"  delimiter="|"/>
+    <Field name="HEADER_RESERVED_1" start="779" length="10"  delimiter="|"/>
+    <Field name="HEADER_RESERVED_2" start="789" length="30"  delimiter="|"/>
+    <Field name="HEADER_RESERVED_3" start="819" length="50"  delimiter="|"/>
+    <Field name="HEADER_RESERVED_4" start="869" length="100"  delimiter="|"/>
+    <Field name="DETAIL_RESERVED_1" start="969" length="10"  delimiter="|"/>
+    <Field name="DETAIL_RESERVED_2" start="979" length="20"  delimiter="|"/>
+    <Field name="DETAIL_RESERVED_3" start="999" length="30"  delimiter="|"/>
+    <Field name="DETAIL_RESERVED_4" start="1029" length="50"  delimiter="|"/>
+    <Field name="DETAIL_RESERVED_5" start="1079" length="50"  delimiter="|"/>
+    <Field name="DETAIL_RESERVED_6" start="1129" length="100"  delimiter="|"/>
+    <Field name="GR_NUMBER" start="1229" length="10"  delimiter="|"/>
+    <Field name="MATERIAL_INDICATOR" start="1239" length="1"  delimiter="|"/>
+    <Field name="EndingofRecord" start="1240" length="1"  delimiter="|"/>
+  </Record>
+  <!--End Header Data-->
+
+  <!--Get header data sql-->
+  <SQL id="Header-Data-Sql">
+    SP_BH00021_GET_DOCUMENT_SEGMENT
+  </SQL>
+  <!--End Get header data sql-->
+
+  <!--Detail Data-->
+  
+  <!--End Detail Data-->
+
+  <!--Get Detail data sql-->
+  
+  <!--End Get Detail data sql-->
+
+  <!--WH Data-->
+  
+  <!--End WH Data-->
+
+  <!--Get WH data sql-->
+  
+  <!--End Get WH data sql-->
+  <!--End Body-->
+
+  <!--Footer-->
+  <Record id="Footer-File">
+    <Field BeginRecord="#" RecordId="T" BeginRecordCount="#" BeginRecord2="#"/>
+  </Record>
+  <!--End Footer-->
+
+</Root>
+
+
+
