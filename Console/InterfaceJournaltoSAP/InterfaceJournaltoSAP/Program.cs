@@ -111,6 +111,11 @@ namespace InterfaceJournaltoSAP
                     LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
                     Console.WriteLine(Msg.MsgText);
 
+                    //finish message
+                    Msg = LibraryRepo.Instance.GetMessageById("MCSTSTD001E");
+                    Msg.MsgText = string.Format(Msg.MsgText, "Invoice Posting");
+                    LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
+
                     Environment.Exit(0);
                 }
 
@@ -135,6 +140,11 @@ namespace InterfaceJournaltoSAP
                         Msg.MsgText = string.Format(Msg.MsgText, Mandatory[0].ERR);
                         LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
                         Console.WriteLine(Msg.MsgText);
+
+                        //finish message
+                        Msg = LibraryRepo.Instance.GetMessageById("MCSTSTD001E");
+                        Msg.MsgText = string.Format(Msg.MsgText, "Invoice Posting");
+                        LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
 
                         Environment.Exit(0);
                     }
@@ -225,7 +235,7 @@ namespace InterfaceJournaltoSAP
                     int ProcessSts = (CounterError == 0) ? 1 : 3;
                     if (CounterError == 0)
                     {
-                        LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, "", "", "INF", ProcessName, 1, Username);
+                        LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, "", "", "I", ProcessName, 1, Username);
                     }
                     else
                     {
@@ -245,7 +255,7 @@ namespace InterfaceJournaltoSAP
                     LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
                     Console.WriteLine(Msg.MsgText);
 
-                    LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, "", "", "INF", ProcessName, 1, Username);
+                    LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, "", "", "I", ProcessName, 1, Username);
                 }
 
 
@@ -258,7 +268,7 @@ namespace InterfaceJournaltoSAP
                 LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
                 Console.WriteLine(Msg.MsgText);
 
-                LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, "", "", "ERR", ProcessName, 1, Username);
+                LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, "", "", "E", ProcessName, 1, Username);
                 //Console.ReadKey();
                 Environment.Exit(0);
             }
