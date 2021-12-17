@@ -148,7 +148,8 @@
     <Field name="DETAIL_RESERVED_6" start="1129" length="100"  delimiter="|"/>
     <Field name="GR_NUMBER" start="1229" length="10"  delimiter="|"/>
     <Field name="MATERIAL_INDICATOR" start="1239" length="1"  delimiter="|"/>
-    <Field name="EndingofRecord" start="1240" length="1"  delimiter="|"/>
+    <Field name="PAY_METHOD" start="1240" length="2"  delimiter="|"/>
+    <!--<Field name="EndingofRecord" start="1241" length="1"  delimiter="|"/>-->
   </Record>
   <!--End Header Data-->
 
