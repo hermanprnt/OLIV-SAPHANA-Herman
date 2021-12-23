@@ -132,14 +132,14 @@ namespace InterfaceJournaltoSAP
 
                     LibraryRepo.Instance.CreateStaging();
 
-                    List<SapParamH> Mandatory = LibraryRepo.Instance.MandatoryChecking();
+                    List<SapParamH> Mandatory = LibraryRepo.Instance.MandatoryChecking(ProcessId);
 
                     if (Mandatory[0].ERR != "")
                     {
-                        Msg = LibraryRepo.Instance.GetMessageById("MCSTSTD003E");
-                        Msg.MsgText = string.Format(Msg.MsgText, Mandatory[0].ERR);
-                        LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
-                        Console.WriteLine(Msg.MsgText);
+                        //Msg = LibraryRepo.Instance.GetMessageById("MCSTSTD003E");
+                        //Msg.MsgText = string.Format(Msg.MsgText, Mandatory[0].ERR);
+                        //LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
+                        //Console.WriteLine(Msg.MsgText);
 
                         //finish message
                         Msg = LibraryRepo.Instance.GetMessageById("MCSTSTD001E");

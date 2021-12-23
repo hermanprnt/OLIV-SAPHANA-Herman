@@ -50,14 +50,16 @@ namespace InterfaceJournaltoSAP.Models
             }
         }
 
-        public List<SapParamH> MandatoryChecking()
+        public List<SapParamH> MandatoryChecking(string ProcessId)
         {
             string sql = System.IO.File.ReadAllText(System.IO.Path.Combine(Dir + @"\Sql\MandatoryChecking.sql"));
-
             using (var db = new Database(ConnString))
             {
                 db.CommandTimeout = 0;
-                List<SapParamH> result = db.Fetch<SapParamH>(sql, new { });
+                List<SapParamH> result = db.Fetch<SapParamH>(sql, new
+                {
+                    ProcessId = ProcessId
+                });
                 db.CloseSharedConnection();
                 return result;
             }
