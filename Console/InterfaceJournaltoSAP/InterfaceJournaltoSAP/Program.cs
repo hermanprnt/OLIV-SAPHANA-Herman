@@ -33,6 +33,10 @@ namespace InterfaceJournaltoSAP
         static string Username;
         static string fn;
         static int seq;
+        static string isHeaderFGW;
+        static string isHeaderFile;
+        static string isDetailFile;
+        static string isFooterFile;
 
         static MessageModel Msg = new MessageModel();
 
@@ -88,6 +92,10 @@ namespace InterfaceJournaltoSAP
                 ftpgcno = (Sys.Where(x => x.SYSTEM_CD == "FTP_GCNO").Count() > 0) ? Sys.Where(x => x.SYSTEM_CD == "FTP_GCNO").Select(x => x.SYSTEM_VALUE).Single() : "";
                 fn = (Sys.Where(x => x.SYSTEM_CD == "FILENAME_FORMAT").Count() > 0) ? Sys.Where(x => x.SYSTEM_CD == "FILENAME_FORMAT").Select(x => x.SYSTEM_VALUE).Single() : "";
                 seq = (Sys.Where(x => x.SYSTEM_CD == "SEQ_INTERFACE_FILE").Count() > 0) ? Convert.ToInt32(Sys.Where(x => x.SYSTEM_CD == "SEQ_INTERFACE_FILE").Select(x => x.SYSTEM_VALUE).Single()) : 1;
+                isHeaderFGW = (Sys.Where(x => x.SYSTEM_CD == "HEADER_FGW").Count() > 0) ? Sys.Where(x => x.SYSTEM_CD == "HEADER_FGW").Select(x => x.SYSTEM_VALUE).Single() : "";
+                isHeaderFile = (Sys.Where(x => x.SYSTEM_CD == "HEADER_FILE").Count() > 0) ? Sys.Where(x => x.SYSTEM_CD == "HEADER_FILE").Select(x => x.SYSTEM_VALUE).Single() : "";
+                isDetailFile = (Sys.Where(x => x.SYSTEM_CD == "DETAIL_FILE").Count() > 0) ? Sys.Where(x => x.SYSTEM_CD == "DETAIL_FILE").Select(x => x.SYSTEM_VALUE).Single() : "";
+                isFooterFile = (Sys.Where(x => x.SYSTEM_CD == "FOOTER_FILE").Count() > 0) ? Sys.Where(x => x.SYSTEM_CD == "FOOTER_FILE").Select(x => x.SYSTEM_VALUE).Single() : "";
 
                 if (string.IsNullOrEmpty(ftpUrl)) sysError = "FTP_DIR";
                 if (string.IsNullOrEmpty(ftpIPAddress)) sysError = "FTP_FOLDER";
@@ -165,7 +173,11 @@ namespace InterfaceJournaltoSAP
                     Msg.MsgText = string.Format(Msg.MsgText, string.Format("Create a file {0}", FileName));
                     LibraryRepo.Instance.GenerateLog(ProcessId, ModId, FuncId, Msg.MsgId, Msg.MsgText, Msg.MsgType, ProcessName, 0, Username);
 
-                    string path = source.create(ConnString, "File/", FileName, true, true, false, true, "");
+                    string path = source.create(ConnString, "File/", FileName,
+                        (isHeaderFGW == "1" ? true : false),
+                        (isHeaderFile == "1" ? true : false),
+                        (isDetailFile == "1" ? true : false),
+                        (isFooterFile == "1" ? true : false), "");
                     //FileName = Path.GetFileName(path.Split('|')[1]);
 
                     Console.WriteLine(string.Format("Sending a file {0} to SAP", FileName));
