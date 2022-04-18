@@ -1,6 +1,9 @@
 ﻿using PetaPoco;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,15 +34,15 @@ namespace InterfaceJournaltoSAP.Models
         {
             string sql = @"SELECT DISTINCT A.INVOICE_ID
                     FROM TB_R_INVOICE A
-                    JOIN TB_R_INVOICE_SAP_INPUT B ON A.INVOICE_ID = B.INVOICE_ID
-                    JOIN TB_R_INVOICE_SAP_GL C ON A.INVOICE_ID = C.INVOICE_ID
-                    JOIN TB_R_INVOICE_SAP_GR_DATA D ON A.INVOICE_ID = D.INVOICE_ID
-                    JOIN TB_R_GR_IR_FROM_SAP E ON A.INVOICE_ID = E.INVOICE_ID
-                    WHERE A.ON_PROCESS_SAP_POST = 'Y'
-	                    AND B.ON_PROCESS = 'Y'
-	                    AND C.ON_PROCESS = 'Y'
-	                    AND D.ON_PROCESS = 'Y'
-	                    AND B.SAP_STATUS IS NULL";
+		            JOIN TB_R_INVOICE_SAP_INPUT B ON A.INVOICE_ID = B.INVOICE_ID
+		            JOIN TB_R_INVOICE_SAP_GR_DATA D ON A.INVOICE_ID = D.INVOICE_ID
+		            JOIN TB_R_GR_IR_FROM_SAP E ON A.INVOICE_ID = E.INVOICE_ID
+			            AND D.GR_NUMBER = E.MATDOC_NUMBER
+			            AND D.GR_ITEM = E.MATDOC_ITEM
+		            WHERE A.ON_PROCESS_SAP_POST = 'Y'
+			            AND B.ON_PROCESS = 'Y'
+			            AND D.ON_PROCESS = 'Y'
+			            AND B.SAP_STATUS IS NULL";
 
             using (var db = new Database(ConnString))
             {
@@ -69,14 +72,39 @@ namespace InterfaceJournaltoSAP.Models
         #region Update
         public void CreateStaging()
         {
-            string sql = System.IO.File.ReadAllText(System.IO.Path.Combine(Dir + @"\Sql\CreateStaging.sql"));
-            using (var db = new Database(ConnString))
+            //string sql = System.IO.File.ReadAllText(System.IO.Path.Combine(Dir + @"\Sql\CreateStaging.sql"));
+            //using (var db = new Database(ConnString))
+            //{
+            //    db.CommandTimeout = 0;
+            //    string res = db.ExecuteScalar<string>(sql, new
+            //    {
+            //    });
+            //    db.CloseSharedConnection();
+            //}
+
+            SqlConnection connect = new SqlConnection(ConfigurationManager.ConnectionStrings[ConnString].ConnectionString);
+            SqlDataReader reader = null;
+
+            try
             {
-                db.CommandTimeout = 0;
-                string res = db.ExecuteScalar<string>(sql, new
+
+                connect.Open();
+
+                SqlCommand sqlSelect = new SqlCommand("[dbo].[SP_BH00021_CREATE_STAGING]", connect);
+                sqlSelect.CommandType = CommandType.StoredProcedure;
+                sqlSelect.CommandTimeout = 0;
+
+                reader = sqlSelect.ExecuteReader();
+
+                while (reader.Read())
                 {
-                });
-                db.CloseSharedConnection();
+                }
+
+                connect.Close();
+            }
+            catch (Exception e)
+            {
+                connect.Close();
             }
 
         }
