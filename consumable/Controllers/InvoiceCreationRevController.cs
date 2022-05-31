@@ -135,6 +135,24 @@ namespace consumable.Controllers
 
         }
 
+        //add riani (20220425)--> system master untuk tax calculate
+        public JsonResult getTaxCalculate()
+        {
+            string taxcalculates = "";
+            SystemProperty sysProp =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "TAX_CALCULATE_CD");
+            taxcalculates = sysProp.SYSTEM_VALUE_TEXT;
+
+            if (taxcalculates != null)
+            {
+                return Json(taxcalculates.Split(';').ToList());
+            }
+            else
+            {
+                return null;
+            }
+
+        }
         [HttpGet]
         public ContentResult GetInvoiceCreationSort(string poNoSearch, string supplierSearch, string poDateSearch,
             string poText, string receivingDateSearch, string matDocNoSearch, string dnNoSearch, int page, int size, string field, string sort)
@@ -171,6 +189,22 @@ namespace consumable.Controllers
                 CommonFunction.Instance.DefaultStringValue(),
                 CommonFunction.Instance.DefaultPage(),
                 CommonFunction.Instance.DefaultSize());
+            //add by riani (20220426)-->config default tax (this case 11%) and special tax (this case 0%)            
+            string specialtaxcalculates = "";
+            SystemProperty sysPropsp =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "SPECIAL_TAX");
+            specialtaxcalculates = sysPropsp.SYSTEM_VALUE_TEXT;
+            ViewData["specialtaxcalculates"] = specialtaxcalculates;
+
+            string defaulttaxcalculates = "";
+            SystemProperty sysPropdf =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "DEFAULT_TAX");
+            defaulttaxcalculates = sysPropdf.SYSTEM_VALUE_TEXT;
+            ViewData["defaulttaxcalculates"] = defaulttaxcalculates;
+            SystemProperty sysPropTaxCal =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "TAX_CALCULATE_CD");
+            ViewData["TaxCalList"] = sysPropTaxCal.SYSTEM_VALUE_TEXT.Split(';').ToList();
+            //
         }
 
         public ActionResult onLookupSupplier(string Parameter, string PartialViewSearchAndInput, int Page)
@@ -205,14 +239,17 @@ namespace consumable.Controllers
             {
                 if (String.IsNullOrEmpty(SearchCode))
                 {
+
                     pg = new Paging(eFakturRepo.countEfaktur(Parameter, VendCode), Page, CommonFunction.Instance.DefaultSize());
 
                     eFakturList = (List<EFaktur>)eFakturRepo.GetData(Parameter, VendCode, pg.StartData, pg.EndData);
+
                 }
                 else
                 {
                     if (!String.IsNullOrEmpty(Parameter))
                     {
+
                         SystemProperty sysProp = (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType(
                                         CommonConstant.SYSTEM_CD_EFAKTUR_EXPIRED, CommonConstant.SYSTEM_TYPE_CREATE_INV);
 

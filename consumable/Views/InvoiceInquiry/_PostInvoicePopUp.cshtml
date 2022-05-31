@@ -165,7 +165,7 @@
                                     <select id="taxCode" class="cursor-1">
                                         @foreach (var item in (List<consumable.Models.SystemProperty.SystemProperty>)ViewData["TaxCodeList"])
                                         {
-                                            <option @(item != null && item.SYSTEM_CD.Equals(CommonConstant.SYSTEM_TAX_CODE_V1) ? "selected" : null) 
+                                            <option @(item != null && item.SYSTEM_CD.Equals(ViewBag.DefaultTaxCode) ? "selected" : null)
                                                     value="@item.SYSTEM_CD">
                                                 @item.SYSTEM_VALUE_TEXT
                                             </option>

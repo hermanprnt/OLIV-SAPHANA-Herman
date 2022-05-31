@@ -49,11 +49,26 @@ namespace consumable.Controllers
 
             ViewData["WitholdingTaxList"] = glAccountRepo.GetGLAccountByCategory(CommonConstant.WITHOLDING_TAX);
             ViewData["AttachmentDocTypeList"] = systemPropertyRepo.GetBySystemPropertyType(CommonConstant.SYSTEM_TYPE_ATTACHMENT);
-
             GetDashboardNotice(CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
             GetDashboardAnnouncement(CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
         }
+        //add riani (20220425)--> system master untuk tax calculate
+        public JsonResult getTaxCalculate()
+        {
+            string taxcalculates = "";
+            SystemProperty sysProp =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "TAX_CALCULATE_CD");
+            taxcalculates = sysProp.SYSTEM_VALUE_TEXT;
 
+            if (taxcalculates != null)
+            {
+                return Json(taxcalculates.Split(';').ToList());
+            }
+            else
+            {
+                return null;
+            }
+        }
         public ActionResult WidgetSettings()
         {
             return PartialView("_WidgetSettings");
@@ -117,8 +132,37 @@ namespace consumable.Controllers
         {
             string supplierCode = CommonFunction.Instance.getVendCodeLogin(Lookup.Get<Toyota.Common.Credential.User>());
 
-            int countdata = invoiceRepo.CountDashboardNotice(supplierCode);
+            // update 08-01-2021 [START]
+            if (supplierCode == null)
+            {
+                bool isFinance = Lookup.Get<Toyota.Common.Credential.User>().Roles.Select(x => x.Id).Contains("Liv_Admin");
+                bool isVendor = Lookup.Get<Toyota.Common.Credential.User>().Roles.Select(x => x.Id).Contains("Liv_Vendor");
 
+                if (!isFinance && !isVendor)
+                {
+                    supplierCode = "-";
+                }
+            }
+            // update 08-01-2021 [END]
+
+            int countdata = invoiceRepo.CountDashboardNotice(supplierCode);
+            //add by riani (20220426)-->config default tax (this case 11%) and special tax (this case 0%)
+            string specialtaxcalculates = "";
+            SystemProperty sysPropsp =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "SPECIAL_TAX");
+            specialtaxcalculates = sysPropsp.SYSTEM_VALUE_TEXT;
+            ViewData["specialtaxcalculates"] = specialtaxcalculates;
+
+            string defaulttaxcalculates = "";
+            SystemProperty sysPropdf =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "DEFAULT_TAX");
+            defaulttaxcalculates = sysPropdf.SYSTEM_VALUE_TEXT;
+            ViewData["defaulttaxcalculates"] = defaulttaxcalculates;
+
+            SystemProperty sysPropTaxCal =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "TAX_CALCULATE_CD");
+            ViewData["TaxCalList"] = sysPropTaxCal.SYSTEM_VALUE_TEXT.Split(';').ToList();
+            //
             Paging pg = new Paging(countdata, page, size);
             ViewData["Paging"] = pg;
 
@@ -517,14 +561,14 @@ namespace consumable.Controllers
                 {
                     string vendCodeLogin = CommonFunction.Instance.getVendCodeLogin(Lookup.Get<Toyota.Common.Credential.User>());
                     Supplier supp = supplierRepo.GetBySupplierCd(vendCodeLogin);
-                    vendor = supp?.SUPPLIER_CD + "_" + (supp?.SUPPLIER_NAME.Length > 15 ? supp?.SUPPLIER_NAME.Substring(0, 15) : supp?.SUPPLIER_NAME);
+                    vendor = supp.SUPPLIER_CD + "_" + (supp.SUPPLIER_NAME.Length > 15 ? supp.SUPPLIER_NAME.Substring(0, 15) : supp.SUPPLIER_NAME);
 
                 }
                 else
                 {
                     InvoiceInquiry invoice = invoiceInquiryRepo.GetInvoiceDetailByInvIdInvNo(invoiceId, invoiceNo);
                     Supplier supp = supplierRepo.GetBySupplierCd(invoice.SUPPLIER_CD);
-                    vendor = supp?.SUPPLIER_CD + "_" + (supp?.SUPPLIER_NAME.Length > 15 ? supp?.SUPPLIER_NAME.Substring(0, 15) : supp?.SUPPLIER_NAME);
+                    vendor = supp.SUPPLIER_CD + "_" + (supp.SUPPLIER_NAME.Length > 15 ? supp.SUPPLIER_NAME.Substring(0, 15) : supp.SUPPLIER_NAME);
 
                 }
 

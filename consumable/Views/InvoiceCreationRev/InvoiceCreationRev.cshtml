@@ -1,5 +1,8 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //add by riani (20220426)
+    string defaulttax = ViewData["defaulttaxcalculates"].ToString();
+    string specialtax = ViewData["specialtaxcalculates"].ToString();
 }
 @section HeadScript{
     <!-- Bootstrap Datepicker css -->
@@ -568,35 +571,6 @@
 
         function onValidateEfakturLookup() {
             onLookupEfaktur(1,"onValidateEfakturLookup");
-            @*var parame = {
-                TAX_NO: $('#txtSearchLookupEfaktur').val(), SUPPLIER_CD: $('#txtVendorCodeEfaktur').val()
-            }
-            $.ajax({
-                type: "Post",
-                url: "@Html.Toyota().Page.GetActionUrl("validateEfakturLookup")",
-                data: parame,
-                dataType: 'json',
-                success: function (result) {
-                    //console.log(result.msg);
-                    if (result.msg == '') {
-                        onLookupEfaktur(1);
-                    }
-                    else
-                    {
-                        $("#msgErrorId").empty();
-                        $("#msgErrorId").append(result.msg);
-                        $("#error-confirm").modal();
-                    }
-                },
-                complete:function () {
-
-                },
-                error: function(xhr,textStatus) {
-                    console.log(textStatus);
-                    $("#msgWarningId").text(textStatus);
-                    $("#warning-confirm").modal();
-                }
-            });*@
         }
 
         function onLookupSelected(taxNo, taxDate, taxAmount) {
@@ -615,16 +589,19 @@
         }
 
         function onLookupEfaktur(page, SearchCode) {
+            var data = {
+                Parameter: $('#txtSearchLookupEfaktur').val(),
+                VendCode: $('#txtVendorCodeEfaktur').val(),
+                PartialViewSearchAndInput: '_LookupTableEfaktur',
+                Page: page
+            }
+            if (SearchCode != undefined) {
+                data.SearchCode = SearchCode;
+            }
             $.ajax({
                 type: "Post",
                 url: "@Html.Toyota().Page.GetActionUrl("onLookupEfaktur")",
-                data: {
-                    Parameter:$('#txtSearchLookupEfaktur').val(),
-                    VendCode:$('#txtVendorCodeEfaktur').val(),
-                    PartialViewSearchAndInput: '_LookupTableEfaktur',
-                    SearchCode: SearchCode,
-                    Page:page
-                },
+                data: data,
                 beforeSend: function () {
                     $('#btnSearchLookupEfaktur').button('loading');
                 },
@@ -847,8 +824,43 @@
 			return numberWithCommas(totalAmount);
 		}
 
+
+        //add by riani (20220425)
+        function createTaxCalculate()
+        {
+            var special = '@specialtax';
+            var defaults = '@defaulttax';
+            $.ajax({
+                type: "POST",
+                url: "@Html.Toyota().Page.GetActionUrl("getTaxCalculate")",
+            data: {
+            },
+            async: false,
+            success: function (result) {
+                //alert(data);
+                if (result != '' && result != undefined && result != null) {
+                    var calculate = "";
+                    for (var i = 0; i < result.length; i++) {
+                        var count = result[i].split(':')[1];
+                        var tax = result[i].split(':')[0];
+                        var specialclass = special == tax ? "special" : "";
+                        var defaultclass = defaults == tax ? "default" : "";
+                        calculate = "<div class='" + "col-xs-8 col-sm-9 col-md-3" + "' name='" + defaultclass + "' id='" + specialclass + "'> <input type=" + "'radio'" + " name=" + "'calTax calTaxScreen'" + " value='" + tax + "' style=" + "'margin-left: -10px; margin-top: 8px' " + "onclick=" + "'calculateAll();'" + " class=" + "'calTax" + count + "' />" + tax + "% " + "</div>" + calculate;
+                    }
+                    $('#div_calculate_tax').empty();
+                    $('#div_calculate_tax').append(
+                        calculate
+                        );
+                }
+            }
+            });
+        }
+        
         // open popup preview invoice [start]
         $(".btn-preview-invoice").click(function () {
+            //add by riani (20220425)
+            //createTaxCalculate();
+
             var valid = true;
             var row = 0;
             var initCurr = null;
@@ -867,7 +879,14 @@
             $("#withHoldingTax option:selected").prop("selected", false);
             $("#withHoldingTax option:first").prop("selected", "selected");
             //20200608 prevent prev selected on witholdingtax end
-            $(".calTax3").attr("disabled", false);
+
+            //edit fid.riani (20220426) --> convert hardcode caltax3 jadi system master
+            //$(".calTax3").attr("disabled", false);
+            var sptax = $("#div_calculate_tax").children('div#special').children().attr('class');
+            $("." + sptax).attr("disabled", false);
+            //edit fid.riani (20220426) --> convert hardcode caltax4 jadi system master
+            var deftax = $("#div_calculate_tax").children("div[name='default']").children().attr('class');
+
             $("#withHoldingTax").removeClass("mandatory");
 
 		    $('[name=selectedManifest]:checked').each(function () {
@@ -1009,7 +1028,11 @@
                             },
                             success: function (data) {
                                 if ((data == '1') && ($(".poCategoryServices").prop("checked"))) {
-                                    $(".calTax3").attr("disabled", true);
+
+                                    //edit fid.riani(20220426)-->convert hardcode caltax3 jadi system master config
+                                    //$(".calTax3").attr("disabled", true);
+                                    $("." + sptax).attr("disabled", true);
+
                                     newWhtValid(supplierCode);
                                 }
 
@@ -1018,7 +1041,11 @@
                                 }
 
                                 if ((data == '2') && ($(".poCategoryServices").prop("checked"))) {
-                                    $(".calTax3").attr("disabled", true);
+
+                                    //edit fid.riani(20220426)-->convert hardcode caltax3 jadi system master config
+                                    //$(".calTax3").attr("disabled", true);
+                                    $("." + sptax).attr("disabled", true);
+
                                     $("#withHoldingTax").addClass("mandatory");
                                     newWhtValid(supplierCode);
                                 }
@@ -1071,7 +1098,7 @@
                         } else {
                             // show preview invoice screen
 
-                            $("#modal-preview-invoice").modal();
+                            $("#modal-preview-invoice").modal({ backdrop: 'static', keyboard: false });
                             $("#totalDeliveryNote").val($("#sumManifest").text());
                             $("#turnOver").val($("#sumAmount").text());
                             $("#taxBase").val($("#sumAmount").text());
@@ -1107,6 +1134,9 @@
                         }
                     }
                 });
+                //edit fid.riani (20220426) -->ganti caltax4 jadi system master config
+                //$(".calTax4").prop("checked", true);//add by fid.ahmad 14-03-2022s
+                $("." + deftax).prop("checked", true);
             }
         });
 
@@ -1228,8 +1258,12 @@
 
         function clearForm() {
             $("#invoiceNo").val('');
-		    $("#invoiceDate").val('');
-            $(".calTax1").prop('checked', true);
+            $("#invoiceDate").val('');
+            //edit fid.riani (20220426) -->ganti calTax4 jadi system master
+            //$(".calTax4").prop('checked', true); //modify by fid.ahmad 14-03-2022
+            var deftax = $("#div_calculate_tax").children("div[name='default']").children().attr('class');
+            $("." + deftax).prop('checked', true);
+
             //$(".calTax2").prop('checked', false);
             $(".checkboxStamp").prop('checked', false);
             $("#taxNo").val('');

@@ -1232,7 +1232,8 @@ namespace consumable.Models.InvoiceInquiry
                     PPV_AMOUNT = invoice.GL_AMOUNT,
                     UPDATED_BY = NoReg,
                     PPV_ACCOUNT = (string.IsNullOrEmpty(invoice.GL_ACCOUNT)) ? "" : invoice.GL_ACCOUNT.Trim(),
-                    TOTAL_AMOUNT = totalAmount
+                    TOTAL_AMOUNT = totalAmount,
+                    TAX_CODE = invoice.TAX_CODE// add by fid.ahmad 16-03-2022
                 };
                 db.Execute("SavePostInvoiceSAP", args3);
                 ajaxResult.Result = AjaxResult.VALUE_SUCCESS;

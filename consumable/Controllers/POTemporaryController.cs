@@ -25,11 +25,15 @@ namespace consumable.Controllers
         {
             Settings.Title = "LIV - PO Temporary";
 
-            SystemProperty INIT_DATE_RANGE = systemPropertyRepo.GetSysPropByCodeAndType(
-                                "RANGE_DATE", "SEARCH_CRITERIA_PO_INTERFACE");
+            SystemProperty INIT_DATE_RANGE_DEFAULT = systemPropertyRepo.GetSysPropByCodeAndType(
+                                "RANGE_DATE_DEFAULT", "SEARCH_CRITERIA_PO_INTERFACE");
+
+            SystemProperty INIT_DATE_MONTH_RANGE = systemPropertyRepo.GetSysPropByCodeAndType(
+                                "RANGE_MONTH", "SEARCH_CRITERIA_PO_INTERFACE");
 
             DateTime dateTime = DateTime.UtcNow.Date;
-            var amonthpast = dateTime.AddDays(-INIT_DATE_RANGE.SYSTEM_VALUE_NUM);
+            var addTheDay = (INIT_DATE_RANGE_DEFAULT == null) ? 30 : INIT_DATE_RANGE_DEFAULT.SYSTEM_VALUE_NUM;
+            var amonthpast = dateTime.AddDays(-addTheDay);
             var datenow = dateTime.ToString("dd.MM.yyyy");
             var dateamonthpast = amonthpast.ToString("dd.MM.yyyy");
             string paraminitialpodate = dateamonthpast + " - " + datenow ;
@@ -39,7 +43,7 @@ namespace consumable.Controllers
             ViewData["paraminitialpodate"] = paraminitialpodate;
             ViewData["paraminitialprocstatus"] = paraminitialprocstatus;
             ViewData["paraminitialsuppstatus"] = paraminitialsuppstatus;
-            ViewData["initialdaterange"] = INIT_DATE_RANGE.SYSTEM_VALUE_NUM;
+            ViewData["initialdaterange"] = (INIT_DATE_MONTH_RANGE == null)?12: INIT_DATE_MONTH_RANGE.SYSTEM_VALUE_NUM;
 
             constructComboBoxes();
 
@@ -125,7 +129,9 @@ namespace consumable.Controllers
             }
 
             SystemProperty LIMIT_PODATE_SEARCH = systemPropertyRepo.GetSysPropByCodeAndType(
-                                "RANGE_DATE", "SEARCH_CRITERIA_PO_INTERFACE");
+                                "RANGE_MONTH", "SEARCH_CRITERIA_PO_INTERFACE");
+
+            int _LIMIT = LIMIT_PODATE_SEARCH.SYSTEM_VALUE_NUM;
 
             string poDateSearchFrom = "";
             string poDateSearchTo = "";
@@ -139,8 +145,9 @@ namespace consumable.Controllers
             DateTime oDateFrom = DateTime.ParseExact(poDateSearchFrom, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             DateTime oDateTo = DateTime.ParseExact(poDateSearchTo, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
-            var diffDate = (oDateTo - oDateFrom).TotalDays;
-            if (diffDate < 0)
+            var negativeornot = (oDateTo - oDateFrom).TotalDays;
+            var diffDate = Math.Abs((oDateFrom.Month - oDateTo.Month) + 12 * (oDateFrom.Year - oDateTo.Year));
+            if (negativeornot < 0)
             {
                 Message msg = messageRepo.GetMessageById("GEUPLD000014");
                 ajaxResult.Result = AjaxResult.VALUE_ERROR;
@@ -151,12 +158,12 @@ namespace consumable.Controllers
                 return Json(ajaxResult);
             }
 
-            if(diffDate > LIMIT_PODATE_SEARCH.SYSTEM_VALUE_NUM)
+            if((diffDate+1) > _LIMIT)
             {
                 Message msg = messageRepo.GetMessageById("GEUPLD000012");
                 ajaxResult.Result = AjaxResult.VALUE_ERROR;
                 ajaxResult.ErrMesgs = new string[] {
-                            string.Format(msg.MSG_TEXT, LIMIT_PODATE_SEARCH.SYSTEM_VALUE_NUM)
+                            string.Format(msg.MSG_TEXT, _LIMIT)
                         };
 
             }

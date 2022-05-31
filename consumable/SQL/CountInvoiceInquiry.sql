@@ -29,18 +29,18 @@ SET @@PLAN_PAYMENT_DATE_TO = @PLAN_PAYMENT_DATE_TO;
 SET @@sqlstate = @@sqlstate + '
 	SELECT 
 		count(*)
-	FROM TB_R_INVOICE inv
+	FROM TB_R_INVOICE inv  WITH (NOLOCK)
 		left join TB_M_SUPPLIER s on s.SUPPLIER_CD = inv.SUPPLIER_CD
 
 		OUTER APPLY (
 			select top 1 BASE_DATE
-			from TB_R_INVOICE_SAP_INPUT isi
+			from TB_R_INVOICE_SAP_INPUT isi  WITH (NOLOCK)
 			where inv.INVOICE_ID =  isi.INVOICE_ID 
 			ORDER BY BASE_DATE DESC ) isiNew
 
 		OUTER APPLY (
 			select top 1 INV_PAYMENT_PLAN_DATE, INV_PAYMENT_ACTUAL_DATE, CLEARING_NO ,AP_DOC_NO
-			from TB_R_PROCUREMENT_TRACKING pt
+			from TB_R_PROCUREMENT_TRACKING pt  WITH (NOLOCK)
 			where inv.SAP_DOC_NO =  pt.AP_DOC_NO ) ptNew
 	where 1=1
 	  ';

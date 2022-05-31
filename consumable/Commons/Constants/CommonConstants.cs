@@ -76,6 +76,8 @@ namespace consumable.Commons.Constants
 
         public const string TAX_CODE = "TAX_CODE";
 
+        public const string DEFAULT_TAX_CODE = "DEFAULT_TAX_CODE";// add by fid.ahmad 16-03-2022
+
         public const string SYSTEM_TAX_CODE_V1 = "V1";
 
         public const string SYSTEM_CD_SUBMITTED_HARDCOPY = "SUBMITTED_HARDCOPY";
@@ -91,6 +93,10 @@ namespace consumable.Commons.Constants
 
         public const string AMOUNT_STAMP = "AMOUNT_STAMP";
         public const string AMOUNT_INVOICE = "AMOUNT_INVOICE";
+
+        public const string SYSTEM_CD_RANGE_SUBMISSION_DATE_SEARCH = "RANGE_SUBMISSION_DATE_SEARCH";
+        public const string SYSTEM_TYPE_INVOICE_INQUIRY = "INVOICE_INQUIRY";
+
 
     }
 }

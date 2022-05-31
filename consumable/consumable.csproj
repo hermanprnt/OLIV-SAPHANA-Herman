@@ -712,6 +712,7 @@
     <Content Include="SQL\ProcessPOTemporary.sql" />
     <Content Include="SQL\GetPOTemporary.sql" />
     <Content Include="SQL\CountPOTemporary.sql" />
+    <Content Include="SQL\UpdateEfakturCancelInvoice.sql" />
     <Content Include="SQL\ValidateEfakturLookup.sql" />
     <Content Include="SQL\DeleteAnnouncement.sql" />
     <Content Include="SQL\DeleteExistingAttachment.sql" />

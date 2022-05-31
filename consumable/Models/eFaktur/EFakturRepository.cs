@@ -39,29 +39,47 @@ namespace consumable.Models.EFaktur
 
         public int countEfaktur(string parameter, string vendCodeLogin)
         {
-            IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
-            dynamic args = new
+            try
             {
-                Parameter = parameter,
-                SUPPLIER_CD = vendCodeLogin
-            };
-            return db.SingleOrDefault<int>("CountEfaktur", args);
+                IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
+                dynamic args = new
+                {
+                    Parameter = parameter,
+                    SUPPLIER_CD = vendCodeLogin
+                };
+                return db.SingleOrDefault<int>("CountEFaktur", args);
+            }
+            catch (Exception ex)
+            {
+                string result = ex.Message;
+                throw;
+            }
+            
         }
 
         public List<EFaktur> GetData(string parameter, string vendCodeLogin, int fromnumber, int tonumber)
         {
-            IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
-            dynamic args = new
+            try
             {
-                Parameter = parameter,
-                SUPPLIER_CD = vendCodeLogin,
-                NumberFrom = fromnumber,
-                NumberTo = tonumber
-            };
+                IDBContext db = DatabaseManager.Instance.GetContext("EFAKTUR");
+                dynamic args = new
+                {
+                    Parameter = parameter,
+                    SUPPLIER_CD = vendCodeLogin,
+                    NumberFrom = fromnumber,
+                    NumberTo = tonumber
+                };
 
-            List<EFaktur> result = db.Fetch<EFaktur>("GetEFaktur", args);
-            db.Close();
-            return result;
+                List<EFaktur> result = db.Fetch<EFaktur>("GetEFaktur", args);
+                db.Close();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                string resultMessage = ex.Message;
+                throw;
+            }
+           
         }
         public int countEfakturWithValidate(string parameter, string vendCode)
         {

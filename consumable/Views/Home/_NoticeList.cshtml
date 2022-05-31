@@ -2,6 +2,9 @@
 @using consumable.Models
 @{
     List<Invoice> noticeList = (List<Invoice>)ViewData["NoticeList"];
+    //add by riani (20220427)
+    string defaulttax = ViewData["defaulttaxcalculates"].ToString();
+    string specialtax = ViewData["specialtaxcalculates"].ToString();
 }
 <div class="row" style="margin-bottom:25px;">
     <div class="col-xs-12 col-sm-12" style="overflow: hidden;">
@@ -89,10 +92,42 @@
     </div>
 </div>
 <script type="text/javascript">
+    //add by riani (20220425)
+    function createTaxCalculate() {
+        var special = '@specialtax';
+          var defaults = '@defaulttax';
+          $.ajax({
+              type: "POST",
+              url: "@Html.Toyota().Page.GetActionUrl("getTaxCalculate")",
+                data: {
+                },
+                async: false,
+                success: function (result) {
+                    //alert(data);
+                    if (result != '' && result != undefined && result != null) {
+                        var calculate = "";
+                        for (var i = 0; i < result.length; i++) {
+                            var count = result[i].split(':')[1];
+                            var tax = result[i].split(':')[0];
+                            var specialclass = special == tax ? "special" : "";
+                            var defaultclass = defaults == tax ? "default" : "";
+                            //calculate = "<div class='" + "col-xs-8 col-sm-9 col-md-3" + "' name='" + defaultclass + "' id='" + specialclass + "'> <input type=" + "'radio'" + " name=" + "'calTax calTaxScreen'" + " value='" + tax + "' style=" + "'margin-left: -10px; margin-top: 8px' " + "onclick=" + "'calculateAll();'" + " class=" + "'calTax" + count + "' />" + tax + "% " + "</div>" + calculate;
+                            calculate = "<div class=" + "'col-xs-8 col-sm-9 col-md-3'" + " name='" + defaultclass + "' id='" + specialclass + "'>" +
+                                        "<input type=" + "'radio'" + " name=" + "'calTax calTaxScreen' " + "value=" + "'" + tax + "' " + " style=" + "'margin-left: -10px; margin-top: 8px'" + " onclick=" + "'calculateAll();'" + " class=" + "'calTax" + count + "' " + " disabled />" + tax + " %</div> " + calculate;
 
+                        }
+                        $('#div_calculate_tax').empty();
+                        $('#div_calculate_tax').append(
+                            calculate
+                            );
+                    }
+                }
+            });
+        }
     function viewNotice(invoiceId, invoiceNo) {
         //window.location = 'InvoiceInquiry?id='+invoiceId+'&no='+invoiceNo;
-
+        //add by riani (20220425)
+        //createTaxCalculate();
         //show invoice verification in dashboard
         $("#modal-preview-invoice").modal();
         $.ajax({
@@ -146,15 +181,19 @@
                     $("#invoiceDate").val(result.Data.INVOICE_DATE_STR);
                     $("#turnOver").val(currencyFormat(result.Data.TURN_OVER));
                     $("#taxBase").val(currencyFormat(result.Data.TAX_BASE));
-                    if (result.Data.CALCULATE_TAX == '10') {
-                        $(".calTax1").prop("checked", true);
-                    }
-                    if (result.Data.CALCULATE_TAX == '1') {
-                        $(".calTax2").prop("checked", true);
-                    }
-                    if (result.Data.CALCULATE_TAX == '0') {
-                        $(".calTax3").prop("checked", true);
-                    }
+                    //edit fid.riani (20220427)
+                    //if (result.Data.CALCULATE_TAX == '10') {
+                    //    $(".calTax1").prop("checked", true);
+                    //}
+                    //if (result.Data.CALCULATE_TAX == '1') {
+                    //    $(".calTax2").prop("checked", true);
+                    //}
+                    //if (result.Data.CALCULATE_TAX == '0') {
+                    //    $(".calTax3").prop("checked", true);
+                    //}
+                    var classchoosed = $("#div_calculate_tax").children().children('input[name="calTax calTaxScreen"][value="' + result.Data.CALCULATE_TAX + '"]').attr('class');
+                    $("." + classchoosed).prop("checked", true);
+
                     $("#withHoldingTax").val(result.Data.WITHOLDING_TAX_CD);
                     if (result.Data.CHECKBOX_STAMP == 'Y') {
                         $(".checkboxStamp").prop("checked", true);

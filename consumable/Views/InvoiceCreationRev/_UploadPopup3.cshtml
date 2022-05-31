@@ -289,7 +289,7 @@
                                             $("#uploadPopup3").modal('hide');
                                         } else {
                                             // show preview invoice screen
-                                            $("#modal-preview-invoice").modal();
+                                            $("#modal-preview-invoice").modal({ backdrop: 'static', keyboard: false });
                                             $("#totalDeliveryNote").val(obj.length);
                                             $("#turnOver").val(numberWithCommas(amount));
                                             $("#taxBase").val(numberWithCommas(amount));

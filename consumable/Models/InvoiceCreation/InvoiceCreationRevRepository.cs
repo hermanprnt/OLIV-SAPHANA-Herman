@@ -26,7 +26,7 @@ namespace consumable.Models.InvoiceCreation
         private static InvoiceCreationRevRepository instance = null;
         public static InvoiceCreationRevRepository Instance
         {
-            get 
+            get
             {
                 if (instance == null)
                 {
@@ -109,7 +109,7 @@ namespace consumable.Models.InvoiceCreation
             return db.SingleOrDefault<int>("CountInvoiceCreationRev", args);
         }
 
-        public List<GR_IR_DATA> GetInvoiceCreation(string poNoSearch, string supplierSearch, string poDateSearch, 
+        public List<GR_IR_DATA> GetInvoiceCreation(string poNoSearch, string supplierSearch, string poDateSearch,
             string statusSearch, string poTextSearch, string receivingDateSearch, string matDocNoSearch, string dnNoSearch, int fromNumber, int toNumber)
         {
             string receivingDateSearchFrom = "";
@@ -178,7 +178,7 @@ namespace consumable.Models.InvoiceCreation
                 PO_TEXT = poTextSearch,
                 DN_NO = dnNoSearch,
                 NumberFrom = fromNumber.ToString(),
-                NumberTo = toNumber.ToString()  
+                NumberTo = toNumber.ToString()
             };
 
             List<GR_IR_DATA> result = db.Fetch<GR_IR_DATA>("GetInvoiceCreationRev", args);
@@ -187,7 +187,7 @@ namespace consumable.Models.InvoiceCreation
         }
 
         public List<String> GetInvoiceCreationSort(string poNoSearch, string supplierSearch, string poDateSearch,
-            string statusSearch, string poTextSearch, string receivingDateSearch, string matDocNoSearch, 
+            string statusSearch, string poTextSearch, string receivingDateSearch, string matDocNoSearch,
             string dnNoSearch, int fromNumber, int toNumber, string field, string sort)
         {
             List<String> result = new List<String>();
@@ -233,13 +233,13 @@ namespace consumable.Models.InvoiceCreation
                     break;
                 case "MATDOC_CURRENCY":
                     returnResult = ((sort == "asc" || sort == "none") ? resultItem.OrderBy(o => o.MATDOC_CURRENCY).ToList() : resultItem.OrderByDescending(o => o.MATDOC_CURRENCY).ToList());
-                    break; 
+                    break;
             }
 
             foreach (GR_IR_DATA item in returnResult)
             {
                 string checkbox = null;
-                
+
                 checkbox = "<input type=\"checkbox\" class=\"grid-checkbox grid-checkbox-body\" name=\"selectedManifest\" onclick=\"javascript:updateManifest()\" />";
 
 
@@ -255,28 +255,28 @@ namespace consumable.Models.InvoiceCreation
                         checkbox +
                     "</td>" +
                     "<td width=\"80px\" class=\"text-center cursor-link\">" +
-                        item.PO_NUMBER + 
+                        item.PO_NUMBER +
                     "</td>" +
                     "<td width=\"65px\" class=\"text-center\">" +
-                        item.PO_ITEM + 
+                        item.PO_ITEM +
                     "</td>" +
                     "<td width=\"200px\" class=\"text-left ellipsis\" style=\"max-width: 220px;\" title=" + item.MAT_DESCR.Replace("\"", "") + ">" +
-                        item.MAT_DESCR + 
+                        item.MAT_DESCR +
                     "</td>" +
                     "<td width=\"75px\" class=\"text-center\">" +
-                        (item.PO_DATE.HasValue ? item.PO_DATE.Value.ToString("dd.MM.yyyy") : string.Empty) + 
+                        (item.PO_DATE.HasValue ? item.PO_DATE.Value.ToString("dd.MM.yyyy") : string.Empty) +
                     "</td>" +
                     "<td width=\"105px\" class=\"text-center\">" +
                          (item.MATDOC_DATE.HasValue ? item.MATDOC_DATE.Value.ToString("dd.MM.yyyy") : string.Empty) +
                     "</td>" +
                     "<td width=\"100px\" class=\"text-center\">" +
-                        item.VEND_CODE + 
+                        item.VEND_CODE +
                     "</td>" +
-                    "<td width=\"150px\" class=\"text-left ellipsis\" title="+item.SUPPLIER_NAME+" style=\"max-width: 150px;\">" +
-                        item.SUPPLIER_NAME + 
+                    "<td width=\"150px\" class=\"text-left ellipsis\" title=" + item.SUPPLIER_NAME + " style=\"max-width: 150px;\">" +
+                        item.SUPPLIER_NAME +
                     "</td>" +
                     "<td width=\"75px\" class=\"text-right\">" +
-                        item.MATDOC_NUMBER + 
+                        item.MATDOC_NUMBER +
                     "</td>" +
                     "<td width=\"75px\" class=\"text-right\">" +
                         item.MATDOC_QTY +
@@ -285,7 +285,7 @@ namespace consumable.Models.InvoiceCreation
                         MATDOC_AMOUNT +
                     "</td>" +
                     "<td width=\"130px\" class=\"text-right\">" +
-                        item.HEADER_TEXT + 
+                        item.HEADER_TEXT +
                     "</td>" +
                     "<td class=\"text-center\">" +
                         item.MATDOC_CURRENCY +
@@ -473,7 +473,7 @@ namespace consumable.Models.InvoiceCreation
             //NPOIWriter.CreateSingleColHeader(wb, sheet, 0, colHeader++, cellStyleHeader, "Cancel Doc No");
             //NPOIWriter.CreateSingleColHeader(wb, sheet, 0, colHeader++, cellStyleHeader, "User ID");
             //NPOIWriter.CreateSingleColHeader(wb, sheet, 0, colHeader++, cellStyleHeader, "Invoice No");
-            
+
             //20200812 start
             NPOIWriter.CreateSingleColHeader(wb, sheet, 0, colHeader++, cellStyleHeader, "PO No");
             NPOIWriter.CreateSingleColHeader(wb, sheet, 0, colHeader++, cellStyleHeader, "PO Item");
@@ -558,15 +558,19 @@ namespace consumable.Models.InvoiceCreation
 
         public void updateUsedFlagEfaktur(IDBContext db, Invoice invoice, string createdBy, string invoiceNo)
         {
+            SystemPropertyRepository systemPropertyRepo = SystemPropertyRepository.Instance;
+            SystemProperty.SystemProperty system = systemPropertyRepo.GetSysPropByCodeAndType("IP_ADDRESS", "INVOICE_INQUIRY");
+
             dynamic args2 = new
             {
                 TAX_INVOICE_NO = invoice.TAX_INVOICE_NO,
                 IS_USED = "1",
                 CHANGED_BY = createdBy,
-                INVOICE_NO = invoiceNo
+                INVOICE_NO = invoiceNo,
+                LinkedServer = (system != null) ? system.SYSTEM_VALUE_TEXT : string.Empty
             };
             db.Execute("UpdateEfaktur", args2);
-        
+
         }
 
         public AjaxResult SaveInvoice(IDBContext db, Invoice invoice, List<GR_IR_DATA> items, string createdBy, List<InvoiceAttachment> attachments, string path)
@@ -635,9 +639,17 @@ namespace consumable.Models.InvoiceCreation
 
                         //convert filename attachment
                         string filenameNew = ConvertFileNameAttachment(attachment.ATTACHMENT_TYPE, attachmentTemp.FILE_NAME, items[0].VEND_CODE, createdBy, invoiceId.ToString());
-                        
-                        string tahun = invoice.INVOICE_DATE != null ? ((DateTime)invoice.INVOICE_DATE).ToString("yyyy") : DateTime.Now.ToString("yyyy");
-                        string bulan = invoice.INVOICE_DATE != null ? ((DateTime)invoice.INVOICE_DATE).ToString("MMMM") : DateTime.Now.ToString("MMMM");
+
+                        //update 04-01-2021 [START]
+                        string[] arrayInvDate = invoice.S_INVOICE_DATE.Split('.');
+                        DateTime temp = new DateTime(Int32.Parse(arrayInvDate[2]), Int32.Parse(arrayInvDate[1]), Int32.Parse(arrayInvDate[0]));
+                        string tahun = temp.ToString("yyyy");
+                        string bulan = temp.ToString("MMMM");
+
+                        //string tahun = invoice.INVOICE_DATE != null ? ((DateTime)invoice.INVOICE_DATE).ToString("yyyy") : DateTime.Now.ToString("yyyy");
+                        //string bulan = invoice.INVOICE_DATE != null ? ((DateTime)invoice.INVOICE_DATE).ToString("MMMM") : DateTime.Now.ToString("MMMM");
+                        //update 04-01-2021 [END]
+
                         string supplier = items[0].VEND_CODE;
                         string addPath = Path.Combine(tahun, bulan.ToUpper(), supplier);
                         string newPath = Path.Combine(path, addPath);
@@ -701,8 +713,8 @@ namespace consumable.Models.InvoiceCreation
             catch (Exception ex)
             {
                 ajaxResult.Result = AjaxResult.VALUE_ERROR;
-                ajaxResult.ErrMesgs = new String[] { 
-                                    string.Format("{0} = {1}", ex.GetType().FullName, ex.Message), 
+                ajaxResult.ErrMesgs = new String[] {
+                                    string.Format("{0} = {1}", ex.GetType().FullName, ex.Message),
                 };
             }
             //finally
@@ -729,15 +741,15 @@ namespace consumable.Models.InvoiceCreation
                     INVOICE_NO = invoiceNo,
                     DATENOW = datenow
                 };
-                
+
                 newSeq = db.ExecuteScalar<long>("GetNewCertificateSeq", args);
 
             }
             catch (Exception ex)
             {
                 ajaxResult.Result = AjaxResult.VALUE_ERROR;
-                ajaxResult.ErrMesgs = new String[] { 
-                                    string.Format("{0} = {1}", ex.GetType().FullName, ex.Message), 
+                ajaxResult.ErrMesgs = new String[] {
+                                    string.Format("{0} = {1}", ex.GetType().FullName, ex.Message),
                 };
             }
             //finally
@@ -800,7 +812,7 @@ namespace consumable.Models.InvoiceCreation
             catch (Exception ex)
             {
                 ajaxResult.Result = AjaxResult.VALUE_ERROR;
-                ajaxResult.ErrMesgs = new String[] {string.Format("{0} = {1}", ex.GetType().FullName, ex.Message)};
+                ajaxResult.ErrMesgs = new String[] { string.Format("{0} = {1}", ex.GetType().FullName, ex.Message) };
             }
             return result;
         }
@@ -826,7 +838,7 @@ namespace consumable.Models.InvoiceCreation
                 {
                     countg = countg + 1;
                 }
-                if (result == "SERVICE") 
+                if (result == "SERVICE")
                 {
                     counts = counts + 1;
                 }
@@ -906,7 +918,7 @@ namespace consumable.Models.InvoiceCreation
         public IEnumerable<Supplier> getValidVATWHT(string suppCode)
         {
             IDBContext db = DatabaseManager.Instance.GetContext();
-            
+
             string result = null;
             dynamic args = new
             {
@@ -928,7 +940,7 @@ namespace consumable.Models.InvoiceCreation
                 SUPPLIER_CD = suppCd
             };
             result = db.SingleOrDefault<string>("getSuppWHT", args);
-            db.Close(); 
+            db.Close();
             return result;
         }
         #endregion
@@ -974,7 +986,7 @@ namespace consumable.Models.InvoiceCreation
             }
 
             db.Close();
-            return result;  
+            return result;
         }
         #endregion
 
@@ -1079,7 +1091,7 @@ namespace consumable.Models.InvoiceCreation
 
             ajaxResult.Result = AjaxResult.VALUE_SUCCESS;
             ajaxResult.Params = new object[] { filename, filenameServer };
-            ajaxResult.SuccMesgs = new String[] { "Upload Attachment " + attachmentType.Replace('_',' ') + " Success" };
+            ajaxResult.SuccMesgs = new String[] { "Upload Attachment " + attachmentType.Replace('_', ' ') + " Success" };
 
             return ajaxResult;
         }

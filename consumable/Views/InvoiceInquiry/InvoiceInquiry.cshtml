@@ -1,7 +1,13 @@
 ﻿@using consumable.Commons.Constants;
 @{
    Layout = "~/Views/Shared/_Layout.cshtml";
+   //add by riani (20220426)
+   string defaulttax = ViewData["defaulttaxcalculates"].ToString();
+   string specialtax = ViewData["specialtaxcalculates"].ToString();
 }
+
+@{ var DefaultSubmissionDate = ViewData["DefaultSubmissionDate"].ToString();}
+
 @section HeadScript{
    <!-- Bootstrap Datepicker css -->
    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
@@ -462,7 +468,10 @@
       var taxInvoiceAmount = null;
       var onProcessSapPost = null;
 
-        $(document).ready(function() {
+      var DefaultSubmissionDate = '@DefaultSubmissionDate';
+
+       $(document).ready(function() {
+            $("#submissionDateSearch").val(DefaultSubmissionDate);
             freezeTable.init();
             freezeScroll();
             $("#upload_target").load(uploadTarget_OnLoad);
@@ -474,7 +483,7 @@
                 data = data.split('&');
                 var invoiceId = data[0].split('=')[1];
                 var invoiceNo = data[1].split('=')[1];
-  
+
                 console.log(invoiceId);
                 console.log(invoiceNo);
                 showDetailVerification(invoiceId, invoiceNo);
@@ -945,7 +954,6 @@
 
       function getFormData() {
          var data = new Object();
-
          data.INVOICE_DATE_STR = $("#invoiceDatePost").val();
          data.SUPPLIER_CODE = $("#supplierCodePost").val();
          data.INVOICE_NO = $("#invoiceNoPost").val();
@@ -967,7 +975,7 @@
          data.TOTAL_AMOUNT = totalAmount;
          data.TAX_INVOICE_AMOUNT = taxInvoiceAmount;
          data.ON_PROCESS_SAP_POST = onProcessSapPost;
-
+         
 
          data.PpvAttachmentList = [];
 
@@ -1129,6 +1137,21 @@
          });
       }
       // Lookup function search supplier [end]
+
+       //clear search [start]
+       function clearSearchData(){
+           $("#createdDateSearch").val("");
+           $("#supplierSearch").val("");
+           $("#submissionDateSearch").val(DefaultSubmissionDate);
+           $("#invoiceDateSearch").val("");
+           $("#statusSearch").val("");
+           $("#statusHardcopySearch").val("");
+           $("#planPaymentDateSearch").val("");
+           $("#invoiceNoSearch").val("");
+
+           searchData(1);
+       }
+       //clear search[end]
 
       // Function Search [start]
       function onEnterSearchData(e) {
@@ -1592,8 +1615,44 @@
          }
       }
       // Upload function [end]
+      //add by riani (20220425)
+      function createTaxCalculate()
+      {
+          var special = '@specialtax';
+            var defaults = '@defaulttax';
+            $.ajax({
+                type: "POST",
+                url: "@Html.Toyota().Page.GetActionUrl("getTaxCalculate")",
+                data: {
+                },
+                async: false,
+                success: function (result) {
+                    //alert(data);
+                    if (result != '' && result != undefined && result != null) {
+                        var calculate = "";
+                        for (var i = 0; i < result.length; i++) {
+                            var count = result[i].split(':')[1];
+                            var tax = result[i].split(':')[0];
+                            var specialclass = special == tax ? "special" : "";
+                            var defaultclass = defaults == tax ? "default" : "";
+                            //calculate = "<div class='" + "col-xs-8 col-sm-9 col-md-3" + "' name='" + defaultclass + "' id='" + specialclass + "'> <input type=" + "'radio'" + " name=" + "'calTax calTaxScreen'" + " value='" + tax + "' style=" + "'margin-left: -10px; margin-top: 8px' " + "onclick=" + "'calculateAll();'" + " class=" + "'calTax" + count + "' />" + tax + "% " + "</div>" + calculate;
+                            calculate = "<div class="+"'col-xs-8 col-sm-9 col-md-3'"+ " name='" + defaultclass + "' id='" + specialclass + "'>"+
+                                        "<input type="+"'radio'"+" name="+"'calTax calTaxScreen' " +"value="+"'"+tax+"' "+" style="+"'margin-left: -10px; margin-top: 8px'"+" onclick="+"'calculateAll();'"+" class="+"'calTax"+count+"' "+" disabled />"+tax+" %</div> "+calculate;
 
+                        }
+                        $('#div_calculate_tax').empty();
+                        $('#div_calculate_tax').append(
+                            calculate
+                            );
+                    }
+                }
+            });
+      }
+      //
       function showDetailVerification(invoiceId, invoiceNo) {
+          //add by riani (20220425)          
+          //createTaxCalculate();
+          //
          $("#modal-preview-invoice").modal();
          $.ajax({
             type: "POST",
@@ -1646,15 +1705,23 @@
                   $("#invoiceDate").val(result.Data.INVOICE_DATE_STR);
                   $("#turnOver").val(currencyFormat(result.Data.TURN_OVER));
                   $("#taxBase").val(currencyFormat(result.Data.TAX_BASE));
-                  if (result.Data.CALCULATE_TAX == '10') {
-                     $(".calTax1").prop("checked", true);
-                  }
-                  if (result.Data.CALCULATE_TAX == '1') {
-                     $(".calTax2").prop("checked", true);
-                  }
-                  if (result.Data.CALCULATE_TAX == '0') {
-                     $(".calTax3").prop("checked", true);
-                  }
+                  //edit by fid.riani (20220427)
+                  //if (result.Data.CALCULATE_TAX == '10') {
+                  //   $(".calTax1").prop("checked", true);
+                  //}
+                  //if (result.Data.CALCULATE_TAX == '1') {
+                  //   $(".calTax2").prop("checked", true);
+                  //}
+                  //if (result.Data.CALCULATE_TAX == '0') {
+                  //   $(".calTax3").prop("checked", true);
+                  //}
+                  ////add by fid.ahmad 14-03-2022
+                  //if (result.Data.CALCULATE_TAX == '11') {
+                  //    $(".calTax4").prop("checked", true);
+                  //}
+                    ////end by fid.ahmad 14-03-2022
+                  var classchoosed = $("#div_calculate_tax").children().children('input[name="calTax calTaxScreen"][value="'+result.Data.CALCULATE_TAX+'"]').attr('class');
+                  $("."+classchoosed).prop("checked", true);
                   $("#withHoldingTax").val(result.Data.WITHOLDING_TAX_CD);
                   if (result.Data.CHECKBOX_STAMP == 'Y') {
                      $(".checkboxStamp").prop("checked", true);
@@ -1678,7 +1745,7 @@
                         type = "info";
                         float = "left";
                      }
-                     
+
                      htmlBuffer +=
                         '<div class="alert alert-' +type+'"' +
                      ' role="alert" style="margin-bottom: 10px;width:90%;float:' + float + '">' +

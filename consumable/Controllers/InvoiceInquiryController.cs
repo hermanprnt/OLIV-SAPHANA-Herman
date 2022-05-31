@@ -74,9 +74,21 @@ namespace consumable.Controllers
          List<SystemProperty> listAttachmentDocType = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.SYSTEM_TYPE_ATTACHMENT);
          ViewData["AttachmentDocTypeList"] = listAttachmentDocType;
          constructComboBoxes();
-         getListInvoiceInquiry("", "", vendCodeLogin, "", "", "", "", "",
-             CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
-      }
+            // remark by fid.ahmad 05-04-2022
+            SystemProperty INIT_DATE_MONTH_RANGE = systemPropertyRepo.GetSysPropByCodeAndType(
+                                CommonConstant.SYSTEM_CD_RANGE_SUBMISSION_DATE_SEARCH, CommonConstant.SYSTEM_TYPE_INVOICE_INQUIRY);
+
+            DateTime now = DateTime.Now;
+            // now = new DateTime(now.Year, 1, 23);//testing January is current
+            var addMonth = (INIT_DATE_MONTH_RANGE == null) ? 1 : INIT_DATE_MONTH_RANGE.SYSTEM_VALUE_NUM;
+            var startDate = now.AddMonths(-addMonth);
+            var submissionDateString = startDate.ToString("dd.MM.yyyy") + " - " + now.ToString("dd.MM.yyyy");
+
+            getListInvoiceInquiry("", submissionDateString, vendCodeLogin, "", "", "", "", "",
+                CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
+
+            ViewData["DefaultSubmissionDate"] = submissionDateString;
+        }
 
       public void constructComboBoxes()
       {
@@ -134,7 +146,36 @@ namespace consumable.Controllers
 
          List<SystemProperty> listTaxCode = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.TAX_CODE);
          ViewData["TaxCodeList"] = listTaxCode;
-      }
+
+            //add by fid.ahmad 16-03-2022
+            List<SystemProperty> defaultTaxCode = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.DEFAULT_TAX_CODE);
+            if (defaultTaxCode.Count() > 0)
+            {
+                ViewBag.DefaultTaxCode = defaultTaxCode[0].SYSTEM_VALUE_TEXT;
+            }
+            else
+            {
+                ViewBag.DefaultTaxCode = "I2";
+            }
+            //end by fid.ahmad
+            //add by riani (20220426)-->config default tax (this case 11%) and special tax (this case 0%)            
+            string specialtaxcalculates = "";
+            SystemProperty sysPropsp =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "SPECIAL_TAX");
+            specialtaxcalculates = sysPropsp.SYSTEM_VALUE_TEXT;
+            ViewData["specialtaxcalculates"] = specialtaxcalculates;
+
+            string defaulttaxcalculates = "";
+            SystemProperty sysPropdf =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "DEFAULT_TAX");
+            defaulttaxcalculates = sysPropdf.SYSTEM_VALUE_TEXT;
+            ViewData["defaulttaxcalculates"] = defaulttaxcalculates;
+            SystemProperty sysPropTaxCal =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "TAX_CALCULATE_CD");
+            ViewData["TaxCalList"] = sysPropTaxCal.SYSTEM_VALUE_TEXT.Split(';').ToList();
+            //
+
+        }
 
       public ActionResult onLookupSupplier(string Parameter, string PartialViewSearchAndInput, int Page)
       {
@@ -201,12 +242,30 @@ namespace consumable.Controllers
             results.Result = AjaxResult.VALUE_ERROR;
             results.ErrMesgs = new String[] {
                string.Format("{0} = {1}", e.GetType().FullName, e.Message)};
-         }
-         return Json(results);
-      }
-      public JsonResult NoticeChat(string invoiceId,string invoiceNo,string noticeChat)
-      {
-         AjaxResult results = new AjaxResult();
+            }
+            return Json(results);
+        }
+        //add riani (20220425)--> system master untuk tax calculate
+        public JsonResult getTaxCalculate()
+        {
+            string taxcalculates = "";
+            SystemProperty sysProp =
+                    (SystemProperty)systemPropertyRepo.GetSysPropByCodeAndType("TAX_CALCULATE", "TAX_CALCULATE_CD");
+            taxcalculates = sysProp.SYSTEM_VALUE_TEXT;
+
+            if (taxcalculates != null)
+            {
+                return Json(taxcalculates.Split(';').ToList());
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        public JsonResult NoticeChat(string invoiceId, string invoiceNo, string noticeChat)
+        {
+            AjaxResult results = new AjaxResult();
 
          try
          {
@@ -229,7 +288,7 @@ namespace consumable.Controllers
                string vendCodeLogin = CommonFunction.Instance.getVendCodeLogin(Lookup.Get<Toyota.Common.Credential.User>());
                Supplier supp = supplierRepo.GetBySupplierCd(vendCodeLogin);
                //vendor = supp?.SUPPLIER_CD + "_" + supp?.SUPPLIER_NAME.Substring(0, 15);
-               vendor = supp?.SUPPLIER_CD + "_" + (supp?.SUPPLIER_NAME.Length > 15 ? supp?.SUPPLIER_NAME.Substring(0, 15) : supp?.SUPPLIER_NAME);
+               vendor = supp.SUPPLIER_CD + "_" + (supp.SUPPLIER_NAME.Length > 15 ? supp.SUPPLIER_NAME.Substring(0, 15) : supp.SUPPLIER_NAME);
 
             }
             else
@@ -237,7 +296,7 @@ namespace consumable.Controllers
                InvoiceInquiry invoice= invoiceInquiryRepo.GetInvoiceDetailByInvIdInvNo(invoiceId, invoiceNo);
                Supplier supp = supplierRepo.GetBySupplierCd(invoice.SUPPLIER_CD);
                //vendor = supp?.SUPPLIER_CD + "_" + supp?.SUPPLIER_NAME.Substring(0, 15);
-               vendor = supp?.SUPPLIER_CD + "_" + (supp?.SUPPLIER_NAME.Length > 15 ? supp?.SUPPLIER_NAME.Substring(0, 15) : supp?.SUPPLIER_NAME);
+               vendor = supp.SUPPLIER_CODE + "_" + (supp.SUPPLIER_NAME.Length > 15 ? supp.SUPPLIER_NAME.Substring(0, 15) : supp.SUPPLIER_NAME);
 
             }
 

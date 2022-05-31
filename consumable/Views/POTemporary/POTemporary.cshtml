@@ -203,7 +203,7 @@
 
         //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
         $('input[name=date-range-picker]').daterangepicker({
-            dateLimit: { days: @initialdaterange },
+            dateLimit: { month: @initialdaterange },
             format: 'DD.MM.YYYY',
 			'applyClass': 'btn-sm btn-success',
 			'cancelClass': 'btn-sm btn-default',

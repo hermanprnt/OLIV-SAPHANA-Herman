@@ -32,8 +32,8 @@
                             <th width="20px" class="grid-checkbox-col">
                                 <input class="grid-checkbox" type="checkbox" style="height: 12px;" id="checkall" />
                             </th>
-                            <th width="80px" data-field="GR_STATUS" data-sort="none">Processed</th>
                             <th width="80px" data-field="SUPPLIER_STATUS" data-sort="none">Supp Status</th>
+                            <th width="80px" data-field="GR_STATUS" data-sort="none">Processed</th>
                             <th width="80px" data-field="PO_NO" data-sort="none">PO No</th>
                             <th width="65px" data-field="PO_ITEM" data-sort="none">PO Item</th>
                             <th width="110px" data-field="MATDOC_NUMBER" data-sort="none">Material Doc No</th>
@@ -44,7 +44,7 @@
                             <th width="150px" data-field="SUPPLIER_NAME" data-sort="none">Supplier Name</th>
                             <th width="50px" data-field="MATDOC_QTY" data-sort="none">Qty</th>
                             <th width="130px" data-field="MATDOC_AMOUNT" data-sort="none">Amount</th>
-                            <th width="80px"  data-field="MATDOC_CURRENCY" data-sort="none">Currency</th>
+                            <th width="80px" data-field="MATDOC_CURRENCY" data-sort="none">Currency</th>
                             <th width="100px" data-field="PROCESS_STATUS_DATE" data-sort="none">Process Date</th>
                             <th data-field="PROCESS_BY" data-sort="none">Process By</th>
                             <th class="hidden">GR IR ID</th>
@@ -70,7 +70,7 @@
                                             }
                                         </td>
                                         <td width="80px" class="text-center">
-                                            @if (item.GR_STATUS == "PROCESSED")
+                                            @if (item.SUPPLIER_STATUS == "YES")
                                             {
                                                 <i class="fa fa-check"></i>
                                             }
@@ -80,7 +80,7 @@
                                             }
                                         </td>
                                         <td width="80px" class="text-center">
-                                            @if (item.SUPPLIER_STATUS == "YES")
+                                            @if (item.GR_STATUS == "PROCESSED")
                                             {
                                                 <i class="fa fa-check"></i>
                                             }

@@ -8,7 +8,8 @@ set
 	POSTED_BY = @POSTED_BY,
 	POSTED_DT = @POSTED_DT,
 	UPDATED_BY = @UPDATED_BY,
-	UPDATED_DT = getdate()
+	UPDATED_DT = getdate(),
+	TAX_CODE = @TAX_CODE
 where 
 	1=1
 and INVOICE_ID = @INVOICE_ID
