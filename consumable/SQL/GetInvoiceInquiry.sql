@@ -81,8 +81,10 @@ SET @@sqlstate = @@sqlstate + '
 		,s.TERM_PAY
 		,GR_CANCEL
 		,inv.PAYMENT_PLAN_DATE
-		,ptNew.INV_PAYMENT_ACTUAL_DATE as PAYMENT_ACTUAL_DATE
-		,ptNew.CLEARING_NO as PAYMENT_DOC_NO
+		,inv.PAYMENT_ACTUAL_DATE
+		,inv.LOG_DOC_NO as PAYMENT_DOC_NO
+		--,ptNew.INV_PAYMENT_ACTUAL_DATE as PAYMENT_ACTUAL_DATE
+		--,ptNew.CLEARING_NO as PAYMENT_DOC_NO
 		,inv.CREATED_DT
 		,inv.CREATED_BY
 		,ON_PROCESS_SAP_POST
@@ -98,11 +100,12 @@ SET @@sqlstate = @@sqlstate + '
 			from TB_R_INVOICE_SAP_INPUT isi  WITH (NOLOCK)
 			where inv.INVOICE_ID =  isi.INVOICE_ID 
 			ORDER BY BASE_DATE DESC ) isiNew
-
-		OUTER APPLY (
-			select top 1 INV_PAYMENT_ACTUAL_DATE, CLEARING_NO ,AP_DOC_NO
-			from TB_R_PROCUREMENT_TRACKING pt WITH (NOLOCK)
-			where inv.SAP_DOC_NO =  pt.AP_DOC_NO ) ptNew
+		
+		--remark FID.Ridwan: 20220719
+		--OUTER APPLY (
+		--	select top 1 INV_PAYMENT_ACTUAL_DATE, CLEARING_NO ,AP_DOC_NO
+		--	from TB_R_PROCUREMENT_TRACKING pt WITH (NOLOCK)
+		--	where inv.SAP_DOC_NO =  pt.AP_DOC_NO ) ptNew
 	where 1=1
 		';
 

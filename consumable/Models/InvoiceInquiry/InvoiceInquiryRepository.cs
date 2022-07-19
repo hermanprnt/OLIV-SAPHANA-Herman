@@ -547,6 +547,18 @@ namespace consumable.Models.InvoiceInquiry
             return ajaxResult;
         }
 
+        //FID.Ridwan: 20220719
+        public void DeleteInvoiceFromPAS(string invoiceId)
+        {
+            IDBContext db = DatabaseManager.Instance.GetContext("PAS_DB");
+            dynamic args = new
+            {
+                INVOICE_ID = invoiceId
+            };
+
+            db.Execute("DeleteInvoiceFromPAS", args);
+
+        }
 
         public List<InvoiceInquiryDetail> GetPOForPosting(string invoiceId)
         {

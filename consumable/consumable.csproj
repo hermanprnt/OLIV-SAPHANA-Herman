@@ -699,6 +699,7 @@
     <Content Include="Content\UI\underscore-min.js" />
     <Content Include="Content\UI\uses.js" />
     <Content Include="Global.asax" />
+    <Content Include="SQL\DeleteInvoiceFromPAS.sql" />
     <Content Include="SQL\ApproveGR.sql" />
     <Content Include="SQL\Cancel_GR_SAP.sql" />
     <Content Include="SQL\CancelInvoiceInquiry.sql" />

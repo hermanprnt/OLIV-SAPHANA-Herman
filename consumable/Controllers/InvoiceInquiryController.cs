@@ -636,12 +636,15 @@ namespace consumable.Controllers
                {
                   db.CommitTransaction();
 
-                  if (CommonConstant.PROCESS_TYPE_CANCEL_INVOICE.Equals(invoiceInquiry[0].PROCESS_TYPE))
-                  {
-                     invoiceInquiryRepo.updateUsedFlagEFakturCancelInvoice(db,
-                     invoiceInquiry[j].TAX_INVOICE_NO, NoReg);
+                if (CommonConstant.PROCESS_TYPE_CANCEL_INVOICE.Equals(invoiceInquiry[0].PROCESS_TYPE))
+                {
+                    invoiceInquiryRepo.updateUsedFlagEFakturCancelInvoice(db,
+                    invoiceInquiry[j].TAX_INVOICE_NO, NoReg);
 
-                  }
+                    //FID.Ridwan: 20220719
+                    invoiceInquiryRepo.DeleteInvoiceFromPAS(invoiceInquiry[j].INVOICE_ID);
+
+                }
 
 
                }

@@ -38,10 +38,11 @@ SET @@sqlstate = @@sqlstate + '
 			where inv.INVOICE_ID =  isi.INVOICE_ID 
 			ORDER BY BASE_DATE DESC ) isiNew
 
-		OUTER APPLY (
-			select top 1 INV_PAYMENT_PLAN_DATE, INV_PAYMENT_ACTUAL_DATE, CLEARING_NO ,AP_DOC_NO
-			from TB_R_PROCUREMENT_TRACKING pt  WITH (NOLOCK)
-			where inv.SAP_DOC_NO =  pt.AP_DOC_NO ) ptNew
+		--remark FID.Ridwan: 20220719
+		--OUTER APPLY (
+		--	select top 1 INV_PAYMENT_PLAN_DATE, INV_PAYMENT_ACTUAL_DATE, CLEARING_NO ,AP_DOC_NO
+		--	from TB_R_PROCUREMENT_TRACKING pt  WITH (NOLOCK)
+		--	where inv.SAP_DOC_NO =  pt.AP_DOC_NO ) ptNew
 	where 1=1
 	  ';
 
