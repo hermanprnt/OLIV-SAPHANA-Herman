@@ -177,7 +177,16 @@ namespace consumable.Controllers
 
         }
 
-      public ActionResult onLookupSupplier(string Parameter, string PartialViewSearchAndInput, int Page)
+        //add by fid.ahmad 04-10-2022
+        public void constructComboBoxesTaxCode(string InvoiceNo, string SupplierCode)
+        {
+            List<SystemProperty> listTaxCode = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.TAX_CODE);
+            ViewData["TaxCodeList"] = listTaxCode;
+            string TaxCode = invoiceInquiryRepo.GetTaxCode(InvoiceNo, SupplierCode);
+            ViewBag.DefaultTaxCode = TaxCode;
+        }
+
+        public ActionResult onLookupSupplier(string Parameter, string PartialViewSearchAndInput, int Page)
       {
          if (PartialViewSearchAndInput.Equals("_LookupTableSupplier"))
          {
@@ -851,7 +860,7 @@ namespace consumable.Controllers
          return Json(results);
       }
 
-      public ActionResult refreshPartnerBank(string supplierCd)
+      public ActionResult refreshPartnerBank(string supplierCd,string invoiceNo)
       {
          IDBContext db = databaseManager.GetContext();
          List<Supplier> partnerBankList = invoiceInquiryRepo.GetPartnerBankList(supplierCd, db);
@@ -860,7 +869,7 @@ namespace consumable.Controllers
 
 
          constructComboBoxes();
-
+         constructComboBoxesTaxCode(invoiceNo, supplierCd);
          return PartialView("_PostInvoicePopUp");
       }
 

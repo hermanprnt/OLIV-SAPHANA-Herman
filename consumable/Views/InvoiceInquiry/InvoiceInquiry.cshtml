@@ -534,12 +534,13 @@
          $.remakeFixedTable();
       }
 
-      function refreshPartnerBank(supplierCd) {
+       function refreshPartnerBank(supplierCd, invoiceNo) {
          $.ajax({
             type: "Post",
             url: "@Html.Toyota().Page.GetActionUrl("refreshPartnerBank")",
             data: {
-               supplierCd: supplierCd
+                supplierCd: supplierCd,
+                invoiceNo: invoiceNo
             },
             success: function(returnResult) {
                $("#divPostInvoicePopUp").html(returnResult);
@@ -692,7 +693,7 @@
                      });
 
 
-                     refreshPartnerBank(tempPostInvoice.supplierCode);
+                      refreshPartnerBank(tempPostInvoice.supplierCode, tempPostInvoice.invoiceNo);
                   }
                } else if (type == '@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE') {
                   if (status != '@CommonConstant.STATUS_INVOICE_CREATED' &&

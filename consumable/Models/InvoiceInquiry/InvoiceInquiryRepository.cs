@@ -1169,7 +1169,8 @@ namespace consumable.Models.InvoiceInquiry
                         PAY_METHOD = input.PAY_METHOD,
                         HEAD_TEXT = input.HEAD_TEXT,
                         TERM_PAY = input.TERM_PAY,
-                        TAX_CODE = input.TAX_CODE,
+                        //TAX_CODE = input.TAX_CODE,
+                        TAX_CODE = invoice.TAX_CODE,
                         BVTYP = input.BVTYP,
                         TAX_DATE = input.TAX_DATE.HasValue ? input.TAX_DATE.Value.ToString("yyyy-MM-dd") : null,
                         CREATED_BY = NoReg
@@ -1245,7 +1246,9 @@ namespace consumable.Models.InvoiceInquiry
                     UPDATED_BY = NoReg,
                     PPV_ACCOUNT = (string.IsNullOrEmpty(invoice.GL_ACCOUNT)) ? "" : invoice.GL_ACCOUNT.Trim(),
                     TOTAL_AMOUNT = totalAmount,
-                    TAX_CODE = invoice.TAX_CODE// add by fid.ahmad 16-03-2022
+                    TAX_CODE = invoice.TAX_CODE,// add by fid.ahmad 16-03-2022
+                    WHT_BASE_AMOUNT = invoice.TURN_OVER,
+                    WITHOLDING_TAX_CD = invoice.WITHHOLDING_TAX
                 };
                 db.Execute("SavePostInvoiceSAP", args3);
                 ajaxResult.Result = AjaxResult.VALUE_SUCCESS;
@@ -1636,6 +1639,34 @@ namespace consumable.Models.InvoiceInquiry
             ajaxResult.SuccMesgs = new String[] { "Delete Temporary Attachment Success" };
 
             return ajaxResult;
+        }
+
+        public string GetTaxCode( string InvoiceNo, string SupplierCode)
+        {
+            IDBContext db = DatabaseManager.Instance.GetContext();
+            AjaxResult ajaxResult = new AjaxResult();
+            string TaxCode = "I2";
+
+            try
+            {
+                dynamic args = new
+                {
+                    INVOICE_NO = InvoiceNo,
+                    SUPPLIER_CD = SupplierCode
+                };
+
+                TaxCode = db.ExecuteScalar<string>("GetTaxCode", args);
+
+            }
+            catch (Exception ex)
+            {
+                ajaxResult.Result = AjaxResult.VALUE_ERROR;
+                ajaxResult.ErrMesgs = new String[] {
+                                    string.Format("{0} = {1}", ex.GetType().FullName, ex.Message),
+                };
+            }
+
+            return TaxCode;
         }
 
     }

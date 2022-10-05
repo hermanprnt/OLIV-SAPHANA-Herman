@@ -314,7 +314,17 @@ namespace consumable.Controllers
 
                 string path = sysProp.SYSTEM_VALUE_TEXT;
 
-                results = invoiceCreationRevRepo.SaveInvoice(db, invoice, items, NoReg, attachments, path);
+                long CountData = invoiceCreationRevRepo.CheckDuplicateInvoice(db, invoice.INVOICE_NO, items[0].VEND_CODE);
+                if (CountData > 0)
+                {
+                    results.Result = AjaxResult.VALUE_ERROR;
+                    results.ErrMesgs = new String[] {"Invoice No ("+ invoice.INVOICE_NO + ") for Supplier Code ("+ items[0].VEND_CODE +") already exists in system"};
+                }
+                else
+                {
+                    results = invoiceCreationRevRepo.SaveInvoice(db, invoice, items, NoReg, attachments, path);
+                }
+                
 
                 if (AjaxResult.VALUE_ERROR.Equals(results.Result))
                 {

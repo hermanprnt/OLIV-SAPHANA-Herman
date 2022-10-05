@@ -725,7 +725,33 @@ namespace consumable.Models.InvoiceCreation
             return ajaxResult;
         }
 
+        //add by fid ahmad 04.10.2022
+        public long CheckDuplicateInvoice(IDBContext db, string InvoiceNo, string SupplierCode)
+        {
+            AjaxResult ajaxResult = new AjaxResult();
+            long CountData = 0;
 
+            try
+            {
+                dynamic args = new
+                {
+                    INVOICE_NO = InvoiceNo,
+                    SUPPLIER_CD = SupplierCode
+                };
+
+                CountData = db.ExecuteScalar<long>("CheckDuplicateInvoice", args);
+
+            }
+            catch (Exception ex)
+            {
+                ajaxResult.Result = AjaxResult.VALUE_ERROR;
+                ajaxResult.ErrMesgs = new String[] {
+                                    string.Format("{0} = {1}", ex.GetType().FullName, ex.Message),
+                };
+            }
+
+            return CountData;
+        }
         public string getNewCertificateSeq(IDBContext db, string vendorCode, string invoiceNo,
             string datenow)
         {
