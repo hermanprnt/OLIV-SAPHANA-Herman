@@ -18,25 +18,25 @@ namespace consumable
             ApplicationSettings.Instance.Security.EnableAuthentication = true; //edited by putri
             ApplicationSettings.Instance.Security.EnableSingleSignOn = false; //edited by putri (bypass edit false)
             ApplicationSettings.Instance.Logging.Enabled = false; //edited by putri
-            ApplicationSettings.Instance.Security.SimulateAuthenticatedSession = true; //(bypass edit true)
+            ApplicationSettings.Instance.Security.SimulateAuthenticatedSession = false; //(bypass edit true)
             ApplicationSettings.Instance.Security.IgnoreAuthorization = true;
-
+            
             //new
             ApplicationSettings.Instance.DefaultDbSc = "SecurityCenter";
             ApplicationSettings.Instance.Menu.SecurityCenter = false;
             ApplicationSettings.Instance.Security.EnableTracking = false;
-            ApplicationSettings.Instance.Security.Encrypt = false;
+            ApplicationSettings.Instance.Security.Encrypt = false; 
 
 
-            ApplicationSettings.Instance.Security.SimulatedAuthenticatedUser = new User()
-            {
-                Username = "0111437",
-                Password = "12345",
-                FirstName = "Harun",
-                LastName = "Barbasy",
-                Id = "00111437",
-                RegistrationNumber = "09708699"
-            };
+            //ApplicationSettings.Instance.Security.SimulatedAuthenticatedUser = new User()
+            //{
+            //    Username = "0111437",
+            //    Password = "12345",
+            //    FirstName = "",
+            //    LastName = "",
+            //    Id = "00111437",
+            //    RegistrationNumber = "09708699"
+            //};
 
             //ApplicationSettings.Instance.Security.SimulatedAuthenticatedUser = new User()
             //{

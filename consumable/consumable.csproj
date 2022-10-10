@@ -155,7 +155,7 @@
       <HintPath>Tdk-Lib\TDKUtility.dll</HintPath>
     </Reference>
     <Reference Include="ThoughtWorks.QRCode">
-      <HintPath>packages\ThoughtWorks.QRCode.1.1.0\lib\ThoughtWorks.QRCode.dll</HintPath>
+      <HintPath>..\..\OLIV GIT FROM RIDWAN\LIV-2022\LIVKoding\consumable\bin\ThoughtWorks.QRCode.dll</HintPath>
     </Reference>
     <Reference Include="Toyota.Common">
       <HintPath>Tdk-Lib\Toyota.Common.dll</HintPath>
