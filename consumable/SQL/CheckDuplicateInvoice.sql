@@ -3,4 +3,4 @@ SELECT count(*)
   where 1=1
   and INVOICE_NO = @INVOICE_NO 
   and SUPPLIER_CD = @SUPPLIER_CD
-
+  and STATUS <> 'CANCELLED'
