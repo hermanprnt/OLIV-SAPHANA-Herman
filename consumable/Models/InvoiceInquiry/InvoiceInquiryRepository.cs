@@ -550,7 +550,9 @@ namespace consumable.Models.InvoiceInquiry
         //FID.Ridwan: 20220719
         public void DeleteInvoiceFromPAS(string invoiceId)
         {
-            IDBContext db = DatabaseManager.Instance.GetContext("PAS_DB");
+            //modify by fid.ahmad change db config PAS to dblink system master
+            //IDBContext db = DatabaseManager.Instance.GetContext("PAS_DB");
+            IDBContext db = DatabaseManager.Instance.GetContext("");
             dynamic args = new
             {
                 INVOICE_ID = invoiceId
