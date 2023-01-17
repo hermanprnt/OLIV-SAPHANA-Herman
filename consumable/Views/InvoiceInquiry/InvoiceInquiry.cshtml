@@ -4,6 +4,8 @@
    //add by riani (20220426)
    string defaulttax = ViewData["defaulttaxcalculates"].ToString();
    string specialtax = ViewData["specialtaxcalculates"].ToString();
+   //add by fid.ahmad 17-01-2023
+   string RegNo = ViewData["RegNoByUserLogin"].ToString();
 }
 
 @{ var DefaultSubmissionDate = ViewData["DefaultSubmissionDate"].ToString();}
@@ -42,50 +44,51 @@
    </div>
    <div class="row">
       <div class="col-xs-12 col-sm-5 text-left">
-         <div class="btn-group">
-            @{
-               if (ViewData["visibilityUser"].Equals("true"))
-               {
-                  if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "reverseInvBtn_"))
+          <div class="btn-group">
+              @{
+                  if (ViewData["visibilityUser"].Equals("true"))
                   {
+                      if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "reverseInvBtn_"))
+                      {
 
 
-                     if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-                     {
-                        <button type="button" id="reverseInvBtn" class="btn btn-danger btn-xs" style="margin-right: 0px; padding: 6px;"
-                                onclick="javascript:process('@CommonConstant.PROCESS_TYPE_REVERSE_INVOICE')">
-                           Reverse
-                        </button>
-                        <button type="button" class="btn btn-xs btn-decision" style="margin-right: 0px; background-color: #fff !important;
+                          if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                          {
+                              <button type="button" id="reverseInvBtn" class="btn btn-danger btn-xs" style="margin-right: 0px; padding: 6px;"
+                                      onclick="javascript:process('@CommonConstant.PROCESS_TYPE_REVERSE_INVOICE')">
+                                  Reverse
+                              </button>
+                              <button type="button" class="btn btn-xs btn-decision" style="margin-right: 0px; background-color: #fff !important;
                         border-color: #fff !important;" disabled>
-                           &nbsp;
-                        </button>
-                     }
+                                  &nbsp;
+                              </button>
+                          }
+                      }
                   }
-               }
 
-               if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "cancelInvBtn"))
-               {
-                  if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                  if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "cancelInvBtn"))
                   {
-                     <button type="button" id="cancelInvBtn" class="btn btn-danger btn-xs" style="padding: 6px;"
-                             onclick="javascript:process('@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE')">
-                        Cancel Invoice
-                     </button>
+                      if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                      {
+                          <button type="button" id="cancelInvBtn" class="btn btn-danger btn-xs" style="padding: 6px;"
+                                  onclick="javascript:process('@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE')">
+                              Cancel Invoice
+                          </button>
+                              }
+                      
                   }
+                  @*if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "cancelInvBtn"))
+            {
+               if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+               {
+                  <button type="button" id="cancelInvBtn" class="btn btn-primary btn-xs" style="padding: 6px;"
+                          onclick="javascript:process('@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE')">
+                     Verify
+                  </button>
                }
-               @*if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "cancelInvBtn"))
-                  {
-                     if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-                     {
-                        <button type="button" id="cancelInvBtn" class="btn btn-primary btn-xs" style="padding: 6px;"
-                                onclick="javascript:process('@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE')">
-                           Verify
-                        </button>
-                     }
-                  }*@
-            }
-         </div>
+            }*@
+              }
+          </div>
       </div>
       <div class="col-xs-12 col-sm-1 text-left">
          <button data-rel="tooltip" title="Hide filter" onclick="javascript:toggleSearch()"
@@ -587,9 +590,20 @@
                $("#postInvoicePopUp").modal();
             },
          });
-      }
+       }
 
-      function process(type) {
+       function CheckCancelInvoiceByUserLogin(status) {
+           console.log('CheckCancelInvoiceByUserLogin :' + status);
+           if (status == "FALSE") {
+               $("#msgWarningId").text("You are not authorized to cancel this invoice");
+               $("#warning-confirm").modal();
+           } else {
+               $("#cancel-confirm").modal();
+           }
+       }
+
+       function process(type) {
+
          var row = 0;
          var status = "";
          var receivingStatus = "";
@@ -597,18 +611,29 @@
          var isSAPPost = "";
          var isSAPRev = "";
          var isAutoPost = "";
+         //add by fid.ahmad 17-01-2023
+         var CreatedBy = "";
+         var IsInvoiceCreated = "FALSE";
+         var RegNo = '@RegNo';
+
 
          $('[name=selected]:checked').each(function() {
             //status =  $(this).parent().siblings('td').eq(6).text().trim() ;
             status = $(this).parent().siblings('td').eq(6).find('input').val().trim();
-
             receivingStatus = $(this).parent().siblings('td').eq(33).text().trim();
             isGRCancel = $(this).parent().siblings('td').eq(34).text().trim();
             isSAPPost = $(this).parent().siblings('td').eq(37).text().trim();
             isSAPRev = $(this).parent().siblings('td').eq(38).text().trim();
             isAutoPost = $(this).parent().siblings('td').eq(39).text().trim();
+            CreatedBy = $(this).parent().siblings('td').eq(13).text().trim();
             row++;
          });
+
+           
+         if (RegNo == CreatedBy) {
+               IsInvoiceCreated = "TRUE";
+         }
+           console.log('RegNo :' + RegNo + ' && ' + 'CreatedBy :' + CreatedBy + ' && ' + 'IsInvoiceCreated :' + IsInvoiceCreated);
 
          if (row != 1) {
             $("#msgWarningId").text("Please select 1 data only");
@@ -621,16 +646,15 @@
                         $("#msgWarningId").text("Posting is in process, Please do not interrupt");
                         $("#warning-confirm").modal();
                      } else if (@ViewData["visibilityVndr"] == true) {
-                        $("#msgWarningId").text("You are not authorized to cancel this invoice");
-                        $("#warning-confirm").modal();
+
+                         CheckCancelInvoiceByUserLogin(IsInvoiceCreated);
                      } else {
                         $("#msgWarningId").text("Invoice Auto Posting");
                         $("#warning-confirm").modal();
                      }
                   } else {
                      if (@ViewData["visibilityVndr"] == true) {
-                        $("#msgWarningId").text("You are not authorized to cancel this invoice");
-                        $("#warning-confirm").modal();
+                         CheckCancelInvoiceByUserLogin(IsInvoiceCreated);
                      } else if (@ViewData["visibilityVndr"] == false) {
                         $("#cancel-confirm").modal();
                      } else {
@@ -640,8 +664,7 @@
                   }
                } else if (status == '@CommonConstant.STATUS_INVOICE_CREATED') {
                   if (@ViewData["visibilityVndr"] == false) {
-                     $("#msgWarningId").text("You are not authorized to cancel this invoice");
-                     $("#warning-confirm").modal();
+                      CheckCancelInvoiceByUserLogin(IsInvoiceCreated);
                   } else if (@ViewData["visibilityVndr"] == true) {
                      $("#cancel-confirm").modal();
                   } else {
@@ -706,13 +729,11 @@
                   } else {
                      if (@ViewData["visibilityVndr"] == true && (status == '@CommonConstant.STATUS_INVOICE_SUBMITTED' ||
                         status == '@CommonConstant.STATUS_INVOICE_ERROR_POSTING_NO_UNDERLINE')) {
-                        $("#msgWarningId").text("You are not authorized to cancel this invoice");
-                        $("#warning-confirm").modal();
+                         CheckCancelInvoiceByUserLogin(IsInvoiceCreated);
                      } else if (@ViewData["visibilityVndr"] == false &&
                         (status != '@CommonConstant.STATUS_INVOICE_SUBMITTED' &&
                            status != '@CommonConstant.STATUS_INVOICE_ERROR_POSTING_NO_UNDERLINE')) {
-                        $("#msgWarningId").text("You are not authorized to cancel this invoice");
-                        $("#warning-confirm").modal();
+                         CheckCancelInvoiceByUserLogin(IsInvoiceCreated);
                      } else {
                         $("#cancel-confirm").modal();
                      }
@@ -976,7 +997,7 @@
          data.TOTAL_AMOUNT = totalAmount;
          data.TAX_INVOICE_AMOUNT = taxInvoiceAmount;
          data.ON_PROCESS_SAP_POST = onProcessSapPost;
-         
+
 
          data.PpvAttachmentList = [];
 
@@ -1651,7 +1672,7 @@
       }
       //
       function showDetailVerification(invoiceId, invoiceNo) {
-          //add by riani (20220425)          
+          //add by riani (20220425)
           //createTaxCalculate();
           //
          $("#modal-preview-invoice").modal();
