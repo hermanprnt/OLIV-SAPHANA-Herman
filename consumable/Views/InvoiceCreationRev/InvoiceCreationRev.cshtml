@@ -784,20 +784,24 @@
 
         // Function calculate total amount in search [start]
 		function updateManifest() {
-			var amountTotal = 0;
+            let amountTotal = 0;
+            let amountLet = 0;
 			var total = 0;
 			var amount;
 			$('[name=selectedManifest]:checked').each(function () {
-				//alert($(this).parent().siblings('td').eq(9).text());
+				
 				amountString = $(this).parent().siblings('td').eq(11).text();
 				amountString = amountString.replace(/,/g , '');
-				//alert(amountString);
-				amountTotal = amountTotal + parseInt(amountString);
+				//amountTotal = amountTotal + parseInt(amountString);
+                amountLet = parseFloat(amountString);
+                amountTotal = amountTotal +amountLet
 				total ++;
 			});
 
-			$("#sumAmount").text(numberWithCommas(amountTotal));
-			$("#sumManifest").text(total);
+            //$("#sumAmount").text(numberWithCommas(amountTotal));
+            $("#sumAmount").text(amountTotal);
+            $("#sumManifest").text(total);
+           
 		}
         // Function calculate total amount in search [end]
 

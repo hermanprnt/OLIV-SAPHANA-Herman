@@ -88,7 +88,8 @@
                                     @if (item.MATDOC_CURRENCY == "IDR")
                                     { @item.MATDOC_AMOUNT.FormatCommaSeparator() }
                                     else
-                                    { @item.MATDOC_AMOUNT.FormatCommaSeparatorWithDecimal();
+                                    {
+                                        @item.MATDOC_AMOUNT;
                                     }
                                 </td>
                                 <td width="110px" class="text-left ellipsis" title="@item.HEADER_TEXT" style="max-width: 110px;">
