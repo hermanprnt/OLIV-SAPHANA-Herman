@@ -88,6 +88,11 @@ namespace consumable.Controllers
                 CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
 
             ViewData["DefaultSubmissionDate"] = submissionDateString;
+            //add by fid.ahmad 17-01-2023
+            string RegNo = Lookup.Get<Toyota.Common.Credential.User>().RegistrationNumber;
+            ViewData["RegNoByUserLogin"] = RegNo;
+
+
         }
 
       public void constructComboBoxes()
