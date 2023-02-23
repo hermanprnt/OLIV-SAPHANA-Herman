@@ -49,6 +49,7 @@ namespace consumable.Models
         {
             //int _10000 = 10000;
             //String supplierCdLogin = (_10000 + user.Username.Substring(0, 6)).Substring(0, 10);
+            
             if (user.Username.Length >= 7 && ".".Equals(user.Username.Substring(6, 1)))
             { 
                 String supplierCdLogin = "0000" + user.Username.Substring(0, 6);
@@ -64,9 +65,24 @@ namespace consumable.Models
                 }
             }
 
-            if (user.Username.Length >= 5 && ".".Equals(user.Username.Substring(4, 1)))
+            else if (user.Username.Length >= 5 && ".".Equals(user.Username.Substring(4, 1)))
             {
                 String supplierCdLogin = "000000" + user.Username.Substring(0, 4);
+                Supplier supplier = supplierRepo.GetBySupplierCd(supplierCdLogin);
+
+                if (supplier != null)
+                {
+                    return supplier.SUPPLIER_CD;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            // add by fid.ahmad 21-02-2023 handle vendor code login 10 digits
+            else if (user.Username.Length >= 11 && ".".Equals(user.Username.Substring(10, 1)))
+            {
+                String supplierCdLogin = user.Username.Substring(0, 10);
                 Supplier supplier = supplierRepo.GetBySupplierCd(supplierCdLogin);
 
                 if (supplier != null)
