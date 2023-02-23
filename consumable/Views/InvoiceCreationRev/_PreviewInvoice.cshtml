@@ -758,15 +758,16 @@
 
 
         function calculateAll() {
-        let taxAmount
+        //let taxAmount
+        var taxAmount
         var taxAmountDecimal
         var taxBase = removeCommas($("#taxBase").val());
         var taxPercentage = 0;
-        //var turnOver = parseInt(removeCommas($("#turnOver").val()));
-        let turnOver = removeCommas($("#turnOver").val());
-
+        let turnOverLetUp = removeCommas($("#turnOver").val());
+        var turnOver = parseInt(removeCommas($("#turnOver").val()));
+            
         if (taxBase != '') {
-            if(taxBase > turnOver)
+            if (taxBase > turnOver)
             {
                 //$("#msgWarningId").text("Tax Base is greater than turn over");
                 //$("#warning-confirm").modal();
@@ -808,6 +809,7 @@
             taxBase = removeCommas($("#taxBase").val());
             taxAmountDecimal = ((taxPercentage / 100) * (taxBase)).toFixed(2);
             taxAmount = Math.round(taxAmountDecimal * 100) / 100
+
             //alert((taxPercentage / 100) + "*" + taxBase + "=" + taxAmount )
             $("#invoiceTaxAmount").val(numberWithCommas(taxAmount));
 
@@ -844,10 +846,11 @@
         //}
 
         @*update 24-12-2020 [START]*@
-        //var amountStamp = parseInt(removeCommas($("#amountStamp").val()));
-        //var amountInvoice = parseInt(removeCommas($("#amountInvoice").val()));
-        let amountStamp = removeCommas($("#amountStamp").val());
-        let amountInvoice = removeCommas($("#amountInvoice").val());
+        var amountStamp = parseInt(removeCommas($("#amountStamp").val()));
+        var amountInvoice = parseInt(removeCommas($("#amountInvoice").val()));
+        //let amountStamp = removeCommas($("#amountStamp").val());
+            //let amountInvoice = removeCommas($("#amountInvoice").val());
+
 
         if ($(".checkboxStamp:checked").length == 1) {
             if (turnOver > amountInvoice) {
@@ -861,8 +864,14 @@
         @*update 24-12-2020 [END]*@
 
         //totalAmount = (turnOver + taxAmount + stamp).toFixed(2)
-            let totalAmountLet = parseFloat(turnOver) + parseFloat(taxAmount) + parseFloat(stamp)
-            console.log('totalAmount :' + totalAmountLet)
+
+            let turnOverLet = turnOverLetUp;
+            var taxAmountInt = parseInt(taxAmount);
+            let stampLet = stamp;
+
+            //let totalAmountLet = parseFloat(turnOver) + parseFloat(taxAmount) + parseFloat(stamp)
+            //let totalAmountLet = parseFloat(turnOver) + parseFloat(taxAmountInt) + parseFloat(stamp)
+            let totalAmountLet = parseFloat(turnOverLet) + parseFloat(taxAmountInt) + parseFloat(stamp)
             $("#totalAmount").val(numberWithCommas(Math.round(totalAmountLet * 100) / 100 ));
 
      }
@@ -1149,7 +1158,8 @@
         }
         data.TOTAL_AMOUNT =	$("#totalAmount").val().replace(/,/g , '');
         data.TAX_INVOICE_NO = $("#taxNo").val();
-        data.TAX_INVOICE_AMOUNT = $("#invoiceTaxAmount").val().replace(/,/g , '');
+        //data.TAX_INVOICE_AMOUNT = $("#invoiceTaxAmount").val().replace(/,/g , '');
+        data.TAX_INVOICE_AMOUNT = parseInt(removeCommas($("#invoiceTaxAmount").val().replace(/,/g, '')));
 
         data.InvoiceAttachmentList = [];
         var i = 0;
