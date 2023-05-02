@@ -9,7 +9,7 @@ namespace consumable.Models.InvoiceReceiving
     {
         public string SUPPLIER_NAME { set; get; }
 
-      
+        public string DD_STATUS { get; set; }
         public DateTime? SUBMIT_DT { set; get; }
         public string SUBMIT_BY { set; get; }
         public string RECEIVED_STATUS { set; get; }

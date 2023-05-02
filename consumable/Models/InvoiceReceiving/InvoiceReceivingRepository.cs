@@ -9,6 +9,7 @@ using NPOI.SS.UserModel;
 using consumable.Controllers;
 using System.IO;
 using consumable.Commons;
+using consumable.Models.SystemProperty;
 
 namespace consumable.Models.InvoiceReceiving
 {
@@ -44,12 +45,16 @@ namespace consumable.Models.InvoiceReceiving
         }
 
         public List<InvoiceReceiving> GetInvoiceReceiving(int fromNumber, int toNumber)
-        {           
+        {
+            SystemPropertyRepository systemPropertyRepo = SystemPropertyRepository.Instance;
+            SystemProperty.SystemProperty system = systemPropertyRepo.GetSysPropByCodeAndType("IP_ADDRESS", "INVOICE_RECEIVING");
+
             IDBContext db = DatabaseManager.Instance.GetContext();
             dynamic args = new
             {
                 NumberFrom = fromNumber.ToString(),
-                NumberTo = toNumber.ToString()
+                NumberTo = toNumber.ToString(),
+                LinkedServer = system.SYSTEM_VALUE_TEXT
             };
 
             List<InvoiceReceiving> result = db.Fetch<InvoiceReceiving>("GetInvoiceReceiving", args);
