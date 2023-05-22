@@ -91,8 +91,6 @@ namespace consumable.Controllers
             //add by fid.ahmad 17-01-2023
             string RegNo = Lookup.Get<Toyota.Common.Credential.User>().RegistrationNumber;
             ViewData["RegNoByUserLogin"] = RegNo;
-
-
         }
 
       public void constructComboBoxes()
@@ -103,29 +101,11 @@ namespace consumable.Controllers
 
          foreach (SystemProperty sysProp in listSystemProperty)
          {
-
             if (!sysProp.SYSTEM_CD.Equals("ERROR_POSTING"))
             {
                statusInvoiceList.Add(sysProp);
             }
          }
-
-         SystemProperty systemProp = new SystemProperty();
-         systemProp.SYSTEM_CD = "ERROR_POSTING_A";
-         systemProp.SYSTEM_VALUE_TEXT = "ERROR POSTING A";
-         statusInvoiceList.Add(systemProp);
-
-         systemProp = new SystemProperty();
-         systemProp.SYSTEM_CD = "ERROR_POSTING_M";
-         systemProp.SYSTEM_VALUE_TEXT = "ERROR POSTING M";
-         statusInvoiceList.Add(systemProp);
-
-         // update 19-12-2020 [START]
-         systemProp = new SystemProperty();
-         systemProp.SYSTEM_CD = "NOTICE";
-         systemProp.SYSTEM_VALUE_TEXT = "NOTICE";
-         statusInvoiceList.Add(systemProp);
-         // update 19-12-2020 [END]
 
          ViewData["StatusInvoiceList"] = statusInvoiceList;
          ViewData["StatusHardCopyList"] = listHardCopyStatus;

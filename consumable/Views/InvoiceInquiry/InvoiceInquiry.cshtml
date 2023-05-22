@@ -1,395 +1,395 @@
 ﻿@using consumable.Commons.Constants;
 @{
-   Layout = "~/Views/Shared/_Layout.cshtml";
-   //add by riani (20220426)
-   string defaulttax = ViewData["defaulttaxcalculates"].ToString();
-   string specialtax = ViewData["specialtaxcalculates"].ToString();
-   //add by fid.ahmad 17-01-2023
-   string RegNo = ViewData["RegNoByUserLogin"].ToString();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //add by riani (20220426)
+    string defaulttax = ViewData["defaulttaxcalculates"].ToString();
+    string specialtax = ViewData["specialtaxcalculates"].ToString();
+    //add by fid.ahmad 17-01-2023
+    string RegNo = ViewData["RegNoByUserLogin"].ToString();
 }
 
 @{ var DefaultSubmissionDate = ViewData["DefaultSubmissionDate"].ToString();}
 
 @section HeadScript{
-   <!-- Bootstrap Datepicker css -->
-   <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
-   <!-- Daterange picker css -->
-   <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
-   <!-- Dropzone file css -->
-   <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
 
-   <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/FixedTable.css")" />
-   <style type="text/css">
-      .datepicker.dropdown-menu {
-         z-index: 2000 !important;
-      }
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/FixedTable.css")" />
+    <style type="text/css">
+        .datepicker.dropdown-menu {
+            z-index: 2000 !important;
+        }
 
-      .modal-icon {
-         height: 35px;
-      }
+        .modal-icon {
+            height: 35px;
+        }
 
-      .twitter-typeahead {
-         width: 100%;
-      }
-   </style>
+        .twitter-typeahead {
+            width: 100%;
+        }
+    </style>
 }
 <!-- Upload purpose [start] -->
 <iframe id="upload_target" name="upload_target" src="" style="width: 0; height: 0;
     border: 0px solid #fff;"></iframe>
 <!-- Upload purpose [end] -->
 <div class="hidden-xs">
-   @Html.Partial("_SearchCriteria")
-   <div class="text-center" style="margin-bottom: 5px;">
-      <hr id="hrsrc" style="margin: 0; padding: 0;" />
-   </div>
-   <div class="row">
-      <div class="col-xs-12 col-sm-5 text-left">
-          <div class="btn-group">
-              @{
-                  if (ViewData["visibilityUser"].Equals("true"))
-                  {
-                      if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "reverseInvBtn_"))
-                      {
+    @Html.Partial("_SearchCriteria")
+    <div class="text-center" style="margin-bottom: 5px;">
+        <hr id="hrsrc" style="margin: 0; padding: 0;" />
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 text-left">
+            <div class="btn-group">
+                @{
+                    if (ViewData["visibilityUser"].Equals("true"))
+                    {
+                        if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "reverseInvBtn_"))
+                        {
 
 
-                          if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-                          {
-                              <button type="button" id="reverseInvBtn" class="btn btn-danger btn-xs" style="margin-right: 0px; padding: 6px;"
-                                      onclick="javascript:process('@CommonConstant.PROCESS_TYPE_REVERSE_INVOICE')">
-                                  Reverse
-                              </button>
-                              <button type="button" class="btn btn-xs btn-decision" style="margin-right: 0px; background-color: #fff !important;
+                            if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                            {
+                                <button type="button" id="reverseInvBtn" class="btn btn-danger btn-xs" style="margin-right: 0px; padding: 6px;"
+                                        onclick="javascript:process('@CommonConstant.PROCESS_TYPE_REVERSE_INVOICE')">
+                                    Reverse
+                                </button>
+                                <button type="button" class="btn btn-xs btn-decision" style="margin-right: 0px; background-color: #fff !important;
                         border-color: #fff !important;" disabled>
-                                  &nbsp;
-                              </button>
-                          }
-                      }
-                  }
+                                    &nbsp;
+                                </button>
+                            }
+                        }
+                    }
 
-                  if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "cancelInvBtn"))
-                  {
-                      if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-                      {
-                          <button type="button" id="cancelInvBtn" class="btn btn-danger btn-xs" style="padding: 6px;"
-                                  onclick="javascript:process('@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE')">
-                              Cancel Invoice
-                          </button>
-                              }
-                      
-                  }
-                  @*if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "cancelInvBtn"))
-            {
-               if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-               {
-                  <button type="button" id="cancelInvBtn" class="btn btn-primary btn-xs" style="padding: 6px;"
-                          onclick="javascript:process('@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE')">
-                     Verify
-                  </button>
-               }
-            }*@
-              }
-          </div>
-      </div>
-      <div class="col-xs-12 col-sm-1 text-left">
-         <button data-rel="tooltip" title="Hide filter" onclick="javascript:toggleSearch()"
-                 type="button" class="ace-icon fa fa-angle-double-up btn btn-default btn-xs btn-tiny-down"
-                 id="toogle-search" style="top: 6px;">
-         </button>
-         <input type="text" id="btnLostFocus" style="display: block; height: 1px; width: 1px;
+                    if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "cancelInvBtn"))
+                    {
+                        if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                        {
+                            <button type="button" id="cancelInvBtn" class="btn btn-danger btn-xs" style="padding: 6px;"
+                                    onclick="javascript:process('@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE')">
+                                Cancel Invoice
+                            </button>
+                        }
+
+                    }
+                    @*if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "cancelInvBtn"))
+                        {
+                           if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                           {
+                              <button type="button" id="cancelInvBtn" class="btn btn-primary btn-xs" style="padding: 6px;"
+                                      onclick="javascript:process('@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE')">
+                                 Verify
+                              </button>
+                           }
+                        }*@
+                }
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-1 text-left">
+            <button data-rel="tooltip" title="Hide filter" onclick="javascript:toggleSearch()"
+                    type="button" class="ace-icon fa fa-angle-double-up btn btn-default btn-xs btn-tiny-down"
+                    id="toogle-search" style="top: 6px;">
+            </button>
+            <input type="text" id="btnLostFocus" style="display: block; height: 1px; width: 1px;
                 border: none;" />
-      </div>
-      <div class="col-xs-12 col-sm-6 text-right">
-         <div class="form-group form-group-xs" style="margin-bottom: 5px;">
-            <!--<button data-rel="tooltip" title="Upload files" id="btn-upload" class="fa fa-upload btn btn-warning btn-sm" style="padding: 6px;"
-               onclick="javascript:uploadDialog()">
-   </button>
-   -->
-            @if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "verifyInvBtn"))
-            {
-            <button type="button" class="fa fa-check btn btn-primary btn-xs" style="padding: 6px;"
-                    onclick="javascript:verify()">
-               <span style="font-family: Open Sans; font-size: 12px">Verify</span>
-            </button>
-            }
-            
-            <button type="button" class="fa fa-print btn btn-primary btn-xs" style="padding: 6px;"
-                    onclick="javascript:printCertificate()">
-               <span style="font-family: Open Sans; font-size: 12px">Print Certificate ID</span>
-            </button>
-            <button data-rel="tooltip" title="Download files" id="btn-download" class="fa fa-download btn btn-success btn-xs"
-                    style="padding: 6px;" onclick="javascript:Download()">
-               <span style="font-family: Open Sans; font-size: 12px">Download Data</span>
-            </button>
-            @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-            {
-               <button type="button" class="btn btn-warning btn-xs" onclick="javascript:inputNotice()">
-                  Notice
-               </button>
-            }
-            @* <button type="button" class="btn btn-info btn-xs" id="grid-toggle" onclick="javascript:ToggleGrid()"
-      title="Show detail grid" data-rel="tooltip">
-      Show detail</button>*@
-            @{
-               if (ViewData["visibilityUser"].Equals("true"))
-               {
-                  if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-                  {
-                     <button type="button" id="postInvBtn" class="btn btn-primary btn-xs"
-                             onclick="javascript:process('@CommonConstant.PROCESS_TYPE_POST_INVOICE')">
-                        Post Invoice
-                     </button>
-                  }
-               }
-            }
-         </div>
-      </div>
-   </div>
-   <div id="tablegrid">
-      @Html.Partial("_GridView")
-   </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 text-right">
+            <div class="form-group form-group-xs" style="margin-bottom: 5px;">
+                <!--<button data-rel="tooltip" title="Upload files" id="btn-upload" class="fa fa-upload btn btn-warning btn-sm" style="padding: 6px;"
+                            onclick="javascript:uploadDialog()">
+                </button>
+                -->
+                @if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "verifyInvBtn"))
+                {
+                    <button type="button" class="fa fa-check btn btn-primary btn-xs" style="padding: 6px;"
+                            onclick="javascript:verify()">
+                        <span style="font-family: Open Sans; font-size: 12px">Verify</span>
+                    </button>
+                }
+
+                <button type="button" class="fa fa-print btn btn-primary btn-xs" style="padding: 6px;"
+                        onclick="javascript:printCertificate()">
+                    <span style="font-family: Open Sans; font-size: 12px">Print Certificate ID</span>
+                </button>
+                <button data-rel="tooltip" title="Download files" id="btn-download" class="fa fa-download btn btn-success btn-xs"
+                        style="padding: 6px;" onclick="javascript:Download()">
+                    <span style="font-family: Open Sans; font-size: 12px">Download Data</span>
+                </button>
+                @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                {
+                    <button type="button" class="btn btn-warning btn-xs" onclick="javascript:inputNotice()">
+                        Notice
+                    </button>
+                }
+                @* <button type="button" class="btn btn-info btn-xs" id="grid-toggle" onclick="javascript:ToggleGrid()"
+                    title="Show detail grid" data-rel="tooltip">
+                    Show detail</button>*@
+                @{
+                    if (ViewData["visibilityUser"].Equals("true"))
+                    {
+                        if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                        {
+                            <button type="button" id="postInvBtn" class="btn btn-primary btn-xs"
+                                    onclick="javascript:process('@CommonConstant.PROCESS_TYPE_POST_INVOICE')">
+                                Post Invoice
+                            </button>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div id="tablegrid">
+        @Html.Partial("_GridView")
+    </div>
 </div>
 @*<div class="visible-xs">
-       @Html.Partial("_SearchMobile")
-   </div>*@
+        @Html.Partial("_SearchMobile")
+    </div>*@
 @Html.Partial("_LookupSupplierGrid")
 @Html.Partial("_LookupStatusGrid")
 @Html.Partial("_PreviewInvoice")
 <div id="invoiceInquiryDetailPopUp">
-   @Html.Partial("_InvoiceInquiryDetailPopUp")
+    @Html.Partial("_InvoiceInquiryDetailPopUp")
 </div>
 
 <div id="invoiceInquiryDetailErrorPopUp">
-   @Html.Partial("_InvoiceInquiryDetailErrorPopUp")
+    @Html.Partial("_InvoiceInquiryDetailErrorPopUp")
 </div>
 
 <div id="fileDownloadPopUp">
-   @Html.Partial("_FileDownloadPopUp")
+    @Html.Partial("_FileDownloadPopUp")
 </div>
 <div id="fileDownloadPpvPopUp">
-   @Html.Partial("_FileDownloadPpvPopUp")
+    @Html.Partial("_FileDownloadPpvPopUp")
 </div>
 <div id="divPostInvoicePopUp">
-   @Html.Partial("_PostInvoicePopUp")
+    @Html.Partial("_PostInvoicePopUp")
 </div>
 @Html.Partial("_DisplayNotice")
 @Html.Partial("_InputReverse")
 @Html.Partial("_InputNotice")
 <div id="selected-0-confirm" class="modal fade">
-   <div class="modal-dialog modal-md" style="width: 300px;">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div class="close" style="opacity: 1 !important; margin-top: -7px;">
-               <span aria-hidden="true">
-                  <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" />
-               </span>
-               <span class="sr-only">Close</span>
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" />
+                    </span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Warning
+                </h4>
             </div>
-            <h4 class="modal-title">
-               Warning
-            </h4>
-         </div>
-         <div class="modal-body">
-            <div class="row" style="padding-left: 10px;">
-               Please select data.
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    Please select data.
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK
+                    </button>
+                </div>
             </div>
-            <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
-               <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
-                  OK
-               </button>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div id="cancel-confirm" class="modal fade">
-   <div class="modal-dialog modal-md" style="width: 400px;">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div class="close" style="opacity: 1 !important; margin-top: -7px;">
-               <span aria-hidden="true">
-                  <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
-               </span>
-               <span class="sr-only">Close</span>
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
+                    </span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Confirmation
+                </h4>
             </div>
-            <h4 class="modal-title">
-               Confirmation
-            </h4>
-         </div>
-         <div class="modal-body">
             <div class="modal-body">
-               <div class="row" style="padding-left: 10px;">
-                  Are you sure want to cancel invoice?
-               </div>
-               <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
-                  <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
-                          onclick="javascript:confirmCancelInvoice()">
-                     Yes
-                  </button>
-                  <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
-                     No
-                  </button>
-               </div>
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to cancel invoice?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+                                onclick="javascript:confirmCancelInvoice()">
+                            Yes
+                        </button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            No
+                        </button>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div id="verify-confirm" class="modal fade">
-   <div class="modal-dialog modal-md" style="width: 400px;">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div class="close" style="opacity: 1 !important; margin-top: -7px;">
-               <span aria-hidden="true">
-                  <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
-               </span>
-               <span class="sr-only">Close</span>
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
+                    </span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Confirmation
+                </h4>
             </div>
-            <h4 class="modal-title">
-               Confirmation
-            </h4>
-         </div>
-         <div class="modal-body">
             <div class="modal-body">
-               <div class="row" style="padding-left: 10px;">
-                  Are you sure want to verify?
-               </div>
-               <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
-                  <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
-                          onclick="javascript:confirmVerify()">
-                     Yes
-                  </button>
-                  <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
-                     No
-                  </button>
-               </div>
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to verify?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+                                onclick="javascript:confirmVerify()">
+                            Yes
+                        </button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            No
+                        </button>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div id="verify-confirmPopup" class="modal fade">
-   <div class="modal-dialog modal-md" style="width: 400px;">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div class="close" style="opacity: 1 !important; margin-top: -7px;">
-               <span aria-hidden="true">
-                  <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
-               </span>
-               <span class="sr-only">Close</span>
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
+                    </span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Confirmation
+                </h4>
             </div>
-            <h4 class="modal-title">
-               Confirmation
-            </h4>
-         </div>
-         <div class="modal-body">
             <div class="modal-body">
-               <div class="row" style="padding-left: 10px;">
-                  Are you sure want to verify?
-               </div>
-               <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
-                  <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
-                          onclick="javascript: confirmVerifyPopup()">
-                     Yes
-                  </button>
-                  <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
-                     No
-                  </button>
-               </div>
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to verify?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+                                onclick="javascript: confirmVerifyPopup()">
+                            Yes
+                        </button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            No
+                        </button>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div id="save-confirmPopup" class="modal fade">
-   <div class="modal-dialog modal-md" style="width: 400px;">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div class="close" style="opacity: 1 !important; margin-top: -7px;">
-               <span aria-hidden="true">
-                  <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
-               </span>
-               <span class="sr-only">Close</span>
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
+                    </span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Confirmation
+                </h4>
             </div>
-            <h4 class="modal-title">
-               Confirmation
-            </h4>
-         </div>
-         <div class="modal-body">
             <div class="modal-body">
-               <div class="row" style="padding-left: 10px;">
-                  Are you sure want to save this data?
-               </div>
-               <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
-                  <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
-                          onclick="javascript: confirmSavePopup()">
-                     Yes
-                  </button>
-                  <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
-                     No
-                  </button>
-               </div>
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to save this data?
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;"
+                                onclick="javascript: confirmSavePopup()">
+                            Yes
+                        </button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            No
+                        </button>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div id="selected-info" class="modal fade">
-   <div class="modal-dialog modal-md" style="width: 300px;">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div class="close" style="opacity: 1 !important; margin-top: -7px;">
-               <span aria-hidden="true">
-                  <img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" />
-               </span>
-               <span class="sr-only">Close</span>
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" />
+                    </span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Information
+                </h4>
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        <div id="msgInfoId">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                            OK
+                        </button>
+                    </div>
+                </div>
             </div>
-            <h4 class="modal-title">
-               Information
-            </h4>
-            <div class="modal-body">
-               <div class="row" style="padding-left: 10px;">
-                  <div id="msgInfoId">
-                     &nbsp;
-                  </div>
-               </div>
-               <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
-                  <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
-                     OK
-                  </button>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div id="warning-confirm" class="modal fade">
-   <div class="modal-dialog modal-md" style="width: 300px;">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div class="close" style="opacity: 1 !important; margin-top: -7px;">
-               <span aria-hidden="true">
-                  <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" />
-               </span>
-               <span class="sr-only">Close</span>
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" />
+                    </span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title">
+                    Warning
+                </h4>
             </div>
-            <h4 class="modal-title">
-               Warning
-            </h4>
-         </div>
-         <div class="modal-body">
-            <div class="row" style="padding-left: 10px;">
-               <div id="msgWarningId">
-                  &nbsp;
-               </div>
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="msgWarningId">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
+                        OK
+                    </button>
+                </div>
             </div>
-            <div class="row" style="text-align: right; padding-right: 10px; padding-top: 5px;">
-               <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">
-                  OK
-               </button>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div id="error-confirm" class="modal fade">
     <div class="modal-dialog modal-md" style="width: 300px;">
@@ -448,17 +448,17 @@
     </div>
 </div>
 @section BodyScript{
-   <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.filedownload.js")"></script>
-   <script type="text/javascript" src="@Url.Content("~/Content/tdk/jquery.filedownload1.js")"></script>
-   <!-- Bootstrap Datepicker js -->
-   <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
-   <!-- Daterange picker js -->
-   <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
-   <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
-   <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
-   <script type="text/javascript" src="@Url.Content("~/Content/js/freezeTable.js")"></script>
-   <script type="text/javascript" src="@Url.Content("~/Content/js/FixedTable.js")"></script>
-   <script type="text/javascript">
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.filedownload.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/tdk/jquery.filedownload1.js")"></script>
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/freezeTable.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/FixedTable.js")"></script>
+    <script type="text/javascript">
       var tempPostInvoice = new Object();
       var pagepos = null;
       var gTagUploadFileNameStr = null;
@@ -629,7 +629,7 @@
             row++;
          });
 
-           
+
          if (RegNo == CreatedBy) {
                IsInvoiceCreated = "TRUE";
          }
@@ -1750,12 +1750,15 @@
                   } else
                      $(".checkboxStamp").prop("checked", false);
 
-                  $("#totalAmount").val(currencyFormat(result.Data.TOTAL_AMOUNT));
-                  $("#taxNo").val(result.Data.TAX_INVOICE_NO);
-                  $("#TaxDate").val(result.Data.TAX_INVOICE_DT_STR);
-                  $("#taxAmount").val(currencyFormat(result.Data.TAX_AMOUNT));
-                  $("#invoiceTaxAmount").val(currencyFormat(result.Data.TAX_INVOICE_AMOUNT));
-                  $("#totalDeliveryNote").val(result.Data.TOTAL_GR_ITEM);
+                    $("#totalAmount").val(currencyFormat(result.Data.TOTAL_AMOUNT));
+                    $("#taxNo").val(result.Data.TAX_INVOICE_NO);
+                    $("#TaxDate").val(result.Data.TAX_INVOICE_DT_STR);
+                    $("#taxAmount").val(currencyFormat(result.Data.TAX_AMOUNT));
+                    $("#invoiceTaxAmount").val(currencyFormat(result.Data.TAX_INVOICE_AMOUNT));
+                    $("#totalDeliveryNote").val(result.Data.TOTAL_GR_ITEM);
+                    $("#agreementNo").val(result.Data.AGREEMENT_NO);
+                    $("#agreementPeriod").val(result.Data.EXP_DATE);
+                    $("#dueDilligenceStatus").val(result.Data.DD_STATUS);
                   var htmlBuffer = "";
                   result.Data.HistoryChat.forEach(function (item) {
                      var type = "";
@@ -1842,6 +1845,6 @@
          obj.value = prefix + numberVal + numberDec;
       }
 
-   </script>
+    </script>
 }
 }

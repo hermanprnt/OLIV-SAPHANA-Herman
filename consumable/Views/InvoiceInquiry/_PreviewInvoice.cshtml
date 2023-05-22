@@ -8,176 +8,176 @@
 <div id="modal-preview-invoice" class="modal fade" style="overflow-y: scroll;">
     <div class="modal-dialog modal-md" style="width: 1000px;">
         @*1100px;*@
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="close" style="opacity: 1 !important; margin-top: -7px;">
-                <span aria-hidden="true">
-                    <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
-                </span>
-                <span class="sr-only">Close</span>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true">
+                        <img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" />
+                    </span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">
+                    Invoice Verification
+                </h4>
             </div>
-            <h4 class="modal-title" id="popup-title">
-                Invoice Verification
-            </h4>
-        </div>
-        <div class="modal-body">
-            @*<form role="form" class="form-horizontal">*@
-            <div class="form-horizontal">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-12">
-                        <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="modal-body">
+                @*<form role="form" class="form-horizontal">*@
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
 
-                            @*PO Categories 20200514*@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    PO Categories
-                                </label>
-                                <div class="col-xs-8 col-sm-9 col-md-7">
-                                    @*<input type="checkbox" />*@
-                                    <div class="col-xs-8 col-sm-9 col-md-4">
-                                        <input type="radio" name="poCategory" class="poCategoryGoods" value="Goods" style="margin-left: -10px; margin-top: 8px" disabled/>
-                                        Goods
-                                    </div>
-                                    <div class="col-xs-8 col-sm-9 col-md-4">
-                                        <input type="radio" name="poCategory" class="poCategoryServices" value="Services" style="margin-left: -10px; margin-top: 8px" disabled/>
-                                        Services
-                                    </div>
-                                </div>
-                            </div>
-                            @* Invoice No *@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    Invoice No
-                                </label>
-                                <div class="col-xs-8 col-sm-9 col-md-7">
-                                    <input id="invoiceNo" class="form-control " type="text" value="" maxlength="16" disabled/>
-                                    <input id="invoiceId" class="form-control " type="text" value="" style="display: none" maxlength="16"  hidden/>
-                                    <input id="supplierCd" class="form-control " type="text" value="" style="display: none" maxlength="16" hidden/>
-                                    <input id="invoiceStatus" class="form-control " type="text" value="" style="display: none" maxlength="16" hidden/>
-                                </div>
-                            </div>
-                            @* Invoice Date *@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    Invoice Date
-                                </label>
-                                <div class="col-xs-8 col-sm-9 col-md-7" style="cursor: pointer;">
-                                    <div class="input-group customDatePicker" style="width: 100%;">
-                                        <input class="form-control date-picker" id="invoiceDate" type="text" data-date-format="dd.mm.yyyy" disabled/>
-                                        <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                @*PO Categories 20200514*@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        PO Categories
+                                    </label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        @*<input type="checkbox" />*@
+                                        <div class="col-xs-8 col-sm-9 col-md-4">
+                                            <input type="radio" name="poCategory" class="poCategoryGoods" value="Goods" style="margin-left: -10px; margin-top: 8px" disabled />
+                                            Goods
+                                        </div>
+                                        <div class="col-xs-8 col-sm-9 col-md-4">
+                                            <input type="radio" name="poCategory" class="poCategoryServices" value="Services" style="margin-left: -10px; margin-top: 8px" disabled />
+                                            Services
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            @* Turn Over *@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    Turn Over
-                                </label>
-                                <div class="col-xs-8 col-sm-9 col-md-7">
-                                    <input id="turnOver" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                @* Invoice No *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Invoice No
+                                    </label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="invoiceNo" class="form-control " type="text" value="" maxlength="16" disabled />
+                                        <input id="invoiceId" class="form-control " type="text" value="" style="display: none" maxlength="16" hidden />
+                                        <input id="supplierCd" class="form-control " type="text" value="" style="display: none" maxlength="16" hidden />
+                                        <input id="invoiceStatus" class="form-control " type="text" value="" style="display: none" maxlength="16" hidden />
+                                    </div>
                                 </div>
-                            </div>
-                            @* Tax Base *@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    Tax Base
-                                </label>
-                                <div class="col-xs-8 col-sm-9 col-md-7">
-                                    <input id="taxBase" class="form-control" type="text" value="" style="text-align: right;"
-                                           onkeyup="numberFormat(this); calculateAll();" disabled/>
+                                @* Invoice Date *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Invoice Date
+                                    </label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7" style="cursor: pointer;">
+                                        <div class="input-group customDatePicker" style="width: 100%;">
+                                            <input class="form-control date-picker" id="invoiceDate" type="text" data-date-format="dd.mm.yyyy" disabled />
+                                            <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            @* Calculate Tax *@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    Calculate Tax
-                                </label>
-                                 @* modified by fid.riani (20220425) --> ganti dari hardcode jadi div *@
-                                <div class="col-xs-8 col-sm-9 col-md-7" id="div_calculate_tax">
-                                     @foreach (var item in (List<string>)ViewData["TaxCalList"])
+                                @* Turn Over *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Turn Over
+                                    </label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="turnOver" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+                                @* Tax Base *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Tax Base
+                                    </label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="taxBase" class="form-control" type="text" value="" style="text-align: right;"
+                                               onkeyup="numberFormat(this); calculateAll();" disabled />
+                                    </div>
+                                </div>
+                                @* Calculate Tax *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Calculate Tax
+                                    </label>
+                                    @* modified by fid.riani (20220425) --> ganti dari hardcode jadi div *@
+                                    <div class="col-xs-8 col-sm-9 col-md-7" id="div_calculate_tax">
+                                        @foreach (var item in (List<string>)ViewData["TaxCalList"])
                                         {
                                             string specials = "caltaxidscreen" + @item.Split(':')[1].ToString();
                                             string defaults = "caltaxidscreen" + @item.Split(':')[1].ToString();
-                                            string tax = "calTax"+@item.Split(':')[1].ToString();
+                                            string tax = "calTax" + @item.Split(':')[1].ToString();
                                             if (item.Split(':')[0].ToString() == ViewData["specialtaxcalculates"].ToString())
                                             {
                                                 specials = "special";
                                             }
-                                            if (item.Split(':')[0].ToString() == ViewData["defaulttaxcalculates"].ToString())
-                                            {
-                                                defaults = "default";
-                                            }
-                                            <div class="col-xs-8 col-sm-9 col-md-3" id="@specials" name="@defaults">
-                                                <input type="radio" name="calTax calTaxScreen" value="@item.Split(':')[0].ToString()" style="margin-left: -10px; margin-top: 8px" onclick="calculateAll();" class="@tax" disabled/>@item.Split(':')[0].ToString() %
-                                            </div>                                            
+                                        if (item.Split(':')[0].ToString() == ViewData["defaulttaxcalculates"].ToString())
+                                        {
+                                        defaults = "default";
                                         }
-                                    @*<input type="checkbox" />*@
-                                    @*add by fid.ahmad 14-03-2022*@
-                                    @*<div class="col-xs-8 col-sm-9 col-md-3">
-                                        <input type="radio" name="calTax" value="11" style="margin-left: -10px; margin-top: 8px"
-                                               onclick="calculateAll();" class="calTax4" disabled />
-                                        11 %
-                                    </div>*@
-                                    @*end by fid.ahmad 14-03-2022*@
-                                    @*<div class="col-xs-8 col-sm-9 col-md-3">
-                                        <input type="radio" name="calTax" value="10" style="margin-left: -10px; margin-top: 8px"
-                                               onclick="calculateAll();" class="calTax1" disabled />
-                                        10 %
-                                    </div>*@
-                                    @*<div class="col-xs-8 col-sm-9 col-md-3">
-                                        <input type="radio" name="calTax" value="1" style="margin-left: -10px; margin-top: 8px"
-                                               onclick="calculateAll();" class="calTax2" disabled/>
-                                        1 %
-                                    </div>*@
-                                    @*<div class="col-xs-8 col-sm-9 col-md-3">
-                                        <input type="radio" name="calTax" value="0" style="margin-left: -10px; margin-top: 8px"
-                                               onclick="calculateAll();" class="calTax3" disabled/>
-                                        0 %
-                                    </div>*@
-                                </div>
-                            </div>
-                            @*witholding tax code 20200514*@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    Withholding Tax Code
-                                </label>
-                                <div class="col-xs-8 col-sm-9 col-md-5">
-                                    <div class="input-group" style="width: 100%;">
-                                        <select id="withHoldingTax" class="cursor-1" disabled>
-                                            <option value=""></option>
-                                            @foreach (var item in (List<consumable.Models.GLAccount.GLAccount>)ViewData["WitholdingTaxList"])
-                                            {
-                                                <option value="@item.CODE">
-                                                    @item.CODE -
-                                                    @item.NAME
-                                                </option>
-                                            }
-                                        </select>
-
+                                        <div class="col-xs-8 col-sm-9 col-md-3" id="@specials" name="@defaults">
+                                            <input type="radio" name="calTax calTaxScreen" value="@item.Split(':')[0].ToString()" style="margin-left: -10px; margin-top: 8px" onclick="calculateAll();" class="@tax" disabled />@item.Split(':')[0].ToString() %
+                                        </div>
+                                        }
+                                        @*<input type="checkbox" />*@
+                                        @*add by fid.ahmad 14-03-2022*@
+                                        @*<div class="col-xs-8 col-sm-9 col-md-3">
+                                                <input type="radio" name="calTax" value="11" style="margin-left: -10px; margin-top: 8px"
+                                                       onclick="calculateAll();" class="calTax4" disabled />
+                                                11 %
+                                            </div>*@
+                                        @*end by fid.ahmad 14-03-2022*@
+                                        @*<div class="col-xs-8 col-sm-9 col-md-3">
+                                                <input type="radio" name="calTax" value="10" style="margin-left: -10px; margin-top: 8px"
+                                                       onclick="calculateAll();" class="calTax1" disabled />
+                                                10 %
+                                            </div>*@
+                                        @*<div class="col-xs-8 col-sm-9 col-md-3">
+                                                <input type="radio" name="calTax" value="1" style="margin-left: -10px; margin-top: 8px"
+                                                       onclick="calculateAll();" class="calTax2" disabled/>
+                                                1 %
+                                            </div>*@
+                                        @*<div class="col-xs-8 col-sm-9 col-md-3">
+                                                <input type="radio" name="calTax" value="0" style="margin-left: -10px; margin-top: 8px"
+                                                       onclick="calculateAll();" class="calTax3" disabled/>
+                                                0 %
+                                            </div>*@
                                     </div>
                                 </div>
-                            </div>
-                            @* Stamp Included *@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    Stamp Included
-                                </label>
-                                <div class="col-xs-8 col-sm-9 col-md-7">
-                                    <input id="checkboxStamp" class="checkboxStamp" type="checkbox" style="margin-top: 8px"
-                                           onclick="calculateAll()" disabled />
-                                </div>
-                            </div>
-                            @* Total Amount *@
-                            <div class="form-group form-group-xs">
-                                <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                    Total Amount
-                                </label>
-                                <div class="col-xs-8 col-sm-9 col-md-7">
-                                    <input id="totalAmount" class="form-control" type="text" value="" readonly style="text-align: right;" />
-                                </div>
-                            </div>
+                                @*witholding tax code 20200514*@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Withholding Tax Code
+                                    </label>
+                                    <div class="col-xs-8 col-sm-9 col-md-5">
+                                        <div class="input-group" style="width: 100%;">
+                                            <select id="withHoldingTax" class="cursor-1" disabled>
+                                                <option value=""></option>
+                                                @foreach (var item in (List<consumable.Models.GLAccount.GLAccount>)ViewData["WitholdingTaxList"])
+                                                {
+                                                    <option value="@item.CODE">
+                                                        @item.CODE -
+                                                        @item.NAME
+                                                    </option>
+                                                }
+                                            </select>
 
-                            @* Attachment New Update *@
+                                        </div>
+                                    </div>
+                                </div>
+                                @* Stamp Included *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Stamp Included
+                                    </label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="checkboxStamp" class="checkboxStamp" type="checkbox" style="margin-top: 8px"
+                                               onclick="calculateAll()" disabled />
+                                    </div>
+                                </div>
+                                @* Total Amount *@
+                                <div class="form-group form-group-xs">
+                                    <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                        Total Amount
+                                    </label>
+                                    <div class="col-xs-8 col-sm-9 col-md-7">
+                                        <input id="totalAmount" class="form-control" type="text" value="" readonly style="text-align: right;" />
+                                    </div>
+                                </div>
+
+                                @* Attachment New Update *@
                                 <div class="form-group form-group-xs" style="margin-top:25px;">
                                     <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted" style="text-align:left;">
                                         Attachment
@@ -196,34 +196,34 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @{ 
-                                                        int i = 1;
-                                                        foreach (var item in (List<SystemProperty>)ViewData["AttachmentDocTypeList"])
-                                                        {
-                                                            <tr>
-                                                                <td width="50px" class="text-center">@i</td>
-                                                               <td width="120px" class="text-center cursor-link">
-                                                                  <a onclick="addAttachment('@item.SYSTEM_CD');"><i class="fa fa-plus-circle"></i> Add </a>
-                                                                  <text> | </text>
-                                                                  <a onclick="deleteAttachment('@item.SYSTEM_CD');return false;"><i class="fa fa-trash-o"></i> Delete </a>
-                                                               </td>
-                                                                @if (item.SYSTEM_VALUE_TEXT == "M")
-                                                                {							         
-                                                                    <td width="150px" class="text-left"><text style="color:red;">*@item.SYSTEM_CD.Replace("_", " ")</text></td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td width="150px" class="text-left">@item.SYSTEM_CD.Replace("_", " ")</td>
-                                                                }
-                                                                <td width="230px" class="text-left cursor-link">
-                                                                    <a onclick="viewAttachment('@item.SYSTEM_CD');">
-                                                                    <text id="@item.SYSTEM_CD.Replace("/","_")"></text>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            i++;
+                                                        @{
+                                                            int i = 1;
+                                                            foreach (var item in (List<SystemProperty>)ViewData["AttachmentDocTypeList"])
+                                                            {
+                                                                <tr>
+                                                                    <td width="50px" class="text-center">@i</td>
+                                                                    <td width="120px" class="text-center cursor-link">
+                                                                        <a onclick="addAttachment('@item.SYSTEM_CD');"><i class="fa fa-plus-circle"></i> Add </a>
+                                                                        <text> | </text>
+                                                                        <a onclick="deleteAttachment('@item.SYSTEM_CD');return false;"><i class="fa fa-trash-o"></i> Delete </a>
+                                                                    </td>
+                                                                    @if (item.SYSTEM_VALUE_TEXT == "M")
+                                                                    {
+                                                                        <td width="150px" class="text-left"><text style="color:red;">*@item.SYSTEM_CD.Replace("_", " ")</text></td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td width="150px" class="text-left">@item.SYSTEM_CD.Replace("_", " ")</td>
+                                                                    }
+                                                                    <td width="230px" class="text-left cursor-link">
+                                                                        <a onclick="viewAttachment('@item.SYSTEM_CD');">
+                                                                            <text id="@item.SYSTEM_CD.Replace("/","_")"></text>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                i++;
+                                                            }
                                                         }
-                                                    }
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -304,6 +304,36 @@
                                                    style="text-align: right;" />
                                         </div>
                                     </div>
+                                    @* Agreement No *@
+                                    <div class="form-group form-group-xs">
+                                        <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                            Agreement No
+                                        </label>
+                                        <div class="col-xs-8 col-sm-9 col-md-7">
+                                            <input id="agreementNo" class="form-control" type="text" value="" readonly
+                                                   style="text-align: right;" />
+                                        </div>
+                                    </div>
+                                    @* Agreement Period *@
+                                    <div class="form-group form-group-xs">
+                                        <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                            Agreement Period
+                                        </label>
+                                        <div class="col-xs-8 col-sm-9 col-md-7">
+                                            <input id="agreementPeriod" class="form-control" type="text" value="" readonly
+                                                   style="text-align: right;" />
+                                        </div>
+                                    </div>
+                                    @* Due Dilligence Status *@
+                                    <div class="form-group form-group-xs">
+                                        <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                            Due Dilligence Status
+                                        </label>
+                                        <div class="col-xs-8 col-sm-9 col-md-7">
+                                            <input id="dueDilligenceStatus" class="form-control" type="text" value="" readonly
+                                                   style="text-align: right;" />
+                                        </div>
+                                    </div>
 
                                     @* Notice Chat *@
                                     <div class="form-group form-group-xs" style="margin-top:40px; margin-left:55px;">
@@ -326,10 +356,10 @@
                                             Notice History :
                                         </label>
                                         <div class="col-xs-12 col-sm-12 col-md-12">
-                                           <div id="containerChat" style="height: 180px;border: grey solid;border-width: 1px;overflow: scroll;">
-                                              
-                                              
-                                           </div>
+                                            <div id="containerChat" style="height: 180px;border: grey solid;border-width: 1px;overflow: scroll;">
+
+
+                                            </div>
                                         </div>
                                     </div>
 
@@ -338,25 +368,25 @@
                         </div>
                     </div>
                     @*</form>*@
-        <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
                     margin-top: 10px; margin-right: 2px;">
 
-           @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-           {
-              <button id="saveInvoiceBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:saveInvoicePopup()">
-                 Save
-              </button>
-              if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "verifyInvBtn"))
-              {
-                 <button id="verifyBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:verifyPopup()">
-                    Verify
-                 </button>
-              }
-           }
-              <button id="closeInvoiceBtn" class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
-                 Close
-              </button>
-           </div>
+                        @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
+                        {
+                            <button id="saveInvoiceBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:saveInvoicePopup()">
+                                Save
+                            </button>
+                            if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "verifyInvBtn"))
+                            {
+                                <button id="verifyBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:verifyPopup()">
+                                    Verify
+                                </button>
+                            }
+                        }
+                        <button id="closeInvoiceBtn" class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -797,7 +827,7 @@
        //      $("#msgWarningId").text("Can't verify invoice data");
        //      $("#warning-confirm").modal();
        //   } else {
-             
+
        //   }
        //}
        $("#verify-confirmPopup").modal();
@@ -873,7 +903,7 @@
              //else if ($(".calTax3:checked").length == 1) {
              //    data.CALCULATE_TAX = $(".calTax3").val();
              //}
-                 
+
              //else if ($(".calTax4:checked").length == 1) {
              //    data.CALCULATE_TAX = $(".calTax4").val();
              //}
@@ -882,7 +912,7 @@
              $("input[name='calTax calTaxScreen']").each(function (x, y) {
                  var c =$(this).attr('class');
                  if(($('.'+c+':checked').length)>0)
-                 {                     
+                 {
                      data.CALCULATE_TAX = $('.' + c + ':checked').val();
                  }
              });
@@ -1331,7 +1361,7 @@
                 $("#delete-attachment").val(attachmentType);
                 $("#delete-confirm").modal();
              }
-          }   
+          }
         }
 
         function confirmDeleteAttachment() {

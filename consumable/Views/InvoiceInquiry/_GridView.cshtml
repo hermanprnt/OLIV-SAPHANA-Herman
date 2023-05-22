@@ -7,141 +7,150 @@
 <div class="afixed-main-container" id="main-container" style="height:300px">
     <div class="table-responsive _table-flow-2 afixed-table-container" id="generalDataTable-container">
         <div class="afixed-table-viewport" id="generalDataTable-viewport"></div>
-        
+
         <table class="table table-bordered table-condensed table-stripped afixed-table" id="generalDataTable">
             <thead>
-               <tr class="afixed-header" id="generalDataTable-header">
-                  <th class="afixed-column" rowspan="2" style="width:35px">
-                     @* <input type="checkbox" id="checkall" />*@
-                  </th>
-                  <th class="afixed-column" rowspan="2" style="width:30px">
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="INVOICE_NO" data-sort="none" style="width:150px">
-                     Invoice No
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="INVOICE_DATE" data-sort="none" style="width:75px">
-                     Invoice Date
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="CURRENCY" data-sort="none" style="width:70px">
-                     Currency
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="TOTAL_AMOUNT" data-sort="none" style="width:100px">
-                     Total Amount
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="TURN_OVER" data-sort="none" style="width:100px">
-                     Amount Before Tax
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="STATUS" data-sort="none" style="width:120px">
-                     Invoice Status
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="STATUS" data-sort="none" style="width:120px">
-                     Hard Copy Status
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
-                     Supplier Code
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="SUPPLIER_NAME" data-sort="none" style="width:150px">
-                     Supplier Name
-                  </th>
-                  <th class="afixed-column" colspan="2" style="width:160px">
-                     Payment Date
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="PROGRESS_STATUS" data-sort="none" style="width:110px">
-                     Progress Status
-                  </th>
-                  <th class="afixed-column" colspan="2" style="width:180px">
-                     Created
-                  </th>
-                  <th class="afixed-column" colspan="2" style="width:180px">
-                     Submit
-                  </th>
-                  <th class="afixed-column" colspan="3" style="width:280px">
-                     Posting
-                  </th>
-                  <th class="afixed-column" rowspan="2" style="width:280px" data-field="CERTIFICATE_ID" data-sort="none">
-                     Certificate ID
-                  </th>
-                  <th class="afixed-column" rowspan="2" data-field="PAYMENT_DOC_NO" data-sort="none" style="width:120px">
-                     Payment Doc No
-                  </th>
-                  <th rowspan="2" style="width:115px">
-                     Notice
-                  </th>
-                  <th rowspan="2" style="width:100px">
-                     PPV Amount
-                  </th>
-                  <th class="hidden">
-                     Invoice ID
-                  </th>
-                  <th class="hidden">
-                     SAP Year
-                  </th>
-                  <th class="hidden">
-                     Efaktur No
-                  </th>
-                  <th class="hidden">
-                     Certificate ID
-                  </th>
-                  <th class="hidden">
-                     Total Amount
-                  </th>
-                  <th class="hidden">
-                     Tax Invoice Amount
-                  </th>
-                  <th class="hidden">
-                     Payment Method
-                  </th>
-                  <th class="hidden">
-                     Term Of Payment
-                  </th>
-                  <th class="hidden">
-                     Free
-                  </th>
-                  <th class="hidden">
-                     Receiving Status
-                  </th>
-                  <th class="hidden">
-                     GR is Cancel
-                  </th>
-                  <th class="hidden">
-                     Tax Date
-                  </th>
-                  <th class="hidden">
-                     Logistic Doc No
-                  </th>
-                  <th class="hidden">
-                     ON process SAP Post
-                  </th>
-                  <th class="hidden">
-                     ON process SAP Reverse
-                  </th>
-               </tr>
-                <tr class ="afixed-header" id="generalDataTable-header2">
-                    <th class ="afixed-column"style="width:80px" data-field="PAYMENT_PLAN_DATE" data-sort="none">
+                <tr class="afixed-header" id="generalDataTable-header">
+                    <th class="afixed-column" rowspan="2" style="width:35px">
+                        @* <input type="checkbox" id="checkall" />*@
+                    </th>
+                    <th class="afixed-column" rowspan="2" style="width:30px">
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="INVOICE_NO" data-sort="none" style="width:150px">
+                        Invoice No
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="INVOICE_DATE" data-sort="none" style="width:75px">
+                        Invoice Date
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="CURRENCY" data-sort="none" style="width:70px">
+                        Currency
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="TOTAL_AMOUNT" data-sort="none" style="width:100px">
+                        Total Amount
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="TURN_OVER" data-sort="none" style="width:100px">
+                        Amount Before Tax
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="STATUS" data-sort="none" style="width:120px">
+                        Invoice Status
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="STATUS" data-sort="none" style="width:120px">
+                        Hard Copy Status
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                        High Risk
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                        Supplier Code
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="SUPPLIER_NAME" data-sort="none" style="width:150px">
+                        Supplier Name
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                        Due Dilligence
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                        Agreement No
+                    </th>
+                    <th class="afixed-column" colspan="2" style="width:160px">
+                        Payment Date
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="PROGRESS_STATUS" data-sort="none" style="width:110px">
+                        Progress Status
+                    </th>
+                    <th class="afixed-column" colspan="2" style="width:180px">
+                        Created
+                    </th>
+                    <th class="afixed-column" colspan="2" style="width:180px">
+                        Submit
+                    </th>
+                    <th class="afixed-column" colspan="3" style="width:280px">
+                        Posting
+                    </th>
+                    <th class="afixed-column" rowspan="2" style="width:280px" data-field="CERTIFICATE_ID" data-sort="none">
+                        Certificate ID
+                    </th>
+                    <th class="afixed-column" rowspan="2" data-field="PAYMENT_DOC_NO" data-sort="none" style="width:120px">
+                        Payment Doc No
+                    </th>
+                    <th rowspan="2" style="width:115px">
+                        Notice
+                    </th>
+                    <th rowspan="2" style="width:100px">
+                        PPV Amount
+                    </th>
+                    <th class="hidden">
+                        Invoice ID
+                    </th>
+                    <th class="hidden">
+                        SAP Year
+                    </th>
+                    <th class="hidden">
+                        Efaktur No
+                    </th>
+                    <th class="hidden">
+                        Certificate ID
+                    </th>
+                    <th class="hidden">
+                        Total Amount
+                    </th>
+                    <th class="hidden">
+                        Tax Invoice Amount
+                    </th>
+                    <th class="hidden">
+                        Payment Method
+                    </th>
+                    <th class="hidden">
+                        Term Of Payment
+                    </th>
+                    <th class="hidden">
+                        Free
+                    </th>
+                    <th class="hidden">
+                        Receiving Status
+                    </th>
+                    <th class="hidden">
+                        GR is Cancel
+                    </th>
+                    <th class="hidden">
+                        Tax Date
+                    </th>
+                    <th class="hidden">
+                        Logistic Doc No
+                    </th>
+                    <th class="hidden">
+                        ON process SAP Post
+                    </th>
+                    <th class="hidden">
+                        ON process SAP Reverse
+                    </th>
+                </tr>
+                <tr class="afixed-header" id="generalDataTable-header2">
+                    <th class="afixed-column" style="width:80px" data-field="PAYMENT_PLAN_DATE" data-sort="none">
                         Plan
                     </th>
-                    <th class ="afixed-column" style="width:80px" data-field="PAYMENT_ACTUAL_DATE" data-sort="none">
+                    <th class="afixed-column" style="width:80px" data-field="PAYMENT_ACTUAL_DATE" data-sort="none">
                         Actual
                     </th>
-                    <th class ="afixed-column" style="width:100px" data-field="CREATED_BY" data-sort="none">
+                    <th class="afixed-column" style="width:100px" data-field="CREATED_BY" data-sort="none">
                         By
                     </th>
-                    <th class ="afixed-column"style="width:80px" data-field="CREATED_DT" data-sort="none">
+                    <th class="afixed-column" style="width:80px" data-field="CREATED_DT" data-sort="none">
                         Date
                     </th>
-                    <th class ="afixed-column" style="width:100px" data-field="SUBMIT_BY" data-sort="none">
+                    <th class="afixed-column" style="width:100px" data-field="SUBMIT_BY" data-sort="none">
                         By
                     </th>
-                    <th class ="afixed-column" style="width:80px" data-field="SUBMIT_DT" data-sort="none">
+                    <th class="afixed-column" style="width:80px" data-field="SUBMIT_DT" data-sort="none">
                         Date
                     </th>
-                    <th class ="afixed-column" style="width:100px" data-field="POSTING_BY" data-sort="none">
+                    <th class="afixed-column" style="width:100px" data-field="POSTING_BY" data-sort="none">
                         By
                     </th>
-                    <th class ="afixed-column" style="width:80px" data-field="POSTING_DT" data-sort="none">
+                    <th class="afixed-column" style="width:80px" data-field="POSTING_DT" data-sort="none">
                         Date
                     </th>
-                    <th class ="afixed-column" style="width:100px" data-field="SAP_DOC_NO" data-sort="none">
+                    <th class="afixed-column" style="width:100px" data-field="SAP_DOC_NO" data-sort="none">
                         AP Doc No
                     </th>
                 </tr>
@@ -153,221 +162,266 @@
                         int i = 0;
                         foreach (InvoiceInquiry item in invoiceInquiryList)
                         {
-                               <tr id="row-@i" @if (item.GR_CANCEL == "Y") { <text> style="background-color:#FFFF99" </text> }>
-                                  <td class="text-center afixed-column" style="width:35px">
-                                     @if (item.STATUS == "CANCELLED" || item.STATUS == "PAID")
-                                     {
-                                        <input type="checkbox" name="selected" class="check afixed-column" disabled />
-                                     }
-                                     else
-                                     {
-                                        <input type="checkbox" name="selected" class="check afixed-column" />
-                                     }
-                                  </td>
-                                  <td class="text-center cursor-link afixed-column" style="width:30px">
-                                     <i class="fa fa-file-pdf-o" onclick="showFileDownload('@item.INVOICE_ID','@item.INVOICE_NO');">
-                                     </i>
-                                  </td>
-                                  @if (item.STATUS != "CANCELLED")
-                                  {
-                                     <td class="text-center cursor-link afixed-column" style="width:150px">
-                                        <a onclick="showDetail('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">@item.INVOICE_NO</a>
-                                     </td>
-                                  }
-                                  else
-                                  {
-                                     <td class="text-center afixed-column" style="width:150px">
-                                        @item.INVOICE_NO
-                                     </td>
-                                  }
-                                  <td class="text-center afixed-column" style="width:75px">
-                                     @(item.INVOICE_DATE.HasValue ? item.INVOICE_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                  </td>
-                                  <td class="text-center afixed-column" style="width:70px">
-                                     @item.CURRENCY
-                               </td>
-                               <td class="text-right afixed-column" style="width:100px">
-                                  @if (item.CURRENCY == "IDR")
-                                  {@item.TOTAL_AMOUNT.FormatCommaSeparator() }
-                               else
-                               { @item.TOTAL_AMOUNT.FormatCommaSeparatorWithDecimal();
-                            }
-                               </td>
-                               <td class="text-right afixed-column" style="width:100px">
-                                  @if (item.CURRENCY == "IDR")
-                                  {@item.TURN_OVER.FormatCommaSeparator() }
-                               else
-                               { @item.TURN_OVER.FormatCommaSeparatorWithDecimal();
-                            }
-                               </td>
-
-
-
-                               @if (item.STATUS.Replace("_", " ") == "ERROR POSTING")
-                               {
-                                  <td class="text-center cursor-link ellipsis afixed-column" style="background-color: red;color: white !important;width:250px;">
-                                     <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
-                                     <a style="color: white;" onclick="showDetailError('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">
-                                        @if (item.AUTO_POSTING_FLAG == "Y")
+                                <tr id="row-@i" @if (item.GR_CANCEL == "Y") { <text> style="background-color:#FFFF99" </text> }>
+                                    <td class="text-center afixed-column" style="width:35px">
+                                        @if (item.STATUS == "CANCELLED" || item.STATUS == "PAID")
                                         {
-                                           string status = item.STATUS.Replace("_", " ") + " A";
-                                           @status
+                                            <input type="checkbox" name="selected" class="check afixed-column" disabled />
                                         }
                                         else
                                         {
-                                           string status = item.STATUS.Replace("_", " ") + " M";
-                                           @status
+                                            <input type="checkbox" name="selected" class="check afixed-column" />
                                         }
-                                     </a>
-                                  </td>
-                               }
-                               else if (item.STATUS.Replace("_", " ") == "CREATED" && item.NOTICE_FLAG == "Y")
-                               {
-                               <td class="text-left cursor-link afixed-column" style="width:200px">
-                                  <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
-                                  <a onclick="showDetailVerification('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">NOTICE</a>
-                               </td>
-                               }
-                               else
-                               {
-                                  <td class="text-left cursor-link afixed-column" style="width:200px">
-                                     <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
-                                     <a onclick="showDetailVerification('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;"> @item.STATUS.Replace("_", " ")</a>
-                                  </td>
-                               }
-                               <td class="text-left cursor-link afixed-column" style="width:200px">
-                                  <input type="hidden" value="@item.HARDCOPY_STATUS" />
-                                  @item.HARDCOPY_STATUS
-                               </td>
-                               <td class="text-center cursor-link afixed-column" style="width:90px">
-                                  @item.SUPPLIER_CD
-                               </td> @*7*@
-                               <td style="width:150px" class="text-left  cursor-link ellipsis afixed-column" title="@item.SUPPLIER_NAME" style="max-width: 150px;">
-                                  @item.SUPPLIER_NAME
-                               </td>
-                               <td class="text-center cursor-link afixed-column" style="width:80px">
-                                   @*@(item.PAYMENT_PLAN_DATE.HasValue ? item.PAYMENT_PLAN_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)*@
-                                   @item.BASE_DATE
-                               </td>
-                               <td class="text-center cursor-link afixed-column" style="width:80px">
-                                  @(item.PAYMENT_ACTUAL_DATE.HasValue ? item.PAYMENT_ACTUAL_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
-                               </td>
-                               <td class="text-center cursor-link afixed-column" style="width:110px">
-                                  @if (item.ON_PROCESS_SAP_POST == "Y" || item.ON_PROCESS_SAP_REV == "Y")
-                                  {<text>On Progress</text>}
-                               </td>
-                               <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.CREATED_BY">
-                                  @item.CREATED_BY
-                               </td>
-                               <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                  @(item.CREATED_DT.HasValue ? item.CREATED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                               </td>
-                               <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
-                                  @item.SUBMIT_BY
-                               </td>
-                               <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                  @(item.SUBMIT_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                               </td>
-                               <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.POSTED_BY">
-                                  @item.POSTED_BY
-                               </td>
-                               <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                  @(item.POSTED_DT.HasValue ? item.POSTED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                               </td>
-                               <td class="text-center cursor-link ellipsis afixed-column" style="width:100px">
-                                  @item.SAP_DOC_NO
-                               </td>
-                               <td class="text-center cursor-link ellipsis afixed-column" title="@item.CERTIFICATE_ID" style="width:280px">
-                                  @item.CERTIFICATE_ID
-                               </td>
-                               <td class="text-left cursor-link ellipsis afixed-column" style="width:120px">
-                                  @item.PAYMENT_DOC_NO
-                               </td>
-                               @if (!item.NOTICE_DATE.HasValue)
-                               {
-                                  <td style="width:115px">
-                                  </td>
+                                    </td>
+                                    <td class="text-center cursor-link afixed-column" style="width:30px">
+                                        <i class="fa fa-file-pdf-o" onclick="showFileDownload('@item.INVOICE_ID','@item.INVOICE_NO');">
+                                        </i>
+                                    </td>
+                                    @if (item.STATUS != "CANCELLED")
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:150px">
+                                            <a onclick="showDetail('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">@item.INVOICE_NO</a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center afixed-column" style="width:150px">
+                                            @item.INVOICE_NO
+                                        </td>
+                                    }
+                                    <td class="text-center afixed-column" style="width:75px">
+                                        @(item.INVOICE_DATE.HasValue ? item.INVOICE_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                    </td>
+                                    <td class="text-center afixed-column" style="width:70px">
+                                        @item.CURRENCY
+                                    </td>
+                                    <td class="text-right afixed-column" style="width:100px">
+                                        @if (item.CURRENCY == "IDR")
+                                        {@item.TOTAL_AMOUNT.FormatCommaSeparator() }
+                                    else
+                                    { @item.TOTAL_AMOUNT.FormatCommaSeparatorWithDecimal();
+                                }
+                                    </td>
+                                    <td class="text-right afixed-column" style="width:100px">
+                                        @if (item.CURRENCY == "IDR")
+                                        {@item.TURN_OVER.FormatCommaSeparator() }
+                                    else
+                                    { @item.TURN_OVER.FormatCommaSeparatorWithDecimal();
+                                }
+                                    </td>
 
-                               }
-                               else
-                               {
-                                  <td class="text-center cursor-link afixed-column" style="width:115px">
-                                     <i class="fa fa-envelope" onclick="openPopupNotice('@(item.NOTICE_BY)',
+
+
+                                    @if (item.STATUS.Replace("_", " ") == "ERROR POSTING")
+                                    {
+                                        <td class="text-center cursor-link ellipsis afixed-column" style="background-color: red;color: white !important;width:250px;">
+                                            <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
+                                            <a style="color: white;" onclick="showDetailError('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">
+                                                @if (item.AUTO_POSTING_FLAG == "Y")
+                                                {
+                                                    string status = item.STATUS.Replace("_", " ") + " A";
+                                                    @status
+                                                }
+                                                else
+                                                {
+                                                    string status = item.STATUS.Replace("_", " ") + " M";
+                                                    @status
+                                                }
+                                            </a>
+                                        </td>
+                                    }
+                                    else if (item.STATUS.Replace("_", " ") == "CREATED" && item.NOTICE_FLAG == "Y")
+                                    {
+                                        <td class="text-left cursor-link afixed-column" style="width:200px">
+                                            <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
+                                            <a onclick="showDetailVerification('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">NOTICE</a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-left cursor-link afixed-column" style="width:200px">
+                                            <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
+                                            <a onclick="showDetailVerification('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;"> @item.STATUS.Replace("_", " ")</a>
+                                        </td>
+                                    }
+                                    <td class="text-left cursor-link afixed-column" style="width:200px">
+                                        <input type="hidden" value="@item.HARDCOPY_STATUS" />
+                                        @item.HARDCOPY_STATUS
+                                    </td>
+                                    @if (item.DD_STATUS == "3")
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:90px;background-color:lawngreen">
+                                            
+                                        </td>
+                                    }
+                                    else if (item.DD_STATUS == "2")
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:90px;background-color:yellow">
+                                            
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:90px;background-color:red">
+                                            
+                                        </td>
+                                    }
+
+                                    <td class="text-center cursor-link afixed-column" style="width:90px">
+                                        @item.SUPPLIER_CD
+                                    </td>
+                                    <td style="width:150px" class="text-left  cursor-link ellipsis afixed-column" title="@item.SUPPLIER_NAME" style="max-width: 150px;">
+                                        @item.SUPPLIER_NAME
+                                    </td>
+                                    @if (item.DUE_DILLIGENCE == "YES")
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:90px;border:thick">
+                                            @item.DUE_DILLIGENCE
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width: 90px; background-color: red; border: thick ">
+                                            @item.DUE_DILLIGENCE
+                                        </td>
+                                    }
+                                    @if (item.AGREEMENT_NO == "YES")
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:90px">
+                                            @item.AGREEMENT_NO
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:90px;background-color:red ">
+                                            @item.AGREEMENT_NO
+                                        </td>
+                                    }
+
+
+                                    <td class="text-center cursor-link afixed-column" style="width:80px">
+                                        @*@(item.PAYMENT_PLAN_DATE.HasValue ? item.PAYMENT_PLAN_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)*@
+                                        @item.BASE_DATE
+                                    </td>
+                                    <td class="text-center cursor-link afixed-column" style="width:80px">
+                                        @(item.PAYMENT_ACTUAL_DATE.HasValue ? item.PAYMENT_ACTUAL_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                    </td>
+                                    <td class="text-center cursor-link afixed-column" style="width:110px">
+                                        @if (item.ON_PROCESS_SAP_POST == "Y" || item.ON_PROCESS_SAP_REV == "Y")
+                                        {<text>On Progress</text>}
+                                    </td>
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.CREATED_BY">
+                                        @item.CREATED_BY
+                                    </td>
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                        @(item.CREATED_DT.HasValue ? item.CREATED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                    </td>
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
+                                        @item.SUBMIT_BY
+                                    </td>
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                        @(item.SUBMIT_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                    </td>
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.POSTED_BY">
+                                        @item.POSTED_BY
+                                    </td>
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                        @(item.POSTED_DT.HasValue ? item.POSTED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                    </td>
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:100px">
+                                        @item.SAP_DOC_NO
+                                    </td>
+                                    <td class="text-center cursor-link ellipsis afixed-column" title="@item.CERTIFICATE_ID" style="width:280px">
+                                        @item.CERTIFICATE_ID
+                                    </td>
+                                    <td class="text-left cursor-link ellipsis afixed-column" style="width:120px">
+                                        @item.PAYMENT_DOC_NO
+                                    </td>
+                                    @if (!item.NOTICE_DATE.HasValue)
+                                    {
+                                        <td style="width:115px">
+                                        </td>
+
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:115px">
+                                            <i class="fa fa-envelope" onclick="openPopupNotice('@(item.NOTICE_BY)',
                             '@item.NOTICE_DATE.Value.ToString("dd.MM.yyyy")' , '@item.NOTICE_REMARK')"></i>
-                                  </td>
-                               }
-                               @if (item.PPV_AMOUNT == null)
-                               {
-                                  <td class="text-center cursor-link afixed-column" style="width:100px;"></td>
-                               }
-                               else
-                               {
-                                  <td class="text-center cursor-link afixed-column" style="width:100px;">
-                                     @Double.Parse(item.PPV_AMOUNT).FormatCommaSeparator()  <i>&nbsp;</i>
-                                  <i class="cursor-link fa fa-file-pdf-o" onclick="showFilePpvAttachement('@item.INVOICE_ID','@item.INVOICE_NO');">
-                                  </i>
-                               </td>
-                            }
+                                        </td>
+                                    }
+                                    @if (item.PPV_AMOUNT == null)
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:100px;"></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:100px;">
+                                            @Double.Parse(item.PPV_AMOUNT).FormatCommaSeparator()  <i>&nbsp;</i>
+                                            <i class="cursor-link fa fa-file-pdf-o" onclick="showFilePpvAttachement('@item.INVOICE_ID','@item.INVOICE_NO');">
+                                            </i>
+                                        </td>
+                                    }
 
-                               <td class="hidden">
-                                  @item.INVOICE_ID @*23*@
-                               </td>
-                               <td class="hidden">
-                                  @item.SAP_YEAR
-                               </td>
-                               <td class="hidden">
-                                  @item.TAX_INVOICE_NO
-                               </td>
-                               <td class="hidden">
-                                  @item.CERTIFICATE_ID
-                               </td>
-                               <td class="hidden">
-                                  @item.TOTAL_AMOUNT @*27*@
-                               </td>
-                               <td class="hidden">
-                                  @item.TAX_INVOICE_AMOUNT
-                               </td>
-                               <td class="hidden">
-                                  @item.PAY_METHOD
-                               </td>
-                               <td class="hidden">
-                                  @item.TERM_PAY
-                               </td>
-                               <td class="hidden">
-                               </td>
-                               <td class="hidden">
-                                  @item.RECEIVED_STATUS @*32*@
-                               </td>
-                               <td class="hidden">
-                                  @item.GR_CANCEL
-                               </td>
-                               <td class="hidden">
-                                  @*34*@
-                                  @(item.TAX_INVOICE_DT.HasValue ? item.TAX_INVOICE_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                               </td>
-                               <td class="hidden">
-                                  @item.LOG_DOC_NO
-                               </td>
-                               <td class="hidden">
-                                  @item.ON_PROCESS_SAP_POST
-                               </td>
-                               <td class="hidden">
-                                  @item.ON_PROCESS_SAP_REV
-                               </td>
-                               <td class="hidden">
-                                  @item.AUTO_POSTING_FLAG
-                               </td>
-                               </tr>
-                        i++;
+                                    <td class="hidden">
+                                        @item.INVOICE_ID @*23*@
+                                    </td>
+                                    <td class="hidden">
+                                        @item.SAP_YEAR
+                                    </td>
+                                    <td class="hidden">
+                                        @item.TAX_INVOICE_NO
+                                    </td>
+                                    <td class="hidden">
+                                        @item.CERTIFICATE_ID
+                                    </td>
+                                    <td class="hidden">
+                                        @item.TOTAL_AMOUNT @*27*@
+                                    </td>
+                                    <td class="hidden">
+                                        @item.TAX_INVOICE_AMOUNT
+                                    </td>
+                                    <td class="hidden">
+                                        @item.PAY_METHOD
+                                    </td>
+                                    <td class="hidden">
+                                        @item.TERM_PAY
+                                    </td>
+                                    <td class="hidden">
+                                    </td>
+                                    <td class="hidden">
+                                        @item.RECEIVED_STATUS @*32*@
+                                    </td>
+                                    <td class="hidden">
+                                        @item.GR_CANCEL
+                                    </td>
+                                    <td class="hidden">
+                                        @*34*@
+                                        @(item.TAX_INVOICE_DT.HasValue ? item.TAX_INVOICE_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                    </td>
+                                    <td class="hidden">
+                                        @item.LOG_DOC_NO
+                                    </td>
+                                    <td class="hidden">
+                                        @item.ON_PROCESS_SAP_POST
+                                    </td>
+                                    <td class="hidden">
+                                        @item.ON_PROCESS_SAP_REV
+                                    </td>
+                                    <td class="hidden">
+                                        @item.AUTO_POSTING_FLAG
+                                    </td>
+                                </tr>
+                            i++;
                         }
                     }
                     else
                     {
-                    <tr>
-                        <td colspan="26" class="text-center">
-                            No data retrieved.
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="26" class="text-center">
+                                No data retrieved.
+                            </td>
+                        </tr>
                     }
                 }
             </tbody>

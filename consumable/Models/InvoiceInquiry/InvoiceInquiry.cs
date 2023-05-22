@@ -8,6 +8,9 @@ namespace consumable.Models.InvoiceInquiry
 {
     public class InvoiceInquiry
     {
+      
+        public string DUE_DILLIGENCE { set; get; }
+     
         public string SUPPLIER_NAME { set; get; }
         public List<NoticeChat> HistoryChat { set; get; }
         public List<InvoiceAttachment> InvoiceAttachment { set; get; }
@@ -95,5 +98,11 @@ namespace consumable.Models.InvoiceInquiry
         // update 19-12-2020 [START]
         public String BASE_DATE { set; get; }
         // update 19-12-2020 [END]
+
+        //ADD BY HERMAN. TORA PROJECT ENHANCEMENT
+        public String DD_STATUS { set; get; }
+        public String AGREEMENT_NO { set; get; }
+        public String EXP_DATE { set; get; }
+        //END ADD BY HERMAN
     }
 }
