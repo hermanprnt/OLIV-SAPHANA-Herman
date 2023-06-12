@@ -368,24 +368,29 @@
                         </div>
                     </div>
                     @*</form>*@
-                    <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
+                    <div>
+                        <div class="row" style="text-align: right; padding-right: 0px; padding-top: 5px;
                     margin-top: 10px; margin-right: 2px;">
 
-                        @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
-                        {
-                            <button id="saveInvoiceBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:saveInvoicePopup()">
-                                Save
-                            </button>
-                            if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "verifyInvBtn"))
+                            @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
                             {
-                                <button id="verifyBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:verifyPopup()">
-                                    Verify
+                                <button id="saveInvoiceBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:saveInvoicePopup()">
+                                    SH Approval
                                 </button>
+                                <button id="saveInvoiceBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:saveInvoicePopup()">
+                                    Save
+                                </button>
+                                if (Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "verifyInvBtn"))
+                                {
+                                    <button id="verifyBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:verifyPopup()">
+                                        Verify
+                                    </button>
+                                }
                             }
-                        }
-                        <button id="closeInvoiceBtn" class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
-                            Close
-                        </button>
+                            <button id="closeInvoiceBtn" class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

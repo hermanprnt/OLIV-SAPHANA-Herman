@@ -1201,7 +1201,7 @@ namespace consumable.Models.InvoiceCreation
 
         public int CountDashboardNotice(string supplierCode)
         {
-            IDBContext db = DatabaseManager.Instance.GetContext();
+            IDBContext db = DatabaseManager.Instance.GetContext();  
 
             dynamic args = new
             {
