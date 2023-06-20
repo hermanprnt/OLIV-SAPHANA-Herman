@@ -11,7 +11,7 @@ SET @@NumberFrom = @NumberFrom;
 SET @@NumberTo = @NumberTo;
 
 SET @@sqlstate = @@sqlstate + '
-	SELECT NTABLE.*, DUEDILLIGENCE.DD_STATUS FROM (
+	SELECT NTABLE.* FROM (
 	SELECT * FROM 
 	( ';
 
@@ -43,8 +43,10 @@ SET @@sqlstate = @@sqlstate + '
 		,TAX_INVOICE_AMOUNT
 		,SUPPLIER_NAME
 		,VENDOR_SAP_ID
+		,DD_STATUS,SAP_VENDOR_ID
 	FROM TB_R_INVOICE inv
 		left join TB_M_SUPPLIER s on s.SUPPLIER_CD = inv.SUPPLIER_CD
+		left join TB_M_DUE_DILLIGENCE dd on dd.SAP_VENDOR_ID = INV.SUPPLIER_CD
 	where 1=1
 	--and cast(RECEIVED_DT as DATE) = cast(getDate() as DATE)
 		';
@@ -53,13 +55,7 @@ SET @@sqlstate = @@sqlstate + '
 SET @@sqlstate = @@sqlstate + '
 	) REFF WHERE Number BETWEEN ' + @@NumberFrom + ' AND ' + @@NumberTo + ' ) NTABLE
 
-	LEFT JOIN (
-		SELECT DD_STATUS,SAP_VENDOR_ID FROM OPENQUERY('+ @@LinkedServer + ', 
-		''
-			SELECT  DD_STATUS AS DD_STATUS,SAP_VENDOR_ID FROM PAS_DB_QA.DBO.TB_M_DUE_DILLIGENCE			
-			'' )
-	) DUEDILLIGENCE
-	ON NTABLE.VENDOR_SAP_ID = DUEDILLIGENCE.SAP_VENDOR_ID
+	
 	ORDER BY Number ASC
 	
 	'
