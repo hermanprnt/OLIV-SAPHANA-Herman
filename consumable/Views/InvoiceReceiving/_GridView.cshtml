@@ -80,9 +80,13 @@
                             <th width="150px" data-field="NOTICE" data-sort="none">
                                 Notice
                             </th>
-                            <th width="150px" data-field="HIGH_RISK_VENDOR" data-sort="none">
-                                HIGH RISK VENDOR
-                            </th>
+                            @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                            {
+                                <th width="150px" data-field="HIGH_RISK_VENDOR" data-sort="none">
+                                    High Risk Vendor
+                                </th>
+                            }
+
                         </tr>
                     </thead>
                 </table>
@@ -166,23 +170,27 @@
                                                 </i>
                                             </td>
                                         }
+                                        @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                                        {
+                                            if (item.DD_STATUS == "1")
+                                            {
+                                                <td class="text-center" style="width: 150px; background-color: red"></td>
+                                            }
+                                            else if (item.DD_STATUS == "2")
+                                            {
+                                                <td class="text-center" style="width: 150px; background-color: yellow"></td>
+                                            }
+                                            else if (item.DD_STATUS == "3")
+                                            {
+                                                <td class="text-center" style="width: 150px; background-color: lawngreen"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center" style="width: 150px; background-color: darkgrey"></td>
+                                            }
+                                        }
 
-                                        @if (item.DD_STATUS == "1")
-                                        {
-                                            <td class="text-center" style="width: 150px; background-color: red"></td>
-                                        }
-                                        else if (item.DD_STATUS == "2")
-                                        {
-                                            <td class="text-center" style="width: 150px; background-color: yellow"></td>
-                                        }
-                                        else if (item.DD_STATUS == "3")
-                                        {
-                                            <td class="text-center" style="width: 150px; background-color: lawngreen"></td>
-                                        }
-                                        else
-                                        {
-                                            <td class="text-center" style="width: 150px; background-color: darkgrey"></td>
-                                        }
+
                                     </tr>
 
                                 }

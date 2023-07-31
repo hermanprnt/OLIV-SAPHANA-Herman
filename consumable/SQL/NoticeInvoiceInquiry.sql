@@ -8,5 +8,5 @@ SET
 	,UPDATED_BY = @ChangeBy
 WHERE 
 	1 = 1
-	and INVOICE_ID = @InvoiceId
+	AND INVOICE_ID = @InvoiceId
 

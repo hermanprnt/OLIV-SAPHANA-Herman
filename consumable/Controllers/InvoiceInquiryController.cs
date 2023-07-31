@@ -42,15 +42,12 @@ namespace consumable.Controllers
         protected override void Startup()
         {
             string username = Lookup.Get<Toyota.Common.Credential.User>().Username;
-
             var role = Lookup.Get<Toyota.Common.Credential.User>();
 
-            Settings.Title = "Invoice Inquiry";
+            bool is_SH_Finance = Lookup.Get<Toyota.Common.Credential.User>().Roles.Select(x => x.Id).Contains("Liv_Finance_SH");
+            string SH_Finance = is_SH_Finance ? "Liv_Finance_SH" : "NotFinanceSH";
 
-            //Toyota.Common.Credential.User u = Lookup.Get<Toyota.Common.Credential.User>();
-            //var role1 = from role2 in u.Roles
-            //              where role2.Id == "Liv_Admin"
-            //              select role2.Id;
+            Settings.Title = "Invoice Inquiry";
 
             string vendCodeLogin = CommonFunction.Instance.getVendCodeLogin(Lookup.Get<Toyota.Common.Credential.User>());
             ViewData["PartnerBankList"] = new List<Supplier>();
@@ -89,6 +86,7 @@ namespace consumable.Controllers
             var startDate = now.AddMonths(-addMonth);
             var submissionDateString = startDate.ToString("dd.MM.yyyy") + " - " + now.ToString("dd.MM.yyyy");
 
+            //remark by arkamaya.herman for performance
             getListInvoiceInquiry("", submissionDateString, vendCodeLogin, "", "", "", "", "",
                 CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
 
@@ -96,6 +94,7 @@ namespace consumable.Controllers
             //add by fid.ahmad 17-01-2023
             string RegNo = Lookup.Get<Toyota.Common.Credential.User>().RegistrationNumber;
             ViewData["RegNoByUserLogin"] = RegNo;
+            ViewData["isUserFinanceSH"] = SH_Finance;
         }
 
         public void constructComboBoxes()
@@ -205,7 +204,9 @@ namespace consumable.Controllers
                 //string userLoginAs = isSupplier ? "Supplier" : "Finance";
 
                 bool isVendor = Lookup.Get<Toyota.Common.Credential.User>().Roles.Select(x => x.Id).Contains("Liv_Vendor");
+                bool isFinanceSH = Lookup.Get<Toyota.Common.Credential.User>().Roles.Select(x => x.Id).Contains("Liv_Finance_SH");
                 string userLoginAs = isVendor ? "Supplier" : "Finance";
+                string userFinanceSH = isFinanceSH ? "FinanceSH" : "NotFinanceSH";
 
                 if (data != null)
                 {
@@ -213,8 +214,8 @@ namespace consumable.Controllers
                     data.InvoiceAttachment = invoiceInquiryRepo.GetExistingAttachmentFromTemp(invoiceId) ?? null;
                     data.HistoryChat = invoiceInquiryRepo.GetHistoryChat(invoiceId);
                     data.ROLE = userLoginAs;
+                    data.ROLE_SH = userFinanceSH;
                 }
-
                 results.Data = data;
                 results.Result = AjaxResult.VALUE_SUCCESS;
             }

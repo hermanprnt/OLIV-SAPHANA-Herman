@@ -231,7 +231,7 @@ namespace consumable.Models.InvoiceInquiry
 
             List<InvoiceInquiry> result = db.Fetch<InvoiceInquiry>("GetInvoiceInquiry", args);
             db.Close();
-            return result;
+                return result;
         }
 
         public List<String> GetInvoiceInquirySort(string createdDate, string submissionDate, string supplierSearch, string invoiceDateSearch,

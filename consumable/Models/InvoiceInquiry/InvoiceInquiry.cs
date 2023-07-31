@@ -8,9 +8,9 @@ namespace consumable.Models.InvoiceInquiry
 {
     public class InvoiceInquiry
     {
-      
+        public string Number { set; get; }
         public string DUE_DILLIGENCE { set; get; }
-     
+        public string GOVERNMENT_RELATED { set; get; }
         public string SUPPLIER_NAME { set; get; }
         public List<NoticeChat> HistoryChat { set; get; }
         public List<InvoiceAttachment> InvoiceAttachment { set; get; }
@@ -20,6 +20,8 @@ namespace consumable.Models.InvoiceInquiry
         public DateTime? SUBMIT_DT { set; get; }
         public string SUBMIT_BY { set; get; }
         public string ROLE { set; get; }
+
+        public string ROLE_SH { set; get; }
         public string RECEIVED_STATUS { set; get; }
         public string NOTICE { set; get; }
 
@@ -56,6 +58,8 @@ namespace consumable.Models.InvoiceInquiry
         public DateTime? CREATED_DT { get; set; }
         public String UPDATED_BY { get; set; }
         public DateTime? UPDATED_DT { get; set; }
+        public String APPROVED_BY { get; set; }
+        public DateTime? APPROVED_DT { get; set; }
 
         public String POSTED_BY { set; get; }
         public DateTime? POSTED_DT { set; get; }

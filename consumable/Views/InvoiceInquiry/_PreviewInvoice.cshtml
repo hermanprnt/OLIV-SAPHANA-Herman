@@ -304,36 +304,42 @@
                                                    style="text-align: right;" />
                                         </div>
                                     </div>
-                                    @* Agreement No *@
-                                    <div class="form-group form-group-xs">
-                                        <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                            Agreement No
-                                        </label>
-                                        <div class="col-xs-8 col-sm-9 col-md-7">
-                                            <input id="agreementNo" class="form-control" type="text" value="" readonly
-                                                   style="text-align: right;" />
+
+                                    @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                                    {
+                                        @* Agreement No *@
+                                        <div class="form-group form-group-xs">
+                                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                                Agreement No
+                                            </label>
+                                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                                <input id="agreementNo" class="form-control" type="text" value="" readonly
+                                                       style="text-align: right;" />
+                                            </div>
                                         </div>
-                                    </div>
-                                    @* Agreement Period *@
-                                    <div class="form-group form-group-xs">
-                                        <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                            Agreement Period
-                                        </label>
-                                        <div class="col-xs-8 col-sm-9 col-md-7">
-                                            <input id="agreementPeriod" class="form-control" type="text" value="" readonly
-                                                   style="text-align: right;" />
+                                        @* Agreement Period *@
+                                        <div class="form-group form-group-xs">
+                                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                                Agreement Period
+                                            </label>
+                                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                                <input id="agreementPeriod" class="form-control" type="text" value="" readonly
+                                                       style="text-align: right;" />
+                                            </div>
                                         </div>
-                                    </div>
-                                    @* Due Dilligence Status *@
-                                    <div class="form-group form-group-xs">
-                                        <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
-                                            Due Dilligence Status
-                                        </label>
-                                        <div class="col-xs-8 col-sm-9 col-md-7">
-                                            <input id="dueDilligenceStatus" class="form-control" type="text" value="" readonly
-                                                   style="text-align: right;" />
+                                        @* Due Dilligence Status *@
+                                        <div class="form-group form-group-xs">
+                                            <label class="col-xs-4 col-sm-3 col-md-5 control-label text-muted">
+                                                Due Dilligence Status
+                                            </label>
+
+                                            <div class="col-xs-8 col-sm-9 col-md-7">
+                                                <input id="dueDilligenceStatus" class="form-control" type="text" value="" onkeydown="return false"
+                                                       style="text-align: right;" />
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+
 
                                     @* Notice Chat *@
                                     <div class="form-group form-group-xs" style="margin-top:40px; margin-left:55px;">
@@ -375,8 +381,8 @@
                             @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_ISTD_Helpdesk"))
                             {
                                 @*<button id="shApprovalBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:saveInvoicePopup()">
-                                    SH Approval
-                                </button>*@
+                                        SH Approval
+                                    </button>*@
                                 <button id="saveInvoiceBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:saveInvoicePopup()">
                                     Save
                                 </button>
@@ -384,6 +390,13 @@
                                 {
                                     <button id="verifyBtn" type="button" class="btn btn-primary btn-xs" style="width: 100px;" onclick="javascript:verifyPopup()">
                                         Verify
+                                    </button>
+                                }
+
+                                if (Html.Toyota().Authorization.IsUserHasRole("Liv_Finance_SH") && Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "specialApprovalSH"))
+                                {
+                                    <button id="specialApprovalBtn" type="button" class="btn btn-primary btn-xs" style="width: 150px;" onclick="javascript:verifyPopup()">
+                                        Special Approval
                                     </button>
                                 }
                             }

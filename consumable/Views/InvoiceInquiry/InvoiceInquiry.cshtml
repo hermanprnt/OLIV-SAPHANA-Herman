@@ -6,6 +6,8 @@
     string specialtax = ViewData["specialtaxcalculates"].ToString();
     //add by fid.ahmad 17-01-2023
     string RegNo = ViewData["RegNoByUserLogin"].ToString();
+    string isUserFinanceSH = ViewData["isUserFinanceSH"].ToString();
+    @Html.Hidden("isUserFinanceSH");
 }
 
 @{ var DefaultSubmissionDate = ViewData["DefaultSubmissionDate"].ToString();}
@@ -111,6 +113,15 @@
                         <span style="font-family: Open Sans; font-size: 12px">Verify</span>
                     </button>
                 }
+
+                @if (Html.Toyota().Authorization.IsUserHasRole("Liv_Finance_SH") && Html.Toyota().Authorization.IsAuthorizedToAccessFeature("InvoiceInquiry", "specialApprovalSH"))
+                {
+                    <button type="button" class="fa fa-check btn btn-primary btn-xs" style="padding: 6px;"
+                            onclick="javascript:specialApproval()">
+                        <span style="font-family: Open Sans; font-size: 12px">Special Approval</span>
+                    </button>
+                }
+
 
                 <button type="button" class="fa fa-print btn btn-primary btn-xs" style="padding: 6px;"
                         onclick="javascript:printCertificate()">
@@ -465,7 +476,7 @@
       var gTagUploadFileNameServerStr = null;
       var gTagUploadDeleteStr = null;
       var gThisObj = null;
-
+        //var invoiceNo = null;
       var invoiceId = null;
       var totalAmount = null;
       var taxInvoiceAmount = null;
@@ -477,7 +488,8 @@
             $("#submissionDateSearch").val(DefaultSubmissionDate);
             freezeTable.init();
             freezeScroll();
-            $("#upload_target").load(uploadTarget_OnLoad);
+           $("#upload_target").load(uploadTarget_OnLoad);
+           $("#isUserFinanceSH").val('@isUserFinanceSH');
 
             //get data from home
             var url = window.location.href;
@@ -487,8 +499,8 @@
                 var invoiceId = data[0].split('=')[1];
                 var invoiceNo = data[1].split('=')[1];
 
-                console.log(invoiceId);
-                console.log(invoiceNo);
+                //console.log(invoiceId);
+                //console.log(invoiceNo);
                 showDetailVerification(invoiceId, invoiceNo);
             }else{
                 console.log(url);
@@ -593,14 +605,16 @@
        }
 
        function CheckCancelInvoiceByUserLogin(status) {
-           console.log('CheckCancelInvoiceByUserLogin :' + status);
+           //console.log('CheckCancelInvoiceByUserLogin :' + status);
            if (status == "FALSE") {
                $("#msgWarningId").text("You are not authorized to cancel this invoice");
                $("#warning-confirm").modal();
            } else {
                $("#cancel-confirm").modal();
            }
-       }
+        }
+
+
 
        function process(type) {
 
@@ -617,15 +631,25 @@
          var RegNo = '@RegNo';
 
 
+           $("input[id^=cb-]").each(function (i, a) {
+               if (a.id != null && a.id.length > 0 && a.checked) {
+                   invoice_id = $('#' + a.id).data('invoice_id');
+                   invoice_no = $('#' + a.id).data('invoice_no');
+                   supplier_cd = $('#' + a.id).data('supplier_cd');
+                   invoice_status = $('#' + a.id).data('invoice_status');
+                   certificate_id = $('#' + a.id).data('certificate_id');
+               }
+           });
+
          $('[name=selected]:checked').each(function() {
             //status =  $(this).parent().siblings('td').eq(6).text().trim() ;
             status = $(this).parent().siblings('td').eq(6).find('input').val().trim();
-            receivingStatus = $(this).parent().siblings('td').eq(33).text().trim();
-            isGRCancel = $(this).parent().siblings('td').eq(34).text().trim();
-            isSAPPost = $(this).parent().siblings('td').eq(37).text().trim();
-            isSAPRev = $(this).parent().siblings('td').eq(38).text().trim();
-            isAutoPost = $(this).parent().siblings('td').eq(39).text().trim();
-            CreatedBy = $(this).parent().siblings('td').eq(13).text().trim();
+            receivingStatus = $(this).parent().siblings('td').eq(39).text().trim();
+            isGRCancel = $(this).parent().siblings('td').eq(40).text().trim();
+            isSAPPost = $(this).parent().siblings('td').eq(43).text().trim();
+            isSAPRev = $(this).parent().siblings('td').eq(44).text().trim();
+            isAutoPost = $(this).parent().siblings('td').eq(45).text().trim();
+            CreatedBy = $(this).parent().siblings('td').eq(16).text().trim();
             row++;
          });
 
@@ -633,7 +657,7 @@
          if (RegNo == CreatedBy) {
                IsInvoiceCreated = "TRUE";
          }
-           console.log('RegNo :' + RegNo + ' && ' + 'CreatedBy :' + CreatedBy + ' && ' + 'IsInvoiceCreated :' + IsInvoiceCreated);
+           //console.log('RegNo :' + RegNo + ' && ' + 'CreatedBy :' + CreatedBy + ' && ' + 'IsInvoiceCreated :' + IsInvoiceCreated);
 
          if (row != 1) {
             $("#msgWarningId").text("Please select 1 data only");
@@ -704,15 +728,15 @@
                   } else {
 
                      $('[name=selected]:checked').each(function() {
-                        tempPostInvoice.supplierCode = $(this).parent().siblings('td').eq(8).text().trim();
+                        tempPostInvoice.supplierCode = $(this).parent().siblings('td').eq(9).text().trim();
                         tempPostInvoice.invoiceNo = $(this).parent().siblings('td').eq(1).text().trim();
                         tempPostInvoice.invoiceDate = $(this).parent().siblings('td').eq(2).text().trim();
                         tempPostInvoice.invoiceAmount = $(this).parent().siblings('td').eq(4).text().trim();
-                        tempPostInvoice.eFakturNo = $(this).parent().siblings('td').eq(26).text().trim();
+                        tempPostInvoice.eFakturNo = $(this).parent().siblings('td').eq(32).text().trim();
                         tempPostInvoice.baseAmount = $(this).parent().siblings('td').eq(5).text().trim();
-                        tempPostInvoice.paymentMethod = $(this).parent().siblings('td').eq(30).text().trim();
-                        tempPostInvoice.termOfPayment = $(this).parent().siblings('td').eq(31).text().trim();
-                        tempPostInvoice.taxDate = $(this).parent().siblings('td').eq(35).text().trim();
+                        tempPostInvoice.paymentMethod = $(this).parent().siblings('td').eq(36).text().trim();
+                        tempPostInvoice.termOfPayment = $(this).parent().siblings('td').eq(37).text().trim();
+                        tempPostInvoice.taxDate = $(this).parent().siblings('td').eq(41).text().trim();
                      });
 
 
@@ -744,7 +768,7 @@
                      $("#warning-confirm").modal();
                   } else {
                      $('[name=selected]:checked').each(function() {
-                        $("#reversePostDate").val($(this).parent().siblings('td').eq(18).text().trim());
+                        $("#reversePostDate").val($(this).parent().siblings('td').eq(22).text().trim());
                      });
 
                      $("#inputreversepopup").modal();
@@ -757,9 +781,10 @@
       function confirmCancelInvoice() {
          Invoice_Arrays = new Array();
          $('[name=selected]:checked').each(function() {
-            Invoice_Arrays.push({
-               INVOICE_ID: $(this).parent().siblings('td').eq(24).text().trim(),
-               TAX_INVOICE_NO: $(this).parent().siblings('td').eq(26).text().trim(),
+             Invoice_Arrays.push({
+
+               INVOICE_ID: $(this).parent().siblings('td').eq(28).text().trim(),
+               TAX_INVOICE_NO: $(this).parent().siblings('td').eq(30).text().trim(),
                PROCESS_TYPE: '@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE'
             });
          });
@@ -794,14 +819,14 @@
          var postingDateDB = "";
 
          $('[name=selected]:checked').each(function() {
-            postingDateDB = $(this).parent().siblings('td').eq(18).text().trim();
+            postingDateDB = $(this).parent().siblings('td').eq(23).text().trim();
 
             Invoice_Arrays.push({
-               INVOICE_ID: $(this).parent().siblings('td').eq(24).text().trim(),
-               TAX_INVOICE_NO: $(this).parent().siblings('td').eq(26).text().trim(),
-               LOG_DOC_NO: $(this).parent().siblings('td').eq(36).text().trim(),
-               SAP_YEAR: $(this).parent().siblings('td').eq(25).text().trim(),
-               ON_PROCESS_SAP_REV: $(this).parent().siblings('td').eq(38).text().trim(),
+               INVOICE_ID: $(this).parent().siblings('td').eq(30).text().trim(),
+               TAX_INVOICE_NO: $(this).parent().siblings('td').eq(32).text().trim(),
+               LOG_DOC_NO: $(this).parent().siblings('td').eq(42).text().trim(),
+               SAP_YEAR: $(this).parent().siblings('td').eq(31).text().trim(),
+               ON_PROCESS_SAP_REV: $(this).parent().siblings('td').eq(44).text().trim(),
                PROCESS_TYPE: type,
                REVERSE_POST_DT_STRING: $('#reversePostDate').val(),
                REVERSE_REASON: $('#reverseReason').val(),
@@ -922,10 +947,10 @@
          var paramsObj = new Object();
 
          $('[name=selected]:checked').each(function() {
-            invoiceId = $(this).parent().siblings('td').eq(24).text().trim();
-            totalAmount = $(this).parent().siblings('td').eq(28).text().trim();
-            taxInvoiceAmount = $(this).parent().siblings('td').eq(29).text().trim();
-            onProcessSapPost = $(this).parent().siblings('td').eq(37).text().trim();
+            invoiceId = $(this).parent().siblings('td').eq(30).text().trim();
+            totalAmount = $(this).parent().siblings('td').eq(34).text().trim();
+            taxInvoiceAmount = $(this).parent().siblings('td').eq(35).text().trim();
+            onProcessSapPost = $(this).parent().siblings('td').eq(43).text().trim();
          });
 
          paramsObj.invoiceInquiry = getFormData();
@@ -1249,15 +1274,22 @@
 
 
       function printCertificate() {
-         var row = 0;
-         $('[name=selected]:checked').each(function() {
-            invoiceId = $(this).parent().siblings('td').eq(24).text().trim();
-            supplierCode = $(this).parent().siblings('td').eq(8).text().trim();
-            certificateId = $(this).parent().siblings('td').eq(27).text().trim();
-            row++;
-         });
+          //var row = 0;
+          $("input[id^=cb-]").each(function (i, a) {
+              if (a.id != null && a.id.length > 0 && a.checked) {
+                  invoiceId = $('#' + a.id).data('invoice_id');
+                  supplierCode = $('#' + a.id).data('supplier_cd');
+                  certificateId = $('#' + a.id).data('certificate_id');
+              }
+          });
+         //$('[name=selected]:checked').each(function() {
+         //   invoiceId = $(this).parent().siblings('td').eq(24).text().trim();
+         //   supplierCode = $(this).parent().siblings('td').eq(8).text().trim();
+         //   certificateId = $(this).parent().siblings('td').eq(27).text().trim();
+         //   row++;
+         //});
 
-         if (row != 1) {
+          if ($(".check:checked").length != 1) {
             $("#msgWarningId").text("Please select 1 data only");
             $("#warning-confirm").modal();
          } else {
@@ -1269,34 +1301,99 @@
                "&&certificateId=" +
                certificateId);
          }
-      }
+        }
 
-      function verify() {
-         var row = 0;
-         $('[name=selected]:checked').each(function() {
-            invoiceId = $(this).parent().siblings('td').eq(24).text().trim();
-            invoiceNo = $(this).parent().siblings('td').eq(1).text().trim();
-            supplierCode = $(this).parent().siblings('td').eq(8).text().trim();
-            status = $(this).parent().siblings('td').eq(6).text().trim();
-            certificateId = $(this).parent().siblings('td').eq(27).text().trim();
-            row++;
-         });
+        function GetSelectedGrid() {
+            var ids = [];
+            $("input[id^=cb-]").each(function (i, a) {
+                if (a.id != null && a.id.length > 0 && a.checked) {
+                    ids.push({
+                        invoice_id: $('#' + a.id).data('invoice_id'),
+                        agreement_no: $('#' + a.id).data('agreement_no'),
+                        exp_Date: $('#' + a.id).data('expired_date'),
+                        id: $('#' + a.id).data('id')
+                    });
+                }
+            });
+            return ids;
+        }
 
-         if (row != 1) {
-            $("#msgWarningId").text("Please select 1 data only");
-            $("#warning-confirm").modal();
-         } else {
-            if (status != "CREATED" && status != "NOTICE") {
-               $("#msgWarningId").text("Can't verify invoice data");
-               $("#warning-confirm").modal();
+        function specialApproval() {
+            if ($(".check:checked").length != 1) {
+                $("#msgWarningId").text("Please select 1 data only");
+                $("#warning-confirm").modal();
             } else {
-               $("#verify-confirm").modal();
+                $("input[id^=cb-]").each(function (i, a) {
+                    if (a.id != null && a.id.length > 0 && a.checked) {
+                        invoiceId = $('#' + a.id).data('invoice_id');
+                        invoiceNo = $('#' + a.id).data('invoice_no');
+                        supplier_cd = $('#' + a.id).data('supplier_cd');
+                        invoice_status = $('#' + a.id).data('invoice_status');
+                        certificate_id = $('#' + a.id).data('certificate_id');
+                    }
+                });
+                if (invoice_status != "NEED_APPROVAL") {
+                    $("#msgWarningId").text("Can't approve invoice data");
+                    $("#warning-confirm").modal();
+                } else {
+                    $("#verify-confirm").modal();
+                }
             }
-         }
+        }
+
+
+        function verify() {
+            //var selectedData = GetSelectedGrid();
+            //var isRoleFinanceSH = $("#isUserFinanceSH").val();
+            var row = 0;
+            //$('[name=selected]:checked').each(function() {
+            //    invoiceId = $(this).parent().siblings('td').eq(28).text().trim();
+            //    invoiceNo = $(this).parent().siblings('td').eq(1).text().trim();
+            //    supplierCode = $(this).parent().siblings('td').eq(9).text().trim();
+            //    status = $(this).parent().siblings('td').eq(6).text().trim();
+            //    certificateId = $(this).parent().siblings('td').eq(31).text().trim();
+            //    row++;
+            //});
+            $("input[id^=cb-]").each(function (i, a) {
+                if (a.id != null && a.id.length > 0 && a.checked) {
+                    invoiceId = $('#' + a.id).data('invoice_id');
+                    invoiceNo = $('#' + a.id).data('invoice_no');
+                    supplier_cd = $('#' + a.id).data('supplier_cd');
+                    invoice_status = $('#' + a.id).data('invoice_status');
+                    certificate_id = $('#' + a.id).data('certificate_id');
+                }
+            });
+
+            //invoiceId = invoice_id;
+            //invoiceNo = invoice_no;
+
+            //console.log(invoice_id, invoice_no, supplier_cd, invoice_status, certificate_id);
+            if ($(".check:checked").length != 1) {
+                $("#msgWarningId").text("Please select 1 data only");
+                $("#warning-confirm").modal();
+            }
+            // if (row != 1) {
+            //    $("#msgWarningId").text("Please select 1 data only");
+            //    $("#warning-confirm").modal();
+            //}
+             else {
+                if (invoice_status != "CREATED" && invoice_status != "NOTICE") //&& invoice_status != "NEED_APPROVAL")
+                 {
+                   $("#msgWarningId").text("Can't verify invoice data");
+                   $("#warning-confirm").modal();
+                }
+                //else if (invoice_status == "NEED_APPROVAL" && isRoleFinanceSH != 'Liv_Finance_SH') {
+                //     $("#msgWarningId").text("Can't verify invoice data");
+                //     $("#warning-confirm").modal();
+                // }
+                 else {
+                   $("#verify-confirm").modal();
+                }
+             }
       }
 
-      function confirmVerify() {
-         $.ajax({
+        function confirmVerify() {
+          $.ajax({
             type: "Post",
             url: "@Html.Toyota().Page.GetActionUrl("Verify")",
             data: {
@@ -1348,7 +1445,7 @@
             invoiceInquiryArrays = new Array();
             $('[name=selected]:checked').each(function() {
                invoiceInquiryArrays.push({
-                  INVOICE_ID: $(this).parent().siblings('td').eq(24).text().trim(),
+                  INVOICE_ID: $(this).parent().siblings('td').eq(28).text().trim(),
                   NOTICE_DATE: $('#noticeDate').val().trim(),
                   NOTICE_REMARK: $('#remarks').val().trim()
                });
@@ -1674,8 +1771,7 @@
       function showDetailVerification(invoiceId, invoiceNo) {
           //add by riani (20220425)
           //createTaxCalculate();
-          //
-         $("#modal-preview-invoice").modal();
+         
          $.ajax({
             type: "POST",
             url: "@Html.Toyota().Page.GetActionUrl("GetInvoiceDetailByInvIdInvNo")",
@@ -1683,9 +1779,9 @@
                invoiceId: invoiceId,
                invoiceNo: invoiceNo
             },
-            success: function(result) {
+             success: function (result) {
+                $("#modal-preview-invoice").modal();
                 if (result.Result == "SUCCESS") {
-
                     //clear attachment
                     var tab = document.getElementById("table_attachment");
                     var n = tab.rows.length;
@@ -1758,7 +1854,21 @@
                     $("#totalDeliveryNote").val(result.Data.TOTAL_GR_ITEM);
                     $("#agreementNo").val(result.Data.AGREEMENT_NO);
                     $("#agreementPeriod").val(result.Data.EXP_DATE);
-                    $("#dueDilligenceStatus").val(result.Data.DD_STATUS);
+                    //$("#dueDilligenceStatus").val(result.Data.DD_STATUS);
+                   
+                    if (result.Data.DD_STATUS == 1) {
+                        $("#dueDilligenceStatus").css("background-color", "red");
+                    } else if (result.Data.DD_STATUS == 2) {
+                        $("#dueDilligenceStatus").css("background-color", "yellow");
+                    } else if (result.Data.DD_STATUS == 3) {
+                        $("#dueDilligenceStatus").css("background-color", "lawngreen");
+                        //$('#dueDilligenceStatus').css('background-color', 'lawngreen');
+                        
+                    } else if (result.Data.DD_STATUS == 4) {
+                        $("#dueDilligenceStatus").css("background-color", "deepskyblue");
+                    } else {
+                        $("#dueDilligenceStatus").css("background-color", "grey");
+                    }
                   var htmlBuffer = "";
                   result.Data.HistoryChat.forEach(function (item) {
                      var type = "";
@@ -1783,17 +1893,24 @@
                   //   A simple primary alert—check it out!
                   //   </div>
                   $('#containerChat').html(htmlBuffer);
-
+                    //console.log(result.Data.ROLE_SH, 'result.Data.ROLE_SH');
+                    //console.log(result.Data.STATUS,'result.Data.STATUS');
                   if (result.Data.NOTICE_FLAG != "Y" && result.Data.ROLE == "Supplier") {
                      $("#notice").prop("disabled", "disabled");
                   } else {
                      $("#notice").prop("disabled", "");
                   }
-                  if (result.Data.STATUS == "CREATED") {
+                    if (result.Data.STATUS == "CREATED") {
                      $("#verifyBtn").prop("disabled", "");
                   } else {
                      $("#verifyBtn").prop("disabled", "disabled");
-                  }
+                    }
+
+                    if (result.Data.STATUS == "NEED_APPROVAL" && result.Data.ROLE_SH == "FinanceSH") {
+                        $("#specialApprovalBtn").prop("disabled", "");
+                    } else {
+                        $("#specialApprovalBtn").prop("disabled", "disabled");
+                    }
 
                } else {
                   $("#msgWarningId").text(result.ErrMesgs);

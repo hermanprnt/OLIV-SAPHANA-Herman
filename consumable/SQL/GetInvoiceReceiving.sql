@@ -63,6 +63,6 @@ SET @@sqlstate = @@sqlstate + '
 
 
 
-print(@@sqlstate);
+--print(@@sqlstate);
 
 execute(@@sqlstate);

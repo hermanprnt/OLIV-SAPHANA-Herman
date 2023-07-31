@@ -37,21 +37,31 @@
                     <th class="afixed-column" rowspan="2" data-field="STATUS" data-sort="none" style="width:120px">
                         Hard Copy Status
                     </th>
-                    <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
-                        High Risk
-                    </th>
+                    @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                    {
+                        <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                            High Risk
+                        </th>
+                    }
                     <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
                         Supplier Code
                     </th>
                     <th class="afixed-column" rowspan="2" data-field="SUPPLIER_NAME" data-sort="none" style="width:150px">
                         Supplier Name
                     </th>
-                    <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
-                        Due Dilligence
-                    </th>
-                    <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
-                        Agreement No
-                    </th>
+                    @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                    {
+                        <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                            Due Dilligence
+                        </th>
+                    }
+                    @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                    {
+                        <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                            Agreement No
+                        </th>
+                    }
+
                     <th class="afixed-column" colspan="2" style="width:160px">
                         Payment Date
                     </th>
@@ -64,6 +74,9 @@
                     <th class="afixed-column" colspan="2" style="width:180px">
                         Submit
                     </th>
+                    <th class="afixed-column" colspan="2" style="width:180px">
+                        Approved
+                    </th>
                     <th class="afixed-column" colspan="3" style="width:280px">
                         Posting
                     </th>
@@ -73,6 +86,13 @@
                     <th class="afixed-column" rowspan="2" data-field="PAYMENT_DOC_NO" data-sort="none" style="width:120px">
                         Payment Doc No
                     </th>
+                    @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                    {
+                        <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                            Government Related
+                        </th>
+                    }
+
                     <th rowspan="2" style="width:115px">
                         Notice
                     </th>
@@ -144,6 +164,13 @@
                     <th class="afixed-column" style="width:80px" data-field="SUBMIT_DT" data-sort="none">
                         Date
                     </th>
+                    <th class="afixed-column" style="width:100px" data-field="APPROVED_BY" data-sort="none">
+                        By
+                    </th>
+                    <th class="afixed-column" style="width:80px" data-field="APPROVED_DT" data-sort="none">
+                        Date
+                    </th>
+
                     <th class="afixed-column" style="width:100px" data-field="POSTING_BY" data-sort="none">
                         By
                     </th>
@@ -162,118 +189,164 @@
                         int i = 0;
                         foreach (InvoiceInquiry item in invoiceInquiryList)
                         {
-                                <tr id="row-@i" @if (item.GR_CANCEL == "Y") { <text> style="background-color:#FFFF99" </text> }>
-                                    <td class="text-center afixed-column" style="width:35px">
-                                        @if (item.STATUS == "CANCELLED" || item.STATUS == "PAID")
-                                        {
-                                            <input type="checkbox" name="selected" class="check afixed-column" disabled />
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" name="selected" class="check afixed-column" />
-                                        }
-                                    </td>
-                                    <td class="text-center cursor-link afixed-column" style="width:30px">
-                                        <i class="fa fa-file-pdf-o" onclick="showFileDownload('@item.INVOICE_ID','@item.INVOICE_NO');">
-                                        </i>
-                                    </td>
-                                    @if (item.STATUS != "CANCELLED")
+                            <tr id="row-@i" @if (item.GR_CANCEL == "Y") { <text> style="background-color:#FFFF99" </text> }>
+                                <td class="text-center afixed-column" style="width:35px">
+                                    @if (item.STATUS == "CANCELLED" || item.STATUS == "PAID")
                                     {
-                                        <td class="text-center cursor-link afixed-column" style="width:150px">
-                                            <a onclick="showDetail('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">@item.INVOICE_NO</a>
-                                        </td>
+                                        <input id="cb-@item.Number" type="checkbox" name="selected" class="check afixed-column" disabled
+                                               data-invoice_id="@item.INVOICE_ID"
+                                               data-invoice_no="@item.INVOICE_NO"
+                                               data-supplier_cd="@item.SUPPLIER_CD"
+                                               data-invoice_status="@item.STATUS"
+                                               data-certificate_id="@item.CERTIFICATE_ID" />
                                     }
                                     else
                                     {
-                                        <td class="text-center afixed-column" style="width:150px">
-                                            @item.INVOICE_NO
-                                        </td>
+                                        <input id="cb-@item.Number" type="checkbox" name="selected" class="check afixed-column"
+                                               data-invoice_id="@item.INVOICE_ID"
+                                               data-invoice_no="@item.INVOICE_NO"
+                                               data-supplier_cd="@item.SUPPLIER_CD"
+                                               data-invoice_status="@item.STATUS"
+                                               data-certificate_id="@item.CERTIFICATE_ID" />
                                     }
-                                    <td class="text-center afixed-column" style="width:75px">
-                                        @(item.INVOICE_DATE.HasValue ? item.INVOICE_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+                                <td class="text-center cursor-link afixed-column" style="width:30px">
+                                    <i class="fa fa-file-pdf-o" onclick="showFileDownload('@item.INVOICE_ID','@item.INVOICE_NO');">
+                                    </i>
+                                </td>
+
+                                @* 1 *@
+                                @if (item.STATUS != "CANCELLED")
+                                {
+                                    <td class="text-center cursor-link afixed-column" style="width:150px">
+                                        <a onclick="showDetail('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">@item.INVOICE_NO</a>
                                     </td>
-                                    <td class="text-center afixed-column" style="width:70px">
-                                        @item.CURRENCY
-                                    </td>
-                                    <td class="text-right afixed-column" style="width:100px">
-                                        @if (item.CURRENCY == "IDR")
-                                        {@item.TOTAL_AMOUNT.FormatCommaSeparator() }
-                                    else
-                                    { @item.TOTAL_AMOUNT.FormatCommaSeparatorWithDecimal();
                                 }
+                                else
+                                {
+                                    <td class="text-center afixed-column" style="width:150px">
+                                        @item.INVOICE_NO
                                     </td>
-                                    <td class="text-right afixed-column" style="width:100px">
-                                        @if (item.CURRENCY == "IDR")
-                                        {@item.TURN_OVER.FormatCommaSeparator() }
+                                }
+
+                                @*2*@
+                                <td class="text-center afixed-column" style="width:75px">
+                                    @(item.INVOICE_DATE.HasValue ? item.INVOICE_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @*3*@
+                                <td class="text-center afixed-column" style="width:70px">
+                                    @item.CURRENCY
+                                </td>
+
+                                @* 4 *@
+                                <td class="text-right afixed-column" style="width:100px">
+                                    @if (item.CURRENCY == "IDR")
+                                    {
+                                        @item.TOTAL_AMOUNT.FormatCommaSeparator()
+                                    }
+                                    else
+                                    {
+                                        @item.TOTAL_AMOUNT.FormatCommaSeparatorWithDecimal();
+                                    }
+                                </td>
+
+                                @* 5 *@
+                                <td class="text-right afixed-column" style="width:100px">
+                                    @if (item.CURRENCY == "IDR")
+                                    {
+                                        @item.TURN_OVER.FormatCommaSeparator()
+                                    }
                                     else
                                     { @item.TURN_OVER.FormatCommaSeparatorWithDecimal();
                                 }
+                                </td>
+
+
+                                @* 6 *@
+                                @if (item.STATUS.Replace("_", " ") == "ERROR POSTING")
+                                {
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="background-color: red;color: white !important;width:250px;">
+                                        <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
+                                        <a style="color: white;" onclick="showDetailError('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">
+                                            @if (item.AUTO_POSTING_FLAG == "Y")
+                                            {
+                                                string status = item.STATUS.Replace("_", " ") + " A";
+                                                @status
+                                            }
+                                            else
+                                            {
+                                                string status = item.STATUS.Replace("_", " ") + " M";
+                                                @status
+                                            }
+                                        </a>
                                     </td>
-
-
-
-                                    @if (item.STATUS.Replace("_", " ") == "ERROR POSTING")
-                                    {
-                                        <td class="text-center cursor-link ellipsis afixed-column" style="background-color: red;color: white !important;width:250px;">
-                                            <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
-                                            <a style="color: white;" onclick="showDetailError('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">
-                                                @if (item.AUTO_POSTING_FLAG == "Y")
-                                                {
-                                                    string status = item.STATUS.Replace("_", " ") + " A";
-                                                    @status
-                                                }
-                                                else
-                                                {
-                                                    string status = item.STATUS.Replace("_", " ") + " M";
-                                                    @status
-                                                }
-                                            </a>
-                                        </td>
-                                    }
-                                    else if (item.STATUS.Replace("_", " ") == "CREATED" && item.NOTICE_FLAG == "Y")
-                                    {
-                                        <td class="text-left cursor-link afixed-column" style="width:200px">
-                                            <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
-                                            <a onclick="showDetailVerification('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">NOTICE</a>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td class="text-left cursor-link afixed-column" style="width:200px">
-                                            <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
-                                            <a onclick="showDetailVerification('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;"> @item.STATUS.Replace("_", " ")</a>
-                                        </td>
-                                    }
+                                }
+                                else if (item.STATUS.Replace("_", " ") == "CREATED" && item.NOTICE_FLAG == "Y" || item.STATUS.Replace("_", " ") == "NEED APPROVAL" && item.NOTICE_FLAG == "Y")
+                                {
                                     <td class="text-left cursor-link afixed-column" style="width:200px">
-                                        <input type="hidden" value="@item.HARDCOPY_STATUS" />
-                                        @item.HARDCOPY_STATUS
+                                        <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
+                                        <a onclick="showDetailVerification('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;">NOTICE</a>
                                     </td>
-                                    @if (item.DD_STATUS == "3")
+                                }
+                                else
+                                {
+                                    <td class="text-left cursor-link afixed-column" style="width:200px">
+                                        <input type="hidden" value="@item.STATUS.Replace("_", " ")" />
+                                        <a onclick="showDetailVerification('@item.INVOICE_ID', '@item.INVOICE_NO'); return false;"> @item.STATUS.Replace("_", " ")</a>
+                                    </td>
+                                }
+
+                                @* 7 *@
+                                <td class="text-left cursor-link afixed-column" style="width:200px">
+                                    <input type="hidden" value="@item.HARDCOPY_STATUS" />
+                                    @item.HARDCOPY_STATUS
+                                </td>
+
+                                @* 8 *@
+                                @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                                {
+                                    if (item.DD_STATUS == "3")
                                     {
                                         <td class="text-center cursor-link afixed-column" style="width:90px;background-color:lawngreen">
-                                            
                                         </td>
                                     }
                                     else if (item.DD_STATUS == "2")
                                     {
                                         <td class="text-center cursor-link afixed-column" style="width:90px;background-color:yellow">
-                                            
+                                        </td>
+                                    }
+                                    else if (item.DD_STATUS == "1")
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width:90px;background-color:red">
+                                        </td>
+                                    }
+                                    else if (item.DD_STATUS == "4")
+                                    {
+                                        <td class="text-center cursor-link afixed-column" style="width: 90px; background-color: deepskyblue">
                                         </td>
                                     }
                                     else
                                     {
-                                        <td class="text-center cursor-link afixed-column" style="width:90px;background-color:red">
-                                            
+                                        <td class="text-center cursor-link afixed-column" style="width: 90px; background-color: grey">
                                         </td>
                                     }
+                                }
 
-                                    <td class="text-center cursor-link afixed-column" style="width:90px">
-                                        @item.SUPPLIER_CD
-                                    </td>
-                                    <td style="width:150px" class="text-left  cursor-link ellipsis afixed-column" title="@item.SUPPLIER_NAME" style="max-width: 150px;">
-                                        @item.SUPPLIER_NAME
-                                    </td>
-                                    @if (item.DUE_DILLIGENCE == "YES")
+                                @* 9 *@
+                                <td class="text-center cursor-link afixed-column" style="width:90px">
+                                    @item.SUPPLIER_CD
+                                </td>
+
+                                @* 10 *@
+                                <td style="width:150px" class="text-left  cursor-link ellipsis afixed-column" title="@item.SUPPLIER_NAME" style="max-width: 150px;">
+                                    @item.SUPPLIER_NAME
+                                </td>
+
+                                @* 11 *@
+                                @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                                {
+                                    if (item.DUE_DILLIGENCE == "YES")
                                     {
                                         <td class="text-center cursor-link afixed-column" style="width:90px">
                                             @item.DUE_DILLIGENCE
@@ -285,7 +358,13 @@
                                             @item.DUE_DILLIGENCE
                                         </td>
                                     }
-                                    @if (item.AGREEMENT_NO == "YES")
+
+                                }
+
+                                @* 12 *@
+                                @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                                {
+                                    if (item.AGREEMENT_NO == "YES")
                                     {
                                         <td class="text-center cursor-link afixed-column" style="width:90px">
                                             @item.AGREEMENT_NO
@@ -297,128 +376,192 @@
                                             @item.AGREEMENT_NO
                                         </td>
                                     }
+                                }
 
 
-                                    <td class="text-center cursor-link afixed-column" style="width:80px">
-                                        @*@(item.PAYMENT_PLAN_DATE.HasValue ? item.PAYMENT_PLAN_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)*@
-                                        @item.BASE_DATE
-                                    </td>
-                                    <td class="text-center cursor-link afixed-column" style="width:80px">
-                                        @(item.PAYMENT_ACTUAL_DATE.HasValue ? item.PAYMENT_ACTUAL_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                    </td>
-                                    <td class="text-center cursor-link afixed-column" style="width:110px">
-                                        @if (item.ON_PROCESS_SAP_POST == "Y" || item.ON_PROCESS_SAP_REV == "Y")
-                                        {<text>On Progress</text>}
-                                    </td>
-                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.CREATED_BY">
-                                        @item.CREATED_BY
-                                    </td>
-                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                        @(item.CREATED_DT.HasValue ? item.CREATED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                    </td>
-                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
-                                        @item.SUBMIT_BY
-                                    </td>
-                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                        @(item.SUBMIT_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                    </td>
-                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.POSTED_BY">
-                                        @item.POSTED_BY
-                                    </td>
-                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                        @(item.POSTED_DT.HasValue ? item.POSTED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                    </td>
-                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:100px">
-                                        @item.SAP_DOC_NO
-                                    </td>
-                                    <td class="text-center cursor-link ellipsis afixed-column" title="@item.CERTIFICATE_ID" style="width:280px">
-                                        @item.CERTIFICATE_ID
-                                    </td>
-                                    <td class="text-left cursor-link ellipsis afixed-column" style="width:120px">
-                                        @item.PAYMENT_DOC_NO
-                                    </td>
-                                    @if (!item.NOTICE_DATE.HasValue)
-                                    {
-                                        <td style="width:115px">
-                                        </td>
+                                @* 13 *@
+                                <td class="text-center cursor-link afixed-column" style="width:80px">
+                                    @*@(item.PAYMENT_PLAN_DATE.HasValue ? item.PAYMENT_PLAN_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)*@
+                                    @item.BASE_DATE
+                                </td>
 
-                                    }
-                                    else
-                                    {
-                                        <td class="text-center cursor-link afixed-column" style="width:115px">
-                                            <i class="fa fa-envelope" onclick="openPopupNotice('@(item.NOTICE_BY)',
-                            '@item.NOTICE_DATE.Value.ToString("dd.MM.yyyy")' , '@item.NOTICE_REMARK')"></i>
-                                        </td>
-                                    }
-                                    @if (item.PPV_AMOUNT == null)
-                                    {
-                                        <td class="text-center cursor-link afixed-column" style="width:100px;"></td>
-                                    }
-                                    else
-                                    {
-                                        <td class="text-center cursor-link afixed-column" style="width:100px;">
-                                            @Double.Parse(item.PPV_AMOUNT).FormatCommaSeparator()  <i>&nbsp;</i>
-                                            <i class="cursor-link fa fa-file-pdf-o" onclick="showFilePpvAttachement('@item.INVOICE_ID','@item.INVOICE_NO');">
-                                            </i>
-                                        </td>
-                                    }
+                                @* 14 *@
+                                <td class="text-center cursor-link afixed-column" style="width:80px">
+                                    @(item.PAYMENT_ACTUAL_DATE.HasValue ? item.PAYMENT_ACTUAL_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
 
-                                    <td class="hidden">
-                                        @item.INVOICE_ID @*23*@
+                                @* 15 *@
+                                <td class="text-center cursor-link afixed-column" style="width:110px">
+                                    @if (item.ON_PROCESS_SAP_POST == "Y" || item.ON_PROCESS_SAP_REV == "Y")
+                                    {<text>On Progress</text>}
+                                </td>
+
+                                @* 16 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.CREATED_BY">
+                                    @item.CREATED_BY
+                                </td>
+
+                                @* 17 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                    @(item.CREATED_DT.HasValue ? item.CREATED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @* 18 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
+                                    @item.SUBMIT_BY
+                                </td>
+
+                                @* 19 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                    @(item.SUBMIT_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+                                @* 20 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
+                                    @item.APPROVED_BY
+                                </td>
+
+                                @* 21 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                    @(item.APPROVED_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @* 22 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.POSTED_BY">
+                                    @item.POSTED_BY
+                                </td>
+
+                                @* 23 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                    @(item.POSTED_DT.HasValue ? item.POSTED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @* 24 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px">
+                                    @item.SAP_DOC_NO
+                                </td>
+
+                                @* 25 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" title="@item.CERTIFICATE_ID" style="width:280px">
+                                    @item.CERTIFICATE_ID
+                                </td>
+
+                                @* 26 *@
+                                <td class="text-left cursor-link ellipsis afixed-column" style="width:120px">
+                                    @item.PAYMENT_DOC_NO
+                                </td>
+
+                                @* 27 *@
+                                @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
+                                {
+                                    <td class="text-center cursor-link ellipsis afixed-column" style="width:120px">
+                                        @item.GOVERNMENT_RELATED
                                     </td>
-                                    <td class="hidden">
-                                        @item.SAP_YEAR
+                                }
+
+                                @* 28 *@
+                                @if (!item.NOTICE_DATE.HasValue)
+                                {
+                                    <td style="width:115px">
                                     </td>
-                                    <td class="hidden">
-                                        @item.TAX_INVOICE_NO
+                                }
+                                else
+                                {
+                                    <td class="text-center cursor-link afixed-column" style="width:115px">
+                                        <i class="fa fa-envelope" onclick="openPopupNotice('@(item.NOTICE_BY)','@item.NOTICE_DATE.Value.ToString("dd.MM.yyyy")' , '@item.NOTICE_REMARK')"></i>
                                     </td>
-                                    <td class="hidden">
-                                        @item.CERTIFICATE_ID
+                                }
+
+                                @* 29 *@
+                                @if (item.PPV_AMOUNT == null)
+                                {
+                                    <td class="text-center cursor-link afixed-column" style="width:100px;"></td>
+                                }
+                                else
+                                {
+                                    <td class="text-center cursor-link afixed-column" style="width:100px;">
+                                        @Double.Parse(item.PPV_AMOUNT).FormatCommaSeparator()  <i>&nbsp;</i>
+                                        <i class="cursor-link fa fa-file-pdf-o" onclick="showFilePpvAttachement('@item.INVOICE_ID','@item.INVOICE_NO');">
+                                        </i>
                                     </td>
-                                    <td class="hidden">
-                                        @item.TOTAL_AMOUNT @*27*@
-                                    </td>
-                                    <td class="hidden">
-                                        @item.TAX_INVOICE_AMOUNT
-                                    </td>
-                                    <td class="hidden">
-                                        @item.PAY_METHOD
-                                    </td>
-                                    <td class="hidden">
-                                        @item.TERM_PAY
-                                    </td>
-                                    <td class="hidden">
-                                    </td>
-                                    <td class="hidden">
-                                        @item.RECEIVED_STATUS @*32*@
-                                    </td>
-                                    <td class="hidden">
-                                        @item.GR_CANCEL
-                                    </td>
-                                    <td class="hidden">
-                                        @*34*@
-                                        @(item.TAX_INVOICE_DT.HasValue ? item.TAX_INVOICE_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                    </td>
-                                    <td class="hidden">
-                                        @item.LOG_DOC_NO
-                                    </td>
-                                    <td class="hidden">
-                                        @item.ON_PROCESS_SAP_POST
-                                    </td>
-                                    <td class="hidden">
-                                        @item.ON_PROCESS_SAP_REV
-                                    </td>
-                                    <td class="hidden">
-                                        @item.AUTO_POSTING_FLAG
-                                    </td>
-                                </tr>
+                                }
+
+                                @* 30 *@
+                                <td class="hidden">
+                                    @item.INVOICE_ID
+                                </td>
+
+                                @* 31 *@
+                                <td class="hidden">
+                                    @item.SAP_YEAR
+                                </td>
+
+                                @* 32 *@
+                                <td class="hidden">
+                                    @item.TAX_INVOICE_NO
+                                </td>
+
+                                @* 33 *@
+                                <td class="hidden">
+                                    @item.CERTIFICATE_ID
+                                </td>
+                                @* 34 *@
+                                <td class="hidden">
+                                    @item.TOTAL_AMOUNT @*27*@
+                                </td>
+                                @* 35 *@
+                                <td class="hidden">
+                                    @item.TAX_INVOICE_AMOUNT
+                                </td>
+                                @* 36 *@
+                                <td class="hidden">
+                                    @item.PAY_METHOD
+                                </td>
+                                @* 37 *@
+                                <td class="hidden">
+                                    @item.TERM_PAY
+                                </td>
+                                @* 38 *@
+                                <td class="hidden">
+                                </td>
+                                @* 39 *@
+                                <td class="hidden">
+                                    @item.RECEIVED_STATUS
+                                </td>
+
+                                @* 40 *@
+                                <td class="hidden">
+                                    @item.GR_CANCEL
+                                </td>
+
+                                @* 41 *@
+                                <td class="hidden">
+                                    @(item.TAX_INVOICE_DT.HasValue ? item.TAX_INVOICE_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @* 42 *@
+                                <td class="hidden">
+                                    @item.LOG_DOC_NO
+                                </td>
+                                @* 43 *@
+                                <td class="hidden">
+                                    @item.ON_PROCESS_SAP_POST
+                                </td>
+                                @* 44 *@
+                                <td class="hidden">
+                                    @item.ON_PROCESS_SAP_REV
+                                </td>
+                                @* 45 *@
+                                <td class="hidden">
+                                    @item.AUTO_POSTING_FLAG
+                                </td>
+                            </tr>
                             i++;
                         }
                     }
                     else
                     {
                         <tr>
-                            <td colspan="26" class="text-center">
+                            <td colspan="45" class="text-center">
                                 No data retrieved.
                             </td>
                         </tr>
