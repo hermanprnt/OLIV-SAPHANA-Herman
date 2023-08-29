@@ -133,7 +133,7 @@ namespace consumable.Models.InvoiceInquiry
         }
 
         public List<InvoiceInquiry> GetInvoiceInquiryList(string createdDate, string submissionDate, string supplierSearch, string invoiceDate, string statusSearch, string statusHardcopySearch,
-            string planPaymentDate, string invoiceNo, int fromNumber, int toNumber)
+            string planPaymentDate, string invoiceNo,string governmentRelate, int fromNumber, int toNumber)
         {
             string createdDateFrom = "";
             string createdDateTo = "";
@@ -224,6 +224,7 @@ namespace consumable.Models.InvoiceInquiry
                 SUPPLIER = supplierSearch,
                 STATUS = statusSearch,
                 HARDCOPY_STATUS = statusHardcopySearch,
+                GOVERNMENT_RELATED = governmentRelate,
                 NumberFrom = fromNumber.ToString(),
                 NumberTo = toNumber.ToString(),
                 LinkedServer = system.SYSTEM_VALUE_TEXT
@@ -236,12 +237,12 @@ namespace consumable.Models.InvoiceInquiry
 
         public List<String> GetInvoiceInquirySort(string createdDate, string submissionDate, string supplierSearch, string invoiceDateSearch,
             string statusSearch, string statusHardcopySearch, string planPaymentDateSearch, string invoiceNoSearch, int fromNumber, int toNumber,
-            string field, string sort)
+            string field, string sort,string govRelate)
         {
             List<String> result = new List<String>();
             List<InvoiceInquiry> resultItem = new List<InvoiceInquiry>();
             resultItem = GetInvoiceInquiryList(createdDate, submissionDate, supplierSearch, invoiceDateSearch, statusSearch, statusHardcopySearch,
-                planPaymentDateSearch, invoiceNoSearch, fromNumber, toNumber);
+                planPaymentDateSearch, invoiceNoSearch, govRelate, fromNumber, toNumber);
 
             List<InvoiceInquiry> returnResult = new List<InvoiceInquiry>();
             switch (field)

@@ -8,6 +8,21 @@ namespace consumable.Models.InvoiceInquiry
 {
     public class InvoiceInquiry
     {
+        #region SEARCH PARAMETER
+        public string createdDateSearch { set; get; }
+        public string submissionDateSearch { set; get; }
+        public string supplierSearch { set; get; }
+        public string invoiceDateSearch { set; get; }
+        public string statusSearch { set; get; }
+        public string statusHardcopySearch { set; get; }
+        public string planPaymentDateSearch { set; get; }
+        public string invoiceNoSearch { set; get; }
+        public string govRelateSearch { set; get; }
+        public int page { set; get; }
+        public int size { set; get; }
+        #endregion
+
+
         public string Number { set; get; }
         public string DUE_DILLIGENCE { set; get; }
         public string GOVERNMENT_RELATED { set; get; }

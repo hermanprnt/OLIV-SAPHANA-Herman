@@ -56,6 +56,7 @@ namespace consumable.Commons.Constants
 
         public const string SYSTEM_TYPE_STATUS_INVOICE = "STATUS_INVOICE";
         public const string SYSTEM_TYPE_STATUS_HARDCOPY = "STATUS_HARDCOPY";
+        public const string SYSTEM_TYPE_GOVERNMENT_RELATED = "GOVERNMENT_RELATED";
 
         public const string SYSTEM_TYPE_CREATE_INV = "CREATE_INV";
 

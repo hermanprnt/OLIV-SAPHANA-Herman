@@ -87,7 +87,7 @@ namespace consumable.Controllers
             var submissionDateString = startDate.ToString("dd.MM.yyyy") + " - " + now.ToString("dd.MM.yyyy");
 
             //remark by arkamaya.herman for performance
-            getListInvoiceInquiry("", submissionDateString, vendCodeLogin, "", "", "", "", "",
+            getListInvoiceInquiry("", submissionDateString, vendCodeLogin, "", "", "", "", "","",
                 CommonFunction.Instance.DefaultPage(), CommonFunction.Instance.DefaultSize());
 
             ViewData["DefaultSubmissionDate"] = submissionDateString;
@@ -102,6 +102,7 @@ namespace consumable.Controllers
             List<SystemProperty> statusInvoiceList = new List<SystemProperty>();
             List<SystemProperty> listSystemProperty = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.SYSTEM_TYPE_STATUS_INVOICE);
             List<SystemProperty> listHardCopyStatus = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.SYSTEM_TYPE_STATUS_HARDCOPY);
+            List<SystemProperty> listGovRelated = (List<SystemProperty>)systemPropertyRepo.GetBySystemPropertyType(CommonConstant.SYSTEM_TYPE_GOVERNMENT_RELATED);
 
             foreach (SystemProperty sysProp in listSystemProperty)
             {
@@ -113,6 +114,7 @@ namespace consumable.Controllers
 
             ViewData["StatusInvoiceList"] = statusInvoiceList;
             ViewData["StatusHardCopyList"] = listHardCopyStatus;
+            ViewData["GovernmentRelatedList"] = listGovRelated;
 
             //ViewData["Suppliers"] = (List<Supplier>)supplierRepo.GetSupplier("A", 1, 10);
             getLookupSupplierSearch(
@@ -331,18 +333,18 @@ namespace consumable.Controllers
         }
 
         public ActionResult search(string createdDateSearch, string submissionDateSearch, string supplierSearch, string invoiceDateSearch, string statusSearch, string statusHardcopySearch,
-            string planPaymentDateSearch, string invoiceNoSearch, int page, int size)
+            string planPaymentDateSearch, string invoiceNoSearch,string govRelateSearch, int page, int size)
         {
             string NoReg = Lookup.Get<Toyota.Common.Credential.User>().Id;
 
             getListInvoiceInquiry(createdDateSearch, submissionDateSearch, supplierSearch, invoiceDateSearch, statusSearch, statusHardcopySearch, planPaymentDateSearch, invoiceNoSearch,
-                page, size);
+                govRelateSearch,page, size);
 
             return PartialView("_GridView");
         }
 
         private void getListInvoiceInquiry(string createdDate, string submissionDate, string supplier, string invoiceDate, string status, string statusHardcopy,
-            string planPaymentDate, string invoiceNo, int page, int size)
+            string planPaymentDate, string invoiceNo, string governmentRelate,int page, int size)
         {
             int countdata = 0;
             countdata = invoiceInquiryRepo.countInvoiceInquiry(createdDate, submissionDate, supplier,
@@ -353,14 +355,17 @@ namespace consumable.Controllers
             ViewData["Paging"] = pg;
 
             List<InvoiceInquiry> invoiceInquiryList = invoiceInquiryRepo.GetInvoiceInquiryList(createdDate, submissionDate,
-                supplier, invoiceDate, status, statusHardcopy, planPaymentDate, invoiceNo,
+                supplier, invoiceDate, status, statusHardcopy, planPaymentDate, invoiceNo, governmentRelate,
                 pg.StartData, pg.EndData);
+
+
             ViewData["InvoiceInquiry"] = invoiceInquiryList;
         }
 
+
         [HttpGet]
         public ContentResult GetInvoiceInquirySort(string createdDateSearch, string submissionDateSearch, string invoiceDateSearch, string supplierSearch,
-            string planPaymentDateSearch, string invoiceNoSearch, string statusSearch, string statusHardcopySearch, int page, int size, string field, string sort)
+            string planPaymentDateSearch, string invoiceNoSearch, string statusSearch, string statusHardcopySearch, int page, int size, string field, string sort, string govRelateSearch)
         {
             int countdata = 0;
             countdata = invoiceInquiryRepo.countInvoiceInquiry(createdDateSearch, submissionDateSearch, supplierSearch,
@@ -373,7 +378,7 @@ namespace consumable.Controllers
             List<String> result = new List<String>();
             result = invoiceInquiryRepo.GetInvoiceInquirySort(createdDateSearch, submissionDateSearch, supplierSearch,
                 invoiceDateSearch, statusSearch, statusHardcopySearch, planPaymentDateSearch, invoiceNoSearch, pg.StartData, pg.EndData,
-                field, sort);
+                field, sort, govRelateSearch);
 
             return Content(String.Join("", result.ToArray()));
         }

@@ -39,7 +39,7 @@
                     </th>
                     @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
                     {
-                        <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                        <th class="afixed-column" rowspan="2" data-field="HIGH_RISK" data-sort="none" style="width:100px">
                             High Risk
                         </th>
                     }
@@ -51,14 +51,16 @@
                     </th>
                     @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
                     {
-                        <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+                        <th class="afixed-column" rowspan="2" data-field="DUE_DILLIGENCE" data-sort="none" style="width:100px">
                             Due Dilligence
                         </th>
-                    }
-                    @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
-                    {
-                        <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
+
+                        <th class="afixed-column" rowspan="2" data-field="AGREEMENT_NO" data-sort="none" style="width:100px">
                             Agreement No
+                        </th>
+
+                        <th class="afixed-column" rowspan="2" data-field="GOVERNMENT_RELATED" data-sort="none" style="width:100px">
+                            Government Related
                         </th>
                     }
 
@@ -86,12 +88,7 @@
                     <th class="afixed-column" rowspan="2" data-field="PAYMENT_DOC_NO" data-sort="none" style="width:120px">
                         Payment Doc No
                     </th>
-                    @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
-                    {
-                        <th class="afixed-column" rowspan="2" data-field="SUPPLIER_CD" data-sort="none" style="width:100px">
-                            Government Related
-                        </th>
-                    }
+
 
                     <th rowspan="2" style="width:115px">
                         Notice
@@ -378,85 +375,87 @@
                                     }
                                 }
 
-
                                 @* 13 *@
-                                <td class="text-center cursor-link afixed-column" style="width:80px">
-                                    @*@(item.PAYMENT_PLAN_DATE.HasValue ? item.PAYMENT_PLAN_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)*@
-                                    @item.BASE_DATE
-                                </td>
-
-                                @* 14 *@
-                                <td class="text-center cursor-link afixed-column" style="width:80px">
-                                    @(item.PAYMENT_ACTUAL_DATE.HasValue ? item.PAYMENT_ACTUAL_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                </td>
-
-                                @* 15 *@
-                                <td class="text-center cursor-link afixed-column" style="width:110px">
-                                    @if (item.ON_PROCESS_SAP_POST == "Y" || item.ON_PROCESS_SAP_REV == "Y")
-                                    {<text>On Progress</text>}
-                                </td>
-
-                                @* 16 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.CREATED_BY">
-                                    @item.CREATED_BY
-                                </td>
-
-                                @* 17 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                    @(item.CREATED_DT.HasValue ? item.CREATED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                </td>
-
-                                @* 18 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
-                                    @item.SUBMIT_BY
-                                </td>
-
-                                @* 19 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                    @(item.SUBMIT_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                </td>
-                                @* 20 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
-                                    @item.APPROVED_BY
-                                </td>
-
-                                @* 21 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                    @(item.APPROVED_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                </td>
-
-                                @* 22 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.POSTED_BY">
-                                    @item.POSTED_BY
-                                </td>
-
-                                @* 23 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
-                                    @(item.POSTED_DT.HasValue ? item.POSTED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
-                                </td>
-
-                                @* 24 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px">
-                                    @item.SAP_DOC_NO
-                                </td>
-
-                                @* 25 *@
-                                <td class="text-center cursor-link ellipsis afixed-column" title="@item.CERTIFICATE_ID" style="width:280px">
-                                    @item.CERTIFICATE_ID
-                                </td>
-
-                                @* 26 *@
-                                <td class="text-left cursor-link ellipsis afixed-column" style="width:120px">
-                                    @item.PAYMENT_DOC_NO
-                                </td>
-
-                                @* 27 *@
                                 @if (!Html.Toyota().Authorization.IsUserHasRole("Liv_Vendor"))
                                 {
                                     <td class="text-center cursor-link ellipsis afixed-column" style="width:120px">
                                         @item.GOVERNMENT_RELATED
                                     </td>
                                 }
+
+
+                                @* 14 *@
+                                <td class="text-center cursor-link afixed-column" style="width:80px">
+                                    @*@(item.PAYMENT_PLAN_DATE.HasValue ? item.PAYMENT_PLAN_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)*@
+                                    @item.BASE_DATE
+                                </td>
+
+                                @* 15 *@
+                                <td class="text-center cursor-link afixed-column" style="width:80px">
+                                    @(item.PAYMENT_ACTUAL_DATE.HasValue ? item.PAYMENT_ACTUAL_DATE.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @* 16 *@
+                                <td class="text-center cursor-link afixed-column" style="width:110px">
+                                    @if (item.ON_PROCESS_SAP_POST == "Y" || item.ON_PROCESS_SAP_REV == "Y")
+                                    {<text>On Progress</text>}
+                                </td>
+
+                                @* 17 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.CREATED_BY">
+                                    @item.CREATED_BY
+                                </td>
+
+                                @* 18 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                    @(item.CREATED_DT.HasValue ? item.CREATED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @* 19 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
+                                    @item.SUBMIT_BY
+                                </td>
+
+                                @* 20 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                    @(item.SUBMIT_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+                                @* 21 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.SUBMIT_BY">
+                                    @item.APPROVED_BY
+                                </td>
+
+                                @* 22 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                    @(item.APPROVED_DT.HasValue ? item.SUBMIT_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @* 23 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px" title="@item.POSTED_BY">
+                                    @item.POSTED_BY
+                                </td>
+
+                                @* 24*@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:80px">
+                                    @(item.POSTED_DT.HasValue ? item.POSTED_DT.Value.ToString("dd.MM.yyyy") : string.Empty)
+                                </td>
+
+                                @* 25 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" style="width:100px">
+                                    @item.SAP_DOC_NO
+                                </td>
+
+                                @* 26 *@
+                                <td class="text-center cursor-link ellipsis afixed-column" title="@item.CERTIFICATE_ID" style="width:280px">
+                                    @item.CERTIFICATE_ID
+                                </td>
+
+                                @* 27 *@
+                                <td class="text-left cursor-link ellipsis afixed-column" style="width:120px">
+                                    @item.PAYMENT_DOC_NO
+                                </td>
+
+
 
                                 @* 28 *@
                                 @if (!item.NOTICE_DATE.HasValue)
@@ -495,7 +494,7 @@
                                     @item.SAP_YEAR
                                 </td>
 
-                                @* 32 *@
+                                @* 32 /eFakturNo *@
                                 <td class="hidden">
                                     @item.TAX_INVOICE_NO
                                 </td>
@@ -506,7 +505,7 @@
                                 </td>
                                 @* 34 *@
                                 <td class="hidden">
-                                    @item.TOTAL_AMOUNT @*27*@
+                                    @item.TOTAL_AMOUNT
                                 </td>
                                 @* 35 *@
                                 <td class="hidden">
@@ -657,7 +656,7 @@
                     '&&invoiceDateSearch=' + $('#invoiceDateSearch').val() + '&&supplierSearch=' + $('#supplierSearch').val() +
                     '&&planPaymentDateSearch=' + $('#planPaymentDateSearch').val() + '&&invoiceNoSearch=' + $('#invoiceNoSearch').val() +
                     '&&statusSearch=' + $('#statusSearch').val() + '&&page=' + pagepos + '&&size=' + $("#pageSize").val() +
-                    '&&field=' + tableCell.dataset.field + '&&sort=' + dataSort,
+                    '&&field=' + tableCell.dataset.field + '&&sort=' + dataSort + '&&govRelate=' + $("#govRelateSearch").val(),
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
                     $("#tblScroll").find('tbody').html(result);

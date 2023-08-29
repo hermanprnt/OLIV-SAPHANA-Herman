@@ -32,11 +32,37 @@ SET @@sqlstate = @@sqlstate + '
 	FROM TB_R_INVOICE inv  WITH (NOLOCK)
 		left join TB_M_SUPPLIER s on s.SUPPLIER_CD = inv.SUPPLIER_CD
 
-		OUTER APPLY (
-			select top 1 BASE_DATE
-			from TB_R_INVOICE_SAP_INPUT isi  WITH (NOLOCK)
-			where inv.INVOICE_ID =  isi.INVOICE_ID 
-			ORDER BY BASE_DATE DESC ) isiNew
+		LEFT JOIN (
+			SELECT 
+				isi.INVOICE_ID,
+				BASE_DATE,
+				INV_DATE,
+				RN = ROW_NUMBER() OVER (PARTITION BY isi.INVOICE_ID ORDER BY BASE_DATE DESC)
+			FROM TB_R_INVOICE_SAP_INPUT isi WITH (NOLOCK)
+			WHERE 1 = 1
+			'
+
+		IF(@@INVOICE_DATE_FROM <> '')
+		BEGIN
+			SET @@sqlstate = @@sqlstate + '
+			and CAST(INV_DATE as DATE) >= CAST(CONVERT(datetime, ''' + @@INVOICE_DATE_FROM + ''' , 104) as DATE)';
+		END
+
+		IF(@@INVOICE_DATE_TO <> '')
+		BEGIN
+			SET @@sqlstate = @@sqlstate + '
+			and CAST(INV_DATE as DATE) <= CAST(CONVERT(datetime, ''' + @@INVOICE_DATE_TO + ''' , 104) as DATE)';
+		END
+
+		SET @@sqlstate = @@sqlstate + '
+		) isiNew on isiNew.INVOICE_ID = inv.INVOICE_ID
+		and isiNew.RN = 1
+
+		--OUTER APPLY (
+		--	select top 1 BASE_DATE
+		--	from TB_R_INVOICE_SAP_INPUT isi  WITH (NOLOCK)
+		--	where inv.INVOICE_ID =  isi.INVOICE_ID 
+		--	ORDER BY BASE_DATE DESC ) isiNew
 
 		--remark FID.Ridwan: 20220719
 		--OUTER APPLY (

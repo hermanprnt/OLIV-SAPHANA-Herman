@@ -11,10 +11,9 @@ DECLARE @@sqlstate varchar(8000);
 	DECLARE @@INVOICE_DATE_TO  varchar(50);
 	DECLARE @@PLAN_PAYMENT_DATE_FROM  varchar(50);
 	DECLARE @@PLAN_PAYMENT_DATE_TO  varchar(50);
+	DECLARE @@GOVERNMENT_RELATED VARCHAR(50)
 	DECLARE @@NumberFrom  varchar(4);
 	DECLARE @@NumberTo  varchar(4);
-
-
 
 	--update
 	DECLARE @@LinkedServer nvarchar(4000);
@@ -35,21 +34,9 @@ DECLARE @@sqlstate varchar(8000);
 	SET @@INVOICE_DATE_TO = @INVOICE_DATE_TO;
 	SET @@PLAN_PAYMENT_DATE_FROM = @PLAN_PAYMENT_DATE_FROM;
 	SET @@PLAN_PAYMENT_DATE_TO = @PLAN_PAYMENT_DATE_TO;
+	SET @@GOVERNMENT_RELATED = @GOVERNMENT_RELATED
 	SET @@NumberFrom = @NumberFrom;
 	SET @@NumberTo = @NumberTo;
-
-	--IF OBJECT_ID('tempdb.dbo.#EFAKTUR', 'U') IS NOT NULL
-	--DROP TABLE #EFAKTUR; 
-
-	--SELECT TAX_INVOICE_NO, TAX_INVOICE_DT 
-	--INTO #EFAKTUR
-	--FROM OPENQUERY([10.16.20.72], 
-	--	'
-	--		select  v1.TAX_INVOICE_NO AS TAX_INVOICE_NO, V1.TAX_INVOICE_DT AS TAX_INVOICE_DT from TMMIN_E_FAKTUR_SAPHANA.dbo.tb_r_vat_in_h v1 
-	--		WHERE 
-	--		v1.REPLACEMENT_FG = (SELECT MAX(v2.REPLACEMENT_FG) FROM TMMIN_E_FAKTUR_SAPHANA.dbo.TB_R_VAT_IN_H V2 
-	--		WHERE V2.TAX_INVOICE_NO = v1.TAX_INVOICE_NO)')
-
 
 
 	SET @@sqlstate = @@sqlstate + '
@@ -249,6 +236,12 @@ DECLARE @@sqlstate varchar(8000);
 			SET @@sqlstate = @@sqlstate + '
 	 		and inv.hardcopy_status = '''+@@HARDCOPY_STATUS+'''';		
 	END
+	IF(@@GOVERNMENT_RELATED <> '' AND @@GOVERNMENT_RELATED is not null)
+	BEGIN
+			SET @@sqlstate = @@sqlstate + '
+	 		and DD.GOVERNMENT_RELATED = '''+@@GOVERNMENT_RELATED+'''';		
+	END
+	
 	IF(@@CREATED_DATE_FROM <> '')
 	BEGIN
 		SET @@sqlstate = @@sqlstate + '

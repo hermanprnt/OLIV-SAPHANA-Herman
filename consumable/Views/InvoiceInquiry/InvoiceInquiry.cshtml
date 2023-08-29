@@ -649,7 +649,7 @@
             isSAPPost = $(this).parent().siblings('td').eq(43).text().trim();
             isSAPRev = $(this).parent().siblings('td').eq(44).text().trim();
             isAutoPost = $(this).parent().siblings('td').eq(45).text().trim();
-            CreatedBy = $(this).parent().siblings('td').eq(16).text().trim();
+            CreatedBy = $(this).parent().siblings('td').eq(17).text().trim();
             row++;
          });
 
@@ -768,7 +768,7 @@
                      $("#warning-confirm").modal();
                   } else {
                      $('[name=selected]:checked').each(function() {
-                        $("#reversePostDate").val($(this).parent().siblings('td').eq(22).text().trim());
+                        $("#reversePostDate").val($(this).parent().siblings('td').eq(24).text().trim());
                      });
 
                      $("#inputreversepopup").modal();
@@ -783,8 +783,8 @@
          $('[name=selected]:checked').each(function() {
              Invoice_Arrays.push({
 
-               INVOICE_ID: $(this).parent().siblings('td').eq(28).text().trim(),
-               TAX_INVOICE_NO: $(this).parent().siblings('td').eq(30).text().trim(),
+               INVOICE_ID: $(this).parent().siblings('td').eq(30).text().trim(),
+               TAX_INVOICE_NO: $(this).parent().siblings('td').eq(32).text().trim(),
                PROCESS_TYPE: '@CommonConstant.PROCESS_TYPE_CANCEL_INVOICE'
             });
          });
@@ -819,7 +819,7 @@
          var postingDateDB = "";
 
          $('[name=selected]:checked').each(function() {
-            postingDateDB = $(this).parent().siblings('td').eq(23).text().trim();
+            postingDateDB = $(this).parent().siblings('td').eq(24).text().trim();
 
             Invoice_Arrays.push({
                INVOICE_ID: $(this).parent().siblings('td').eq(30).text().trim(),
@@ -1225,7 +1225,8 @@
                planPaymentDateSearch: $('#planPaymentDateSearch').val(),
                invoiceNoSearch: $('#invoiceNoSearch').val(),
                statusSearch: $('#statusSearch').val(),
-               statusHardcopySearch: $('#statusHardcopySearch').val(),
+                statusHardcopySearch: $('#statusHardcopySearch').val(),
+                govRelateSearch: $('#govRelateSearch').val(),
                page: page,
                size: $("#pageSize").val()
             },
@@ -1445,7 +1446,7 @@
             invoiceInquiryArrays = new Array();
             $('[name=selected]:checked').each(function() {
                invoiceInquiryArrays.push({
-                  INVOICE_ID: $(this).parent().siblings('td').eq(28).text().trim(),
+                  INVOICE_ID: $(this).parent().siblings('td').eq(30).text().trim(),
                   NOTICE_DATE: $('#noticeDate').val().trim(),
                   NOTICE_REMARK: $('#remarks').val().trim()
                });

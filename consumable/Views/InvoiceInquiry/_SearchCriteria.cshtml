@@ -141,23 +141,41 @@
     <div class="col-xs-12 col-sm-6 col-md-4">
         <div class="form-group form-group-xs _criteria">
             <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
-                Plan Payment</label>
+                Plan Payment
+            </label>
             <div class="col-xs-8 col-sm-9 col-md-8">
                 <div class="input-group">
-                    <span class="input-group-addon" style="cursor: pointer;"><i class="fa fa-calendar bigger-110">
-                    </i></span>
+                    <span class="input-group-addon" style="cursor: pointer;">
+                        <i class="fa fa-calendar bigger-110">
+                        </i>
+                    </span>
                     <input class="form-control" type="text" name="date-range-picker" id="planPaymentDateSearch"
-                        data-date-format="dd.mm.yyyy" onkeypress="onEnterSearchData(event);" />
+                           data-date-format="dd.mm.yyyy" onkeypress="onEnterSearchData(event);" />
                 </div>
             </div>
         </div>
         <div class="form-group form-group-xs _criteria">
             <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
-                Invoice No</label>
-            <div class="col-xs-8 col-sm-9 col-md-8">               
+                Invoice No
+            </label>
+            <div class="col-xs-8 col-sm-9 col-md-8">
                 <div class="input-group pos-rel" style="width: 100%;">
                     <input id="invoiceNoSearch" class="form-control" type="text" value="" onkeypress="onEnterSearchData(event);" />
                 </div>
+            </div>
+        </div>
+        <div class="form-group form-group-xs _criteria">
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">
+                Government Related
+            </label>
+            <div class="col-xs-8 col-sm-9 col-md-8">
+                <select id="govRelateSearch" class="cursor-1" style="width: 100%;" onkeypress="onEnterSearchData(event);">
+                    <option class="cursor-1"></option>
+                    @foreach (SystemProperty item in (List<SystemProperty>)ViewData["GovernmentRelatedList"])
+                    {
+                        <option class="cursor-1" value="@item.SYSTEM_CD">@item.SYSTEM_VALUE_TEXT</option>
+                    }
+                </select>
             </div>
         </div>
     </div>
