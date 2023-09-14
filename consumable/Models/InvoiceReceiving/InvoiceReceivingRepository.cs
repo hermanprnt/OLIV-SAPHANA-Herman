@@ -47,14 +47,14 @@ namespace consumable.Models.InvoiceReceiving
         public List<InvoiceReceiving> GetInvoiceReceiving(int fromNumber, int toNumber)
         {
             SystemPropertyRepository systemPropertyRepo = SystemPropertyRepository.Instance;
-            SystemProperty.SystemProperty system = systemPropertyRepo.GetSysPropByCodeAndType("IP_ADDRESS", "INVOICE_RECEIVING");
+            //SystemProperty.SystemProperty system = systemPropertyRepo.GetSysPropByCodeAndType("IP_ADDRESS", "INVOICE_RECEIVING");
 
             IDBContext db = DatabaseManager.Instance.GetContext();
             dynamic args = new
             {
                 NumberFrom = fromNumber.ToString(),
-                NumberTo = toNumber.ToString(),
-                LinkedServer = system.SYSTEM_VALUE_TEXT
+                NumberTo = toNumber.ToString()
+                //LinkedServer = system.SYSTEM_VALUE_TEXT
             };
 
             List<InvoiceReceiving> result = db.Fetch<InvoiceReceiving>("GetInvoiceReceiving", args);

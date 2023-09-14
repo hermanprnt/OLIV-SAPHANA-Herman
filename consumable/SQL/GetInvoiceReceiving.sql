@@ -3,9 +3,6 @@ DECLARE @@sqlstate varchar(max);
 DECLARE @@NumberFrom  varchar(4);
 DECLARE @@NumberTo  varchar(4);
 
-DECLARE @@LinkedServer nvarchar(4000);
-SET @@LinkedServer = '[' + @LinkedServer + ']';
-
 SET @@sqlstate = '';
 SET @@NumberFrom = @NumberFrom;
 SET @@NumberTo = @NumberTo;

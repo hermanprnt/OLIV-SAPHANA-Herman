@@ -60,7 +60,7 @@ SET @@sqlstate = '
 		FROM TMMIN_E_FAKTUR_SAPHANA.dbo.TB_R_VAT_IN_H VAT 
 	'')) EFAKTUR 
 	ON NTABLE.TAX_INVOICE_NO  = EFAKTUR.TAX_INVOICE_NO 
-';
+';    
 
 --PRINT @@sqlstate
 
